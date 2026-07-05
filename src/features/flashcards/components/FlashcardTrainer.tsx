@@ -1,69 +1,144 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import { useSwipeable } from "react-swipeable";
 import type { Flashcard, Topic } from "@/types/study";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
+import { Button } from "@/components/ui/button";
 
-/**
- * Etkileşimli flashcard antrenörü.
- */
-export function FlashcardTrainer({ cards, topics }: { cards: Flashcard[]; topics: Topic[] }) {
+interface Props {
+  cards: Flashcard[];
+  topics: Topic[];
+}
+
+export function FlashcardTrainer({ cards, topics }: Props) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
   const recordReview = useStudyProgressStore((state) => state.recordFlashcardReview);
 
-  const card = cards[index];
-  const topic = topics.find((item) => item.id === card.topicId);
+  const currentCard = cards[index];
+  const currentTopic = topics.find((t) => t.id === currentCard.topicId);
 
-  function review(remembered: boolean) {
+  const handleReview = useCallback((remembered: boolean) => {
     recordReview({
-      cardId: card.id,
-      topicId: card.topicId,
-      remembered
+      cardId: currentCard.id,
+      topicId: currentCard.topicId,
+      remembered,
     });
-    toast.success(remembered ? "Hatırladım olarak kaydedildi" : "Tekrar gerekli olarak kaydedildi");
+    toast.success(remembered ? "✅ Harika!" : "🔄 Tekrarlanacak");
     setFlipped(false);
-    setIndex((value) => (value + 1) % cards.length);
-  }
+    setShowHint(false);
+    setIndex((prev) => (prev + 1) % cards.length);
+  }, [currentCard, recordReview, cards.length]);
+
+  const toggleFlip = () => {
+    setFlipped(!flipped);
+    setShowHint(false);
+  };
+
+  // Klavye desteği
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === " " || e.key === "Enter") toggleFlip();
+      if (e.key === "ArrowRight") handleReview(true);
+      if (e.key === "ArrowLeft") handleReview(false);
+      if (e.key.toLowerCase() === "h") setShowHint(!showHint);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleReview, showHint]);
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => handleReview(false),
+    onSwipedRight: () => handleReview(true),
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
 
   return (
-    <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-      <button
-        type="button"
-        onClick={() => setFlipped((value) => !value)}
-        className="min-h-[430px] rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-[#f2c15f]/18 via-white/[0.08] to-[#52f2d0]/10 p-8 text-left shadow-[0_40px_120px_rgba(0,0,0,0.34)] backdrop-blur-2xl transition hover:-translate-y-1"
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">{topic?.title}</p>
-        <h2 className="mt-10 text-4xl font-black tracking-[-0.06em] md:text-6xl">
-          {flipped ? card.back : card.front}
-        </h2>
-        <p className="mt-8 max-w-xl text-lg leading-8 text-[#ead7b7]/66">
-          {flipped ? "Cevabı değerlendirdikten sonra hatırlama durumunu seç." : `İpucu: ${card.hint}`}
-        </p>
-      </button>
-
-      <aside className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">Kart {index + 1} / {cards.length}</p>
-        <h3 className="mt-4 text-2xl font-black">Tekrar kontrolü</h3>
-        <p className="mt-3 text-sm leading-7 text-[#ead7b7]/66">Kartı çevirip cevabı gördükten sonra durumunu kaydet.</p>
-        <div className="mt-6 grid gap-2">
-          <button onClick={() => review(true)} className="w-full rounded-full bg-[#52f2d0] px-5 py-3 font-black text-[#120b07]">
-            Hatırladım
-          </button>
-          <button onClick={() => review(false)} className="w-full rounded-full bg-[#ff7968] px-5 py-3 font-black text-[#120b07]">
-            Tekrar gerekli
-          </button>
+    <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <p className="text-sm text-muted-foreground">Kart {index + 1} / {cards.length}</p>
+          <h2 className="text-2xl font-semibold text-foreground">{currentTopic?.title}</h2>
         </div>
+        <p className="text-sm text-muted-foreground">Sola = Bilmiyorum • Sağa = Biliyorum</p>
+      </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          {card.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-white/[0.08] px-3 py-1 text-xs text-[#ead7b7]/70">
-              {tag}
-            </span>
-          ))}
-        </div>
-      </aside>
-    </section>
+      {/* Quizlet Tarzı Kart */}
+      <div className="relative h-[520px] mb-10" {...swipeHandlers}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={index}
+            initial={{ rotateY: 0 }}
+            animate={{ rotateY: flipped ? 180 : 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="absolute inset-0 preserve-3d cursor-pointer"
+            onClick={toggleFlip}
+          >
+            {/* Ön Yüz */}
+            <div className={`absolute inset-0 backface-hidden rounded-3xl bg-white shadow-xl border p-16 flex flex-col items-center justify-center text-center ${flipped ? 'hidden' : ''}`}>
+              <p className="text-5xl font-semibold leading-tight tracking-tight text-neutral-900">
+                {currentCard.front}
+              </p>
+              <Button 
+                variant="ghost" 
+                className="mt-10 text-amber-600"
+                onClick={(e) => { e.stopPropagation(); setShowHint(!showHint); }}
+              >
+                💡 İpucu
+              </Button>
+              {showHint && (
+                <p className="mt-8 text-lg text-amber-600 italic">{currentCard.hint}</p>
+              )}
+            </div>
+
+            {/* Arka Yüz */}
+            <div className={`absolute inset-0 backface-hidden rounded-3xl bg-white shadow-xl border p-16 flex flex-col items-center justify-center text-center rotate-y-180 ${!flipped ? 'hidden' : ''}`}>
+              <p className="text-5xl font-semibold leading-tight tracking-tight text-neutral-900">
+                {currentCard.back}
+              </p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Kontrol Butonları */}
+      <div className="flex justify-center gap-6">
+        <Button 
+          size="lg" 
+          variant="outline" 
+          className="px-10"
+          onClick={() => handleReview(false)}
+        >
+          Bilmiyorum
+        </Button>
+
+        <Button 
+          size="lg" 
+          variant="default" 
+          className="px-10"
+          onClick={toggleFlip}
+        >
+          Kartı Çevir
+        </Button>
+
+        <Button 
+          size="lg" 
+          className="px-10 bg-emerald-600 hover:bg-emerald-700"
+          onClick={() => handleReview(true)}
+        >
+          Biliyorum
+        </Button>
+      </div>
+
+      <p className="text-center text-xs text-muted-foreground mt-12">
+        Klavye Kısayolları: Boşluk = Çevir • Sağ Ok = Biliyorum • Sol Ok = Bilmiyorum • H = İpucu
+      </p>
+    </div>
   );
 }
