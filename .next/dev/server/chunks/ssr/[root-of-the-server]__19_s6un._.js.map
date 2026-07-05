@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/USER/Desktop/tries/kpsstarih/src/app/providers.tsx"],"sourcesContent":["\"use client\";\n\nimport { ReactLenis } from \"lenis/react\";\nimport { Toaster } from \"sonner\";\n\nexport function Providers({ children }: { children: React.ReactNode }) {\n  return (\n    <ReactLenis\n      root\n      options={{\n        lerp: 0.085,\n        duration: 1.12,\n        smoothWheel: true,\n        wheelMultiplier: 0.92,\n        touchMultiplier: 1.35\n      }}\n    >\n      {children}\n      <Toaster richColors position=\"top-center\" />\n    </ReactLenis>\n  );\n}\n"],"names":["Providers","children","root","options","lerp","duration","smoothWheel","wheelMultiplier","touchMultiplier","richColors","position"],"mappings":";;;;;AAEA;AACA;AAHA;;;;AAKO,SAASA,UAAU,EAAEC,QAAQ,EAAiC;IACnE,qBACE,8OAAC,8JAAU;QACTC,IAAI;QACJC,SAAS;YACPC,MAAM;YACNC,UAAU;YACVC,aAAa;YACbC,iBAAiB;YACjBC,iBAAiB;QACnB;;YAECP;0BACD,8OAAC,mJAAO;gBAACQ,UAAU;gBAACC,UAAS;;;;;;;;;;;;AAGnC"}}]
-}

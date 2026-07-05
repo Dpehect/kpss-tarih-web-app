@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/USER/Desktop/tries/kpsstarih/src/app/%28main%29/loading.tsx"],"sourcesContent":["export default function MainLoading() {\n  return (\n    <div className=\"space-y-6\">\n      <div className=\"h-48 animate-pulse rounded-[2.5rem] bg-black/[0.04]\" />\n      <div className=\"grid gap-4 sm:grid-cols-2 xl:grid-cols-4\">\n        {Array.from({ length: 4 }).map((_, index) => (\n          <div key={index} className=\"h-72 animate-pulse rounded-[2rem] bg-black/[0.04]\" />\n        ))}\n      </div>\n    </div>\n  );\n}\n"],"names":["MainLoading","className","Array","from","length","map","_","index"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBACE,8OAAC;QAAIC,WAAU;;0BACb,8OAAC;gBAAIA,WAAU;;;;;;0BACf,8OAAC;gBAAIA,WAAU;0BACZC,MAAMC,IAAI,CAAC;oBAAEC,QAAQ;gBAAE,GAAGC,GAAG,CAAC,CAACC,GAAGC,sBACjC,8OAAC;wBAAgBN,WAAU;uBAAjBM;;;;;;;;;;;;;;;;AAKpB"}}]
-}
