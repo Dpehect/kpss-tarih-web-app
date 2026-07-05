@@ -1,0 +1,223 @@
+[
+  {
+    "id": "osm-1299-1326",
+    "order": 1,
+    "periodLabel": "Kuruluş",
+    "dateRange": "1299–1326",
+    "title": "Uç Beyliğinden Devlete",
+    "subtitle": "Osmanlı siyasi çekirdeği Bizans sınırında şekillenir.",
+    "narrative": "Kuruluş evresinde büyümenin ana motoru, Bizans sınırındaki uç coğrafyasının sunduğu askeri ve ekonomik fırsatlardır. Bu dönem, merkezi devlet reflekslerinin henüz yumuşak olduğu ama yön tayininin netleştiği bir başlangıçtır.",
+    "keyEvents": [
+      "Osman Bey dönemi",
+      "Bilecik ve çevresinde güçlenme",
+      "Bursa kuşatmasının zemini"
+    ],
+    "causeEffect": [
+      {
+        "cause": "Bizans sınırında uç beyliği konumu",
+        "effect": "Gaza ideolojisi ve ganimet ekonomisiyle Türkmen desteği arttı."
+      },
+      {
+        "cause": "Anadolu Selçuklu otoritesinin zayıflaması",
+        "effect": "Beylikler arası bağımsız siyasi alan genişledi."
+      }
+    ],
+    "actors": [
+      {
+        "name": "Osman Bey",
+        "role": "Siyasi çekirdeği kuran lider"
+      },
+      {
+        "name": "Şeyh Edebali",
+        "role": "Meşruiyet ve sosyal ağ sembolü"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "KPSS Önemi",
+        "value": "Yüksek",
+        "explanation": "Kuruluş nedenleri sık sorulur."
+      },
+      {
+        "label": "Beceri",
+        "value": "Neden-sonuç",
+        "explanation": "Jeopolitik avantaj yorumlanır."
+      }
+    ],
+    "visual": {
+      "motif": "seal",
+      "gradient": "from-amber-200 via-white to-sky-100",
+      "focusLabel": "Uç Coğrafyası"
+    },
+    "questionBridge": {
+      "prompt": "Kuruluşu hızlandıran faktörlerden hangisi doğrudan jeopolitiktir?",
+      "targetTopicId": "topic-osmanli-kurulus"
+    }
+  },
+  {
+    "id": "osm-1326-1362",
+    "order": 2,
+    "periodLabel": "Kurumsallaşma",
+    "dateRange": "1326–1362",
+    "title": "Bursa’dan Rumeli’ye Açılan Kapı",
+    "subtitle": "Bursa başkent olur; Rumeli geçişinin stratejik zemini kurulur.",
+    "narrative": "Orhan Bey dönemi, beylik ölçeğinden devlet ölçeğine geçişin görünürleştiği evredir. İlk düzenli ordu uygulamaları, yönetim kurumları ve Rumeli’ye geçiş kapasitesi aynı dönemde birleşir.",
+    "keyEvents": [
+      "Bursa'nın alınması",
+      "İznik ve İzmit'in alınması",
+      "Çimpe Kalesi'nin alınması"
+    ],
+    "causeEffect": [
+      {
+        "cause": "Bursa'nın alınması",
+        "effect": "Ekonomik ve idari merkez güçlendi."
+      },
+      {
+        "cause": "Çimpe Kalesi'nin alınması",
+        "effect": "Rumeli fetihleri için kalıcı üs elde edildi."
+      }
+    ],
+    "actors": [
+      {
+        "name": "Orhan Bey",
+        "role": "Kurumsallaşmayı hızlandıran hükümdar"
+      },
+      {
+        "name": "Süleyman Paşa",
+        "role": "Rumeli geçişinde etkin komutan"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "KPSS Önemi",
+        "value": "Çok yüksek",
+        "explanation": "İlkler ve Rumeli geçişi sık gelir."
+      },
+      {
+        "label": "Beceri",
+        "value": "Kronoloji",
+        "explanation": "Bursa, İznik, Çimpe sırası ayırt edilir."
+      }
+    ],
+    "visual": {
+      "motif": "map",
+      "gradient": "from-sky-200 via-white to-emerald-100",
+      "focusLabel": "Rumeli Eşiği"
+    },
+    "questionBridge": {
+      "prompt": "Osmanlı'nın Rumeli'ye geçişini kolaylaştıran gelişme hangisidir?",
+      "targetTopicId": "topic-osmanli-kurulus"
+    }
+  },
+  {
+    "id": "osm-1362-1451",
+    "order": 3,
+    "periodLabel": "Balkan Hakimiyeti",
+    "dateRange": "1362–1451",
+    "title": "Edirne Merkezli Bölgesel Güç",
+    "subtitle": "Osmanlı Balkanlarda kalıcı hâkimiyet kurar.",
+    "narrative": "Edirne'nin alınması ve Balkan zaferleri, Osmanlı'yı bölgesel bir aktörden imparatorluk eşiğine taşıdı. Bu akışta merkezi otorite ile askeri düzen birbirini besledi.",
+    "keyEvents": [
+      "Edirne'nin alınması",
+      "Sırpsındığı Savaşı",
+      "I. Kosova Savaşı",
+      "Niğbolu Savaşı"
+    ],
+    "causeEffect": [
+      {
+        "cause": "Edirne'nin başkent yapılması",
+        "effect": "Balkan fetihlerinin yönetim merkezi oluştu."
+      },
+      {
+        "cause": "Haçlı ittifaklarının yenilmesi",
+        "effect": "Osmanlı'nın Balkanlardaki kalıcılığı arttı."
+      }
+    ],
+    "actors": [
+      {
+        "name": "I. Murad",
+        "role": "Balkan hâkimiyetini kurumsallaştıran hükümdar"
+      },
+      {
+        "name": "Yıldırım Bayezid",
+        "role": "Merkezi otoriteyi güçlendiren hükümdar"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "KPSS Önemi",
+        "value": "Yüksek",
+        "explanation": "Savaş-sonuç eşleşmeleri önemlidir."
+      },
+      {
+        "label": "Beceri",
+        "value": "Sıralama",
+        "explanation": "Savaşların kronolojik dizilimi ölçülür."
+      }
+    ],
+    "visual": {
+      "motif": "battle",
+      "gradient": "from-rose-100 via-white to-amber-100",
+      "focusLabel": "Balkan Kalıcılığı"
+    },
+    "questionBridge": {
+      "prompt": "Balkan hâkimiyetini pekiştiren savaşlar hangi sırayla gerçekleşmiştir?",
+      "targetTopicId": "topic-osmanli-kurulus"
+    }
+  },
+  {
+    "id": "osm-1451-1481",
+    "order": 4,
+    "periodLabel": "İmparatorluk Eşiği",
+    "dateRange": "1451–1481",
+    "title": "İstanbul’un Fethi ve Dünya Tarihi Kırılması",
+    "subtitle": "Fetih, Osmanlı'yı imparatorluk ölçeğine taşır.",
+    "narrative": "İstanbul'un fethi yalnızca bir başkent değişimi değildir. Ticaret yolları, Ortodoks dünyası, merkezi otorite ve Avrupa siyaseti üzerinde kalıcı sonuçlar üreten tarihsel bir kırılmadır.",
+    "keyEvents": [
+      "İstanbul'un Fethi",
+      "Topkapı Sarayı'nın inşası",
+      "Karadeniz ticaret yollarında güçlenme"
+    ],
+    "causeEffect": [
+      {
+        "cause": "Bizans'ın alınması",
+        "effect": "Osmanlı'nın Anadolu-Rumeli bütünlüğü güçlendi."
+      },
+      {
+        "cause": "Boğazların kontrolü",
+        "effect": "Ticari ve stratejik üstünlük arttı."
+      }
+    ],
+    "actors": [
+      {
+        "name": "Fatih Sultan Mehmet",
+        "role": "İmparatorluk vizyonunu kuran hükümdar"
+      },
+      {
+        "name": "Akşemseddin",
+        "role": "Manevi destek figürü"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "KPSS Önemi",
+        "value": "Çok yüksek",
+        "explanation": "Fethin neden-sonuçları klasik sorudur."
+      },
+      {
+        "label": "Beceri",
+        "value": "Yorum",
+        "explanation": "Siyasi, ekonomik ve kültürel sonuçlar ayrıştırılır."
+      }
+    ],
+    "visual": {
+      "motif": "treaty",
+      "gradient": "from-violet-100 via-white to-sky-100",
+      "focusLabel": "İmparatorluk"
+    },
+    "questionBridge": {
+      "prompt": "İstanbul'un fethinin Osmanlı merkezi otoritesi üzerindeki sonucu nedir?",
+      "targetTopicId": "topic-osmanli-yukselis"
+    }
+  }
+]
