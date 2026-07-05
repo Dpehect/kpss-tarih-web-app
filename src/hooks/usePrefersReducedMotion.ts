@@ -2,17 +2,21 @@
 
 import { useEffect, useState } from "react";
 
+/**
+ * Kullanıcının işletim sistemi motion tercihini okur.
+ * Performans ve erişilebilirlik için animasyon yoğunluğunu azaltmada kullanılır.
+ */
 export function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(media.matches);
 
-    const handleChange = () => setPrefersReducedMotion(mediaQuery.matches);
-    mediaQuery.addEventListener("change", handleChange);
+    const onChange = () => setPrefersReducedMotion(media.matches);
+    media.addEventListener("change", onChange);
 
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
   return prefersReducedMotion;

@@ -1,5 +1,5 @@
-import { QuestionBankShell } from "@/features/questions/components/QuestionBankShell";
+import { QuestionBankPage } from "@/features/question-bank/components/QuestionBankPage";
 
-export default function QuestionBankPage() {
-  return <QuestionBankShell />;
+export default function QuestionBankRoute() {
+  return <QuestionBankPage />;
 }

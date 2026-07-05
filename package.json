@@ -1,48 +1,34 @@
 {
-  "name": "kpss-tarih-apple-study",
+  "name": "kpss-tarih-web-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Apple-esque KPSS Tarih platformu — final system design, adaptive learning, dashboard ve animasyon mimarisi.",
+  "description": "KPSS Tarih Web App - Final: konu özetleri, testler, denemeler, flashcard, timeline, analiz, notlar ve local progress sistemi.",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "shadcn:init": "npx shadcn@latest init",
-    "shadcn:add": "npx shadcn@latest add button card tabs accordion scroll-area separator badge avatar progress sheet dialog toast"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@gsap/react": "latest",
-    "@hookform/resolvers": "latest",
     "@react-three/drei": "latest",
     "@react-three/fiber": "latest",
-    "@react-three/postprocessing": "latest",
-    "@radix-ui/react-accordion": "latest",
-    "@radix-ui/react-avatar": "latest",
-    "@radix-ui/react-dialog": "latest",
-    "@radix-ui/react-progress": "latest",
-    "@radix-ui/react-scroll-area": "latest",
-    "@radix-ui/react-separator": "latest",
-    "@radix-ui/react-slot": "latest",
-    "@radix-ui/react-tabs": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",
     "framer-motion": "latest",
     "gsap": "latest",
     "lenis": "latest",
     "lucide-react": "latest",
-    "motion": "latest",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "latest",
-    "sonner": "latest",
-    "swiper": "latest",
     "tailwind-merge": "latest",
     "three": "latest",
+    "zustand": "latest",
+    "react-hook-form": "latest",
     "zod": "latest",
-    "zustand": "latest"
+    "sonner": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
@@ -52,7 +38,6 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "tailwindcss": "latest",
-    "tw-animate-css": "latest",
     "typescript": "latest"
   }
 }

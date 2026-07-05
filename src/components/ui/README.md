@@ -1,12 +1,6 @@
-Bu klasör Faz 2'de gerçek shadcn/ui componentleriyle doldurulacak.
+# ui
 
-Şimdilik proje iskeletinde alias ve config hazır:
-- components.json
-- @/components/ui
-- @/lib/utils
+Bu klasör shadcn/ui componentleri için ayrıldı.
 
-Kurulum sonrası:
-```bash
-npm install
-npm run shadcn:add
-```
+Faz 1'de landing page özel bileşenlerle kuruldu.
+Faz 2'de dashboard ve navigation için button, card, sheet, progress gibi shadcn/ui parçaları buraya eklenecek.

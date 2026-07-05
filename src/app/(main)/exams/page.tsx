@@ -1,5 +1,5 @@
-import { ExamIndex } from "@/features/exams/components/ExamIndex";
+import { ExamsPage } from "@/features/exams/components/ExamsPage";
 
-export default function ExamsPage() {
-  return <ExamIndex />;
+export default function ExamsRoute() {
+  return <ExamsPage />;
 }

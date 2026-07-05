@@ -1,13 +1,9 @@
-import { HeroSection } from "@/features/landing/HeroSection";
-import { FeaturesShowcase } from "@/features/landing/FeaturesShowcase";
-import { QuickStart } from "@/features/landing/QuickStart";
+import { LandingPage } from "@/features/landing/components/LandingPage";
 
+/**
+ * Ana landing page.
+ * Server component olarak kalır; WebGL ve GSAP gibi browser API kullanan parçalar içeride client island şeklinde yüklenir.
+ */
 export default function HomePage() {
-  return (
-    <main className="min-h-screen overflow-hidden bg-[#fbfaf7]">
-      <HeroSection />
-      <FeaturesShowcase />
-      <QuickStart />
-    </main>
-  );
+  return <LandingPage />;
 }

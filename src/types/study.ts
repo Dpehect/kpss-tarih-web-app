@@ -1,70 +1,38 @@
-export type KpssHistoryPeriod =
-  | "islamiyet-oncesi-turk-tarihi"
-  | "ilk-turk-islam-devletleri"
-  | "osmanli-kurulus-yukselis"
-  | "osmanli-duraklama-gerileme"
-  | "yenilesme-ve-demokratiklesme"
-  | "kurtulus-savasi"
-  | "atatürk-ilke-inkilaplari"
-  | "cagdas-turk-dunya-tarihi";
+/**
+ * KPSS Tarih domain tipleri.
+ * Tüm modüller aynı veri sözleşmesini kullandığı için proje dağınık değil, tek merkezden genişletilebilir.
+ */
+export type HistoryEra =
+  | "islamiyet-oncesi"
+  | "turk-islam"
+  | "osmanli"
+  | "yenilesme"
+  | "milli-mucadele"
+  | "cumhuriyet"
+  | "cagdas";
 
-export type CognitiveSkill =
-  | "recall"
-  | "chronology"
-  | "cause_effect"
-  | "concept_relation"
-  | "source_interpretation"
-  | "comparison";
+export type Difficulty = "temel" | "orta" | "ileri";
+export type QuestionType = "single" | "case" | "chronology";
 
-export type DifficultyBand = "foundational" | "standard" | "advanced";
+export interface TopicSummaryBlock {
+  heading: string;
+  body: string;
+  bullets: string[];
+}
 
-export interface TopicNode {
+export interface Topic {
   id: string;
   slug: string;
   title: string;
-  period: KpssHistoryPeriod;
-  parentId?: string;
-  summary: string;
-  prerequisites: string[];
-  relatedTopicIds: string[];
-  examWeight: number;
+  era: HistoryEra;
+  shortDescription: string;
+  examImportance: number;
   estimatedMinutes: number;
-  tags: string[];
-}
-
-export interface Flashcard {
-  id: string;
-  topicId: string;
-  period: KpssHistoryPeriod;
-  front: {
-    prompt: string;
-    hint?: string;
-    media?: {
-      type: "image" | "map" | "timeline";
-      src: string;
-      alt: string;
-    };
-  };
-  back: {
-    answer: string;
-    explanation: string;
-    memoryHook?: string;
-    commonConfusions?: string[];
-  };
-  cognitiveSkill: CognitiveSkill;
-  difficulty: DifficultyBand;
-  spacedRepetition: {
-    easeFactor: number;
-    intervalDays: number;
-    repetitions: number;
-    dueAt: string;
-    lastReviewedAt?: string;
-  };
-  analytics: {
-    totalViews: number;
-    correctRecalls: number;
-    weakSignals: string[];
-  };
+  keywords: string[];
+  summary: TopicSummaryBlock[];
+  mustKnow: string[];
+  commonMistakes: string[];
+  quickTimeline: { date: string; event: string }[];
 }
 
 export interface QuestionChoice {
@@ -75,52 +43,81 @@ export interface QuestionChoice {
 export interface Question {
   id: string;
   topicId: string;
-  period: KpssHistoryPeriod;
+  type: QuestionType;
+  difficulty: Difficulty;
   stem: string;
   choices: QuestionChoice[];
   correctChoiceId: string;
-  explanation: {
-    correct: string;
-    wrongChoiceRationales: Record<string, string>;
-    examTip?: string;
-  };
-  cognitiveSkill: CognitiveSkill;
-  difficulty: DifficultyBand;
+  explanation: string;
+  examTip: string;
   tags: string[];
-  source: {
-    origin: "original" | "past_kpss_style" | "past_question";
-    year?: number;
-    citation?: string;
-  };
-  adaptive: {
-    baseWeight: number;
-    misconceptionTags: string[];
-    prerequisiteTopicIds: string[];
-  };
 }
 
-export interface UserAttempt {
+export interface Flashcard {
   id: string;
-  userId: string;
+  topicId: string;
+  front: string;
+  back: string;
+  hint: string;
+  tags: string[];
+}
+
+export interface Exam {
+  id: string;
+  title: string;
+  durationMinutes: number;
+  questionIds: string[];
+  description: string;
+}
+
+export interface TimelineEvent {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  topicId: string;
+  tone: "gold" | "turquoise" | "crimson" | "parchment";
+}
+
+export interface StudyRecommendation {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  minutes: number;
+  priority: "yüksek" | "orta" | "düşük";
+}
+
+export interface QuestionAttempt {
+  id: string;
   questionId: string;
   topicId: string;
   selectedChoiceId: string;
   correctChoiceId: string;
   isCorrect: boolean;
   answeredAt: string;
-  elapsedSeconds: number;
-  confidence: 1 | 2 | 3 | 4 | 5;
-  cognitiveSkill: CognitiveSkill;
-  misconceptionTags: string[];
 }
 
-export interface TopicMasterySnapshot {
+export interface FlashcardReview {
+  id: string;
+  cardId: string;
   topicId: string;
-  accuracy: number;
-  attemptCount: number;
-  wrongCount: number;
-  averageConfidence: number;
-  recencyPenalty: number;
-  masteryScore: number;
-  nextReviewPriority: number;
+  remembered: boolean;
+  reviewedAt: string;
+}
+
+export interface ExamResult {
+  id: string;
+  examId: string;
+  score: number;
+  total: number;
+  completedAt: string;
+}
+
+export interface StudyNote {
+  id: string;
+  title: string;
+  body: string;
+  topicId?: string;
+  createdAt: string;
 }

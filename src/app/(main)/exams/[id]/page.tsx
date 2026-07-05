@@ -1,10 +1,10 @@
-import { ExamRunnerShell } from "@/features/exams/components/ExamRunnerShell";
+import { ExamRunnerPage } from "@/features/exams/components/ExamRunnerPage";
 
-type ExamPageProps = {
+type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-export default async function ExamPage({ params }: ExamPageProps) {
+export default async function ExamRunnerRoute({ params }: PageProps) {
   const { id } = await params;
-  return <ExamRunnerShell examId={id} />;
+  return <ExamRunnerPage examId={id} />;
 }

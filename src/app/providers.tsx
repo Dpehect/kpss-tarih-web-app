@@ -3,20 +3,25 @@
 import { ReactLenis } from "lenis/react";
 import { Toaster } from "sonner";
 
+/**
+ * Global client provider.
+ * Lenis tüm uygulamada premium smooth-scroll hissini verir.
+ * Sonner kullanıcı aksiyonlarında küçük bildirimler gösterir.
+ */
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ReactLenis
       root
       options={{
-        lerp: 0.085,
-        duration: 1.12,
+        lerp: 0.08,
+        duration: 1.18,
         smoothWheel: true,
         wheelMultiplier: 0.92,
-        touchMultiplier: 1.35
+        touchMultiplier: 1.25
       }}
     >
       {children}
-      <Toaster richColors position="top-center" />
+      <Toaster position="top-center" richColors />
     </ReactLenis>
   );
 }

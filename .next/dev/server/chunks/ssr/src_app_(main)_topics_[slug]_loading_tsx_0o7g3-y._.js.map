@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/USER/Desktop/tries/kpsstarih/src/app/%28main%29/topics/%5Bslug%5D/loading.tsx"],"sourcesContent":["export default function TopicLoading() {\n  return (\n    <div className=\"rounded-[2.5rem] border border-black/5 bg-white/60 p-8\">\n      <div className=\"h-4 w-32 animate-pulse rounded-full bg-black/[0.06]\" />\n      <div className=\"mt-6 h-16 max-w-2xl animate-pulse rounded-3xl bg-black/[0.06]\" />\n      <div className=\"mt-8 space-y-3\">\n        <div className=\"h-4 animate-pulse rounded-full bg-black/[0.05]\" />\n        <div className=\"h-4 w-10/12 animate-pulse rounded-full bg-black/[0.05]\" />\n        <div className=\"h-4 w-8/12 animate-pulse rounded-full bg-black/[0.05]\" />\n      </div>\n    </div>\n  );\n}\n"],"names":["TopicLoading","className"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBACE,8OAAC;QAAIC,WAAU;;0BACb,8OAAC;gBAAIA,WAAU;;;;;;0BACf,8OAAC;gBAAIA,WAAU;;;;;;0BACf,8OAAC;gBAAIA,WAAU;;kCACb,8OAAC;wBAAIA,WAAU;;;;;;kCACf,8OAAC;wBAAIA,WAAU;;;;;;kCACf,8OAAC;wBAAIA,WAAU;;;;;;;;;;;;;;;;;;AAIvB"}}]
-}

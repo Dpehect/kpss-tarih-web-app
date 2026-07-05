@@ -1,5 +1,5 @@
-import { TopicIndex } from "@/features/topics/components/TopicIndex";
+import { TopicsPage } from "@/features/topics/components/TopicsPage";
 
-export default function TopicsPage() {
-  return <TopicIndex />;
+export default function TopicsRoute() {
+  return <TopicsPage />;
 }

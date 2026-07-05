@@ -1,5 +1,5 @@
-import { FlashcardPracticeShell } from "@/features/flashcards/components/FlashcardPracticeShell";
+import { FlashcardsPage } from "@/features/flashcards/components/FlashcardsPage";
 
-export default function FlashcardsPage() {
-  return <FlashcardPracticeShell />;
+export default function FlashcardsRoute() {
+  return <FlashcardsPage />;
 }

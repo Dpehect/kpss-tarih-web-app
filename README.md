@@ -1,20 +1,29 @@
-# KPSS Tarih Apple Study — Final Faz
+# KPSS Tarih Web App — Final Faz
 
-Bu proje, Next.js 15, React 19, Tailwind CSS, Framer Motion ve GSAP/ScrollTrigger ile tasarlanmış Apple-esque KPSS Tarih hazırlık platformu mimarisidir.
+Bu sürüm, KPSS Tarih için tek başına kullanılabilir bol sayfalı çalışma platformudur.
 
-## İçerik
+## Finalde tamamlananlar
 
-- Modüler Next.js App Router yapısı
-- Feature-first klasörleme
-- JSON-first veri katmanı
-- Adaptif öğrenme çekirdeği
-- Weighted random soru seçimi
-- 3D flip flashcard mimarisi
-- GSAP ScrollTrigger scrollytelling timeline
-- Lenis smooth scroll
-- Apple Fitness estetiğinde dashboard halkaları
-- Streaming/loading stratejisi
-- Final System Design Document
+- WebGL destekli yaratıcı landing page
+- Sticky navbar + sidebar
+- Dashboard
+- 12 kapsamlı KPSS Tarih konusu
+- Her konu için özet, kritik bilgiler, sık hatalar, mini timeline, kavramlar
+- 60 açıklamalı test sorusu
+- Konuya göre filtrelenen soru bankası
+- Cevap kaydı, doğru/yanlış kontrolü ve KPSS ipucu
+- 48 flashcard
+- 6 deneme sınavı
+- Deneme sonuç kaydı
+- Timeline
+- Analiz sayfası
+- Yanlışlarım sayfası
+- Kavram sözlüğü
+- Notlar
+- Rozetler
+- İçerik ekleme stüdyosu
+- Profil ve auth placeholder
+- Zustand + localStorage ile kalıcı ilerleme takibi
 
 ## Kurulum
 
@@ -23,58 +32,41 @@ npm install
 npm run dev
 ```
 
-## shadcn/ui
-
-```bash
-npm run shadcn:init
-npm run shadcn:add
-```
-
-## Önemli route'lar
+## Sayfalar
 
 ```txt
 /
+ /dashboard
  /topics
- /timeline
- /flashcards
+ /topics/[slug]
  /question-bank
  /exams
+ /exams/[id]
+ /flashcards
+ /timeline
+ /analytics
+ /mistakes
+ /glossary
+ /notes
+ /achievements
+ /study-plan
+ /content-studio
+ /profile
+ /auth
 ```
 
-## Klasörler
+## Veri merkezi
 
 ```txt
-src/
-  app/
-  components/
-  features/
-    dashboard/
-    topics/
-    flashcards/
-    questions/
-    exams/
-    scrollytelling/
-  lib/
-    adaptive/
-  store/
-  types/
-  data/
-docs/
+src/data/kpss-history.ts
 ```
 
-## Dokümanlar
+Tüm konu, soru, flashcard, deneme, timeline, kavram sözlüğü ve öneriler tek merkezden yönetilir.
 
-- `docs/SYSTEM_DESIGN_DOCUMENT.md`
-- `docs/PERFORMANCE_STRATEGY.md`
-- `docs/PRODUCT_EXPERIENCE_ARCHITECTURE.md`
-- `docs/ADAPTIVE_LEARNING_FINAL_SPEC.md`
-- `docs/PHASE_1_SYSTEM_DESIGN.md`
-- `docs/PHASE_2_SYSTEM_DESIGN.md`
-- `docs/ANIMATION_GUIDELINES.md`
-- `docs/SCROLLYTELLING_DATA_MODEL.md`
+## Progress sistemi
 
-## Fazlar
+```txt
+src/store/useStudyProgressStore.ts
+```
 
-1. Faz 1: Mimari iskelet + veri modelleri + adaptive core
-2. Faz 2: Scrollytelling + GSAP + Framer Motion + 3D flashcard
-3. Final Faz: Dashboard halkaları + streaming/performance strategy + final SDD
+Kullanıcının tamamladığı konular, soru cevapları, flashcard tekrarları, deneme sonuçları ve notları localStorage'da saklanır.

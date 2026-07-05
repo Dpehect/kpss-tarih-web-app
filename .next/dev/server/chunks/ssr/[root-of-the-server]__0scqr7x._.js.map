@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 9, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
-    {"offset": {"line": 13, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/USER/Desktop/tries/kpsstarih/src/app/%28main%29/page.tsx"],"sourcesContent":["import { HeroSection } from \"@/features/landing/HeroSection\";\nimport { FeaturesShowcase } from \"@/features/landing/FeaturesShowcase\";\nimport { QuickStart } from \"@/features/landing/QuickStart\";\n\nexport default function HomePage() {\n  return (\n    <main className=\"min-h-screen overflow-hidden bg-[#fbfaf7]\">\n      <HeroSection />\n      <FeaturesShowcase />\n      <QuickStart />\n    </main>\n  );\n}"],"names":["HomePage","className","FeaturesShowcase","QuickStart"],"mappings":";;;;;AAAA;;;;;;;;;;;;;;;AAIe,SAASA;IACtB,qBACE,8OAAC;QAAKC,WAAU;;0BACd,8OAAC,yJAAW;;;;;0BACZ,8OAACC;;;;;0BACD,8OAACC;;;;;;;;;;;AAGP"}}]
-}
