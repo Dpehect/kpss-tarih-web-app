@@ -1,5 +1,13 @@
-import { DashboardOverview } from "@/features/dashboard/components/DashboardOverview";
+import { HeroSection } from "@/features/landing/HeroSection";
+import { FeaturesShowcase } from "@/features/landing/FeaturesShowcase";
+import { QuickStart } from "@/features/landing/QuickStart";
 
-export default function DashboardPage() {
-  return <DashboardOverview />;
+export default function HomePage() {
+  return (
+    <main className="min-h-screen overflow-hidden bg-[#fbfaf7]">
+      <HeroSection />
+      <FeaturesShowcase />
+      <QuickStart />
+    </main>
+  );
 }
