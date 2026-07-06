@@ -2,12 +2,8 @@
 
 import { ReactLenis } from "lenis/react";
 import { Toaster } from "sonner";
+import { OnlineProgressHydrator } from "@/components/core/OnlineProgressHydrator";
 
-/**
- * Global client provider.
- * Lenis tüm uygulamada premium smooth-scroll hissini verir.
- * Sonner kullanıcı aksiyonlarında küçük bildirimler gösterir.
- */
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ReactLenis
@@ -20,6 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         touchMultiplier: 1.25
       }}
     >
+      <OnlineProgressHydrator />
       {children}
       <Toaster position="top-center" richColors />
     </ReactLenis>

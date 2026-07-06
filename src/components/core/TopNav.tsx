@@ -1,44 +1,42 @@
 "use client";
 
-import { Menu, Search, Sparkles } from "lucide-react";
+import { Menu, Search } from "lucide-react";
+import { AdminQuickLink } from "@/features/auth/components/AdminQuickLink";
+import { AuthStatusButton } from "@/features/auth/components/AuthStatusButton";
 import { useUIStore } from "@/store/useUIStore";
 
-/**
- * Sticky üst navigasyon.
- */
 export function TopNav() {
   const setNavigationOpen = useUIStore((state) => state.setNavigationOpen);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#120b07]/82 backdrop-blur-2xl">
-      <div className="content-shell flex h-16 items-center justify-between gap-4">
-        <a href="/dashboard" className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-2xl bg-[#f2c15f] font-black text-[#120b07]">
+    <header className="sticky top-0 z-40 border-b border-black/[0.08] bg-[#fffaf0]/82 backdrop-blur-2xl">
+      <div className="content-shell flex min-h-18 items-center justify-between gap-4 py-3">
+        <a href="/dashboard" className="group flex items-center gap-3">
+          <span className="grid size-11 place-items-center rounded-[1.1rem] bg-[#111827] font-black text-[#fffaf0] shadow-[0_18px_50px_rgba(17,24,39,0.16)] transition group-hover:-rotate-3">
             T
           </span>
           <div className="hidden sm:block">
-            <p className="text-sm font-black tracking-tight">KPSS Tarih Akademi</p>
-            <p className="text-xs text-[#ead7b7]/54">Final çalışma platformu</p>
+            <p className="text-sm font-black tracking-[-0.02em] text-[#111827]">KPSS Tarih Akademi</p>
+            <p className="text-xs text-[#425066]">Profesyonel çalışma atlası</p>
           </div>
         </a>
 
-        <a href="/glossary" className="hidden max-w-md flex-1 items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm text-[#ead7b7]/58 transition hover:bg-white/[0.08] md:flex">
+        <a
+          href="/glossary"
+          className="hidden max-w-xl flex-1 items-center gap-3 rounded-full border border-black/[0.08] bg-white/60 px-4 py-2.5 text-sm font-semibold text-[#425066] transition hover:bg-white md:flex"
+        >
           <Search size={16} />
-          Kavram sözlüğünde ara, konuya dön...
+          Kavram, dönem veya belge ara
         </a>
 
         <div className="flex items-center gap-2">
-          <a
-            href="/content-studio"
-            className="hidden items-center gap-2 rounded-full bg-[#f2c15f] px-4 py-2 text-sm font-bold text-[#120b07] transition hover:-translate-y-0.5 sm:inline-flex"
-          >
-            <Sparkles size={16} />
-            İçerik ekle
-          </a>
+          <AdminQuickLink />
+          <AuthStatusButton />
+
           <button
             type="button"
             onClick={() => setNavigationOpen(true)}
-            className="grid size-10 place-items-center rounded-full border border-white/10 bg-white/[0.06] lg:hidden"
+            className="grid size-10 place-items-center rounded-full border border-black/[0.08] bg-white/70 lg:hidden"
             aria-label="Menüyü aç"
           >
             <Menu size={18} />

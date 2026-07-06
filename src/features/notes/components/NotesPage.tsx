@@ -4,13 +4,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/core/PageHeader";
 import { topics } from "@/data/kpss-history";
+import { deleteOnlineNote, saveOnlineNote } from "@/lib/progress/online-progress";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
-/**
- * Notlar sayfası.
- * Kullanıcı kendi tekrar notlarını localStorage'da saklar.
- */
 export function NotesPage() {
   const mounted = useMounted();
   const notes = useStudyProgressStore((state) => state.notes);
@@ -20,18 +17,33 @@ export function NotesPage() {
   const [body, setBody] = useState("");
   const [topicId, setTopicId] = useState("");
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     if (!title.trim() || !body.trim()) {
       toast.error("Başlık ve not alanı zorunlu.");
       return;
     }
 
-    addNote({ title, body, topicId: topicId || undefined });
+    const noteId = addNote({ title, body, topicId: topicId || undefined });
+
+    void saveOnlineNote({
+      id: noteId,
+      title,
+      body,
+      topicId: topicId || undefined
+    });
+
     setTitle("");
     setBody("");
     setTopicId("");
     toast.success("Not eklendi");
+  }
+
+  async function removeNote(id: string) {
+    deleteNote(id);
+    void deleteOnlineNote(id);
+    toast.success("Not silindi");
   }
 
   return (
@@ -39,7 +51,7 @@ export function NotesPage() {
       <PageHeader
         eyebrow="Notlar"
         title="Kendi kısa tekrar defterin."
-        description="Öğrenci kendi notlarını ekleyebilir, konuya bağlayabilir ve daha sonra tekrar edebilir."
+        description="Google ile giriş yaptıysan notların Supabase'de saklanır ve tekrar girişte yüklenir."
       />
 
       <form onSubmit={submit} className="rounded-[2rem] parchment-surface p-6">
@@ -69,7 +81,7 @@ export function NotesPage() {
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">{topic?.title ?? "Genel not"}</p>
               <h2 className="mt-3 text-2xl font-black">{note.title}</h2>
               <p className="mt-3 text-sm leading-7 text-[#ead7b7]/70">{note.body}</p>
-              <button onClick={() => deleteNote(note.id)} className="mt-5 rounded-full bg-white/[0.08] px-4 py-2 text-sm font-bold">
+              <button onClick={() => removeNote(note.id)} className="mt-5 rounded-full bg-white/[0.08] px-4 py-2 text-sm font-bold">
                 Sil
               </button>
             </article>

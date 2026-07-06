@@ -3,13 +3,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { saveOnlineQuestionAttempt } from "@/lib/progress/online-progress";
 import type { Question, Topic } from "@/types/study";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
-/**
- * Etkileşimli soru bankası.
- * Cevaplar final fazda local progress store'a kaydedilir.
- */
 export function QuestionBankClient({ questions, topics }: { questions: Question[]; topics: Topic[] }) {
   const searchParams = useSearchParams();
   const initialTopic = searchParams.get("topic") ?? "all";
@@ -27,13 +24,21 @@ export function QuestionBankClient({ questions, topics }: { questions: Question[
   const current = filteredQuestions[currentIndex] ?? filteredQuestions[0];
   const topic = topics.find((item) => item.id === current?.topicId);
 
-  function answer(choiceId: string) {
+  async function answer(choiceId: string) {
     if (!current || selected) return;
 
     setSelected(choiceId);
     const isCorrect = choiceId === current.correctChoiceId;
 
     recordAttempt({
+      questionId: current.id,
+      topicId: current.topicId,
+      selectedChoiceId: choiceId,
+      correctChoiceId: current.correctChoiceId,
+      isCorrect
+    });
+
+    void saveOnlineQuestionAttempt({
       questionId: current.id,
       topicId: current.topicId,
       selectedChoiceId: choiceId,

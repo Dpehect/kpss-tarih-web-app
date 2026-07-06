@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { saveOnlineExamResult } from "@/lib/progress/online-progress";
 import type { Exam, Question } from "@/types/study";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
-/**
- * Süreli deneme mantığı.
- * Sonuçlar dashboard ve analiz sayfasına bağlanır.
- */
 export function ExamRunnerClient({ exam, questions }: { exam: Exam; questions: Question[] }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [finished, setFinished] = useState(false);
@@ -16,15 +13,23 @@ export function ExamRunnerClient({ exam, questions }: { exam: Exam; questions: Q
 
   const correct = questions.filter((question) => answers[question.id] === question.correctChoiceId).length;
 
-  function finishExam() {
+  async function finishExam() {
     if (!finished) {
       recordExamResult({
         examId: exam.id,
         score: correct,
         total: questions.length
       });
+
+      void saveOnlineExamResult({
+        examId: exam.id,
+        score: correct,
+        total: questions.length
+      });
+
       toast.success("Deneme sonucu kaydedildi");
     }
+
     setFinished(true);
   }
 

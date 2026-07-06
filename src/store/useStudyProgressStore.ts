@@ -2,24 +2,30 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { ExamResult, FlashcardReview, QuestionAttempt, StudyNote } from "@/types/study";
+import type {
+  ExamResult,
+  FlashcardReview,
+  QuestionAttempt,
+  StudyNote
+} from "@/types/study";
+import type { RemoteProgressPayload } from "@/lib/progress/online-progress";
 
-/**
- * Kullanıcının çalışma ilerlemesini localStorage'da saklayan final faz store'u.
- * Backend olmadan da uygulama tek başına kullanılabilir.
- */
 type StudyProgressState = {
   completedTopicIds: string[];
   questionAttempts: QuestionAttempt[];
   flashcardReviews: FlashcardReview[];
   examResults: ExamResult[];
   notes: StudyNote[];
+  hasHydratedFromRemote: boolean;
   markTopicComplete: (topicId: string) => void;
-  recordQuestionAttempt: (attempt: Omit<QuestionAttempt, "id" | "answeredAt">) => void;
-  recordFlashcardReview: (review: Omit<FlashcardReview, "id" | "reviewedAt">) => void;
-  recordExamResult: (result: Omit<ExamResult, "id" | "completedAt">) => void;
-  addNote: (note: Omit<StudyNote, "id" | "createdAt">) => void;
+  recordQuestionAttempt: (attempt: Omit<QuestionAttempt, "id" | "answeredAt">) => string;
+  recordFlashcardReview: (review: Omit<FlashcardReview, "id" | "reviewedAt">) => string;
+  recordExamResult: (result: Omit<ExamResult, "id" | "completedAt">) => string;
+  addNote: (note: Omit<StudyNote, "id" | "createdAt">) => string;
+  addNoteWithId: (note: StudyNote) => void;
   deleteNote: (id: string) => void;
+  hydrateFromRemote: (payload: RemoteProgressPayload) => void;
+  getSnapshot: () => RemoteProgressPayload;
   resetProgress: () => void;
 };
 
@@ -28,12 +34,13 @@ const initialState = {
   questionAttempts: [],
   flashcardReviews: [],
   examResults: [],
-  notes: []
+  notes: [],
+  hasHydratedFromRemote: false
 };
 
 export const useStudyProgressStore = create<StudyProgressState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initialState,
       markTopicComplete: (topicId) =>
         set((state) => ({
@@ -41,54 +48,98 @@ export const useStudyProgressStore = create<StudyProgressState>()(
             ? state.completedTopicIds
             : [...state.completedTopicIds, topicId]
         })),
-      recordQuestionAttempt: (attempt) =>
+      recordQuestionAttempt: (attempt) => {
+        const id = crypto.randomUUID();
+
         set((state) => ({
           questionAttempts: [
             ...state.questionAttempts,
             {
               ...attempt,
-              id: crypto.randomUUID(),
+              id,
               answeredAt: new Date().toISOString()
             }
           ]
-        })),
-      recordFlashcardReview: (review) =>
+        }));
+
+        return id;
+      },
+      recordFlashcardReview: (review) => {
+        const id = crypto.randomUUID();
+
         set((state) => ({
           flashcardReviews: [
             ...state.flashcardReviews,
             {
               ...review,
-              id: crypto.randomUUID(),
+              id,
               reviewedAt: new Date().toISOString()
             }
           ]
-        })),
-      recordExamResult: (result) =>
+        }));
+
+        return id;
+      },
+      recordExamResult: (result) => {
+        const id = crypto.randomUUID();
+
         set((state) => ({
           examResults: [
             ...state.examResults,
             {
               ...result,
-              id: crypto.randomUUID(),
+              id,
               completedAt: new Date().toISOString()
             }
           ]
-        })),
-      addNote: (note) =>
+        }));
+
+        return id;
+      },
+      addNote: (note) => {
+        const id = crypto.randomUUID();
+
         set((state) => ({
           notes: [
             {
               ...note,
-              id: crypto.randomUUID(),
+              id,
               createdAt: new Date().toISOString()
             },
             ...state.notes
           ]
+        }));
+
+        return id;
+      },
+      addNoteWithId: (note) =>
+        set((state) => ({
+          notes: [note, ...state.notes.filter((item) => item.id !== note.id)]
         })),
       deleteNote: (id) =>
         set((state) => ({
           notes: state.notes.filter((note) => note.id !== id)
         })),
+      hydrateFromRemote: (payload) =>
+        set({
+          completedTopicIds: payload.completedTopicIds,
+          questionAttempts: payload.questionAttempts,
+          flashcardReviews: payload.flashcardReviews,
+          examResults: payload.examResults,
+          notes: payload.notes,
+          hasHydratedFromRemote: true
+        }),
+      getSnapshot: () => {
+        const state = get();
+
+        return {
+          completedTopicIds: state.completedTopicIds,
+          questionAttempts: state.questionAttempts,
+          flashcardReviews: state.flashcardReviews,
+          examResults: state.examResults,
+          notes: state.notes
+        };
+      },
       resetProgress: () => set(initialState)
     }),
     {
