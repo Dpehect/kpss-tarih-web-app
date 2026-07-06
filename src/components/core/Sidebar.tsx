@@ -60,13 +60,25 @@ export function Sidebar() {
             key={item.href}
             href={item.href}
             onClick={() => setOpen(false)}
+            title={item.label}
+            aria-current={active ? "page" : undefined}
             className={cn(
-              "group flex items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-black text-[var(--muted-foreground)] transition duration-200 hover:bg-[color-mix(in_srgb,var(--foreground),transparent_94%)] hover:text-[var(--foreground)]",
-              active && "bg-[var(--foreground)] text-[var(--background)] shadow-[0_16px_50px_color-mix(in_srgb,var(--foreground),transparent_84%)] hover:bg-[var(--foreground)] hover:text-[var(--background)]"
+              "group flex min-h-12 items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-black transition duration-200",
+              active
+                ? "bg-[#0b1220] text-[#fff8ea] shadow-[0_16px_50px_rgba(11,18,32,0.18)] hover:bg-[#0b1220] hover:text-[#fff8ea]"
+                : "text-[#1f2937] hover:bg-[#0b1220]/[0.055] hover:text-[#0b1220]"
             )}
           >
-            <Icon size={18} className="shrink-0 opacity-85 transition group-hover:scale-110" />
-            <span className="min-w-0 truncate">{item.label}</span>
+            <Icon
+              size={18}
+              className={cn(
+                "shrink-0 transition group-hover:scale-110",
+                active ? "text-[#fff8ea] opacity-100" : "text-[#334155] opacity-90"
+              )}
+            />
+            <span className={cn("min-w-0 truncate", active ? "text-[#fff8ea]" : "text-[#111827]")}>
+              {item.label}
+            </span>
           </a>
         );
       })}
@@ -75,11 +87,11 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface-strong),transparent_18%)] p-3 shadow-[var(--shadow-md)] backdrop-blur-2xl lg:block scrollbar-clean">
-        <div className="page-noise mb-4 overflow-hidden rounded-[1.55rem] bg-[var(--surface-dark)] p-4 text-[#fff8ea] shadow-[var(--shadow-sm)]">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-gold)]">Çalışma Atlası</p>
-          <p className="mt-2 text-2xl font-black tracking-[-0.06em]">Tarih masası</p>
-          <p className="mt-2 text-sm leading-6 text-white/62">
+      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[#0f172a]/10 bg-[#fffaf0]/90 p-3 shadow-[0_22px_72px_rgba(15,23,42,0.10)] backdrop-blur-2xl lg:block scrollbar-clean">
+        <div className="page-noise mb-4 overflow-hidden rounded-[1.55rem] bg-[#0b1220] p-4 text-[#fff8ea] shadow-[0_16px_50px_rgba(11,18,32,0.16)]">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#d9aa52]">Çalışma Atlası</p>
+          <p className="mt-2 text-2xl font-black tracking-[-0.06em] text-[#fff8ea]">Tarih masası</p>
+          <p className="mt-2 text-sm leading-6 text-[#fff8ea]/72">
             Konu, test, deneme ve analiz için düzenli çalışma merkezi.
           </p>
         </div>
@@ -89,14 +101,14 @@ export function Sidebar() {
       {isOpen ? (
         <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
           <aside
-            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--border)] bg-[var(--background)] p-4 scrollbar-clean"
+            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[#0f172a]/10 bg-[#fffaf0] p-4 scrollbar-clean"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--foreground)] font-black text-[var(--background)]">T</span>
+              <span className="grid size-10 place-items-center rounded-2xl bg-[#0b1220] font-black text-[#fff8ea]">T</span>
               <div>
-                <p className="font-black text-[var(--foreground)]">KPSS Tarih</p>
-                <p className="text-xs text-[var(--muted-foreground)]">Çalışma menüsü</p>
+                <p className="font-black text-[#0b1220]">KPSS Tarih</p>
+                <p className="text-xs text-[#475569]">Çalışma menüsü</p>
               </div>
             </div>
             {nav}

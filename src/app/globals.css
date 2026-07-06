@@ -3,27 +3,41 @@
 :root {
   --background: #f7f2e8;
   --background-soft: #eee4d2;
-  --foreground: #0b1220;
-  --foreground-soft: #334155;
-  --muted: #64748b;
 
-  --surface: rgba(255, 252, 245, 0.72);
-  --surface-strong: rgba(255, 255, 255, 0.9);
-  --surface-subtle: rgba(255, 255, 255, 0.46);
+  --text-primary: #0b1220;
+  --text-secondary: #263449;
+  --text-tertiary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #fff8ea;
+  --text-inverse-secondary: rgba(255, 248, 234, 0.78);
+  --text-inverse-muted: rgba(255, 248, 234, 0.62);
+
+  --foreground: var(--text-primary);
+  --foreground-soft: var(--text-secondary);
+  --muted: var(--text-muted);
+  --muted-foreground: var(--text-tertiary);
+
+  --surface: rgba(255, 252, 245, 0.86);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --surface-subtle: rgba(255, 255, 255, 0.66);
   --surface-dark: #0b1220;
 
-  --border: rgba(15, 23, 42, 0.1);
-  --border-strong: rgba(15, 23, 42, 0.16);
-  --border-inverse: rgba(255, 255, 255, 0.14);
+  --border: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(15, 23, 42, 0.18);
+  --border-inverse: rgba(255, 255, 255, 0.16);
 
-  --accent-gold: #d9aa52;
-  --accent-gold-soft: rgba(217, 170, 82, 0.18);
-  --accent-sky: #4c8dff;
-  --accent-sky-soft: rgba(76, 141, 255, 0.16);
-  --accent-mint: #6ec4aa;
-  --accent-mint-soft: rgba(110, 196, 170, 0.16);
-  --accent-rose: #d97757;
-  --accent-rose-soft: rgba(217, 119, 87, 0.14);
+  --accent-gold: #c8871e;
+  --accent-gold-readable: #a76400;
+  --accent-gold-soft: rgba(200, 135, 30, 0.18);
+  --accent-sky: #2563eb;
+  --accent-sky-readable: #1d4ed8;
+  --accent-sky-soft: rgba(37, 99, 235, 0.14);
+  --accent-mint: #0f8f72;
+  --accent-mint-readable: #047857;
+  --accent-mint-soft: rgba(15, 143, 114, 0.14);
+  --accent-rose: #c2410c;
+  --accent-rose-readable: #9a3412;
+  --accent-rose-soft: rgba(194, 65, 12, 0.13);
 
   --radius-card: 2rem;
   --radius-panel: 2.75rem;
@@ -32,8 +46,8 @@
   --shadow-sm: 0 12px 34px rgba(15, 23, 42, 0.06);
   --shadow-md: 0 22px 72px rgba(15, 23, 42, 0.10);
   --shadow-lg: 0 42px 140px rgba(15, 23, 42, 0.16);
-  --shadow-glow-gold: 0 18px 70px rgba(217, 170, 82, 0.24);
-  --shadow-glow-sky: 0 18px 70px rgba(76, 141, 255, 0.22);
+  --shadow-glow-gold: 0 18px 70px rgba(200, 135, 30, 0.22);
+  --shadow-glow-sky: 0 18px 70px rgba(37, 99, 235, 0.22);
 
   --glass-blur: blur(28px) saturate(1.25);
 }
@@ -41,21 +55,31 @@
 .dark {
   --background: #050814;
   --background-soft: #0b1220;
-  --foreground: #fff8ea;
-  --foreground-soft: rgba(255, 248, 234, 0.78);
-  --muted: rgba(255, 248, 234, 0.58);
 
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-strong: rgba(255, 255, 255, 0.10);
-  --surface-subtle: rgba(255, 255, 255, 0.04);
+  --text-primary: #fff8ea;
+  --text-secondary: rgba(255, 248, 234, 0.84);
+  --text-tertiary: rgba(255, 248, 234, 0.72);
+  --text-muted: rgba(255, 248, 234, 0.62);
+  --text-inverse: #0b1220;
+  --text-inverse-secondary: #263449;
+  --text-inverse-muted: #475569;
+
+  --foreground: var(--text-primary);
+  --foreground-soft: var(--text-secondary);
+  --muted: var(--text-muted);
+  --muted-foreground: var(--text-tertiary);
+
+  --surface: rgba(255, 255, 255, 0.08);
+  --surface-strong: rgba(255, 255, 255, 0.13);
+  --surface-subtle: rgba(255, 255, 255, 0.065);
   --surface-dark: #050814;
 
-  --border: rgba(255, 255, 255, 0.10);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --border-inverse: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --border-inverse: rgba(255, 255, 255, 0.14);
 
-  --shadow-sm: 0 12px 34px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 22px 72px rgba(0, 0, 0, 0.32);
+  --shadow-sm: 0 12px 34px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 22px 72px rgba(0, 0, 0, 0.34);
   --shadow-lg: 0 42px 140px rgba(0, 0, 0, 0.52);
 }
 
@@ -80,7 +104,7 @@ body {
     radial-gradient(circle at 96% 0%, var(--accent-rose-soft), transparent 32rem),
     radial-gradient(circle at 50% 108%, var(--accent-gold-soft), transparent 36rem),
     linear-gradient(180deg, var(--background) 0%, var(--background-soft) 100%);
-  color: var(--foreground);
+  color: var(--text-primary);
   font-family:
     var(--font-geist-sans),
     Inter,
@@ -99,10 +123,16 @@ body::before {
   z-index: -3;
   pointer-events: none;
   background-image:
-    linear-gradient(color-mix(in srgb, var(--foreground), transparent 95%) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground), transparent 96%) 1px, transparent 1px);
+    linear-gradient(rgba(15, 23, 42, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
   background-size: 76px 76px;
   mask-image: linear-gradient(to bottom, black 0 54%, transparent 94%);
+}
+
+.dark body::before {
+  background-image:
+    linear-gradient(rgba(255, 248, 234, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 248, 234, 0.045) 1px, transparent 1px);
 }
 
 body::after {
@@ -113,13 +143,13 @@ body::after {
   pointer-events: none;
   opacity: 0.52;
   background:
-    linear-gradient(118deg, transparent 0 19%, color-mix(in srgb, var(--accent-gold), transparent 88%) 19.15%, transparent 19.45%),
-    linear-gradient(246deg, transparent 0 73%, color-mix(in srgb, var(--accent-sky), transparent 89%) 73.15%, transparent 73.5%);
+    linear-gradient(118deg, transparent 0 19%, rgba(200, 135, 30, 0.12) 19.15%, transparent 19.45%),
+    linear-gradient(246deg, transparent 0 73%, rgba(37, 99, 235, 0.10) 73.15%, transparent 73.5%);
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent-sky), transparent 72%);
-  color: var(--foreground);
+  background: rgba(37, 99, 235, 0.26);
+  color: var(--text-primary);
 }
 
 a {
@@ -132,6 +162,7 @@ input,
 select,
 textarea {
   font: inherit;
+  color: inherit;
 }
 
 button {
@@ -143,7 +174,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent-sky), transparent 40%);
+  outline: 3px solid rgba(37, 99, 235, 0.58);
   outline-offset: 4px;
 }
 
@@ -159,7 +190,7 @@ textarea:focus-visible {
 }
 
 .kicker {
-  color: var(--accent-sky);
+  color: var(--accent-sky-readable);
   font-size: 0.72rem;
   font-weight: 950;
   letter-spacing: 0.25em;
@@ -167,6 +198,7 @@ textarea:focus-visible {
 }
 
 .editorial-title {
+  color: inherit;
   font-weight: 950;
   letter-spacing: -0.078em;
   line-height: 0.9;
@@ -176,7 +208,7 @@ textarea:focus-visible {
   text-wrap: balance;
 }
 
-/* Premium glass primitives */
+/* Core readable surfaces */
 .glass-panel,
 .premium-card,
 .parchment-surface,
@@ -184,10 +216,21 @@ textarea:focus-visible {
 .soft-card {
   border: 1px solid var(--border);
   background:
-    linear-gradient(145deg, color-mix(in srgb, var(--surface-strong), transparent 10%), color-mix(in srgb, var(--surface), transparent 12%));
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 252, 245, 0.82));
   box-shadow: var(--shadow-md);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text-primary);
+}
+
+.dark .glass-panel,
+.dark .premium-card,
+.dark .parchment-surface,
+.dark .editorial-shell,
+.dark .soft-card {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+  color: var(--text-primary);
 }
 
 .glass-panel {
@@ -204,14 +247,93 @@ textarea:focus-visible {
   border-radius: var(--radius-panel);
 }
 
-.dark-surface {
+.dark-surface,
+.inverse-surface {
   border: 1px solid var(--border-inverse);
   background:
-    radial-gradient(circle at 12% 10%, rgba(76, 141, 255, 0.24), transparent 26rem),
-    radial-gradient(circle at 88% 12%, rgba(217, 170, 82, 0.16), transparent 24rem),
+    radial-gradient(circle at 12% 10%, rgba(37, 99, 235, 0.26), transparent 26rem),
+    radial-gradient(circle at 88% 12%, rgba(200, 135, 30, 0.16), transparent 24rem),
     linear-gradient(145deg, #050814, #0e1728 58%, #111c18);
-  color: #fff8ea;
+  color: var(--text-inverse);
   box-shadow: var(--shadow-lg);
+}
+
+.dark-surface :where(h1, h2, h3, h4, h5, h6, strong, b),
+.inverse-surface :where(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: var(--text-inverse);
+}
+
+.dark-surface :where(p, li, small, dd, dt),
+.inverse-surface :where(p, li, small, dd, dt) {
+  color: var(--text-inverse-secondary);
+}
+
+/* Readability safety for light cards/panels */
+.premium-card :where(h1, h2, h3, h4, h5, h6, strong, b),
+.parchment-surface :where(h1, h2, h3, h4, h5, h6, strong, b),
+.soft-card :where(h1, h2, h3, h4, h5, h6, strong, b),
+.glass-panel :where(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: var(--text-primary);
+}
+
+.premium-card :where(p, li, small, dd, dt),
+.parchment-surface :where(p, li, small, dd, dt),
+.soft-card :where(p, li, small, dd, dt),
+.glass-panel :where(p, li, small, dd, dt) {
+  color: var(--text-secondary);
+}
+
+.premium-card :where(label),
+.parchment-surface :where(label),
+.soft-card :where(label),
+.glass-panel :where(label) {
+  color: var(--text-primary);
+}
+
+/* Tailwind arbitrary bg safety: common light panels must default to dark readable text. */
+[class*="bg-[#fffaf0]"],
+[class*="bg-white"],
+[class*="bg-[var(--surface)]"],
+[class*="bg-[var(--surface-strong)]"],
+[class*="bg-[var(--surface-subtle)]"] {
+  color: var(--text-primary);
+}
+
+[class*="bg-[#fffaf0]"] :where(h1, h2, h3, h4, h5, h6),
+[class*="bg-white"] :where(h1, h2, h3, h4, h5, h6),
+[class*="bg-[var(--surface)]"] :where(h1, h2, h3, h4, h5, h6),
+[class*="bg-[var(--surface-strong)]"] :where(h1, h2, h3, h4, h5, h6),
+[class*="bg-[var(--surface-subtle)]"] :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--text-primary);
+}
+
+[class*="bg-[#fffaf0]"] :where(p, li, small, dd, dt),
+[class*="bg-white"] :where(p, li, small, dd, dt),
+[class*="bg-[var(--surface)]"] :where(p, li, small, dd, dt),
+[class*="bg-[var(--surface-strong)]"] :where(p, li, small, dd, dt),
+[class*="bg-[var(--surface-subtle)]"] :where(p, li, small, dd, dt) {
+  color: var(--text-secondary);
+}
+
+/* Utility text classes for new/refactored components */
+.text-readable {
+  color: var(--text-primary);
+}
+
+.text-readable-secondary {
+  color: var(--text-secondary);
+}
+
+.text-readable-muted {
+  color: var(--text-tertiary);
+}
+
+.text-readable-inverse {
+  color: var(--text-inverse);
+}
+
+.text-readable-inverse-secondary {
+  color: var(--text-inverse-secondary);
 }
 
 /* Premium buttons */
@@ -244,21 +366,21 @@ textarea:focus-visible {
 }
 
 .btn-primary {
-  border: 1px solid color-mix(in srgb, var(--foreground), transparent 84%);
-  background: var(--foreground);
-  color: var(--background) !important;
-  box-shadow: 0 18px 54px color-mix(in srgb, var(--foreground), transparent 86%);
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  background: #0b1220;
+  color: #fff8ea !important;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.14);
 }
 
 .btn-primary:hover {
-  background: var(--accent-sky);
-  border-color: color-mix(in srgb, var(--accent-sky), transparent 28%);
+  background: #2563eb;
+  border-color: rgba(37, 99, 235, 0.72);
   box-shadow: var(--shadow-glow-sky);
 }
 
 .btn-gold {
-  border: 1px solid color-mix(in srgb, var(--accent-gold), transparent 36%);
-  background: linear-gradient(135deg, #ffe8b2 0%, var(--accent-gold) 100%);
+  border: 1px solid rgba(200, 135, 30, 0.64);
+  background: linear-gradient(135deg, #ffe8b2 0%, #d9aa52 100%);
   color: #0b1220 !important;
   box-shadow: var(--shadow-glow-gold);
 }
@@ -268,18 +390,17 @@ textarea:focus-visible {
 }
 
 .btn-ghost {
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-strong), transparent 16%);
-  color: var(--foreground);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.78);
+  color: #0b1220 !important;
   box-shadow: var(--shadow-sm);
 }
 
 .btn-ghost:hover {
-  background: var(--surface-strong);
-  border-color: color-mix(in srgb, var(--accent-sky), transparent 74%);
+  background: #fff;
+  border-color: rgba(37, 99, 235, 0.28);
 }
 
-/* Hover/focus system */
 .premium-hover {
   transition:
     transform 220ms cubic-bezier(.2, .8, .2, 1),
@@ -290,7 +411,7 @@ textarea:focus-visible {
 
 .premium-hover:hover {
   transform: translateY(-5px) scale(1.01);
-  border-color: color-mix(in srgb, var(--accent-sky), transparent 74%);
+  border-color: rgba(37, 99, 235, 0.28);
   box-shadow: var(--shadow-lg);
 }
 
@@ -307,8 +428,8 @@ textarea:focus-visible {
   opacity: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 30% 0%, color-mix(in srgb, var(--accent-sky), transparent 72%), transparent 46%),
-    radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--accent-gold), transparent 72%), transparent 42%);
+    radial-gradient(circle at 30% 0%, rgba(37, 99, 235, 0.18), transparent 46%),
+    radial-gradient(circle at 80% 10%, rgba(200, 135, 30, 0.18), transparent 42%);
   transition: opacity 220ms ease;
 }
 
@@ -320,13 +441,13 @@ textarea:focus-visible {
   height: 0.65rem;
   overflow: hidden;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--foreground), transparent 90%);
+  background: rgba(15, 23, 42, 0.12);
 }
 
 .progress-fill {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent-sky), var(--accent-mint), var(--accent-gold));
+  background: linear-gradient(90deg, #2563eb, #0f8f72, #c8871e);
   transition: width 760ms cubic-bezier(.2, .8, .2, 1);
 }
 
@@ -354,7 +475,7 @@ textarea:focus-visible {
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: color-mix(in srgb, var(--foreground), transparent 91%);
+  background: rgba(15, 23, 42, 0.09);
 }
 
 .skeleton::after {
@@ -362,7 +483,7 @@ textarea:focus-visible {
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface-strong), transparent 20%), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.58), transparent);
   animation: skeleton-shimmer 1.35s infinite;
 }
 
@@ -374,7 +495,7 @@ textarea:focus-visible {
 
 .scrollbar-clean {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--foreground), transparent 84%) transparent;
+  scrollbar-color: rgba(15, 23, 42, 0.22) transparent;
 }
 
 .scrollbar-clean::-webkit-scrollbar {
@@ -384,7 +505,7 @@ textarea:focus-visible {
 
 .scrollbar-clean::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: color-mix(in srgb, var(--foreground), transparent 84%);
+  background: rgba(15, 23, 42, 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {
