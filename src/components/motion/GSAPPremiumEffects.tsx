@@ -2,14 +2,6 @@
 
 import { useEffect } from "react";
 
-/**
- * Lightweight GSAP layer.
- * Elements can opt-in with:
- * - data-premium-reveal
- * - data-premium-parallax
- *
- * If GSAP is unavailable for any reason, the app continues normally.
- */
 export function GSAPPremiumEffects() {
   useEffect(() => {
     let cleanup = () => {};
@@ -26,15 +18,12 @@ export function GSAPPremiumEffects() {
 
         const revealElements = gsap.utils.toArray<HTMLElement>("[data-premium-reveal]");
         const parallaxElements = gsap.utils.toArray<HTMLElement>("[data-premium-parallax]");
+        const progressElements = gsap.utils.toArray<HTMLElement>("[data-premium-progress]");
 
         revealElements.forEach((element) => {
           gsap.fromTo(
             element,
-            {
-              autoAlpha: 0,
-              y: 28,
-              filter: "blur(10px)"
-            },
+            { autoAlpha: 0, y: 30, filter: "blur(12px)" },
             {
               autoAlpha: 1,
               y: 0,
@@ -43,7 +32,7 @@ export function GSAPPremiumEffects() {
               ease: "power3.out",
               scrollTrigger: {
                 trigger: element,
-                start: "top 86%"
+                start: "top 88%"
               }
             }
           );
@@ -51,7 +40,7 @@ export function GSAPPremiumEffects() {
 
         parallaxElements.forEach((element) => {
           gsap.to(element, {
-            yPercent: -8,
+            yPercent: -7,
             ease: "none",
             scrollTrigger: {
               trigger: element,
@@ -60,6 +49,23 @@ export function GSAPPremiumEffects() {
               scrub: true
             }
           });
+        });
+
+        progressElements.forEach((element) => {
+          const target = element.getAttribute("data-premium-progress") ?? "0";
+          gsap.fromTo(
+            element,
+            { width: "0%" },
+            {
+              width: `${target}%`,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: element,
+                start: "top 92%"
+              }
+            }
+          );
         });
 
         cleanup = () => {
