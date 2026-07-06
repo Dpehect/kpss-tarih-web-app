@@ -29,13 +29,7 @@ const sizes: Record<Size, string> = {
   lg: "min-h-14 px-7 py-4 text-base"
 };
 
-export function Button({
-  variant = "primary",
-  size = "md",
-  className,
-  children,
-  ...props
-}: ButtonProps) {
+export function Button({ variant = "primary", size = "md", className, children, ...props }: ButtonProps) {
   const isDark = variant === "primary";
 
   return (
@@ -44,7 +38,7 @@ export function Button({
       whileHover={{ y: -2, scale: 1.012 }}
       whileTap={{ scale: 0.985 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(36,63,115,.35)]", variants[variant], sizes[size], className)}
+      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(0,166,180,.34)]", variants[variant], sizes[size], className)}
       {...props}
     >
       {children}
@@ -52,13 +46,7 @@ export function Button({
   );
 }
 
-export function ButtonLink({
-  variant = "primary",
-  size = "md",
-  className,
-  children,
-  ...props
-}: ButtonLinkProps) {
+export function ButtonLink({ variant = "primary", size = "md", className, children, ...props }: ButtonLinkProps) {
   const isDark = variant === "primary";
 
   return (
@@ -67,7 +55,7 @@ export function ButtonLink({
       whileHover={{ y: -2, scale: 1.012 }}
       whileTap={{ scale: 0.985 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(36,63,115,.35)]", variants[variant], sizes[size], className)}
+      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(0,166,180,.34)]", variants[variant], sizes[size], className)}
       {...props}
     >
       {children}

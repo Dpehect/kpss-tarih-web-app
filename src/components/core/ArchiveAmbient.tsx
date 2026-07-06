@@ -1,1 +1,1 @@
-export { AtlasAmbient as ArchiveAmbient } from "@/components/core/AtlasAmbient";
+export { ChronoLabAmbient as ArchiveAmbient } from "@/components/core/ChronoLabAmbient";

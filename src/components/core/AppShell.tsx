@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import { AtlasAmbient } from "@/components/core/AtlasAmbient";
+import { ChronoLabAmbient } from "@/components/core/ChronoLabAmbient";
 import { MobileBottomNav } from "@/components/core/MobileBottomNav";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { Sidebar } from "@/components/core/Sidebar";
@@ -15,7 +15,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (pathname === "/") {
     return (
       <>
-        <AtlasAmbient />
+        <ChronoLabAmbient />
         <PageTransition>{children}</PageTransition>
       </>
     );
@@ -23,13 +23,13 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen pb-24 lg:pb-0">
-      <AtlasAmbient />
+      <ChronoLabAmbient />
       <SkipToContent />
       <TopNav />
-      <main id="main-content" className="content-shell grid gap-6 py-6 lg:grid-cols-[286px_minmax(0,1fr)]" tabIndex={-1}>
+      <main id="main-content" className="content-shell grid gap-5 py-5 lg:grid-cols-[92px_minmax(0,1fr)] xl:grid-cols-[118px_minmax(0,1fr)]" tabIndex={-1}>
         <Sidebar />
-        <section className="atlas-frame min-w-0 rounded-[2rem] p-2 md:p-4 xl:rounded-[2.6rem]">
-          <div className="min-h-[calc(100vh-7.25rem)] rounded-[1.55rem] border border-[rgba(7,11,22,.06)] bg-[rgba(255,255,255,.26)] p-4 md:p-7 xl:rounded-[2.2rem]">
+        <section className="lab-frame min-w-0 rounded-[2rem] p-2 md:p-3 xl:rounded-[2.65rem]">
+          <div className="min-h-[calc(100vh-6.6rem)] rounded-[1.55rem] border border-[rgba(16,16,16,.06)] bg-[rgba(255,255,255,.20)] p-4 md:p-7 xl:rounded-[2.25rem]">
             <PageTransition>{children}</PageTransition>
           </div>
         </section>
