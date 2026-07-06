@@ -43,25 +43,25 @@ export function NotesPage() {
       />
 
       <section className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
-        <form onSubmit={submit} className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-6 shadow-[var(--shadow-sm)] backdrop-blur-2xl">
+        <form onSubmit={submit} className="rounded-xl border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-6 shadow-[var(--shadow-sm)] backdrop-blur-2xl">
           <p className="kicker">Yeni not</p>
 
           <label className="mt-5 block">
-            <span className="text-sm font-black text-[var(--navy-900)]">Başlık</span>
+            <span className="text-sm font-semibold text-[var(--ink)]">Başlık</span>
             <input
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--navy-900)] outline-none"
+              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--ink)] outline-none"
               placeholder="Örn. Islahat Fermanı"
             />
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-black text-[var(--navy-900)]">Konu</span>
+            <span className="text-sm font-semibold text-[var(--ink)]">Konu</span>
             <select
               value={topicId}
               onChange={(event) => setTopicId(event.target.value)}
-              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--navy-900)] outline-none"
+              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--ink)] outline-none"
             >
               <option value="">Konu seçilmedi</option>
               {topics.map((topic) => (
@@ -71,12 +71,12 @@ export function NotesPage() {
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-black text-[var(--navy-900)]">Not</span>
+            <span className="text-sm font-semibold text-[var(--ink)]">Not</span>
             <textarea
               value={body}
               onChange={(event) => setBody(event.target.value)}
               rows={7}
-              className="mt-2 w-full resize-none rounded-[1.15rem] border border-[var(--border-soft)] bg-white p-4 font-semibold leading-7 text-[var(--navy-900)] outline-none"
+              className="mt-2 w-full resize-none rounded-[1.15rem] border border-[var(--border-soft)] bg-white p-4 font-semibold leading-7 text-[var(--ink)] outline-none"
               placeholder="Kendi cümlelerinle kısa not yaz..."
             />
           </label>
@@ -98,10 +98,10 @@ export function NotesPage() {
                 <Card key={note.id}>
                   <div className="flex items-start justify-between gap-5">
                     <div>
-                      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{topic?.title ?? "Genel Not"}</p>
-                      <h2 className="mt-2 text-2xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{note.title}</h2>
-                      <p className="mt-3 whitespace-pre-wrap text-sm font-semibold leading-7 text-[var(--text-secondary)]">{note.body}</p>
-                      <p className="mt-4 text-xs font-bold text-[var(--text-muted)]">{new Date(note.createdAt).toLocaleDateString("tr-TR")}</p>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#8d6500]">{topic?.title ?? "Genel Not"}</p>
+                      <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--ink)]">{note.title}</h2>
+                      <p className="mt-3 whitespace-pre-wrap text-sm font-semibold leading-7 text-[var(--graphite)]">{note.body}</p>
+                      <p className="mt-4 text-xs font-bold text-[var(--slate)]">{new Date(note.createdAt).toLocaleDateString("tr-TR")}</p>
                     </div>
                     <button
                       type="button"

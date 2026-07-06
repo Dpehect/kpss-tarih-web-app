@@ -60,22 +60,22 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
 
   return (
     <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-      <div className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-6 text-[var(--navy-900)] shadow-[var(--shadow-sm)]">
+      <div className="rounded-xl border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-6 text-[var(--ink)] shadow-[var(--shadow-sm)]">
         <div className="flex flex-col gap-4 border-b border-[var(--border-soft)] pb-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8d6500]">{topicTitle}</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.06em] text-[var(--navy-900)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#8d6500]">{topicTitle}</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--ink)]">
               Soru {currentIndex + 1} / {questions.length}
             </h2>
           </div>
-          <span className="w-fit rounded-full bg-[var(--navy-900)] px-4 py-2 text-sm font-black text-[var(--text-inverse)]">
+          <span className="w-fit rounded-full bg-[var(--ink)] px-4 py-2 text-sm font-semibold text-[white]">
             Oturum: {correctCount}/{answeredCount || 0}
           </span>
         </div>
 
         <div className="mt-5 h-2 overflow-hidden rounded-full bg-[rgba(11,18,32,.10)]">
           <motion.div
-            className="h-full rounded-full bg-[var(--navy-900)]"
+            className="h-full rounded-full bg-[var(--ink)]"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5 }}
@@ -90,7 +90,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
             exit={{ opacity: 0, x: -28, filter: "blur(8px)" }}
             transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="mt-8 max-w-4xl text-3xl font-black leading-tight tracking-[-0.055em] text-[var(--navy-900)] md:text-4xl">
+            <h1 className="mt-8 max-w-4xl text-3xl font-semibold leading-tight tracking-tight text-[var(--ink)] md:text-4xl">
               {current.stem}
             </h1>
 
@@ -98,7 +98,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
               <button
                 type="button"
                 onClick={() => setShowHint((value) => !value)}
-                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[rgba(76,141,255,.24)] bg-[rgba(76,141,255,.10)] px-4 py-2 text-sm font-black text-[var(--sky-600)]"
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[rgba(76,141,255,.24)] bg-[rgba(76,141,255,.10)] px-4 py-2 text-sm font-semibold text-[var(--navy)]"
               >
                 <Lightbulb size={16} />
                 {showHint ? "İpucunu gizle" : "İpucu göster"}
@@ -108,7 +108,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 rounded-[1.25rem] border border-[rgba(76,141,255,.24)] bg-[rgba(76,141,255,.10)] p-4 text-sm font-semibold leading-7 text-[var(--sky-600)]"
+                  className="mt-4 rounded-lg border border-[rgba(76,141,255,.24)] bg-[rgba(76,141,255,.10)] p-4 text-sm font-semibold leading-7 text-[var(--navy)]"
                 >
                   {subtleHint}
                 </motion.div>
@@ -127,7 +127,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
                     onClick={() => answer(choice.id)}
                     whileHover={{ y: selected ? 0 : -2 }}
                     whileTap={{ scale: selected ? 1 : 0.99 }}
-                    className={`group flex items-start gap-4 rounded-[1.35rem] border p-4 text-left transition ${
+                    className={`group flex items-start gap-4 rounded-xl border p-4 text-left transition ${
                       isCorrectChoice
                         ? "border-[#047857]/30 bg-[#dff8ef]"
                         : isWrongChoice
@@ -135,16 +135,16 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
                           : "border-[var(--border-soft)] bg-white/84 hover:bg-white"
                     }`}
                   >
-                    <span className={`grid size-10 shrink-0 place-items-center rounded-full text-sm font-black ${
+                    <span className={`grid size-10 shrink-0 place-items-center rounded-full text-sm font-semibold ${
                       isCorrectChoice
                         ? "bg-[#047857] text-white"
                         : isWrongChoice
                           ? "bg-[#9a3412] text-white"
-                          : "bg-[var(--navy-900)] text-[var(--text-inverse)]"
+                          : "bg-[var(--ink)] text-[white]"
                     }`}>
                       {choice.id}
                     </span>
-                    <span className="pt-2 font-semibold leading-7 text-[var(--navy-900)]">{choice.text}</span>
+                    <span className="pt-2 font-semibold leading-7 text-[var(--ink)]">{choice.text}</span>
                   </motion.button>
                 );
               })}
@@ -154,15 +154,15 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
               <motion.div
                 initial={{ opacity: 0, y: 12, scale: 0.985 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                className={`mt-6 rounded-[1.5rem] border p-5 ${
+                className={`mt-6 rounded-xl border p-5 ${
                   selectedChoiceIsCorrect ? "border-[#047857]/25 bg-[#dff8ef]" : "border-[#9a3412]/25 bg-[#fff0e9]"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   {selectedChoiceIsCorrect ? <CheckCircle2 size={20} className="text-[#047857]" /> : <XCircle size={20} className="text-[#9a3412]" />}
-                  <p className="font-black text-[var(--navy-900)]">{selectedChoiceIsCorrect ? "Doğru cevap" : "Yanlış cevap"}</p>
+                  <p className="font-semibold text-[var(--ink)]">{selectedChoiceIsCorrect ? "Doğru cevap" : "Yanlış cevap"}</p>
                 </div>
-                <p className="mt-3 leading-7 text-[var(--text-secondary)]">{current.explanation}</p>
+                <p className="mt-3 leading-7 text-[var(--graphite)]">{current.explanation}</p>
               </motion.div>
             ) : null}
           </motion.div>
@@ -181,8 +181,8 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
       </div>
 
       <aside className="space-y-4">
-        <div className="rounded-[2rem] border border-white/12 bg-[var(--navy-900)] p-6 text-[var(--text-inverse)] shadow-[var(--shadow-lg)]">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--gold-500)]">Oturum Özeti</p>
+        <div className="rounded-xl border border-white/12 bg-[var(--ink)] p-6 text-[white] shadow-[var(--shadow-lg)]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--sage)]">Oturum Özeti</p>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <MiniStat label="Cevaplanan" value={answeredCount} />
             <MiniStat label="Doğru" value={correctCount} />
@@ -192,8 +192,8 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
           </p>
         </div>
 
-        <div className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 text-[var(--navy-900)]">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--text-muted)]">Soru Haritası</p>
+        <div className="rounded-xl border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 text-[var(--ink)]">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--slate)]">Soru Haritası</p>
           <div className="mt-4 grid grid-cols-6 gap-2">
             {questionNumbers.map((item) => {
               const isCurrent = item.index === currentIndex;
@@ -205,14 +205,14 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
                   key={item.id}
                   type="button"
                   onClick={() => goTo(item.index)}
-                  className={`grid size-10 place-items-center rounded-full text-sm font-black transition ${
+                  className={`grid size-10 place-items-center rounded-full text-sm font-semibold transition ${
                     isCurrent
-                      ? "bg-[var(--navy-900)] text-[var(--text-inverse)]"
+                      ? "bg-[var(--ink)] text-[white]"
                       : isCorrect
                         ? "bg-[#dff8ef] text-[#047857]"
                         : isWrong
                           ? "bg-[#fff0e9] text-[#9a3412]"
-                          : "bg-white text-[var(--navy-900)]"
+                          : "bg-white text-[var(--ink)]"
                   }`}
                 >
                   {item.index + 1}
@@ -228,9 +228,9 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
 
 function MiniStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-[1.25rem] border border-white/14 bg-white/[0.10] p-4 text-[var(--text-inverse)]">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[rgba(255,248,234,.74)]">{label}</p>
-      <p className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--text-inverse)]">{value}</p>
+    <div className="rounded-lg border border-white/14 bg-white/[0.10] p-4 text-[white]">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[rgba(255,248,234,.74)]">{label}</p>
+      <p className="mt-2 text-3xl font-semibold tracking-tight text-[white]">{value}</p>
     </div>
   );
 }

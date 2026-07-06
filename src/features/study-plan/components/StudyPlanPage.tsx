@@ -28,21 +28,21 @@ export function StudyPlanPage() {
       <section className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
         <Card>
           <p className="kicker">Önerilen Akış</p>
-          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Bugün ne çalışayım?</h2>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)]">Bugün ne çalışayım?</h2>
           <div className="mt-7 space-y-3">
             {recommendations.map((item, index) => (
               <a
                 key={item.id}
                 href={item.href}
-                className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
+                className="group flex items-center justify-between gap-4 rounded-xl border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
               >
                 <span className="flex min-w-0 items-center gap-4">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--navy-900)] text-sm font-black text-[var(--text-inverse)]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--ink)] text-sm font-semibold text-[white]">
                     {index + 1}
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate font-black text-[var(--navy-900)]">{item.title}</span>
-                    <span className="block text-sm text-[var(--text-secondary)]">{item.minutes} dk · Öncelik: {item.priority}</span>
+                    <span className="block truncate font-semibold text-[var(--ink)]">{item.title}</span>
+                    <span className="block text-sm text-[var(--graphite)]">{item.minutes} dk · Öncelik: {item.priority}</span>
                   </span>
                 </span>
                 <ArrowRight size={18} className="transition group-hover:translate-x-1" />
@@ -53,17 +53,17 @@ export function StudyPlanPage() {
 
         <Card>
           <p className="kicker">Kalan Konular</p>
-          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Sıradaki konu sırası</h2>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)]">Sıradaki konu sırası</h2>
           <div className="mt-7 grid gap-3">
             {remainingTopics.map((topic) => (
               <a
                 key={topic.id}
                 href={`/topics/${topic.slug}`}
-                className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
+                className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
               >
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{topic.era}</p>
-                <h3 className="mt-2 text-xl font-black tracking-[-0.04em] text-[var(--navy-900)]">{topic.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{topic.shortDescription}</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#8d6500]">{topic.era}</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--ink)]">{topic.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">{topic.shortDescription}</p>
               </a>
             ))}
           </div>
@@ -75,13 +75,13 @@ export function StudyPlanPage() {
 
 function PlanMetric({ icon, label, value, helper }: { icon: React.ReactNode; label: string; value: string; helper: string }) {
   return (
-    <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/74 p-5 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
+    <div className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-5 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--text-muted)]">{label}</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-[var(--slate)]">{label}</p>
         <span className="grid size-10 place-items-center rounded-2xl bg-[var(--gold-soft)] text-[#8d6500]">{icon}</span>
       </div>
-      <p className="mt-4 text-4xl font-black tracking-[-0.08em] text-[var(--navy-900)]">{value}</p>
-      <p className="mt-2 text-sm font-semibold text-[var(--text-secondary)]">{helper}</p>
+      <p className="mt-4 text-4xl font-semibold tracking-tight text-[var(--ink)]">{value}</p>
+      <p className="mt-2 text-sm font-semibold text-[var(--graphite)]">{helper}</p>
     </div>
   );
 }

@@ -9,9 +9,9 @@ export function WeeklyTrend({ attempts }: { attempts: QuestionAttempt[] }) {
   const max = Math.max(...days.map((d) => d.value), 1);
 
   return (
-    <section className="rounded-[2rem] parchment-surface p-6">
+    <section className="rounded-xl parchment-surface p-6">
       <p className="text-xs font-bold uppercase tracking-[0.26em] text-[#f6c465]">Haftalık Trend</p>
-      <h2 className="mt-3 text-3xl font-black tracking-[-0.06em]">Çözülen soru ritmi</h2>
+      <h2 className="mt-3 text-3xl font-semibold tracking-tight">Çözülen soru ritmi</h2>
       <div className="mt-8 flex h-64 items-end gap-3">
         {days.map((day) => (
           <div key={day.day} className="flex flex-1 flex-col items-center gap-3">

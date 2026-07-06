@@ -13,7 +13,7 @@ export function ToastAction({
   return (
     <button
       className={cn(
-        "rounded-full bg-[var(--navy-900)] px-3 py-1.5 text-xs font-black text-[var(--text-inverse)] transition hover:scale-105",
+        "rounded-full bg-[var(--ink)] px-3 py-1.5 text-xs font-semibold text-[white] transition hover:scale-105",
         className
       )}
       {...props}

@@ -30,16 +30,16 @@ export function ProfilePage() {
       <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
           <div className="flex items-center gap-4">
-            <span className="grid size-16 place-items-center rounded-[1.5rem] bg-[var(--navy-900)] text-2xl font-black text-[var(--text-inverse)]">
+            <span className="grid size-16 place-items-center rounded-xl bg-[var(--ink)] text-2xl font-semibold text-[white]">
               <User size={28} />
             </span>
             <div>
               <p className="kicker">KPSS Tarih Akademi</p>
-              <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--navy-900)]">Çalışma hesabı</h2>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">Çalışma hesabı</h2>
             </div>
           </div>
 
-          <p className="mt-6 rounded-[1.5rem] border border-[var(--border-soft)] bg-white/72 p-4 text-sm font-semibold leading-7 text-[var(--text-secondary)]">
+          <p className="mt-6 rounded-xl border border-[var(--border-soft)] bg-white/72 p-4 text-sm font-semibold leading-7 text-[var(--graphite)]">
             Google ile giriş yaptıysan ilerleme Supabase tarafında senkronize edilir. Giriş yapmadan da localStorage üzerinden çalışmaya devam edebilirsin.
           </p>
 
@@ -51,7 +51,7 @@ export function ProfilePage() {
 
         <Card>
           <p className="kicker">Özet</p>
-          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">İstatistikler</h2>
+          <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)]">İstatistikler</h2>
 
           <div className="mt-7 grid gap-3 md:grid-cols-2">
             <ProfileMetric label="Konu" value={`${completedTopicIds.length}/${topics.length}`} />
@@ -69,9 +69,9 @@ export function ProfilePage() {
 
 function ProfileMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white/74 p-4">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">{label}</p>
-      <p className="mt-2 text-3xl font-black tracking-[-0.07em] text-[var(--navy-900)]">{value}</p>
+    <div className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--slate)]">{label}</p>
+      <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">{value}</p>
     </div>
   );
 }

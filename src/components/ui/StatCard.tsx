@@ -40,7 +40,7 @@ export function StatCard({
       whileHover={{ y: -5, scale: 1.02 }}
       transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "relative overflow-hidden rounded-[2rem] border border-[var(--border-soft)] bg-gradient-to-br to-white/80 p-6 text-[var(--navy-900)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
+        "relative overflow-hidden rounded-[2rem] border border-[var(--border-soft)] bg-gradient-to-br to-white/80 p-6 text-[var(--ink)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
         toneClasses[tone],
         className
       )}
@@ -49,13 +49,13 @@ export function StatCard({
       <div className={cn("grid size-12 place-items-center rounded-2xl", iconClasses[tone])}>
         {icon}
       </div>
-      <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[var(--text-muted)]">
+      <p className="mt-7 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--slate)]">
         {label}
       </p>
-      <p className="mt-3 text-4xl font-black tracking-[-0.08em] text-[var(--navy-900)] md:text-5xl">
+      <p className="mt-3 text-4xl font-semibold tracking-[-0.08em] text-[var(--ink)] md:text-5xl">
         {value}
       </p>
-      <p className="mt-3 text-sm font-medium leading-6 text-[var(--text-secondary)]">{helper}</p>
+      <p className="mt-3 text-sm font-medium leading-6 text-[var(--graphite)]">{helper}</p>
     </motion.article>
   );
 }

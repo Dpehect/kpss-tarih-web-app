@@ -18,7 +18,7 @@ export function ProgressRings({ rings }: { rings: Ring[] }) {
         const offset = circumference * (1 - safeValue / 100);
 
         return (
-          <article key={ring.label} className="rounded-[2rem] parchment-surface p-6">
+          <article key={ring.label} className="rounded-xl parchment-surface p-6">
             <div className="flex items-center gap-5">
               <svg width="140" height="140" viewBox="0 0 140 140" aria-label={`${ring.label} ilerleme ${safeValue}%`}>
                 <circle cx="70" cy="70" r={radius} fill="none" stroke="rgba(255,248,232,0.1)" strokeWidth="12" />
@@ -36,8 +36,8 @@ export function ProgressRings({ rings }: { rings: Ring[] }) {
                 />
               </svg>
               <div>
-                <p className="text-sm uppercase tracking-[0.22em] text-[#ead7b7]/48">{ring.label}</p>
-                <p className="mt-2 text-4xl font-black tracking-[-0.08em]">{safeValue}%</p>
+                <p className="text-sm uppercase tracking-wider text-[#ead7b7]/48">{ring.label}</p>
+                <p className="mt-2 text-4xl font-semibold tracking-tight">{safeValue}%</p>
                 <p className="mt-2 text-sm text-[#ead7b7]/62">Güncel ilerleme</p>
               </div>
             </div>

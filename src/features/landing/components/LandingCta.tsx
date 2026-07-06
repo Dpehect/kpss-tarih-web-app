@@ -14,7 +14,7 @@ export function LandingCta() {
           <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f6c465]">
             Final sürüm
           </p>
-          <h2 className="mt-5 text-balance text-4xl font-black leading-[0.96] tracking-[-0.07em] text-[#fff8e8] md:text-6xl">
+          <h2 className="mt-5 text-balance text-4xl font-semibold leading-[0.96] tracking-tight text-[#fff8e8] md:text-6xl">
             KPSS Tarih için tek başına yeterli çalışma platformu.
           </h2>
           <p className="mt-6 text-lg leading-8 text-[#ead7b7]/72">

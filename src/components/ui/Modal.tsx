@@ -36,17 +36,17 @@ export function Modal({
             exit={{ opacity: 0, y: 16, scale: 0.97, filter: "blur(10px)" }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             onClick={(event) => event.stopPropagation()}
-            className="w-full max-w-xl rounded-[2rem] border border-[var(--border-soft)] bg-[var(--bg)] p-6 text-[var(--navy-900)] shadow-[var(--shadow-lg)]"
+            className="w-full max-w-xl rounded-[2rem] border border-[var(--border-soft)] bg-[var(--bg)] p-6 text-[var(--ink)] shadow-[var(--shadow-lg)]"
           >
             <div className="flex items-start justify-between gap-5">
               <div>
-                <h2 className="text-3xl font-black tracking-[-0.06em] text-[var(--navy-900)]">{title}</h2>
-                {description ? <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{description}</p> : null}
+                <h2 className="text-3xl font-semibold tracking-[-0.06em] text-[var(--ink)]">{title}</h2>
+                {description ? <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">{description}</p> : null}
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="grid size-10 shrink-0 place-items-center rounded-full border border-[var(--border-soft)] bg-white text-[var(--navy-900)]"
+                className="grid size-10 shrink-0 place-items-center rounded-full border border-[var(--border-soft)] bg-white text-[var(--ink)]"
                 aria-label="Kapat"
               >
                 <X size={18} />

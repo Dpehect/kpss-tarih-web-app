@@ -25,7 +25,7 @@ export function MarkTopicCompleteButton({ topicId }: { topicId: string }) {
     <button
       type="button"
       onClick={completeTopic}
-      className="inline-flex rounded-full bg-[#f2c15f] px-5 py-3 font-black text-[#120b07] transition hover:-translate-y-1"
+      className="inline-flex rounded-full bg-[#f2c15f] px-5 py-3 font-semibold text-[#120b07] transition hover:-translate-y-1"
     >
       {isCompleted ? "Tamamlandı" : "Konuyu tamamla"}
     </button>

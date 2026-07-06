@@ -19,8 +19,8 @@ export function TimeRibbon() {
             key={`${item.id}-${index}`}
             className="min-w-64 rounded-[1.7rem] border border-white/10 bg-[#120b07]/62 p-5 shadow-xl backdrop-blur-xl"
           >
-            <p className="text-4xl font-black tracking-[-0.06em] text-[#f6c465]">{item.date}</p>
-            <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#ead7b7]/64">{item.label}</p>
+            <p className="text-4xl font-semibold tracking-tight text-[#f6c465]">{item.date}</p>
+            <p className="mt-2 text-sm uppercase tracking-wider text-[#ead7b7]/64">{item.label}</p>
           </div>
         ))}
       </div>

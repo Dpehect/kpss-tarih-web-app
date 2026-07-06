@@ -23,7 +23,7 @@ export function LandingHero() {
 
           <h1
             data-hero-copy
-            className="mt-7 max-w-4xl text-balance text-5xl font-black leading-[0.92] tracking-[-0.08em] text-[#fff8e8] md:text-7xl xl:text-8xl"
+            className="mt-7 max-w-4xl text-balance text-5xl font-semibold leading-[0.92] tracking-tight text-[#fff8e8] md:text-7xl xl:text-8xl"
           >
             Tarihi ezberleme.
             <span className="block bg-gradient-to-r from-[#f8d88b] via-[#ff8b3d] to-[#52f2d0] bg-clip-text text-transparent">
@@ -57,7 +57,7 @@ export function LandingHero() {
 
         <div data-hero-orb className="relative min-h-[32rem] lg:min-h-[44rem]">
           <HeroSceneClient />
-          <div className="pointer-events-none absolute inset-x-8 bottom-10 rounded-[2rem] border border-white/10 bg-[#120b07]/55 p-5 text-sm leading-6 text-[#f2dfbf]/72 shadow-2xl backdrop-blur-2xl">
+          <div className="pointer-events-none absolute inset-x-8 bottom-10 rounded-xl border border-white/10 bg-[#120b07]/55 p-5 text-sm leading-6 text-[#f2dfbf]/72 shadow-2xl backdrop-blur-2xl">
             <strong className="text-[#f7c76a]">Hero sahnesi:</strong> Dönen tarih halkası, parşömen partikülleri ve eski harita atmosferi. Mobilde düşük yoğunluklu çalışacak şekilde tasarlandı.
           </div>
         </div>

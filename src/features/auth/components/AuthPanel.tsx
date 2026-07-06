@@ -83,7 +83,7 @@ export function AuthPanel() {
 
   if (isLoading) {
     return (
-      <section className="rounded-[2rem] parchment-surface p-6">
+      <section className="rounded-xl parchment-surface p-6">
         <p className="text-[var(--muted-foreground)]">Oturum kontrol ediliyor...</p>
       </section>
     );
@@ -91,11 +91,11 @@ export function AuthPanel() {
 
   if (!supabase) {
     return (
-      <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+      <section className="rounded-xl parchment-surface p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent-sky)]">
           Kurulum gerekli
         </p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)]">
           Supabase environment variables eksik.
         </h2>
         <p className="mt-3 text-[var(--muted-foreground)]">
@@ -107,11 +107,11 @@ export function AuthPanel() {
 
   if (user) {
     return (
-      <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+      <section className="rounded-xl parchment-surface p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent-sky)]">
           Aktif oturum
         </p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)]">
           {user.user_metadata?.full_name ?? user.email}
         </h2>
         <p className="mt-3 text-[var(--muted-foreground)]">
@@ -127,11 +127,11 @@ export function AuthPanel() {
   }
 
   return (
-    <section className="rounded-[2rem] parchment-surface p-6">
-      <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+    <section className="rounded-xl parchment-surface p-6">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent-sky)]">
         Google hesabı
       </p>
-      <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
+      <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)]">
         Giriş yapınca tüm istatistiklerin online kaydedilir.
       </h2>
       <p className="mt-3 text-[var(--muted-foreground)]">

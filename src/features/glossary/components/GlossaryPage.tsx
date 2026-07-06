@@ -28,14 +28,14 @@ export function GlossaryPage() {
         description="Kavramları konu bağlamıyla birlikte arayabilir, test öncesi kısa tekrar yapabilirsin."
       />
 
-      <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/78 p-3 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
-        <label className="flex min-h-14 items-center gap-3 rounded-[1.55rem] bg-[rgba(11,18,32,.045)] px-4">
-          <Search size={18} className="text-[var(--text-secondary)]" />
+      <div className="rounded-xl border border-[var(--border-soft)] bg-white/78 p-3 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
+        <label className="flex min-h-14 items-center gap-3 rounded-xl bg-[rgba(11,18,32,.045)] px-4">
+          <Search size={18} className="text-[var(--graphite)]" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Kavram, açıklama veya konu ara"
-            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--navy-900)] outline-none placeholder:text-[var(--text-muted)]"
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--ink)] outline-none placeholder:text-[var(--slate)]"
           />
         </label>
       </div>
@@ -51,9 +51,9 @@ export function GlossaryPage() {
                   <BookMarked size={19} />
                 </span>
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{topic?.title ?? "Genel"}</p>
-                  <h2 className="mt-2 text-2xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{item.term}</h2>
-                  <p className="mt-3 text-sm font-semibold leading-7 text-[var(--text-secondary)]">{item.definition}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#8d6500]">{topic?.title ?? "Genel"}</p>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--ink)]">{item.term}</h2>
+                  <p className="mt-3 text-sm font-semibold leading-7 text-[var(--graphite)]">{item.definition}</p>
                 </div>
               </div>
             </Card>

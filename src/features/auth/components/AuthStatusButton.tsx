@@ -58,14 +58,14 @@ export function AuthStatusButton() {
     <div className="hidden items-center gap-2 sm:flex">
       <a
         href="/profile"
-        className="max-w-[180px] truncate rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-black text-[var(--foreground)]"
+        className="max-w-[180px] truncate rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--foreground)]"
       >
         {user.user_metadata?.full_name ?? user.email}
       </a>
       <button
         type="button"
         onClick={signOut}
-        className="rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-black text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)]"
+        className="rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)]"
       >
         Çıkış
       </button>

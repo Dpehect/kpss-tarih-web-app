@@ -66,14 +66,14 @@ export function SearchPage() {
     <div className="space-y-6">
       <PageHeader eyebrow="Arama dosyası" title="Bilgiyi tek taramada bul." description="Konu, kavram, soru ve flashcard içerikleri arasında hızlı arama yap." />
 
-      <div className="bureau-surface rounded-[1.75rem] p-3">
+      <div className="bureau-surface rounded-xl p-3">
         <label className="flex min-h-14 items-center gap-3 rounded-[1.3rem] bg-[rgba(14,17,23,.045)] px-4">
-          <Search size={18} className="text-[var(--bureau-copy)]" />
+          <Search size={18} className="text-[var(--graphite)]" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Örn. Malazgirt, Ahilik, Tanzimat, Lozan..."
-            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--bureau-ink)] outline-none placeholder:text-[var(--bureau-muted)]"
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--ink)] outline-none placeholder:text-[var(--slate)]"
             autoFocus
           />
         </label>
@@ -85,15 +85,15 @@ export function SearchPage() {
             results.map((result) => <ResultCard key={result.id} result={result} />)
           ) : (
             <Card>
-              <p className="text-xl font-black text-[var(--bureau-ink)]">Sonuç bulunamadı.</p>
-              <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
+              <p className="text-xl font-semibold text-[var(--ink)]">Sonuç bulunamadı.</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
             </Card>
           )}
         </section>
       ) : (
         <Card>
-          <p className="text-xl font-black text-[var(--bureau-ink)]">Aramaya başla.</p>
-          <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
+          <p className="text-xl font-semibold text-[var(--ink)]">Aramaya başla.</p>
+          <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
         </Card>
       )}
     </div>
@@ -109,13 +109,13 @@ function ResultCard({ result }: { result: SearchResult }) {
   }[result.type];
 
   return (
-    <a href={result.href} className="group bureau-card block rounded-[1.65rem] p-5">
+    <a href={result.href} className="group bureau-card block rounded-xl p-5">
       <div className="flex gap-4">
-        <span className="grid size-11 shrink-0 place-items-center rounded-[1rem] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)]">{icon}</span>
+        <span className="grid size-11 shrink-0 place-items-center rounded-[1rem] bg-[var(--ink)] text-white">{icon}</span>
         <span className="min-w-0">
-          <span className="text-xs font-black uppercase tracking-[0.22em] text-[var(--bureau-teal)]">{result.type}</span>
-          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--bureau-ink)]">{result.title}</span>
-          <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--bureau-copy)]">{result.description}</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-[var(--sage)]">{result.type}</span>
+          <span className="mt-2 block text-xl font-semibold tracking-tight text-[var(--ink)]">{result.title}</span>
+          <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--graphite)]">{result.description}</span>
         </span>
       </div>
     </a>

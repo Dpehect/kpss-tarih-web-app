@@ -107,9 +107,9 @@ export function AdminContentManager({
 
   return (
     <section className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
-      <form onSubmit={submit} className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f6c465]">İçerik Yönetimi</p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em]">Admin içerik ekle</h2>
+      <form onSubmit={submit} className="rounded-xl parchment-surface p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-[#f6c465]">İçerik Yönetimi</p>
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight">Admin içerik ekle</h2>
 
         <div className="mt-6 grid gap-4">
           <label className="grid gap-2">
@@ -145,17 +145,17 @@ export function AdminContentManager({
             <textarea value={payloadText} onChange={(event) => setPayloadText(event.target.value)} className="min-h-44 rounded-2xl border border-white/10 bg-[#120b07]/50 px-4 py-3 font-mono text-sm outline-none focus:border-[#f2c15f]" />
           </label>
 
-          <button disabled={isSaving} className="rounded-full bg-[#f2c15f] px-6 py-3 font-black text-[#120b07] disabled:opacity-60">
+          <button disabled={isSaving} className="rounded-full bg-[#f2c15f] px-6 py-3 font-semibold text-[#120b07] disabled:opacity-60">
             {isSaving ? "Kaydediliyor" : "İçeriği kaydet"}
           </button>
         </div>
       </form>
 
-      <div className="rounded-[2rem] parchment-surface p-6">
+      <div className="rounded-xl parchment-surface p-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f6c465]">Admin İçerikleri</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.05em]">Taslak ve yayın kontrolü</h2>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#f6c465]">Admin İçerikleri</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">Taslak ve yayın kontrolü</h2>
           </div>
           <select value={filter} onChange={(event) => setFilter(event.target.value as AdminContentType | "all")} className="rounded-full border border-white/10 bg-[#120b07]/50 px-4 py-3 text-sm font-bold outline-none focus:border-[#f2c15f]">
             <option value="all">Tümü</option>
@@ -171,26 +171,26 @@ export function AdminContentManager({
               Henüz admin içeriği yok.
             </div>
           ) : filteredItems.map((item) => (
-            <article key={item.id} className="rounded-[1.5rem] bg-white/[0.055] p-5">
+            <article key={item.id} className="rounded-xl bg-white/[0.055] p-5">
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#f6c465]">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[#f6c465]">
                     {item.type} · {item.status}
                   </p>
-                  <h3 className="mt-2 text-xl font-black">{item.title}</h3>
+                  <h3 className="mt-2 text-xl font-semibold">{item.title}</h3>
                   {item.description ? (
                     <p className="mt-2 text-sm leading-6 text-[#ead7b7]/62">{item.description}</p>
                   ) : null}
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <button onClick={() => changeStatus(item.id, "published")} className="rounded-full bg-[#52f2d0]/18 px-3 py-2 text-xs font-black text-[#b8fff1]">
+                  <button onClick={() => changeStatus(item.id, "published")} className="rounded-full bg-[#52f2d0]/18 px-3 py-2 text-xs font-semibold text-[#b8fff1]">
                     Yayına al
                   </button>
-                  <button onClick={() => changeStatus(item.id, "archived")} className="rounded-full bg-white/[0.08] px-3 py-2 text-xs font-black">
+                  <button onClick={() => changeStatus(item.id, "archived")} className="rounded-full bg-white/[0.08] px-3 py-2 text-xs font-semibold">
                     Arşivle
                   </button>
-                  <button onClick={() => remove(item.id)} className="rounded-full bg-[#ff7968]/18 px-3 py-2 text-xs font-black text-[#ffc0b8]">
+                  <button onClick={() => remove(item.id)} className="rounded-full bg-[#ff7968]/18 px-3 py-2 text-xs font-semibold text-[#ffc0b8]">
                     Sil
                   </button>
                 </div>

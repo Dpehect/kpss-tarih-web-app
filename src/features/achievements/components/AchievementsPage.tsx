@@ -55,18 +55,18 @@ export function AchievementsPage() {
         description="Çalışma alışkanlıkların rozetlere dönüşür. Kilitli rozetler sıradaki hedefini gösterir."
       />
 
-      <section className="surface-dark rounded-[2.5rem] p-6 md:p-8">
+      <section className="surface-dark rounded-xl p-6 md:p-8">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="kicker">Başarı durumu</p>
-            <h2 className="mt-3 text-5xl font-black tracking-[-0.08em] text-[var(--text-inverse)]">
+            <h2 className="mt-3 text-5xl font-semibold tracking-tight text-[white]">
               {unlockedCount} / {achievements.length}
             </h2>
             <p className="mt-3 max-w-2xl leading-7 text-[var(--text-inverse-muted)]">
               Açılan rozetler aktif çalışmayı, kilitli rozetler ise sıradaki çalışma hedefini gösterir.
             </p>
           </div>
-          <Trophy size={54} className="text-[var(--gold-500)]" />
+          <Trophy size={54} className="text-[var(--sage)]" />
         </div>
       </section>
 
@@ -78,7 +78,7 @@ export function AchievementsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.04 }}
-            className={`relative overflow-hidden rounded-[2rem] border p-6 shadow-[var(--shadow-sm)] backdrop-blur-2xl ${
+            className={`relative overflow-hidden rounded-xl border p-6 shadow-[var(--shadow-sm)] backdrop-blur-2xl ${
               achievement.unlocked
                 ? "border-[rgba(201,162,39,.32)] bg-[rgba(255,248,234,.94)]"
                 : "border-[var(--border-soft)] bg-white/55 grayscale"
@@ -86,19 +86,19 @@ export function AchievementsPage() {
           >
             <div className="absolute right-[-3rem] top-[-3rem] size-32 rounded-full bg-[var(--gold-soft)] blur-3xl" />
             <span className={`relative z-10 grid size-14 place-items-center rounded-2xl ${
-              achievement.unlocked ? "bg-[var(--gold-500)] text-[var(--navy-900)]" : "bg-[rgba(11,18,32,.08)] text-[var(--text-muted)]"
+              achievement.unlocked ? "bg-[var(--sage)] text-[var(--ink)]" : "bg-[rgba(11,18,32,.08)] text-[var(--slate)]"
             }`}>
               {achievement.unlocked ? <ShieldCheck size={24} /> : <Lock size={24} />}
             </span>
-            <h2 className="relative z-10 mt-6 text-2xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{achievement.title}</h2>
-            <p className="relative z-10 mt-3 text-sm font-semibold leading-7 text-[var(--text-secondary)]">{achievement.description}</p>
+            <h2 className="relative z-10 mt-6 text-2xl font-semibold tracking-tight text-[var(--ink)]">{achievement.title}</h2>
+            <p className="relative z-10 mt-3 text-sm font-semibold leading-7 text-[var(--graphite)]">{achievement.description}</p>
             {achievement.unlocked ? (
-              <div className="relative z-10 mt-5 inline-flex items-center gap-2 rounded-full bg-[#dff8ef] px-3 py-1 text-xs font-black text-[#047857]">
+              <div className="relative z-10 mt-5 inline-flex items-center gap-2 rounded-full bg-[#dff8ef] px-3 py-1 text-xs font-semibold text-[#047857]">
                 <Sparkles size={14} />
                 Açıldı
               </div>
             ) : (
-              <div className="relative z-10 mt-5 inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-[var(--text-muted)]">
+              <div className="relative z-10 mt-5 inline-flex rounded-full bg-white px-3 py-1 text-xs font-semibold text-[var(--slate)]">
                 Kilitli
               </div>
             )}

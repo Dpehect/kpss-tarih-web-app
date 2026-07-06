@@ -1,1 +1,1 @@
-export { BureauAmbient as ChronoLabAmbient } from "@/components/core/BureauAmbient";
+export function ChronoLabAmbient() { return null; }

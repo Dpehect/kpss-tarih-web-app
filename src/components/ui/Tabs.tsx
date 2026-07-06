@@ -33,10 +33,10 @@ export function Tabs({
             aria-selected={active}
             onClick={() => onChange(item.value)}
             className={cn(
-              "inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-black transition",
+              "inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition",
               active
-                ? "bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[var(--shadow-xs)]"
-                : "text-[var(--text-secondary)] hover:bg-white hover:text-[var(--navy-900)]"
+                ? "bg-[var(--ink)] text-[white] shadow-[var(--shadow-xs)]"
+                : "text-[var(--graphite)] hover:bg-white hover:text-[var(--ink)]"
             )}
           >
             {item.icon}

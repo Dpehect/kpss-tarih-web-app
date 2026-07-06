@@ -60,9 +60,9 @@ export function AnalyticsPage() {
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="kicker">İlerleme Haritası</p>
-              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Platform geneli durum</h2>
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)]">Platform geneli durum</h2>
             </div>
-            <BarChart3 className="text-[var(--sky-600)]" size={28} />
+            <BarChart3 className="text-[var(--navy)]" size={28} />
           </div>
 
           <div className="mt-8 grid gap-5">
@@ -77,7 +77,7 @@ export function AnalyticsPage() {
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="kicker">Odak Alanları</p>
-              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Zayıf konular</h2>
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--ink)]">Zayıf konular</h2>
             </div>
             <Target className="text-[#7f1d1d]" size={28} />
           </div>
@@ -88,21 +88,21 @@ export function AnalyticsPage() {
                 <a
                   key={item.topic.id}
                   href={`/topics/${item.topic.slug}`}
-                  className="flex items-center justify-between gap-4 rounded-[1.35rem] border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
+                  className="flex items-center justify-between gap-4 rounded-xl border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
                 >
                   <span className="flex min-w-0 items-center gap-3">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--navy-900)] text-sm font-black text-[var(--text-inverse)]">
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--ink)] text-sm font-semibold text-[white]">
                       {index + 1}
                     </span>
                     <span className="min-w-0">
-                      <span className="block truncate font-black text-[var(--navy-900)]">{item.topic.title}</span>
-                      <span className="block text-sm text-[var(--text-secondary)]">{item.wrong} yanlış / {item.attempts} deneme</span>
+                      <span className="block truncate font-semibold text-[var(--ink)]">{item.topic.title}</span>
+                      <span className="block text-sm text-[var(--graphite)]">{item.wrong} yanlış / {item.attempts} deneme</span>
                     </span>
                   </span>
                 </a>
               ))
             ) : (
-              <p className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white/74 p-5 text-sm font-semibold leading-7 text-[var(--text-secondary)]">
+              <p className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-5 text-sm font-semibold leading-7 text-[var(--graphite)]">
                 Henüz yeterli soru verisi yok. Birkaç konu testi çözdükten sonra odak alanları burada görünür.
               </p>
             )}
@@ -124,9 +124,9 @@ function ProgressRow({ label, value }: { label: string; value: number }) {
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between text-sm font-black">
-        <span className="text-[var(--navy-900)]">{label}</span>
-        <span className="text-[var(--text-muted)]">{normalized}%</span>
+      <div className="mb-2 flex items-center justify-between text-sm font-semibold">
+        <span className="text-[var(--ink)]">{label}</span>
+        <span className="text-[var(--slate)]">{normalized}%</span>
       </div>
       <div className="h-3 overflow-hidden rounded-full bg-[rgba(11,18,32,.10)]">
         <motion.div
@@ -134,7 +134,7 @@ function ProgressRow({ label, value }: { label: string; value: number }) {
           whileInView={{ width: `${normalized}%` }}
           viewport={{ once: true }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full rounded-full bg-gradient-to-r from-[var(--sky-500)] via-[var(--mint-500)] to-[var(--gold-500)]"
+          className="h-full rounded-full bg-gradient-to-r from-[var(--sky-500)] via-[var(--mint-500)] to-[var(--sage)]"
         />
       </div>
     </div>
@@ -145,13 +145,13 @@ function MiniInsight({ label, value, tone }: { label: string; value: number; ton
   const toneClass = {
     mint: "bg-[#dff8ef] text-[#047857]",
     rose: "bg-[#fff0e9] text-[#9a3412]",
-    sky: "bg-[rgba(76,141,255,.12)] text-[var(--sky-600)]"
+    sky: "bg-[rgba(76,141,255,.12)] text-[var(--navy)]"
   }[tone];
 
   return (
-    <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/74 p-6 shadow-[var(--shadow-xs)]">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--text-muted)]">{label}</p>
-      <p className={`mt-4 w-fit rounded-2xl px-4 py-2 text-4xl font-black tracking-[-0.08em] ${toneClass}`}>{value}</p>
+    <div className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-6 shadow-[var(--shadow-xs)]">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--slate)]">{label}</p>
+      <p className={`mt-4 w-fit rounded-2xl px-4 py-2 text-4xl font-semibold tracking-tight ${toneClass}`}>{value}</p>
     </div>
   );
 }

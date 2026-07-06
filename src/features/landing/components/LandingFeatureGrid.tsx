@@ -19,10 +19,10 @@ export function LandingFeatureGrid() {
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {landingFeatures.map((feature) => (
             <GlowCard key={feature.id} glow={feature.tone} data-cinematic-card>
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[color:var(--gold)]">
+              <p className="text-sm font-semibold uppercase tracking-wider text-[color:var(--gold)]">
                 {feature.stat}
               </p>
-              <h3 className="mt-5 text-2xl font-black tracking-[-0.04em] text-[#fff8e8]">
+              <h3 className="mt-5 text-2xl font-semibold tracking-tight text-[#fff8e8]">
                 {feature.title}
               </h3>
               <p className="mt-4 text-sm leading-7 text-[#ead7b7]/70">

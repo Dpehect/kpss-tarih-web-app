@@ -32,7 +32,7 @@ export function SectionHeader({
         </p>
       ) : null}
 
-      <h2 className="text-balance text-4xl font-black tracking-[-0.07em] text-[color:var(--foreground)] md:text-6xl">
+      <h2 className="text-balance text-4xl font-semibold tracking-[-0.07em] text-[color:var(--foreground)] md:text-6xl">
         {title}
       </h2>
 

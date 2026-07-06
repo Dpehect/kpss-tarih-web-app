@@ -3,24 +3,21 @@ export const premiumEase = [0.22, 1, 0.36, 1] as const;
 export const pageTransition = {
   initial: {
     opacity: 0,
-    y: 22,
-    filter: "blur(10px)"
+    y: 8
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.48,
+      duration: 0.3,
       ease: premiumEase
     }
   },
   exit: {
     opacity: 0,
-    y: -12,
-    filter: "blur(8px)",
+    y: -4,
     transition: {
-      duration: 0.25,
+      duration: 0.2,
       ease: premiumEase
     }
   }
@@ -29,13 +26,11 @@ export const pageTransition = {
 export const fadeUp = {
   initial: {
     opacity: 0,
-    y: 22,
-    filter: "blur(8px)"
+    y: 16
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.5,
       ease: premiumEase

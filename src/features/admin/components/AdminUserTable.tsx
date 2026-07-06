@@ -2,11 +2,11 @@ import type { AdminUserRow } from "@/lib/admin/admin-service";
 
 export function AdminUserTable({ users }: { users: AdminUserRow[] }) {
   return (
-    <section className="rounded-[2rem] parchment-surface p-6">
+    <section className="rounded-xl parchment-surface p-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f6c465]">Kullanıcılar</p>
-          <h2 className="mt-3 text-3xl font-black tracking-[-0.05em]">Aktif kullanıcı verileri</h2>
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#f6c465]">Kullanıcılar</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight">Aktif kullanıcı verileri</h2>
         </div>
         <p className="text-sm text-[#ead7b7]/58">Son aktiviteye göre sıralanır.</p>
       </div>
@@ -14,7 +14,7 @@ export function AdminUserTable({ users }: { users: AdminUserRow[] }) {
       <div className="mt-6 overflow-x-auto">
         <table className="min-w-[960px] w-full border-separate border-spacing-y-2 text-left">
           <thead>
-            <tr className="text-xs uppercase tracking-[0.18em] text-[#ead7b7]/46">
+            <tr className="text-xs uppercase tracking-wider text-[#ead7b7]/46">
               <th className="px-4 py-2">Kullanıcı</th>
               <th className="px-4 py-2">Konu</th>
               <th className="px-4 py-2">Soru</th>
@@ -35,7 +35,7 @@ export function AdminUserTable({ users }: { users: AdminUserRow[] }) {
             ) : users.map((user) => (
               <tr key={user.id} className="bg-white/[0.055] text-sm text-[#ead7b7]/76">
                 <td className="rounded-l-2xl px-4 py-4">
-                  <p className="font-black text-[#fff8e8]">{user.fullName ?? "İsimsiz kullanıcı"}</p>
+                  <p className="font-semibold text-[#fff8e8]">{user.fullName ?? "İsimsiz kullanıcı"}</p>
                   <p className="mt-1 text-xs text-[#ead7b7]/52">{user.email ?? user.id}</p>
                 </td>
                 <td className="px-4 py-4">{user.completedTopics}</td>

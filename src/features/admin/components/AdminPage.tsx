@@ -64,7 +64,7 @@ export function AdminPage() {
           title="Admin paneli için giriş gerekiyor."
           description="Bu alan yalnızca yetkili Google hesabı ile giriş yapıldığında açılır."
           actions={
-            <a href="/auth" className="rounded-full bg-[#f2c15f] px-5 py-3 font-black text-[#120b07]">
+            <a href="/auth" className="rounded-full bg-[#f2c15f] px-5 py-3 font-semibold text-[#120b07]">
               Google ile giriş yap
             </a>
           }
@@ -81,7 +81,7 @@ export function AdminPage() {
           title="Bu hesap admin değil."
           description="Admin paneli yalnızca tanımlı yönetici hesabı ile kullanılabilir."
         />
-        <section className="rounded-[2rem] parchment-surface p-6">
+        <section className="rounded-xl parchment-surface p-6">
           <p className="text-[#ead7b7]/70">Giriş yapılan hesap: {user.email}</p>
         </section>
       </div>
@@ -98,7 +98,7 @@ export function AdminPage() {
           <button
             type="button"
             onClick={() => void loadAdminData()}
-            className="rounded-full bg-[#f2c15f] px-5 py-3 font-black text-[#120b07]"
+            className="rounded-full bg-[#f2c15f] px-5 py-3 font-semibold text-[#120b07]"
           >
             Yenile
           </button>
@@ -106,13 +106,13 @@ export function AdminPage() {
       />
 
       {error ? (
-        <section className="rounded-[2rem] border border-[#ff7968]/30 bg-[#ff7968]/10 p-6 text-[#ffb4aa]">
+        <section className="rounded-xl border border-[#ff7968]/30 bg-[#ff7968]/10 p-6 text-[#ffb4aa]">
           {error}
         </section>
       ) : null}
 
       {isDataLoading && !overview ? (
-        <section className="rounded-[2rem] parchment-surface p-6">
+        <section className="rounded-xl parchment-surface p-6">
           <p className="text-[#ead7b7]/70">Admin verileri yükleniyor...</p>
         </section>
       ) : null}

@@ -45,8 +45,8 @@ export function ContentStudioPage() {
       />
 
       <form onSubmit={submit} className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
-        <aside className="rounded-[2rem] parchment-surface p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">İçerik Türü</p>
+        <aside className="rounded-xl parchment-surface p-5">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#f6c465]">İçerik Türü</p>
           <div className="mt-5 space-y-2">
             {["Konu Özeti", "Test Sorusu", "Flashcard", "Timeline Olayı", "Deneme", "Kişisel Not"].map((item) => (
               <button
@@ -61,8 +61,8 @@ export function ContentStudioPage() {
           </div>
         </aside>
 
-        <section className="rounded-[2rem] parchment-surface p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">{type}</p>
+        <section className="rounded-xl parchment-surface p-6">
+          <p className="text-xs font-bold uppercase tracking-wider text-[#f6c465]">{type}</p>
           <div className="mt-6 grid gap-4">
             <label className="grid gap-2">
               <span className="text-sm font-bold">Başlık</span>
@@ -81,7 +81,7 @@ export function ContentStudioPage() {
               <span className="text-sm font-bold">İçerik</span>
               <textarea value={body} onChange={(event) => setBody(event.target.value)} className="min-h-40 rounded-2xl border border-white/10 bg-[#120b07]/50 px-4 py-3 outline-none focus:border-[#f2c15f]" placeholder="İçeriğin açıklamasını yaz..." />
             </label>
-            <button className="w-fit rounded-full bg-[#f2c15f] px-6 py-3 font-black text-[#120b07]">
+            <button className="w-fit rounded-full bg-[#f2c15f] px-6 py-3 font-semibold text-[#120b07]">
               Taslağı kaydet
             </button>
           </div>

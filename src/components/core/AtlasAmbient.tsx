@@ -1,1 +1,1 @@
-export { BureauAmbient as AtlasAmbient } from "@/components/core/BureauAmbient";
+export function AtlasAmbient() { return null; }

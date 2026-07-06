@@ -29,13 +29,13 @@ const baseItems = [
   { href: "/past-questions", label: "Çıkmış", icon: Archive },
   { href: "/exams", label: "Deneme", icon: Trophy },
   { href: "/flashcards", label: "Kart", icon: CreditCard },
-  { href: "/timeline", label: "Zaman", icon: CalendarClock },
+  { href: "/timeline", label: "Zaman Çizelgesi", icon: CalendarClock },
   { href: "/analytics", label: "Analiz", icon: BarChart3 },
-  { href: "/mistakes", label: "Yanlış", icon: XCircle },
+  { href: "/mistakes", label: "Yanlışlar", icon: XCircle },
   { href: "/glossary", label: "Sözlük", icon: LibraryBig },
   { href: "/study-plan", label: "Plan", icon: ListChecks },
-  { href: "/notes", label: "Not", icon: ScrollText },
-  { href: "/achievements", label: "Rozet", icon: ShieldCheck },
+  { href: "/notes", label: "Notlar", icon: ScrollText },
+  { href: "/achievements", label: "Başarılar", icon: ShieldCheck },
   { href: "/profile", label: "Profil", icon: User }
 ];
 
@@ -50,7 +50,7 @@ export function Sidebar() {
     : baseItems;
 
   const nav = (
-    <nav className="grid gap-1.5" aria-label="Ana menü">
+    <nav className="flex flex-col gap-0.5" aria-label="Ana menü">
       {items.map((item) => {
         const Icon = item.icon;
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -60,18 +60,16 @@ export function Sidebar() {
             key={item.href}
             href={item.href}
             onClick={() => setOpen(false)}
-            title={item.label}
             aria-current={active ? "page" : undefined}
-            data-dark-button={active ? "true" : undefined}
             className={cn(
-              "group flex min-h-14 items-center justify-center gap-3 rounded-[1.2rem] px-3 py-3 text-xs font-black transition duration-200 xl:justify-start xl:px-4",
+              "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] transition-colors duration-150",
               active
-                ? "bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] shadow-[0_16px_50px_rgba(14,17,23,.16)]"
-                : "text-[var(--bureau-copy)] hover:bg-[rgba(14,17,23,.055)] hover:text-[var(--bureau-ink)]"
+                ? "border-l-2 border-[var(--sage)] bg-[var(--sage-soft)] font-semibold text-[var(--ink)]"
+                : "border-l-2 border-transparent text-[var(--graphite)] hover:bg-[var(--cream)] hover:text-[var(--ink)]"
             )}
           >
-            <Icon size={19} className={cn("shrink-0 transition group-hover:scale-110", active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-copy)]")} />
-            <span className={cn("hidden min-w-0 truncate xl:block", active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-ink)]")}>{item.label}</span>
+            <Icon size={17} className={cn("shrink-0", active ? "text-[var(--sage)]" : "text-[var(--slate)]")} />
+            <span className="truncate">{item.label}</span>
           </a>
         );
       })}
@@ -80,23 +78,21 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-[5.4rem] z-20 hidden h-[calc(100vh-6.4rem)] overflow-y-auto rounded-[2rem] border border-[rgba(14,17,23,.08)] bg-[rgba(255,250,242,.70)] p-2 shadow-[var(--shadow-paper)] backdrop-blur-2xl lg:block scrollbar-clean">
-        <div className="mb-3 grid place-items-center rounded-[1.45rem] bg-[var(--bureau-ink)] px-2 py-4 text-[var(--bureau-inverse)] xl:place-items-start xl:p-4">
-          <p className="hidden text-xs font-black uppercase tracking-[0.22em] text-[var(--bureau-teal)] xl:block">Dossier Rail</p>
-          <p className="text-xl font-black tracking-[-0.06em] text-[var(--bureau-inverse)] xl:mt-2">D</p>
-          <p className="mt-1 hidden text-xs leading-5 text-[var(--bureau-inverse-copy)] xl:block">Dosyalar arası hızlı geçiş.</p>
-        </div>
+      <aside className="sticky top-[60px] z-20 hidden h-[calc(100vh-76px)] overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-2.5 lg:block scrollbar-clean">
         {nav}
       </aside>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
-          <aside className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--bureau-line)] bg-[var(--bureau-bone)] p-4 scrollbar-clean" onClick={(event) => event.stopPropagation()}>
-            <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-[1.05rem] bg-[var(--bureau-ink)] font-black text-[var(--bureau-inverse)]">D</span>
+        <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setOpen(false)}>
+          <aside
+            className="h-full w-72 overflow-y-auto border-r border-[var(--border)] bg-[var(--stone)] p-4 scrollbar-clean"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center gap-2.5 pb-4 border-b border-[var(--border)]">
+              <span className="grid size-9 place-items-center rounded-lg bg-[var(--ink)] text-sm font-semibold text-white">T</span>
               <div>
-                <p className="font-black text-[var(--bureau-ink)]">Dossier Bureau</p>
-                <p className="text-xs text-[var(--bureau-muted)]">Çalışma menüsü</p>
+                <p className="text-sm font-semibold text-[var(--ink)]">Tarih</p>
+                <p className="text-[11px] text-[var(--slate)]">KPSS Çalışma Platformu</p>
               </div>
             </div>
             {nav}

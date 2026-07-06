@@ -14,13 +14,14 @@ type StaticCardProps = CardProps & Omit<HTMLAttributes<HTMLDivElement>, keyof Ca
 type MotionCardProps = CardProps & Omit<HTMLMotionProps<"div">, keyof CardProps>;
 
 export function Card({ children, className, interactive = false, ...props }: StaticCardProps | MotionCardProps) {
+  const baseClass = "rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-5 shadow-[var(--shadow-xs)] transition-shadow duration-300";
+
   if (interactive) {
     return (
       <motion.div
-        data-bureau-card="true"
-        whileHover={{ y: -6, scale: 1.004 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
-        className={cn("bureau-card rounded-[1.65rem] p-6", className)}
+        whileHover={{ y: -2 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className={cn(baseClass, "hover:shadow-[var(--shadow-md)] hover:border-[var(--border-strong)]", className)}
         {...(props as MotionCardProps)}
       >
         {children}
@@ -29,16 +30,16 @@ export function Card({ children, className, interactive = false, ...props }: Sta
   }
 
   return (
-    <div data-bureau-card="true" className={cn("bureau-card rounded-[1.65rem] p-6", className)} {...(props as StaticCardProps)}>
+    <div className={cn(baseClass, className)} {...(props as StaticCardProps)}>
       {children}
     </div>
   );
 }
 
 export function CardTitle({ children, className }: { children: ReactNode; className?: string }) {
-  return <h3 className={cn("text-2xl font-black tracking-[-0.055em] text-[var(--bureau-ink)]", className)}>{children}</h3>;
+  return <h3 className={cn("text-lg font-semibold tracking-tight text-[var(--ink)]", className)}>{children}</h3>;
 }
 
 export function CardDescription({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cn("mt-2 text-sm font-medium leading-7 text-[var(--bureau-copy)]", className)}>{children}</p>;
+  return <p className={cn("mt-1.5 text-sm leading-relaxed text-[var(--graphite)]", className)}>{children}</p>;
 }

@@ -18,7 +18,7 @@ export function ScrollReveal({
       className={className}
       initial={fadeUp.initial}
       whileInView={fadeUp.animate}
-      viewport={{ once: true, margin: "-90px" }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ delay }}
     >
       {children}

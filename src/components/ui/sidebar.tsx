@@ -42,7 +42,7 @@ export function PremiumSidebar({
               onClick={onNavigate}
               whileHover={{ x: 3 }}
               className={cn(
-                "hover-glow flex items-center gap-3 rounded-[1.12rem] px-4 py-3 text-sm font-black text-[var(--muted-foreground)] transition hover:bg-[color-mix(in_srgb,var(--foreground),transparent_94%)] hover:text-[var(--foreground)]",
+                "hover-glow flex items-center gap-3 rounded-[1.12rem] px-4 py-3 text-sm font-semibold text-[var(--muted-foreground)] transition hover:bg-[color-mix(in_srgb,var(--foreground),transparent_94%)] hover:text-[var(--foreground)]",
                 active && "bg-[var(--foreground)] text-[var(--background)] shadow-[0_16px_50px_color-mix(in_srgb,var(--foreground),transparent_84%)] hover:bg-[var(--foreground)] hover:text-[var(--background)]"
               )}
             >

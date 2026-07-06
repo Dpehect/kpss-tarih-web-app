@@ -1,1 +1,1 @@
-export { BureauAmbient as ArchiveAmbient } from "@/components/core/BureauAmbient";
+export function ArchiveAmbient() { return null; }
