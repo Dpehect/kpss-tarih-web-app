@@ -21,15 +21,30 @@ export function TopNav() {
           </div>
         </a>
 
-        <a
-          href="/glossary"
-          className="hidden max-w-xl flex-1 items-center gap-3 rounded-full border border-black/[0.08] bg-white/60 px-4 py-2.5 text-sm font-semibold text-[#425066] transition hover:bg-white md:flex"
+        <form
+          action="/search"
+          className="hidden max-w-xl flex-1 items-center gap-3 rounded-full border border-black/[0.08] bg-white/70 px-4 py-2.5 text-sm font-semibold text-[#425066] transition focus-within:bg-white md:flex"
         >
           <Search size={16} />
-          Kavram, dönem veya belge ara
-        </a>
+          <input
+            name="q"
+            className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#425066]/55"
+            placeholder="Kavram, dönem veya belge ara"
+            autoComplete="off"
+          />
+          <button type="submit" className="rounded-full bg-[#111827] px-3 py-1 text-xs font-black text-[#fffaf0]">
+            Ara
+          </button>
+        </form>
 
         <div className="flex items-center gap-2">
+          <a
+            href="/search"
+            className="grid size-10 place-items-center rounded-full border border-black/[0.08] bg-white/70 md:hidden"
+            aria-label="Arama"
+          >
+            <Search size={17} />
+          </a>
           <AdminQuickLink />
           <AuthStatusButton />
 

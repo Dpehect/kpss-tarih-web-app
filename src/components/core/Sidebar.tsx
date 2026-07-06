@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Archive,
   BarChart3,
   BookOpen,
   CalendarClock,
@@ -25,6 +26,7 @@ const baseItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/topics", label: "Konu Özetleri", icon: BookOpen },
   { href: "/question-bank", label: "Konu Testleri", icon: FileQuestion },
+  { href: "/past-questions", label: "Çıkmış Sorular", icon: Archive },
   { href: "/exams", label: "Denemeler", icon: Trophy },
   { href: "/flashcards", label: "Flashcard", icon: CreditCard },
   { href: "/timeline", label: "Timeline", icon: CalendarClock },

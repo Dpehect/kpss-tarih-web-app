@@ -1,0 +1,148 @@
+import { exams, flashcards, glossary, questions, timelineEvents, topics } from "@/data/kpss-history";
+import { pastQuestionTrends } from "@/data/past-questions";
+
+export type SearchResult = {
+  id: string;
+  type: "Konu" | "Soru" | "Flashcard" | "Deneme" | "Timeline" | "Kavram" | "Çıkmış Soru";
+  title: string;
+  description: string;
+  href: string;
+  score: number;
+};
+
+function normalize(value: string) {
+  return value
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
+}
+
+function scoreText(query: string, ...fields: string[]) {
+  const normalizedQuery = normalize(query.trim());
+  if (!normalizedQuery) return 0;
+
+  const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+  const haystack = normalize(fields.join(" "));
+  let score = 0;
+
+  for (const token of tokens) {
+    if (haystack.includes(token)) score += 5;
+  }
+
+  if (haystack.includes(normalizedQuery)) score += 12;
+  if (normalize(fields[0] ?? "").startsWith(normalizedQuery)) score += 18;
+
+  return score;
+}
+
+export function searchKpssHistory(query: string): SearchResult[] {
+  const q = query.trim();
+
+  if (!q) return [];
+
+  const results: SearchResult[] = [];
+
+  for (const topic of topics) {
+    const score = scoreText(q, topic.title, topic.shortDescription, topic.keywords.join(" "), topic.mustKnow.join(" "));
+    if (score) {
+      results.push({
+        id: topic.id,
+        type: "Konu",
+        title: topic.title,
+        description: topic.shortDescription,
+        href: `/topics/${topic.slug}`,
+        score
+      });
+    }
+  }
+
+  for (const question of questions) {
+    const topic = topics.find((item) => item.id === question.topicId);
+    const score = scoreText(q, question.stem, question.explanation, question.tags.join(" "), topic?.title ?? "");
+    if (score) {
+      results.push({
+        id: question.id,
+        type: "Soru",
+        title: question.stem,
+        description: topic ? `${topic.title} testine git` : question.explanation,
+        href: `/question-bank/${question.topicId}`,
+        score
+      });
+    }
+  }
+
+  for (const card of flashcards) {
+    const topic = topics.find((item) => item.id === card.topicId);
+    const score = scoreText(q, card.front, card.back, card.hint, card.tags.join(" "));
+    if (score) {
+      results.push({
+        id: card.id,
+        type: "Flashcard",
+        title: card.front,
+        description: topic ? `${topic.title} flashcard destesi` : card.back,
+        href: "/flashcards",
+        score
+      });
+    }
+  }
+
+  for (const exam of exams) {
+    const score = scoreText(q, exam.title, exam.description);
+    if (score) {
+      results.push({
+        id: exam.id,
+        type: "Deneme",
+        title: exam.title,
+        description: exam.description,
+        href: `/exams/${exam.id}`,
+        score
+      });
+    }
+  }
+
+  for (const event of timelineEvents) {
+    const score = scoreText(q, event.title, event.description, event.date);
+    if (score) {
+      results.push({
+        id: event.id,
+        type: "Timeline",
+        title: event.title,
+        description: `${event.date} · ${event.description}`,
+        href: "/timeline",
+        score
+      });
+    }
+  }
+
+  for (const item of glossary) {
+    const score = scoreText(q, item.term, item.definition);
+    if (score) {
+      results.push({
+        id: item.term,
+        type: "Kavram",
+        title: item.term,
+        description: item.definition,
+        href: "/glossary",
+        score
+      });
+    }
+  }
+
+  for (const item of pastQuestionTrends) {
+    const score = scoreText(q, String(item.year), item.topicTitle, item.pattern, item.stem);
+    if (score) {
+      results.push({
+        id: item.id,
+        type: "Çıkmış Soru",
+        title: `${item.year} · ${item.topicTitle}`,
+        description: item.pattern,
+        href: `/past-questions?year=${item.year}`,
+        score
+      });
+    }
+  }
+
+  return results
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 36);
+}
