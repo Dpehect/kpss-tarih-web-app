@@ -1,1 +1,1 @@
-export { ChronoLabAmbient as ArchiveAmbient } from "@/components/core/ChronoLabAmbient";
+export { BureauAmbient as ArchiveAmbient } from "@/components/core/BureauAmbient";

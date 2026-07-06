@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { BookOpen, CreditCard, FileQuestion, LibraryBig, Search } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
 import { Card } from "@/components/ui/card";
-import { flashcards, glossary, questions, topics } from "@/data/kpss-history";
+import { flashcards, getGlossaryByTopic, questions, topics } from "@/data/kpss-history";
 
 type SearchResult = {
   id: string;
@@ -13,6 +13,13 @@ type SearchResult = {
   description: string;
   href: string;
 };
+
+const glossaryItems = topics.flatMap((topic) =>
+  getGlossaryByTopic(topic.id).map((item) => ({
+    ...item,
+    topicTitle: topic.title
+  }))
+);
 
 export function SearchPage() {
   const [query, setQuery] = useState("");
@@ -42,28 +49,31 @@ export function SearchPage() {
         return { id: `flashcard-${card.id}`, type: "Flashcard" as const, title: card.front, description: topic?.title ?? "Flashcard", href: "/flashcards" };
       });
 
-    const glossaryResults = glossary
+    const glossaryResults = glossaryItems
       .filter((item) => `${item.term} ${item.definition}`.toLocaleLowerCase("tr-TR").includes(normalized))
-      .map((item) => {
-        const topic = topics.find((topicItem) => topicItem.id === item.topicId);
-        return { id: `glossary-${item.term}-${item.topicId}`, type: "Kavram" as const, title: item.term, description: `${item.definition} · ${topic?.title ?? "Genel"}`, href: "/glossary" };
-      });
+      .map((item) => ({
+        id: `glossary-${item.term}-${item.topicId}`,
+        type: "Kavram" as const,
+        title: item.term,
+        description: `${item.definition} · ${item.topicTitle}`,
+        href: "/glossary"
+      }));
 
     return [...topicResults, ...glossaryResults, ...questionResults, ...flashcardResults].slice(0, 30);
   }, [query]);
 
   return (
     <div className="space-y-6">
-      <PageHeader eyebrow="Search scanner" title="Bilgiyi satırlar arasında değil, tek taramada bul." description="Konu, kavram, soru ve flashcard içerikleri arasında hızlı arama yap." />
+      <PageHeader eyebrow="Arama dosyası" title="Bilgiyi tek taramada bul." description="Konu, kavram, soru ve flashcard içerikleri arasında hızlı arama yap." />
 
-      <div className="lab-surface rounded-[1.75rem] p-3">
-        <label className="flex min-h-14 items-center gap-3 rounded-[1.3rem] bg-[rgba(16,16,16,.045)] px-4">
-          <Search size={18} className="text-[var(--lab-muted)]" />
+      <div className="bureau-surface rounded-[1.75rem] p-3">
+        <label className="flex min-h-14 items-center gap-3 rounded-[1.3rem] bg-[rgba(14,17,23,.045)] px-4">
+          <Search size={18} className="text-[var(--bureau-copy)]" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Örn. Malazgirt, Ahilik, Tanzimat, Lozan..."
-            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--lab-ink)] outline-none placeholder:text-[var(--lab-soft)]"
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--bureau-ink)] outline-none placeholder:text-[var(--bureau-muted)]"
             autoFocus
           />
         </label>
@@ -75,15 +85,15 @@ export function SearchPage() {
             results.map((result) => <ResultCard key={result.id} result={result} />)
           ) : (
             <Card>
-              <p className="text-xl font-black text-[var(--lab-ink)]">Sonuç bulunamadı.</p>
-              <p className="mt-2 text-sm leading-7 text-[var(--lab-muted)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
+              <p className="text-xl font-black text-[var(--bureau-ink)]">Sonuç bulunamadı.</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
             </Card>
           )}
         </section>
       ) : (
         <Card>
-          <p className="text-xl font-black text-[var(--lab-ink)]">Aramaya başla.</p>
-          <p className="mt-2 text-sm leading-7 text-[var(--lab-muted)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
+          <p className="text-xl font-black text-[var(--bureau-ink)]">Aramaya başla.</p>
+          <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
         </Card>
       )}
     </div>
@@ -99,13 +109,13 @@ function ResultCard({ result }: { result: SearchResult }) {
   }[result.type];
 
   return (
-    <a href={result.href} className="group lab-card block rounded-[1.65rem] p-5">
+    <a href={result.href} className="group bureau-card block rounded-[1.65rem] p-5">
       <div className="flex gap-4">
-        <span className="grid size-11 shrink-0 place-items-center rounded-[1rem] bg-[var(--lab-ink)] text-[var(--lab-inverse)]">{icon}</span>
+        <span className="grid size-11 shrink-0 place-items-center rounded-[1rem] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)]">{icon}</span>
         <span className="min-w-0">
-          <span className="text-xs font-black uppercase tracking-[0.22em] text-[var(--lab-cyan)]">{result.type}</span>
-          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--lab-ink)]">{result.title}</span>
-          <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--lab-muted)]">{result.description}</span>
+          <span className="text-xs font-black uppercase tracking-[0.22em] text-[var(--bureau-teal)]">{result.type}</span>
+          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--bureau-ink)]">{result.title}</span>
+          <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--bureau-copy)]">{result.description}</span>
         </span>
       </div>
     </a>
