@@ -8,6 +8,7 @@ const unsafePatterns = [
   /text-\[#fff8ea\]\/[0-6]\d/g,
   /text-\[#fffaf0\]\/[0-6]\d/g,
   /text-\[#f4efe4\]\/[0-6]\d/g,
+  /text-\[#ead7b7\]\/[0-9]\d/g,
   /text-\[#425066\]\/[0-5]\d/g,
   /text-\[var\(--muted-foreground\)\]\/[0-6]\d/g
 ];
@@ -32,19 +33,25 @@ const issues = [];
 for (const file of walk(root)) {
   const relative = path.relative(process.cwd(), file).replaceAll("\\", "/");
   if (allowed.has(relative)) continue;
+
   const text = fs.readFileSync(file, "utf8");
 
   for (const pattern of unsafePatterns) {
     const matches = text.match(pattern);
     if (matches?.length) {
-      issues.push({ file: relative, matches: Array.from(new Set(matches)) });
+      issues.push({
+        file: relative,
+        matches: Array.from(new Set(matches))
+      });
     }
   }
 }
 
 if (issues.length) {
   console.error("Düşük kontrastlı text class tespit edildi:");
-  for (const issue of issues) console.error(`- ${issue.file}: ${issue.matches.join(", ")}`);
+  for (const issue of issues) {
+    console.error(`- ${issue.file}: ${issue.matches.join(", ")}`);
+  }
   process.exit(1);
 }
 

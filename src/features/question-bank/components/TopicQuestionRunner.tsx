@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { saveOnlineQuestionAttempt } from "@/lib/progress/online-progress";
+import { getSubtleQuestionHint } from "@/lib/questions/subtle-hint";
 import type { Question } from "@/types/study";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
@@ -20,6 +21,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
   const progress = Math.round(((currentIndex + 1) / questions.length) * 100);
   const isAnswered = Boolean(selected);
   const selectedChoiceIsCorrect = selected === current.correctChoiceId;
+  const subtleHint = getSubtleQuestionHint(current);
 
   const questionNumbers = useMemo(() => questions.map((question, index) => ({ id: question.id, index })), [questions]);
 
@@ -90,7 +92,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
 
           {showHint ? (
             <div className="mt-4 rounded-[1.25rem] border border-[rgba(76,141,255,.24)] bg-[rgba(76,141,255,.10)] p-4 text-sm font-semibold leading-7 text-[#1d4ed8]">
-              {current.examTip}
+              {subtleHint}
             </div>
           ) : null}
         </div>
@@ -160,7 +162,7 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
             <MiniStat label="Doğru" value={correctCount} />
           </div>
           <p className="mt-5 text-sm font-medium leading-7 text-[rgba(255,248,234,.80)]">
-            İpucunu cevaptan önce aç, sonra açıklamayla kontrol et.
+            İpucu artık cevabı söylemez; yalnızca çözüm yönünü hatırlatır.
           </p>
         </div>
 
