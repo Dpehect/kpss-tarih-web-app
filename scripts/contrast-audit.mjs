@@ -2,18 +2,18 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = path.join(process.cwd(), "src");
+
 const unsafePatterns = [
-  /text-\[#f4efe4\]\/[0-5]\d/g,
-  /text-\[#fffaf0\]\/[0-5]\d/g,
   /text-white\/[0-5]\d/g,
-  /text-\[#f4efe4\]\/(?:4|5)/g,
-  /text-\[#fff8ea\]\/(?:4|5)/g,
-  /text-\[#fffaf0\]\/(?:4|5)/g
+  /text-\[#fff8ea\]\/[0-6]\d/g,
+  /text-\[#fffaf0\]\/[0-6]\d/g,
+  /text-\[#f4efe4\]\/[0-6]\d/g,
+  /text-\[#425066\]\/[0-5]\d/g,
+  /text-\[var\(--muted-foreground\)\]\/[0-6]\d/g
 ];
 
-const allowedFiles = new Set([
-  "src/components/core/PageHeader.tsx",
-  "src/app/(main)/dashboard/page.tsx"
+const allowed = new Set([
+  "src/app/globals.css"
 ]);
 
 function walk(dir) {
@@ -37,9 +37,9 @@ const issues = [];
 
 for (const file of walk(root)) {
   const relative = path.relative(process.cwd(), file).replaceAll("\\", "/");
-  const text = fs.readFileSync(file, "utf8");
+  if (allowed.has(relative)) continue;
 
-  if (allowedFiles.has(relative)) continue;
+  const text = fs.readFileSync(file, "utf8");
 
   for (const pattern of unsafePatterns) {
     const matches = text.match(pattern);
