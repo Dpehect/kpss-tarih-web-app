@@ -21,6 +21,11 @@ export function AuthPanel() {
   }, [searchParams]);
 
   useEffect(() => {
+    if (!supabase) {
+      setIsLoading(false);
+      return;
+    }
+
     let mounted = true;
 
     supabase.auth.getUser().then(({ data }) => {
@@ -40,6 +45,11 @@ export function AuthPanel() {
   }, [supabase]);
 
   async function signInWithGoogle() {
+    if (!supabase) {
+      toast.error("Supabase env eksik. Vercel Environment Variables ayarlanmalı.");
+      return;
+    }
+
     const redirectTo = `${window.location.origin}/auth/callback?next=/dashboard`;
 
     const { error } = await supabase.auth.signInWithOAuth({
@@ -55,6 +65,8 @@ export function AuthPanel() {
   }
 
   async function signOut() {
+    if (!supabase) return;
+
     const { error } = await supabase.auth.signOut();
 
     if (error) {
@@ -69,7 +81,21 @@ export function AuthPanel() {
   if (isLoading) {
     return (
       <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-[#ead7b7]/70">Oturum kontrol ediliyor...</p>
+        <p className="text-[#425066]">Oturum kontrol ediliyor...</p>
+      </section>
+    );
+  }
+
+  if (!supabase) {
+    return (
+      <section className="rounded-[2rem] parchment-surface p-6">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Kurulum gerekli</p>
+        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
+          Supabase environment variables eksik.
+        </h2>
+        <p className="mt-3 text-[#425066]">
+          Vercel Project Settings → Environment Variables bölümüne NEXT_PUBLIC_SUPABASE_URL ve NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY eklenmeli.
+        </p>
       </section>
     );
   }
@@ -77,30 +103,17 @@ export function AuthPanel() {
   if (user) {
     return (
       <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f6c465]">
-          Aktif oturum
-        </p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em]">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Aktif oturum</p>
+        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
           {user.user_metadata?.full_name ?? user.email}
         </h2>
-        <p className="mt-3 text-[#ead7b7]/66">
+        <p className="mt-3 text-[#425066]">
           İstatistiklerin online kaydedilecek ve tekrar giriş yaptığında dashboard'a yüklenecek.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="/dashboard"
-            className="rounded-full bg-[#f2c15f] px-5 py-3 font-black text-[#120b07]"
-          >
-            Dashboard'a git
-          </a>
-          <button
-            type="button"
-            onClick={signOut}
-            className="rounded-full border border-white/10 bg-white/[0.08] px-5 py-3 font-black text-[#fff8e8]"
-          >
-            Çıkış yap
-          </button>
+          <a href="/dashboard" className="btn-primary">Dashboard'a git</a>
+          <button type="button" onClick={signOut} className="btn-ghost">Çıkış yap</button>
         </div>
       </section>
     );
@@ -108,21 +121,15 @@ export function AuthPanel() {
 
   return (
     <section className="rounded-[2rem] parchment-surface p-6">
-      <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f6c465]">
-        Google hesabı
-      </p>
-      <h2 className="mt-3 text-3xl font-black tracking-[-0.05em]">
+      <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Google hesabı</p>
+      <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
         Giriş yapınca tüm istatistiklerin online kaydedilir.
       </h2>
-      <p className="mt-3 text-[#ead7b7]/66">
+      <p className="mt-3 text-[#425066]">
         İçerikler JSON'da kalır. Sadece kullanıcıya ait çalışma verileri Supabase'e yazılır.
       </p>
 
-      <button
-        type="button"
-        onClick={signInWithGoogle}
-        className="mt-6 rounded-full bg-[#f2c15f] px-6 py-3 font-black text-[#120b07] transition hover:-translate-y-1"
-      >
+      <button type="button" onClick={signInWithGoogle} className="btn-primary mt-6">
         Google ile giriş yap
       </button>
     </section>

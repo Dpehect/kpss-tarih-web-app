@@ -8,6 +8,13 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const supabase = await createClient();
+
+    if (!supabase) {
+      return NextResponse.redirect(
+        new URL("/auth?error=Supabase%20environment%20variables%20missing", requestUrl.origin)
+      );
+    }
+
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {

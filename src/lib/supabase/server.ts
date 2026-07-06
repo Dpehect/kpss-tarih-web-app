@@ -1,8 +1,16 @@
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
-import { getSupabasePublishableKey, getSupabaseUrl } from "@/lib/supabase/env";
+import { getSupabasePublishableKey, getSupabaseUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 
+/**
+ * Server Supabase client.
+ * Env yoksa null döner; route handler build aşamasında çökmez.
+ */
 export async function createClient() {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+
   const cookieStore = await cookies();
 
   return createServerClient(getSupabaseUrl(), getSupabasePublishableKey(), {

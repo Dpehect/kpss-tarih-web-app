@@ -1,8 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { getSupabasePublishableKey, getSupabaseUrl } from "@/lib/supabase/env";
+import { getSupabasePublishableKey, getSupabaseUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 
+/**
+ * Supabase SSR session middleware.
+ * Env yoksa doğrudan devam eder; Vercel build/deploy kırılmaz.
+ */
 export async function updateSession(request: NextRequest) {
+  if (!isSupabaseConfigured()) {
+    return NextResponse.next({ request });
+  }
+
   let supabaseResponse = NextResponse.next({
     request
   });

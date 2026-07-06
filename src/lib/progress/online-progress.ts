@@ -16,6 +16,11 @@ export type RemoteProgressPayload = {
 
 async function getUserId() {
   const supabase = createClient();
+
+  if (!supabase) {
+    return null;
+  }
+
   const {
     data: { user },
     error
@@ -32,51 +37,17 @@ export async function fetchOnlineProgress(): Promise<RemoteProgressPayload | nul
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) {
-    return null;
-  }
+  if (!supabase || !userId) return null;
 
-  const [
-    topicProgress,
-    questionAttempts,
-    flashcardReviews,
-    examResults,
-    notes
-  ] = await Promise.all([
-    supabase
-      .from("user_topic_progress")
-      .select("topic_id, completed")
-      .eq("user_id", userId)
-      .eq("completed", true),
-    supabase
-      .from("question_attempts")
-      .select("id, question_id, topic_id, selected_choice_id, correct_choice_id, is_correct, answered_at")
-      .eq("user_id", userId)
-      .order("answered_at", { ascending: true }),
-    supabase
-      .from("flashcard_reviews")
-      .select("id, card_id, topic_id, remembered, reviewed_at")
-      .eq("user_id", userId)
-      .order("reviewed_at", { ascending: true }),
-    supabase
-      .from("exam_results")
-      .select("id, exam_id, score, total, completed_at")
-      .eq("user_id", userId)
-      .order("completed_at", { ascending: true }),
-    supabase
-      .from("user_notes")
-      .select("id, title, body, topic_id, created_at")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false })
+  const [topicProgress, questionAttempts, flashcardReviews, examResults, notes] = await Promise.all([
+    supabase.from("user_topic_progress").select("topic_id, completed").eq("user_id", userId).eq("completed", true),
+    supabase.from("question_attempts").select("id, question_id, topic_id, selected_choice_id, correct_choice_id, is_correct, answered_at").eq("user_id", userId).order("answered_at", { ascending: true }),
+    supabase.from("flashcard_reviews").select("id, card_id, topic_id, remembered, reviewed_at").eq("user_id", userId).order("reviewed_at", { ascending: true }),
+    supabase.from("exam_results").select("id, exam_id, score, total, completed_at").eq("user_id", userId).order("completed_at", { ascending: true }),
+    supabase.from("user_notes").select("id, title, body, topic_id, created_at").eq("user_id", userId).order("created_at", { ascending: false })
   ]);
 
-  if (
-    topicProgress.error ||
-    questionAttempts.error ||
-    flashcardReviews.error ||
-    examResults.error ||
-    notes.error
-  ) {
+  if (topicProgress.error || questionAttempts.error || flashcardReviews.error || examResults.error || notes.error) {
     console.error("Supabase progress fetch error", {
       topicProgress: topicProgress.error,
       questionAttempts: questionAttempts.error,
@@ -84,7 +55,6 @@ export async function fetchOnlineProgress(): Promise<RemoteProgressPayload | nul
       examResults: examResults.error,
       notes: notes.error
     });
-
     return null;
   }
 
@@ -127,7 +97,7 @@ export async function saveOnlineTopicProgress(topicId: string) {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const { error } = await supabase.from("user_topic_progress").upsert(
     {
@@ -136,9 +106,7 @@ export async function saveOnlineTopicProgress(topicId: string) {
       completed: true,
       completed_at: new Date().toISOString()
     },
-    {
-      onConflict: "user_id,topic_id"
-    }
+    { onConflict: "user_id,topic_id" }
   );
 
   if (error) {
@@ -159,7 +127,7 @@ export async function saveOnlineQuestionAttempt(input: {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const { error } = await supabase.from("question_attempts").insert({
     user_id: userId,
@@ -178,6 +146,26 @@ export async function saveOnlineQuestionAttempt(input: {
   return { ok: true as const };
 }
 
+export async function clearOnlineWrongAttempts() {
+  const supabase = createClient();
+  const userId = await getUserId();
+
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
+
+  const { error } = await supabase
+    .from("question_attempts")
+    .delete()
+    .eq("user_id", userId)
+    .eq("is_correct", false);
+
+  if (error) {
+    console.error("clearOnlineWrongAttempts", error);
+    return { ok: false, reason: "error" as const };
+  }
+
+  return { ok: true as const };
+}
+
 export async function saveOnlineFlashcardReview(input: {
   cardId: string;
   topicId: string;
@@ -186,7 +174,7 @@ export async function saveOnlineFlashcardReview(input: {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const { error } = await supabase.from("flashcard_reviews").insert({
     user_id: userId,
@@ -211,7 +199,7 @@ export async function saveOnlineExamResult(input: {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const { error } = await supabase.from("exam_results").insert({
     user_id: userId,
@@ -237,7 +225,7 @@ export async function saveOnlineNote(input: {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const { error } = await supabase.from("user_notes").upsert({
     id: input.id,
@@ -260,13 +248,9 @@ export async function deleteOnlineNote(id: string) {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
-  const { error } = await supabase
-    .from("user_notes")
-    .delete()
-    .eq("id", id)
-    .eq("user_id", userId);
+  const { error } = await supabase.from("user_notes").delete().eq("id", id).eq("user_id", userId);
 
   if (error) {
     console.error("deleteOnlineNote", error);
@@ -280,7 +264,7 @@ export async function syncLocalProgressToOnline(input: RemoteProgressPayload) {
   const supabase = createClient();
   const userId = await getUserId();
 
-  if (!userId) return { ok: false, reason: "signed-out" as const };
+  if (!supabase || !userId) return { ok: false, reason: "signed-out" as const };
 
   const topicRows = input.completedTopicIds.map((topicId) => ({
     user_id: userId,
@@ -325,29 +309,11 @@ export async function syncLocalProgressToOnline(input: RemoteProgressPayload) {
 
   const operations = [];
 
-  if (topicRows.length) {
-    operations.push(
-      supabase.from("user_topic_progress").upsert(topicRows, {
-        onConflict: "user_id,topic_id"
-      })
-    );
-  }
-
-  if (questionRows.length) {
-    operations.push(supabase.from("question_attempts").insert(questionRows));
-  }
-
-  if (flashcardRows.length) {
-    operations.push(supabase.from("flashcard_reviews").insert(flashcardRows));
-  }
-
-  if (examRows.length) {
-    operations.push(supabase.from("exam_results").insert(examRows));
-  }
-
-  if (noteRows.length) {
-    operations.push(supabase.from("user_notes").upsert(noteRows));
-  }
+  if (topicRows.length) operations.push(supabase.from("user_topic_progress").upsert(topicRows, { onConflict: "user_id,topic_id" }));
+  if (questionRows.length) operations.push(supabase.from("question_attempts").insert(questionRows));
+  if (flashcardRows.length) operations.push(supabase.from("flashcard_reviews").insert(flashcardRows));
+  if (examRows.length) operations.push(supabase.from("exam_results").insert(examRows));
+  if (noteRows.length) operations.push(supabase.from("user_notes").upsert(noteRows));
 
   const results = await Promise.all(operations);
   const error = results.find((result) => result.error)?.error;

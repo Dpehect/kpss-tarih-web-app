@@ -19,17 +19,14 @@ function hasProgress(payload: RemoteProgressPayload) {
   );
 }
 
-/**
- * Supabase progress senkronizasyonu sessiz çalışır.
- * Eski sürümde local veriyi her girişte tekrar upload etme riski vardı; bu durum
- * question_attempts / flashcard_reviews satırlarını şişirebiliyordu.
- */
 export function OnlineProgressHydrator() {
   const hydrateFromRemote = useStudyProgressStore((state) => state.hydrateFromRemote);
   const getSnapshot = useStudyProgressStore((state) => state.getSnapshot);
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
+    if (!supabase) return;
+
     let cancelled = false;
 
     async function hydrateAndMaybeSync() {
@@ -53,10 +50,6 @@ export function OnlineProgressHydrator() {
         hydrateFromRemote(remoteProgress);
       }
 
-      /**
-       * Yalnızca remote tamamen boşsa ve bu kullanıcı için daha önce local upload yapılmadıysa
-       * localStorage fallback verisini Supabase'e taşır. Böylece tekrar tekrar insert oluşmaz.
-       */
       if (localHasData && !remoteHasData && !alreadySynced) {
         const result = await syncLocalProgressToOnline(localSnapshot);
         localStorage.setItem(syncKey, result.ok ? "1" : "0");

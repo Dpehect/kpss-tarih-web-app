@@ -8,9 +8,14 @@ import { createClient } from "@/lib/supabase/client";
 export function useAdminSession() {
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(Boolean(supabase));
 
   useEffect(() => {
+    if (!supabase) {
+      setIsLoading(false);
+      return;
+    }
+
     let mounted = true;
 
     supabase.auth.getUser().then(({ data }) => {

@@ -50,7 +50,7 @@ export function Sidebar() {
     : baseItems;
 
   const nav = (
-    <nav className="space-y-1.5">
+    <nav className="space-y-1.5" aria-label="Ana menü">
       {items.map((item) => {
         const Icon = item.icon;
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -61,11 +61,11 @@ export function Sidebar() {
             href={item.href}
             onClick={() => setOpen(false)}
             className={cn(
-              "group flex items-center gap-3 rounded-[1.05rem] px-4 py-3 text-sm font-black text-[#425066] transition hover:bg-[#111827]/[0.055] hover:text-[#111827]",
-              active && "bg-[#111827] text-[#fffaf0] shadow-[0_16px_50px_rgba(17,24,39,0.16)] hover:bg-[#111827] hover:text-[#fffaf0]"
+              "group flex items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-black text-[var(--muted-foreground)] transition duration-200 hover:bg-[color-mix(in_srgb,var(--foreground),transparent_94%)] hover:text-[var(--foreground)]",
+              active && "bg-[var(--foreground)] text-[var(--background)] shadow-[0_16px_50px_color-mix(in_srgb,var(--foreground),transparent_84%)] hover:bg-[var(--foreground)] hover:text-[var(--background)]"
             )}
           >
-            <Icon size={18} className="opacity-80" />
+            <Icon size={18} className="opacity-80 transition group-hover:scale-110" />
             {item.label}
           </a>
         );
@@ -75,11 +75,11 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[1.8rem] border border-black/[0.08] bg-[#fffaf0]/72 p-3 shadow-[0_24px_70px_rgba(18,24,38,0.08)] backdrop-blur-2xl lg:block scrollbar-clean">
-        <div className="mb-4 rounded-[1.45rem] bg-[#111827] p-4 text-[#fffaf0]">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f0bd59]">Çalışma Atlası</p>
+      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[var(--border-soft)] bg-[color-mix(in_srgb,var(--surface-strong),transparent_18%)] p-3 shadow-[var(--shadow-soft)] backdrop-blur-2xl lg:block scrollbar-clean">
+        <div className="page-noise mb-4 overflow-hidden rounded-[1.55rem] bg-[var(--surface-dark)] p-4 text-[#fff8ea] shadow-[var(--shadow-soft)]">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-gold)]">Çalışma Atlası</p>
           <p className="mt-2 text-2xl font-black tracking-[-0.06em]">Tarih masası</p>
-          <p className="mt-2 text-sm leading-6 text-[#fffaf0]/62">
+          <p className="mt-2 text-sm leading-6 text-white/62">
             Konu, test, deneme ve analiz için düzenli çalışma merkezi.
           </p>
         </div>
@@ -89,14 +89,14 @@ export function Sidebar() {
       {isOpen ? (
         <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
           <aside
-            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-black/[0.08] bg-[#fffaf0] p-4 scrollbar-clean"
+            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--border-soft)] bg-[var(--background)] p-4 scrollbar-clean"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-[#111827] font-black text-[#fffaf0]">T</span>
+              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--foreground)] font-black text-[var(--background)]">T</span>
               <div>
-                <p className="font-black text-[#111827]">KPSS Tarih</p>
-                <p className="text-xs text-[#425066]">Çalışma menüsü</p>
+                <p className="font-black text-[var(--foreground)]">KPSS Tarih</p>
+                <p className="text-xs text-[var(--muted-foreground)]">Çalışma menüsü</p>
               </div>
             </div>
             {nav}
