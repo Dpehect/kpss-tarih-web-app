@@ -12,14 +12,15 @@ export function AuthStatusButton() {
   useEffect(() => {
     if (!supabase) return;
 
+    const client = supabase;
     let mounted = true;
 
-    supabase.auth.getUser().then(({ data }) => {
+    client.auth.getUser().then(({ data }) => {
       if (!mounted) return;
       setUser(data.user ?? null);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = client.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -32,7 +33,8 @@ export function AuthStatusButton() {
   async function signOut() {
     if (!supabase) return;
 
-    const { error } = await supabase.auth.signOut();
+    const client = supabase;
+    const { error } = await client.auth.signOut();
 
     if (error) {
       toast.error(error.message);
@@ -54,10 +56,17 @@ export function AuthStatusButton() {
 
   return (
     <div className="hidden items-center gap-2 sm:flex">
-      <a href="/profile" className="max-w-[180px] truncate rounded-full border border-black/[0.08] bg-white/70 px-4 py-2 text-sm font-black text-[#111827]">
+      <a
+        href="/profile"
+        className="max-w-[180px] truncate rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-black text-[var(--foreground)]"
+      >
         {user.user_metadata?.full_name ?? user.email}
       </a>
-      <button type="button" onClick={signOut} className="rounded-full border border-black/[0.08] bg-white/70 px-4 py-2 text-sm font-black text-[#425066] transition hover:bg-white">
+      <button
+        type="button"
+        onClick={signOut}
+        className="rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-black text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)]"
+      >
         Çıkış
       </button>
     </div>

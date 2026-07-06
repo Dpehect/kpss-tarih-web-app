@@ -26,15 +26,16 @@ export function AuthPanel() {
       return;
     }
 
+    const client = supabase;
     let mounted = true;
 
-    supabase.auth.getUser().then(({ data }) => {
+    client.auth.getUser().then(({ data }) => {
       if (!mounted) return;
       setUser(data.user ?? null);
       setIsLoading(false);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = client.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -50,9 +51,10 @@ export function AuthPanel() {
       return;
     }
 
+    const client = supabase;
     const redirectTo = `${window.location.origin}/auth/callback?next=/dashboard`;
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await client.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo
@@ -67,7 +69,8 @@ export function AuthPanel() {
   async function signOut() {
     if (!supabase) return;
 
-    const { error } = await supabase.auth.signOut();
+    const client = supabase;
+    const { error } = await client.auth.signOut();
 
     if (error) {
       toast.error(error.message);
@@ -81,7 +84,7 @@ export function AuthPanel() {
   if (isLoading) {
     return (
       <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-[#425066]">Oturum kontrol ediliyor...</p>
+        <p className="text-[var(--muted-foreground)]">Oturum kontrol ediliyor...</p>
       </section>
     );
   }
@@ -89,11 +92,13 @@ export function AuthPanel() {
   if (!supabase) {
     return (
       <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Kurulum gerekli</p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+          Kurulum gerekli
+        </p>
+        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
           Supabase environment variables eksik.
         </h2>
-        <p className="mt-3 text-[#425066]">
+        <p className="mt-3 text-[var(--muted-foreground)]">
           Vercel Project Settings → Environment Variables bölümüne NEXT_PUBLIC_SUPABASE_URL ve NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY eklenmeli.
         </p>
       </section>
@@ -103,11 +108,13 @@ export function AuthPanel() {
   if (user) {
     return (
       <section className="rounded-[2rem] parchment-surface p-6">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Aktif oturum</p>
-        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+          Aktif oturum
+        </p>
+        <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
           {user.user_metadata?.full_name ?? user.email}
         </h2>
-        <p className="mt-3 text-[#425066]">
+        <p className="mt-3 text-[var(--muted-foreground)]">
           İstatistiklerin online kaydedilecek ve tekrar giriş yaptığında dashboard'a yüklenecek.
         </p>
 
@@ -121,11 +128,13 @@ export function AuthPanel() {
 
   return (
     <section className="rounded-[2rem] parchment-surface p-6">
-      <p className="text-xs font-black uppercase tracking-[0.24em] text-[#2447d8]">Google hesabı</p>
-      <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[#111827]">
+      <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-sky)]">
+        Google hesabı
+      </p>
+      <h2 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--foreground)]">
         Giriş yapınca tüm istatistiklerin online kaydedilir.
       </h2>
-      <p className="mt-3 text-[#425066]">
+      <p className="mt-3 text-[var(--muted-foreground)]">
         İçerikler JSON'da kalır. Sadece kullanıcıya ait çalışma verileri Supabase'e yazılır.
       </p>
 

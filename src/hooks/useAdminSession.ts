@@ -16,15 +16,16 @@ export function useAdminSession() {
       return;
     }
 
+    const client = supabase;
     let mounted = true;
 
-    supabase.auth.getUser().then(({ data }) => {
+    client.auth.getUser().then(({ data }) => {
       if (!mounted) return;
       setUser(data.user ?? null);
       setIsLoading(false);
     });
 
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data } = client.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       setIsLoading(false);
     });

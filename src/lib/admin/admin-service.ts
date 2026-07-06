@@ -84,8 +84,18 @@ type NoteRow = {
   created_at: string;
 };
 
-export async function fetchAdminOverview(): Promise<AdminOverview> {
+function getAdminSupabaseClient() {
   const supabase = createClient();
+
+  if (!supabase) {
+    throw new Error("Supabase environment variables eksik.");
+  }
+
+  return supabase;
+}
+
+export async function fetchAdminOverview(): Promise<AdminOverview> {
+  const supabase = getAdminSupabaseClient();
 
   const [
     profiles,
@@ -181,7 +191,7 @@ export async function fetchAdminOverview(): Promise<AdminOverview> {
 }
 
 export async function fetchAdminContentItems() {
-  const supabase = createClient();
+  const supabase = getAdminSupabaseClient();
 
   const { data, error } = await supabase
     .from("admin_content_items")
@@ -202,7 +212,7 @@ export async function createAdminContentItem(input: {
   payload: Record<string, unknown>;
   status: AdminContentStatus;
 }) {
-  const supabase = createClient();
+  const supabase = getAdminSupabaseClient();
   const { data: userData } = await supabase.auth.getUser();
 
   const { error } = await supabase.from("admin_content_items").insert({
@@ -220,7 +230,7 @@ export async function createAdminContentItem(input: {
 }
 
 export async function updateAdminContentStatus(id: string, status: AdminContentStatus) {
-  const supabase = createClient();
+  const supabase = getAdminSupabaseClient();
 
   const { error } = await supabase
     .from("admin_content_items")
@@ -236,7 +246,7 @@ export async function updateAdminContentStatus(id: string, status: AdminContentS
 }
 
 export async function deleteAdminContentItem(id: string) {
-  const supabase = createClient();
+  const supabase = getAdminSupabaseClient();
 
   const { error } = await supabase
     .from("admin_content_items")

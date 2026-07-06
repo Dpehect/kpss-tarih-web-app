@@ -27,12 +27,13 @@ export function OnlineProgressHydrator() {
   useEffect(() => {
     if (!supabase) return;
 
+    const client = supabase;
     let cancelled = false;
 
     async function hydrateAndMaybeSync() {
       const {
         data: { user }
-      } = await supabase.auth.getUser();
+      } = await client.auth.getUser();
 
       if (!user || cancelled) return;
 
@@ -63,7 +64,7 @@ export function OnlineProgressHydrator() {
 
     void hydrateAndMaybeSync();
 
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data } = client.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         void hydrateAndMaybeSync();
       }
