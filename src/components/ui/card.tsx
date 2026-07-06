@@ -1,29 +1,45 @@
 "use client";
 
 import type { HTMLAttributes, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/cn";
 
-type CardProps = HTMLAttributes<HTMLDivElement> & {
+type CardProps = {
   children: ReactNode;
   interactive?: boolean;
+  className?: string;
 };
 
-export function Card({ children, className, interactive = false, ...props }: CardProps) {
-  const Component = interactive ? motion.div : "div";
+type StaticCardProps = CardProps & Omit<HTMLAttributes<HTMLDivElement>, keyof CardProps>;
+type MotionCardProps = CardProps & Omit<HTMLMotionProps<"div">, keyof CardProps>;
+
+export function Card({ children, className, interactive = false, ...props }: StaticCardProps | MotionCardProps) {
+  if (interactive) {
+    return (
+      <motion.div
+        whileHover={{ y: -5, scale: 1.01 }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          "rounded-[var(--radius-card)] border border-[var(--border-soft)] bg-white/78 p-6 text-[var(--text-primary)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
+          className
+        )}
+        {...(props as MotionCardProps)}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
-    <Component
-      whileHover={interactive ? { y: -5, scale: 1.01 } : undefined}
-      transition={interactive ? { duration: 0.22, ease: [0.22, 1, 0.36, 1] } : undefined}
+    <div
       className={cn(
         "rounded-[var(--radius-card)] border border-[var(--border-soft)] bg-white/78 p-6 text-[var(--text-primary)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
         className
       )}
-      {...props}
+      {...(props as StaticCardProps)}
     >
       {children}
-    </Component>
+    </div>
   );
 }
 

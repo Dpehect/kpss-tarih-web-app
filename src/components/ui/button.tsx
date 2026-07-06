@@ -1,7 +1,7 @@
 "use client";
 
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
-import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "gold" | "ghost";
@@ -13,6 +13,9 @@ type BaseProps = {
   children: ReactNode;
   className?: string;
 };
+
+type ButtonProps = BaseProps & Omit<HTMLMotionProps<"button">, keyof BaseProps>;
+type ButtonLinkProps = BaseProps & Omit<HTMLMotionProps<"a">, keyof BaseProps>;
 
 const variants: Record<Variant, string> = {
   primary: "border-[var(--navy-900)] bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[var(--shadow-sm)]",
@@ -32,7 +35,7 @@ export function Button({
   className,
   children,
   ...props
-}: BaseProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ButtonProps) {
   return (
     <motion.button
       whileHover={{ y: -2, scale: 1.015 }}
@@ -57,7 +60,7 @@ export function ButtonLink({
   className,
   children,
   ...props
-}: BaseProps & AnchorHTMLAttributes<HTMLAnchorElement>) {
+}: ButtonLinkProps) {
   return (
     <motion.a
       whileHover={{ y: -2, scale: 1.015 }}
