@@ -3,37 +3,19 @@
 import {
   ArrowRight,
   BookOpen,
-  CalendarClock,
   CreditCard,
   FileQuestion,
   Flame,
-  Home,
-  LibraryBig,
-  LineChart,
-  ListChecks,
   Sparkles,
   Trophy
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { PremiumSidebar, type SidebarItem } from "@/components/ui/sidebar";
 import { StatsCard } from "@/components/ui/stats-card";
 import { exams, flashcards, questions, recommendations, topics } from "@/data/kpss-history";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
-
-const dashboardItems: SidebarItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/topics", label: "Konu Özetleri", icon: BookOpen },
-  { href: "/question-bank", label: "Konu Testleri", icon: FileQuestion },
-  { href: "/flashcards", label: "Flashcard", icon: CreditCard },
-  { href: "/exams", label: "Denemeler", icon: Trophy },
-  { href: "/timeline", label: "Timeline", icon: CalendarClock },
-  { href: "/analytics", label: "Analiz", icon: LineChart },
-  { href: "/study-plan", label: "Çalışma Planı", icon: ListChecks },
-  { href: "/glossary", label: "Kavram Sözlüğü", icon: LibraryBig }
-];
 
 export default function DashboardRoute() {
   const mounted = useMounted();
@@ -57,129 +39,115 @@ export default function DashboardRoute() {
   const averageProgress = Math.round((topicProgress + questionProgress + flashcardProgress + examProgress) / 4);
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[auto_minmax(0,1fr)]">
-      <div className="hidden xl:block">
-        <PremiumSidebar
-          items={dashboardItems}
-          header={
-            <>
-              <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--accent-gold)]">Dashboard</p>
-              <p className="mt-2 text-2xl font-black tracking-[-0.06em]">Çalışma merkezi</p>
-            </>
-          }
-        />
-      </div>
-
-      <div className="min-w-0 space-y-8">
-        <motion.section
-          initial={{ opacity: 0, y: 24, filter: "blur(12px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="page-noise dark-surface relative overflow-hidden rounded-[2.75rem] p-7 md:p-10"
-        >
-          <div data-premium-parallax className="absolute right-[-6rem] top-[-7rem] size-80 rounded-full bg-[rgba(76,141,255,0.26)] blur-3xl" />
-          <div className="relative z-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-end">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.26em] text-[var(--accent-gold)]">Kontrol Merkezi</p>
-              <h1 className="editorial-title mt-5 max-w-4xl text-balance text-5xl text-[#fff8ea] md:text-7xl">
-                Hoş geldin, bugünkü çalışmanı tek ekranda yönet.
-              </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-white/68">
-                İlerlemen sade, okunaklı ve eyleme dönük biçimde gösterilir. Soru, tekrar, deneme ve konu akışı tek bir profesyonel çalışma masasında birleşir.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/question-bank" variant="gold" size="lg">
-                  Teste başla
-                  <ArrowRight size={19} />
-                </ButtonLink>
-                <ButtonLink href="/topics" variant="ghost" size="lg" className="border-white/15 bg-white/10 text-white hover:bg-white/15">
-                  Konuları incele
-                </ButtonLink>
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 backdrop-blur-2xl">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/48">Genel ilerleme</p>
-              <div className="mt-5 grid place-items-center">
-                <ProgressRing value={mounted ? averageProgress : 0} />
-              </div>
-              <p className="mt-5 text-center text-sm leading-6 text-white/62">
-                Konu, test, flashcard ve deneme ilerlemesinin ortalaması.
-              </p>
+    <div className="space-y-8">
+      <motion.section
+        initial={{ opacity: 0, y: 24, filter: "blur(12px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="page-noise dark-surface relative overflow-hidden rounded-[2.75rem] p-6 md:p-10 xl:p-12"
+      >
+        <div data-premium-parallax className="absolute right-[-6rem] top-[-7rem] size-80 rounded-full bg-[rgba(76,141,255,0.26)] blur-3xl" />
+        <div className="relative z-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_330px] xl:items-center">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-[var(--accent-gold)]">Kontrol Merkezi</p>
+            <h1 className="editorial-title mt-5 max-w-4xl text-balance text-5xl text-[#fff8ea] md:text-6xl 2xl:text-7xl">
+              Hoş geldin, bugünkü çalışmanı tek ekranda yönet.
+            </h1>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/68 md:text-lg">
+              İlerlemen sade, okunaklı ve eyleme dönük biçimde gösterilir. Soru, tekrar, deneme ve konu akışı tek bir profesyonel çalışma masasında birleşir.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href="/question-bank" variant="gold" size="lg">
+                Teste başla
+                <ArrowRight size={19} />
+              </ButtonLink>
+              <ButtonLink href="/topics" variant="ghost" size="lg" className="border-white/15 bg-white/10 text-white hover:bg-white/15">
+                Konuları incele
+              </ButtonLink>
             </div>
           </div>
-        </motion.section>
 
-        <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-          <StatsCard icon={<BookOpen size={21} />} label="Konu" value={`${mounted ? uniqueCompletedTopics : 0}/${topics.length}`} helper="Tamamlanan konu sayısı." tone="gold" />
-          <StatsCard icon={<FileQuestion size={21} />} label="Soru" value={`${mounted ? answeredQuestions : 0}/${questions.length}`} helper={`Son denemelere göre doğruluk: %${accuracy}`} tone="sky" />
-          <StatsCard icon={<CreditCard size={21} />} label="Flashcard" value={`${mounted ? reviewedCards : 0}/${flashcards.length}`} helper="En az bir kez tekrar edilen kart." tone="rose" />
-          <StatsCard icon={<Trophy size={21} />} label="Deneme" value={`${mounted ? completedExams : 0}/${exams.length}`} helper="Bitirilen deneme sayısı." tone="mint" />
-        </section>
-
-        <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <Card className="p-6 md:p-7">
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="kicker">Streak Counter</p>
-                <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--foreground)]">Çalışma ritmi</h2>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted-foreground)]">
-                  Bugünkü akışını kısa ve sürdürülebilir bloklara böl.
-                </p>
-              </div>
-              <span className="grid size-14 place-items-center rounded-2xl bg-[var(--accent-gold-soft)] text-[color-mix(in_srgb,var(--accent-gold),#6b4d10_34%)]">
-                <Flame size={24} />
-              </span>
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 backdrop-blur-2xl">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/48">Genel ilerleme</p>
+            <div className="mt-5 grid place-items-center">
+              <ProgressRing value={mounted ? averageProgress : 0} />
             </div>
+            <p className="mt-5 text-center text-sm leading-6 text-white/62">
+              Konu, test, flashcard ve deneme ilerlemesinin ortalaması.
+            </p>
+          </div>
+        </div>
+      </motion.section>
 
-            <div className="mt-8 grid gap-4">
-              <ProgressLine label="Konu" value={topicProgress} />
-              <ProgressLine label="Test" value={questionProgress} />
-              <ProgressLine label="Tekrar" value={flashcardProgress} />
-              <ProgressLine label="Deneme" value={examProgress} />
+      <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+        <StatsCard icon={<BookOpen size={21} />} label="Konu" value={`${mounted ? uniqueCompletedTopics : 0}/${topics.length}`} helper="Tamamlanan konu sayısı." tone="gold" />
+        <StatsCard icon={<FileQuestion size={21} />} label="Soru" value={`${mounted ? answeredQuestions : 0}/${questions.length}`} helper={`Son denemelere göre doğruluk: %${accuracy}`} tone="sky" />
+        <StatsCard icon={<CreditCard size={21} />} label="Flashcard" value={`${mounted ? reviewedCards : 0}/${flashcards.length}`} helper="En az bir kez tekrar edilen kart." tone="rose" />
+        <StatsCard icon={<Trophy size={21} />} label="Deneme" value={`${mounted ? completedExams : 0}/${exams.length}`} helper="Bitirilen deneme sayısı." tone="mint" />
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+        <Card className="p-6 md:p-7">
+          <div className="flex items-start justify-between gap-5">
+            <div>
+              <p className="kicker">Streak Counter</p>
+              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--foreground)]">Çalışma ritmi</h2>
+              <p className="mt-3 text-sm leading-7 text-[var(--muted-foreground)]">
+                Bugünkü akışını kısa ve sürdürülebilir bloklara böl.
+              </p>
             </div>
-          </Card>
+            <span className="grid size-14 place-items-center rounded-2xl bg-[var(--accent-gold-soft)] text-[color-mix(in_srgb,var(--accent-gold),#6b4d10_34%)]">
+              <Flame size={24} />
+            </span>
+          </div>
 
-          <Card className="p-6 md:p-7">
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="kicker">Önerilen Konular</p>
-                <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--foreground)]">Sıradaki çalışma akışı</h2>
-              </div>
-              <Sparkles className="text-[var(--accent-sky)]" size={26} />
+          <div className="mt-8 grid gap-4">
+            <ProgressLine label="Konu" value={topicProgress} />
+            <ProgressLine label="Test" value={questionProgress} />
+            <ProgressLine label="Tekrar" value={flashcardProgress} />
+            <ProgressLine label="Deneme" value={examProgress} />
+          </div>
+        </Card>
+
+        <Card className="p-6 md:p-7">
+          <div className="flex items-start justify-between gap-5">
+            <div>
+              <p className="kicker">Önerilen Konular</p>
+              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--foreground)]">Sıradaki çalışma akışı</h2>
             </div>
+            <Sparkles className="text-[var(--accent-sky)]" size={26} />
+          </div>
 
-            <div className="mt-7 grid gap-3">
-              {recommendations.slice(0, 4).map((item, index) => (
-                <motion.a
-                  key={item.id}
-                  href={item.href}
-                  whileHover={{ x: 4 }}
-                  className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-[var(--border)] bg-[var(--surface-subtle)] p-4 transition hover:bg-[var(--surface-strong)]"
-                >
-                  <span className="flex min-w-0 items-center gap-4">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--foreground)] text-sm font-black text-[var(--background)]">
-                      {index + 1}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block truncate font-black text-[var(--foreground)]">{item.title}</span>
-                      <span className="mt-1 block truncate text-sm text-[var(--muted-foreground)]">{item.description}</span>
-                    </span>
+          <div className="mt-7 grid gap-3">
+            {recommendations.slice(0, 4).map((item, index) => (
+              <motion.a
+                key={item.id}
+                href={item.href}
+                whileHover={{ x: 4 }}
+                className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-[var(--border)] bg-[var(--surface-subtle)] p-4 transition hover:bg-[var(--surface-strong)]"
+              >
+                <span className="flex min-w-0 items-center gap-4">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--foreground)] text-sm font-black text-[var(--background)]">
+                    {index + 1}
                   </span>
-                  <ArrowRight size={18} className="shrink-0 transition group-hover:translate-x-1" />
-                </motion.a>
-              ))}
-            </div>
-          </Card>
-        </section>
+                  <span className="min-w-0">
+                    <span className="block truncate font-black text-[var(--foreground)]">{item.title}</span>
+                    <span className="mt-1 block truncate text-sm text-[var(--muted-foreground)]">{item.description}</span>
+                  </span>
+                </span>
+                <ArrowRight size={18} className="shrink-0 transition group-hover:translate-x-1" />
+              </motion.a>
+            ))}
+          </div>
+        </Card>
+      </section>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <QuickAccess href="/topics" title="Konu Özetleri" icon={<BookOpen size={20} />} />
-          <QuickAccess href="/question-bank" title="Konu Testleri" icon={<FileQuestion size={20} />} />
-          <QuickAccess href="/flashcards" title="Flashcard" icon={<CreditCard size={20} />} />
-          <QuickAccess href="/exams" title="Denemeler" icon={<Trophy size={20} />} />
-        </section>
-      </div>
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <QuickAccess href="/topics" title="Konu Özetleri" icon={<BookOpen size={20} />} />
+        <QuickAccess href="/question-bank" title="Konu Testleri" icon={<FileQuestion size={20} />} />
+        <QuickAccess href="/flashcards" title="Flashcard" icon={<CreditCard size={20} />} />
+        <QuickAccess href="/exams" title="Denemeler" icon={<Trophy size={20} />} />
+      </section>
     </div>
   );
 }
