@@ -4,7 +4,7 @@ import { ArrowRight, BookOpen, CreditCard, FileQuestion, Flame, Sparkles, Trophy
 import { motion } from "framer-motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { StatCard } from "@/components/ui/StatCard";
+import { StatCard } from "@/components/ui/stat-card";
 import { exams, flashcards, questions, recommendations, topics } from "@/data/kpss-history";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";

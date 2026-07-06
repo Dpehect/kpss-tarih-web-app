@@ -4,7 +4,7 @@ import { BarChart3, BookOpen, CreditCard, FileQuestion, Target, Trophy } from "l
 import { motion } from "framer-motion";
 import { PageHeader } from "@/components/core/PageHeader";
 import { Card } from "@/components/ui/card";
-import { StatCard } from "@/components/ui/StatCard";
+import { StatCard } from "@/components/ui/stat-card";
 import { exams, flashcards, questions, topics } from "@/data/kpss-history";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
