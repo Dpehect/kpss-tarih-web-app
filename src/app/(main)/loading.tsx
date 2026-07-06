@@ -1,15 +1,14 @@
-/**
- * Ana app segment loading skeleton.
- */
+import { SkeletonGrid } from "@/components/ui/Skeleton";
+
 export default function MainLoading() {
   return (
-    <div className="content-shell py-6">
-      <div className="h-48 animate-pulse rounded-[2.5rem] bg-white/[0.06]" />
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        <div className="h-40 animate-pulse rounded-[2rem] bg-white/[0.06]" />
-        <div className="h-40 animate-pulse rounded-[2rem] bg-white/[0.06]" />
-        <div className="h-40 animate-pulse rounded-[2rem] bg-white/[0.06]" />
-      </div>
+    <div className="space-y-6" aria-busy="true" aria-live="polite">
+      <section className="surface-dark rounded-[2.75rem] p-8">
+        <div className="h-3 w-36 animate-pulse rounded-full bg-white/20" />
+        <div className="mt-6 h-14 w-2/3 animate-pulse rounded-full bg-white/16" />
+        <div className="mt-4 h-4 w-1/2 animate-pulse rounded-full bg-white/14" />
+      </section>
+      <SkeletonGrid count={6} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PremiumTimelinePage } from "@/features/timeline/components/PremiumTimelinePage";
+import { TimelinePage } from "@/features/timeline/components/TimelinePage";
 
 export const metadata: Metadata = {
   title: "Timeline",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function TimelineRoute() {
-  return <PremiumTimelinePage />;
+  return <TimelinePage />;
 }

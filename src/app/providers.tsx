@@ -3,7 +3,6 @@
 import type { ReactNode } from "react";
 import { ReactLenis } from "lenis/react";
 import { Toaster } from "sonner";
-import { GSAPPremiumEffects } from "@/components/motion/GSAPPremiumEffects";
 import { OnlineProgressHydrator } from "@/components/core/OnlineProgressHydrator";
 
 export function Providers({ children }: { children: ReactNode }) {
@@ -18,7 +17,6 @@ export function Providers({ children }: { children: ReactNode }) {
         touchMultiplier: 1.12
       }}
     >
-      <GSAPPremiumEffects />
       <OnlineProgressHydrator />
       {children}
       <Toaster

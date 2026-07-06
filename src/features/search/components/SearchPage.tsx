@@ -1,82 +1,146 @@
 "use client";
 
-import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { BookOpen, CreditCard, FileQuestion, LibraryBig, Search } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
-import { searchKpssHistory } from "@/lib/search/global-search";
+import { Card } from "@/components/ui/card";
+import { flashcards, glossary, questions, topics } from "@/data/kpss-history";
 
-export function SearchPage({ initialQuery }: { initialQuery: string }) {
-  const [query, setQuery] = useState(initialQuery);
-  const results = useMemo(() => searchKpssHistory(query), [query]);
+type SearchResult = {
+  id: string;
+  type: "Konu" | "Soru" | "Flashcard" | "Kavram";
+  title: string;
+  description: string;
+  href: string;
+};
+
+export function SearchPage() {
+  const [query, setQuery] = useState("");
+
+  const results = useMemo<SearchResult[]>(() => {
+    const normalized = query.toLocaleLowerCase("tr-TR").trim();
+
+    if (!normalized) return [];
+
+    const topicResults = topics
+      .filter((topic) => `${topic.title} ${topic.shortDescription} ${topic.keywords.join(" ")}`.toLocaleLowerCase("tr-TR").includes(normalized))
+      .map((topic) => ({
+        id: `topic-${topic.id}`,
+        type: "Konu" as const,
+        title: topic.title,
+        description: topic.shortDescription,
+        href: `/topics/${topic.slug}`
+      }));
+
+    const questionResults = questions
+      .filter((question) => `${question.stem} ${question.explanation} ${question.tags.join(" ")}`.toLocaleLowerCase("tr-TR").includes(normalized))
+      .slice(0, 12)
+      .map((question) => {
+        const topic = topics.find((item) => item.id === question.topicId);
+
+        return {
+          id: `question-${question.id}`,
+          type: "Soru" as const,
+          title: question.stem,
+          description: topic?.title ?? "Konu testi",
+          href: `/question-bank?topic=${question.topicId}`
+        };
+      });
+
+    const flashcardResults = flashcards
+      .filter((card) => `${card.front} ${card.back} ${card.tags.join(" ")}`.toLocaleLowerCase("tr-TR").includes(normalized))
+      .slice(0, 12)
+      .map((card) => {
+        const topic = topics.find((item) => item.id === card.topicId);
+
+        return {
+          id: `flashcard-${card.id}`,
+          type: "Flashcard" as const,
+          title: card.front,
+          description: topic?.title ?? "Flashcard",
+          href: "/flashcards"
+        };
+      });
+
+    const glossaryResults = glossary
+      .filter((item) => `${item.term} ${item.definition}`.toLocaleLowerCase("tr-TR").includes(normalized))
+      .map((item) => {
+        const topic = topics.find((topicItem) => topicItem.id === item.topicId);
+
+        return {
+          id: `glossary-${item.term}-${item.topicId}`,
+          type: "Kavram" as const,
+          title: item.term,
+          description: `${item.definition} · ${topic?.title ?? "Genel"}`,
+          href: "/glossary"
+        };
+      });
+
+    return [...topicResults, ...glossaryResults, ...questionResults, ...flashcardResults].slice(0, 30);
+  }, [query]);
 
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Arama"
-        title="Platform içi arama artık çalışıyor."
-        description="Konu, soru, flashcard, deneme, timeline, kavram ve çıkmış soru eğilimi tek arama ekranında bulunur."
+        title="Kavram, dönem veya soru ara."
+        description="Konu, sözlük, soru ve flashcard içerikleri arasında hızlıca arama yap."
       />
 
-      <form action="/search" className="rounded-[2rem] border border-black/[0.08] bg-[#fffaf0]/88 p-4 shadow-[0_18px_70px_rgba(18,24,38,0.08)]">
-        <div className="flex items-center gap-3 rounded-[1.4rem] border border-black/[0.08] bg-white px-4 py-3">
-          <Search size={20} className="text-[#425066]" />
+      <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/78 p-3 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
+        <label className="flex min-h-14 items-center gap-3 rounded-[1.55rem] bg-[rgba(11,18,32,.045)] px-4">
+          <Search size={18} className="text-[var(--text-secondary)]" />
           <input
-            name="q"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Örn: Tanzimat, Orhun, Lozan, NATO..."
-            className="min-w-0 flex-1 bg-transparent text-base font-semibold text-[#111827] outline-none placeholder:text-[#425066]/55"
+            placeholder="Örn. Malazgirt, Ahilik, Tanzimat, Lozan..."
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--navy-900)] outline-none placeholder:text-[var(--text-muted)]"
+            autoFocus
           />
-          <button className="btn-primary px-5 py-2.5" type="submit">
-            Ara
-          </button>
-        </div>
-      </form>
+        </label>
+      </div>
 
-      <section className="rounded-[2rem] border border-black/[0.08] bg-[#fffaf0]/76 p-5">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="kicker">Sonuçlar</p>
-            <h2 className="mt-2 text-3xl font-black tracking-[-0.06em]">
-              {query.trim() ? `${results.length} sonuç` : "Arama bekleniyor"}
-            </h2>
-          </div>
-          {query.trim() ? (
-            <p className="text-sm font-semibold text-[#425066]">Aranan: {query}</p>
-          ) : null}
-        </div>
-
-        {!query.trim() ? (
-          <p className="rounded-[1.4rem] bg-white/60 p-5 text-[#425066]">
-            Bir kavram, dönem, olay veya konu adı yaz.
-          </p>
-        ) : results.length === 0 ? (
-          <p className="rounded-[1.4rem] bg-white/60 p-5 text-[#425066]">
-            Sonuç bulunamadı. Daha kısa bir kavramla tekrar dene.
-          </p>
-        ) : (
-          <div className="grid gap-3">
-            {results.map((result) => (
-              <a
-                key={`${result.type}-${result.id}`}
-                href={result.href}
-                className="group rounded-[1.45rem] border border-black/[0.08] bg-white/62 p-5 transition hover:-translate-y-0.5 hover:bg-white"
-              >
-                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.22em] text-[#2447d8]">{result.type}</p>
-                    <h3 className="mt-2 text-xl font-black tracking-[-0.04em] text-[#111827]">{result.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-[#425066]">{result.description}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full bg-[#111827] px-3 py-1 text-xs font-black text-[#fffaf0]">
-                    Aç
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
-      </section>
+      {query.trim() ? (
+        <section className="grid gap-4">
+          {results.length > 0 ? (
+            results.map((result) => <ResultCard key={result.id} result={result} />)
+          ) : (
+            <Card>
+              <p className="text-xl font-black text-[var(--navy-900)]">Sonuç bulunamadı.</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
+            </Card>
+          )}
+        </section>
+      ) : (
+        <Card>
+          <p className="text-xl font-black text-[var(--navy-900)]">Aramaya başla.</p>
+          <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
+        </Card>
+      )}
     </div>
+  );
+}
+
+function ResultCard({ result }: { result: SearchResult }) {
+  const icon = {
+    Konu: <BookOpen size={18} />,
+    Soru: <FileQuestion size={18} />,
+    Flashcard: <CreditCard size={18} />,
+    Kavram: <LibraryBig size={18} />
+  }[result.type];
+
+  return (
+    <a href={result.href} className="group rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-xs)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[var(--shadow-sm)]">
+      <div className="flex gap-4">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[var(--navy-900)] text-[var(--text-inverse)]">
+          {icon}
+        </span>
+        <span className="min-w-0">
+          <span className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{result.type}</span>
+          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--navy-900)]">{result.title}</span>
+          <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--text-secondary)]">{result.description}</span>
+        </span>
+      </div>
+    </a>
   );
 }

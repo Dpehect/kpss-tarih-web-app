@@ -108,20 +108,20 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
 
   if (!currentCard || !currentTopic) {
     return (
-      <section className="rounded-[2rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.92)] p-8 text-center">
-        <h2 className="text-3xl font-black tracking-[-0.05em] text-[var(--museum-navy-2)]">Bu filtrede kart yok.</h2>
-        <p className="mt-3 text-[#334155]">Başka bir konu seçerek devam et.</p>
+      <section className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-8 text-center">
+        <h2 className="text-3xl font-black tracking-[-0.05em] text-[var(--navy-900)]">Bu filtrede kart yok.</h2>
+        <p className="mt-3 text-[var(--text-secondary)]">Başka bir konu seçerek devam et.</p>
       </section>
     );
   }
 
   return (
     <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-      <div className="rounded-[2.5rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-soft)] md:p-7">
+      <div className="rounded-[2.5rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-sm)] md:p-7">
         <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="kicker">{currentTopic.title}</p>
-            <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--museum-navy-2)]">
+            <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--navy-900)]">
               Kart {index + 1} / {filteredCards.length}
             </h2>
           </div>
@@ -137,7 +137,12 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
         </div>
 
         <div className="mb-6 h-2 overflow-hidden rounded-full bg-[rgba(11,18,32,.10)]">
-          <div className="h-full rounded-full bg-[var(--museum-navy-2)]" style={{ width: `${deckProgress}%` }} />
+          <motion.div
+            className="h-full rounded-full bg-[var(--navy-900)]"
+            initial={{ width: 0 }}
+            animate={{ width: `${deckProgress}%` }}
+            transition={{ duration: 0.55 }}
+          />
         </div>
 
         <div className="relative mx-auto grid min-h-[520px] max-w-3xl place-items-center overflow-hidden rounded-[2rem] bg-[rgba(11,18,32,.04)] p-4">
@@ -152,7 +157,6 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
             key={currentCard.id}
             initial={{ x: entryDirection * 180, y: -28, opacity: 0, scale: 0.985 }}
             animate={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
             transition={{ type: "spring", stiffness: 145, damping: 22, mass: 0.9 }}
             className="w-full max-w-[680px]"
           >
@@ -181,10 +185,14 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
         </div>
 
         {showHint ? (
-          <div className="mt-5 rounded-[1.5rem] border border-[rgba(76,141,255,.22)] bg-[rgba(76,141,255,.10)] p-4">
-            <p className="text-sm font-black text-[#1d4ed8]">İpucu</p>
-            <p className="mt-2 text-sm leading-7 text-[#1d4ed8]">{currentCard.hint}</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-5 rounded-[1.5rem] border border-[rgba(76,141,255,.22)] bg-[rgba(76,141,255,.10)] p-4"
+          >
+            <p className="text-sm font-black text-[var(--sky-600)]">İpucu</p>
+            <p className="mt-2 text-sm leading-7 text-[var(--sky-600)]">{currentCard.hint}</p>
+          </motion.div>
         ) : null}
 
         <div className="mt-5 grid gap-3 md:grid-cols-4">
@@ -204,16 +212,16 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
       </div>
 
       <aside className="space-y-5">
-        <section className="rounded-[2rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-soft)]">
+        <section className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-sm)]">
           <p className="kicker">Deste filtresi</p>
           <div className="mt-5 max-h-[420px] space-y-2 overflow-y-auto pr-1 scrollbar-clean">
-            <button type="button" onClick={() => handleTopicChange("all")} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === "all" ? "bg-[var(--museum-navy-2)] text-[var(--museum-cream)]" : "bg-white text-[#334155] hover:bg-white"}`}>
+            <button type="button" onClick={() => handleTopicChange("all")} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === "all" ? "bg-[var(--navy-900)] text-[var(--text-inverse)]" : "bg-white text-[var(--text-secondary)] hover:bg-white"}`}>
               Tüm kartlar <span className="ml-2 opacity-70">({cards.length})</span>
             </button>
             {deckTopics.map((topic) => {
               const count = cards.filter((card) => card.topicId === topic.id).length;
               return (
-                <button key={topic.id} type="button" onClick={() => handleTopicChange(topic.id)} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === topic.id ? "bg-[var(--museum-navy-2)] text-[var(--museum-cream)]" : "bg-white text-[#334155] hover:bg-white"}`}>
+                <button key={topic.id} type="button" onClick={() => handleTopicChange(topic.id)} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === topic.id ? "bg-[var(--navy-900)] text-[var(--text-inverse)]" : "bg-white text-[var(--text-secondary)] hover:bg-white"}`}>
                   {topic.title}<span className="ml-2 opacity-70">({count})</span>
                 </button>
               );
@@ -221,7 +229,7 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
           </div>
         </section>
 
-        <section className="museum-dark rounded-[2rem] p-5">
+        <section className="surface-dark rounded-[2rem] p-5">
           <p className="kicker">Tekrar istatistiği</p>
           <div className="mt-5 grid grid-cols-3 gap-3">
             <StatBox label="Başarı" value={`%${successRate}`} />
@@ -230,18 +238,18 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
           </div>
         </section>
 
-        <section className="rounded-[2rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.92)] p-5">
+        <section className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5">
           <p className="kicker">Kart etiketleri</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {currentCard.tags.map((tag) => (
-              <span key={tag} className="rounded-full border border-[rgba(11,18,32,.10)] bg-white px-3 py-1 text-xs font-bold text-[#475569]">
+              <span key={tag} className="rounded-full border border-[var(--border-soft)] bg-white px-3 py-1 text-xs font-bold text-[var(--text-muted)]">
                 {tag}
               </span>
             ))}
           </div>
           <div className="mt-5">
-            <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-[#475569]">Bu kart durumu</p>
-            <span className={`rounded-full px-3 py-1 text-xs font-black ${reviewedCardIds.has(currentCard.id) ? "bg-[#dff8ef] text-[#047857]" : "bg-white text-[#475569]"}`}>
+            <p className="mb-2 text-xs font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">Bu kart durumu</p>
+            <span className={`rounded-full px-3 py-1 text-xs font-black ${reviewedCardIds.has(currentCard.id) ? "bg-[#dff8ef] text-[#047857]" : "bg-white text-[var(--text-muted)]"}`}>
               {reviewedCardIds.has(currentCard.id) ? "tekrar edildi" : "ilk kez görülüyor"}
             </span>
           </div>
@@ -267,21 +275,21 @@ function CardFace({
   return (
     <div
       className={`absolute inset-0 grid grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-[2rem] border p-7 shadow-[0_30px_100px_rgba(11,18,32,.18)] ${
-        dark ? "border-white/10 bg-[var(--museum-navy-2)] text-[var(--museum-cream)]" : "border-[rgba(11,18,32,.10)] bg-[var(--museum-cream)] text-[var(--museum-navy-2)]"
+        dark ? "border-white/10 bg-[var(--navy-900)] text-[var(--text-inverse)]" : "border-[var(--border-soft)] bg-[var(--bg)] text-[var(--navy-900)]"
       }`}
       style={{ backfaceVisibility: "hidden", transform: back ? "rotateY(180deg)" : undefined }}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className={`text-xs font-black uppercase tracking-[0.28em] ${dark ? "text-[var(--museum-gold)]" : "text-[#1d4ed8]"}`}>{side}</p>
-          <p className={`mt-2 text-sm ${dark ? "text-[rgba(255,248,234,.70)]" : "text-[#475569]"}`}>{subtitle}</p>
+          <p className={`text-xs font-black uppercase tracking-[0.28em] ${dark ? "text-[var(--gold-500)]" : "text-[var(--sky-600)]"}`}>{side}</p>
+          <p className={`mt-2 text-sm ${dark ? "text-[var(--text-inverse-muted)]" : "text-[var(--text-muted)]"}`}>{subtitle}</p>
         </div>
-        <div className={`rounded-2xl border px-3 py-2 text-xs font-black uppercase tracking-[0.18em] ${dark ? "border-white/10 bg-white/[.06] text-[var(--museum-cream)]" : "border-[rgba(11,18,32,.10)] bg-white text-[var(--museum-navy-2)]"}`}>
+        <div className={`rounded-2xl border px-3 py-2 text-xs font-black uppercase tracking-[0.18em] ${dark ? "border-white/10 bg-white/[.06] text-[var(--text-inverse)]" : "border-[var(--border-soft)] bg-white text-[var(--navy-900)]"}`}>
           KPSS
         </div>
       </div>
       <div className="flex min-h-0 items-center justify-center overflow-y-auto px-1 py-5">
-        <h3 className={`${getCardTextClass(title)} max-w-[20ch] break-words text-center font-black tracking-[-0.055em] ${dark ? "text-[var(--museum-cream)]" : "text-[var(--museum-navy-2)]"}`}>
+        <h3 className={`${getCardTextClass(title)} max-w-[20ch] break-words text-center font-black tracking-[-0.055em] ${dark ? "text-[var(--text-inverse)]" : "text-[var(--navy-900)]"}`}>
           {title}
         </h3>
       </div>
@@ -293,7 +301,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.08] p-4">
       <p className="text-xs uppercase tracking-[0.18em] text-[rgba(255,248,234,.58)]">{label}</p>
-      <p className="mt-2 text-2xl font-black text-[var(--museum-cream)]">{value}</p>
+      <p className="mt-2 text-2xl font-black text-[var(--text-inverse)]">{value}</p>
     </div>
   );
 }

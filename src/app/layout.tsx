@@ -3,21 +3,21 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Providers } from "@/app/providers";
 import "@/app/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sans = Geist({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
   preload: true
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const mono = Geist_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
   preload: false
 });
 
-const playfair = Playfair_Display({
+const serif = Playfair_Display({
   variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
@@ -64,7 +64,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tr" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable}`}>
+      <body className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

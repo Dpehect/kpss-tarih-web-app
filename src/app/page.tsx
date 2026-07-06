@@ -14,10 +14,10 @@ export default function Home() {
         <ScrollReveal>
           <div className="mx-auto max-w-6xl">
             <p className="kicker">KPSS Tarih Akademi</p>
-            <h1 className="editorial-title mt-6 text-balance text-5xl md:text-7xl xl:text-8xl">
+            <h1 className="heading-display mt-6 text-balance text-5xl md:text-7xl xl:text-8xl">
               Tarihi ezber listesi değil, yaşayan bir çalışma atlası olarak keşfet.
             </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-[#405067] md:text-xl">
+            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-[var(--text-secondary)] md:text-xl">
               Konu özetleri, açıklamalı sorular, denemeler, flashcard tekrarları, zaman çizelgesi ve online ilerleme takibi tek bir ciddi çalışma deneyiminde birleşir.
             </p>
 
@@ -46,7 +46,7 @@ export default function Home() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.22} className="mt-16 w-full">
-          <div className="museum-glass grid gap-4 rounded-[2.75rem] p-5 md:grid-cols-4 md:p-6">
+          <div className="surface-glass grid gap-4 rounded-[2.75rem] p-5 md:grid-cols-4 md:p-6">
             <LandingStat label="Konu" value={topics.length} icon={<BookOpen size={18} />} />
             <LandingStat label="Soru" value={questions.length} icon={<FileQuestion size={18} />} />
             <LandingStat label="Flashcard" value={flashcards.length} icon={<CreditCard size={18} />} />
@@ -60,7 +60,7 @@ export default function Home() {
 
 function MuseumMap() {
   return (
-    <div className="museum-dark relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] p-8 md:p-12">
+    <div className="surface-dark relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] p-8 md:p-12">
       <div className="absolute inset-0 opacity-30">
         <svg viewBox="0 0 1000 360" className="h-full w-full">
           <path d="M120 205 C230 140, 330 100, 470 132 C610 164, 690 90, 840 135 C915 158, 942 228, 864 258 C720 314, 578 266, 455 282 C322 300, 186 285, 120 205Z" fill="none" stroke="rgba(255,248,234,.34)" strokeWidth="3" />
@@ -74,8 +74,8 @@ function MuseumMap() {
       <div className="relative z-10 grid gap-8 md:grid-cols-[1fr_320px] md:items-center">
         <div className="text-left">
           <p className="kicker">Dijital tarih atlası</p>
-          <h2 className="editorial-title mt-4 text-4xl md:text-6xl">Orta Asya’dan Cumhuriyet’e tek akış.</h2>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-[rgba(255,248,234,.80)]">
+          <h2 className="heading-display mt-4 text-4xl md:text-6xl">Orta Asya’dan Cumhuriyet’e tek akış.</h2>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--text-inverse-muted)]">
             Müfredat, ezberden çıkıp dönemler arası ilişki kuran bir görsel çalışma deneyimine dönüşür.
           </p>
         </div>
@@ -84,8 +84,8 @@ function MuseumMap() {
           <div className="mt-5 space-y-3">
             {["Konu", "Test", "Flashcard", "Deneme"].map((item, index) => (
               <div key={item} className="flex items-center gap-3">
-                <span className="grid size-8 place-items-center rounded-full bg-[var(--museum-gold)] text-sm font-black text-[var(--museum-navy-2)]">{index + 1}</span>
-                <span className="font-black text-[var(--museum-cream)]">{item}</span>
+                <span className="grid size-8 place-items-center rounded-full bg-[var(--gold-500)] text-sm font-black text-[var(--navy-900)]">{index + 1}</span>
+                <span className="font-black text-[var(--text-inverse)]">{item}</span>
               </div>
             ))}
           </div>
@@ -97,24 +97,24 @@ function MuseumMap() {
 
 function FeatureCard({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
   return (
-    <Card className="text-left">
-      <span className="grid size-12 place-items-center rounded-2xl bg-[var(--museum-navy-2)] text-[var(--museum-cream)] shadow-[var(--shadow-soft)]">
+    <Card interactive className="text-left">
+      <span className="grid size-12 place-items-center rounded-2xl bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[var(--shadow-sm)]">
         {icon}
       </span>
-      <h2 className="mt-7 text-2xl font-black tracking-[-0.055em] text-[var(--museum-navy-2)]">{title}</h2>
-      <p className="mt-3 text-sm leading-7 text-[#334155]">{body}</p>
+      <h2 className="mt-7 text-2xl font-black tracking-[-0.055em] text-[var(--navy-900)]">{title}</h2>
+      <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
     </Card>
   );
 }
 
 function LandingStat({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
   return (
-    <div className="rounded-[1.6rem] border border-[rgba(11,18,32,.10)] bg-white/74 p-5 text-left shadow-[var(--shadow-soft)]">
+    <div className="rounded-[1.6rem] border border-[var(--border-soft)] bg-white/74 p-5 text-left shadow-[var(--shadow-xs)]">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-[#475569]">{label}</p>
-        <span className="text-[#1d4ed8]">{icon}</span>
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">{label}</p>
+        <span className="text-[var(--sky-600)]">{icon}</span>
       </div>
-      <p className="mt-4 text-4xl font-black tracking-[-0.08em] text-[var(--museum-navy-2)]">{value}</p>
+      <p className="mt-4 text-4xl font-black tracking-[-0.08em] text-[var(--navy-900)]">{value}</p>
     </div>
   );
 }

@@ -1,28 +1,62 @@
-import { PageHeader } from "@/components/core/PageHeader";
-import { getTopicById, glossary } from "@/data/kpss-history";
+"use client";
 
-/**
- * Kavram sözlüğü.
- * KPSS Tarih kısa bilgi tekrarları için ayrı sayfa.
- */
+import { useMemo, useState } from "react";
+import { BookMarked, Search } from "lucide-react";
+import { PageHeader } from "@/components/core/PageHeader";
+import { Card } from "@/components/ui/card";
+import { glossary, topics } from "@/data/kpss-history";
+
 export function GlossaryPage() {
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const normalized = query.toLocaleLowerCase("tr-TR").trim();
+
+    if (!normalized) return glossary;
+
+    return glossary.filter((item) => {
+      const topicTitle = topics.find((topic) => topic.id === item.topicId)?.title ?? "";
+      return `${item.term} ${item.definition} ${topicTitle}`.toLocaleLowerCase("tr-TR").includes(normalized);
+    });
+  }, [query]);
+
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Kavram Sözlüğü"
-        title="Kısa bilgi tuzaklarını burada çöz."
-        description="Kut, töre, ikta, Karlofça, Amasya, Mudanya gibi KPSS'de sık karıştırılan kavramlar tek yerde."
+        title="Tarih kavramlarını hızlı bul."
+        description="Kavramları konu bağlamıyla birlikte arayabilir, test öncesi kısa tekrar yapabilirsin."
       />
 
+      <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/78 p-3 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
+        <label className="flex min-h-14 items-center gap-3 rounded-[1.55rem] bg-[rgba(11,18,32,.045)] px-4">
+          <Search size={18} className="text-[var(--text-secondary)]" />
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Kavram, açıklama veya konu ara"
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--navy-900)] outline-none placeholder:text-[var(--text-muted)]"
+          />
+        </label>
+      </div>
+
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {glossary.map((item) => {
-          const topic = getTopicById(item.topicId);
+        {filtered.map((item) => {
+          const topic = topics.find((topicItem) => topicItem.id === item.topicId);
+
           return (
-            <a key={item.term} href={topic ? `/topics/${topic.slug}` : "/topics"} className="rounded-[2rem] parchment-surface p-6 transition hover:-translate-y-1">
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">{topic?.title}</p>
-              <h2 className="mt-3 text-2xl font-black tracking-[-0.04em]">{item.term}</h2>
-              <p className="mt-3 text-sm leading-7 text-[#ead7b7]/68">{item.definition}</p>
-            </a>
+            <Card key={`${item.term}-${item.topicId}`} interactive>
+              <div className="flex items-start gap-4">
+                <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[var(--gold-soft)] text-[#8d6500]">
+                  <BookMarked size={19} />
+                </span>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{topic?.title ?? "Genel"}</p>
+                  <h2 className="mt-2 text-2xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{item.term}</h2>
+                  <p className="mt-3 text-sm font-semibold leading-7 text-[var(--text-secondary)]">{item.definition}</p>
+                </div>
+              </div>
+            </Card>
           );
         })}
       </section>

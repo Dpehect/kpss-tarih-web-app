@@ -6,31 +6,28 @@ import type { Question } from "@/types/study";
  * Veri yapısı değiştirilmez; sadece UI'da gösterilecek hint yumuşatılır.
  */
 export function getSubtleQuestionHint(question: Question) {
-  if (question.type === "chronology") {
-    return "Olayların tarihsel sırasını ve önce/sonra ilişkisini düşün.";
+  const stem = question.stem.toLocaleLowerCase("tr-TR");
+  const questionType = String(question.type ?? "");
+
+  if (questionType.includes("chronology") || stem.includes("sıralama") || stem.includes("kronoloji")) {
+    return "Olayların önce-sonra ilişkisini ve dönemin genel akışını düşün.";
   }
 
-  if (question.type === "case") {
-    return "Soru kökündeki dönem, kurum ve sonuç ipuçlarını ayır.";
+  if (questionType.includes("case") || stem.includes("durum") || stem.includes("sonuç")) {
+    return "Soru kökündeki dönem, kurum ve sonuç ipuçlarını ayrı ayrı değerlendir.";
   }
 
-  const normalizedStem = question.stem.toLocaleLowerCase("tr-TR");
-
-  if (normalizedStem.includes("hangisi değildir") || normalizedStem.includes("değildir")) {
-    return "Olumsuz soru köküne dikkat et; seçenekleri tek tek ele.";
+  if (stem.includes("hangisi değildir") || stem.includes("değildir")) {
+    return "Olumsuz soru köküne dikkat et; seçenekleri eleyerek ilerle.";
   }
 
-  if (question.tags.length > 0) {
+  if (stem.includes("hangisidir")) {
+    return "Anahtar kavramı bulup ilgili dönem veya kurumla eşleştir.";
+  }
+
+  if (question.tags?.length > 0) {
     return `Önce kavram alanını belirle: ${question.tags.slice(0, 2).join(", ")}.`;
   }
 
-  if (question.difficulty === "ileri") {
-    return "Benzer kavramları karıştırmadan dönem bağlamını kontrol et.";
-  }
-
-  if (question.difficulty === "orta") {
-    return "Anahtar kavramı bulup ilgili dönemle eşleştir.";
-  }
-
-  return "Soru kökündeki anahtar kavramı yakala.";
+  return "Soru kökündeki anahtar kavramı yakala ve dönem bağlamını kontrol et.";
 }

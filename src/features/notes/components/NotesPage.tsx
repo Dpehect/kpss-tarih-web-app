@@ -1,92 +1,122 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
+import { Plus, Trash2 } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { topics } from "@/data/kpss-history";
-import { deleteOnlineNote, saveOnlineNote } from "@/lib/progress/online-progress";
-import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
 export function NotesPage() {
-  const mounted = useMounted();
   const notes = useStudyProgressStore((state) => state.notes);
   const addNote = useStudyProgressStore((state) => state.addNote);
   const deleteNote = useStudyProgressStore((state) => state.deleteNote);
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [topicId, setTopicId] = useState("");
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!title.trim() || !body.trim()) {
-      toast.error("Başlık ve not alanı zorunlu.");
-      return;
-    }
+    if (!title.trim() || !body.trim()) return;
 
-    const noteId = addNote({ title, body, topicId: topicId || undefined });
-
-    void saveOnlineNote({
-      id: noteId,
-      title,
-      body,
+    addNote({
+      title: title.trim(),
+      body: body.trim(),
       topicId: topicId || undefined
     });
 
     setTitle("");
     setBody("");
     setTopicId("");
-    toast.success("Not eklendi");
-  }
-
-  async function removeNote(id: string) {
-    deleteNote(id);
-    void deleteOnlineNote(id);
-    toast.success("Not silindi");
   }
 
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Notlar"
-        title="Kendi kısa tekrar defterin."
-        description="Google ile giriş yaptıysan notların Supabase'de saklanır ve tekrar girişte yüklenir."
+        title="Kendi tarih defterini oluştur."
+        description="Konu çalışırken kritik gördüğün yerleri kısa notlara dönüştür."
       />
 
-      <form onSubmit={submit} className="rounded-[2rem] parchment-surface p-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <input value={title} onChange={(event) => setTitle(event.target.value)} className="rounded-2xl border border-white/10 bg-[#120b07]/50 px-4 py-3 outline-none focus:border-[#f2c15f]" placeholder="Not başlığı" />
-          <select value={topicId} onChange={(event) => setTopicId(event.target.value)} className="rounded-2xl border border-white/10 bg-[#120b07]/50 px-4 py-3 outline-none focus:border-[#f2c15f]">
-            <option value="">Konu seçmeden kaydet</option>
-            {topics.map((topic) => (
-              <option key={topic.id} value={topic.id}>{topic.title}</option>
-            ))}
-          </select>
-        </div>
-        <textarea value={body} onChange={(event) => setBody(event.target.value)} className="mt-4 min-h-32 w-full rounded-2xl border border-white/10 bg-[#120b07]/50 px-4 py-3 outline-none focus:border-[#f2c15f]" placeholder="Kendi notunu yaz..." />
-        <button className="mt-4 rounded-full bg-[#f2c15f] px-6 py-3 font-black text-[#120b07]">Not ekle</button>
-      </form>
+      <section className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]">
+        <form onSubmit={submit} className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-6 shadow-[var(--shadow-sm)] backdrop-blur-2xl">
+          <p className="kicker">Yeni not</p>
 
-      <section className="grid gap-4 md:grid-cols-2">
-        {!mounted || notes.length === 0 ? (
-          <div className="rounded-[2rem] parchment-surface p-6">
-            <h2 className="text-2xl font-black">Henüz not yok.</h2>
-            <p className="mt-3 text-[#ead7b7]/66">İlk tekrar notunu yukarıdan ekle.</p>
-          </div>
-        ) : notes.map((note) => {
-          const topic = topics.find((item) => item.id === note.topicId);
-          return (
-            <article key={note.id} className="rounded-[2rem] parchment-surface p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f6c465]">{topic?.title ?? "Genel not"}</p>
-              <h2 className="mt-3 text-2xl font-black">{note.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-[#ead7b7]/70">{note.body}</p>
-              <button onClick={() => removeNote(note.id)} className="mt-5 rounded-full bg-white/[0.08] px-4 py-2 text-sm font-bold">
-                Sil
-              </button>
-            </article>
-          );
-        })}
+          <label className="mt-5 block">
+            <span className="text-sm font-black text-[var(--navy-900)]">Başlık</span>
+            <input
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--navy-900)] outline-none"
+              placeholder="Örn. Islahat Fermanı"
+            />
+          </label>
+
+          <label className="mt-4 block">
+            <span className="text-sm font-black text-[var(--navy-900)]">Konu</span>
+            <select
+              value={topicId}
+              onChange={(event) => setTopicId(event.target.value)}
+              className="mt-2 min-h-12 w-full rounded-[1.15rem] border border-[var(--border-soft)] bg-white px-4 font-semibold text-[var(--navy-900)] outline-none"
+            >
+              <option value="">Konu seçilmedi</option>
+              {topics.map((topic) => (
+                <option key={topic.id} value={topic.id}>{topic.title}</option>
+              ))}
+            </select>
+          </label>
+
+          <label className="mt-4 block">
+            <span className="text-sm font-black text-[var(--navy-900)]">Not</span>
+            <textarea
+              value={body}
+              onChange={(event) => setBody(event.target.value)}
+              rows={7}
+              className="mt-2 w-full resize-none rounded-[1.15rem] border border-[var(--border-soft)] bg-white p-4 font-semibold leading-7 text-[var(--navy-900)] outline-none"
+              placeholder="Kendi cümlelerinle kısa not yaz..."
+            />
+          </label>
+
+          <Button type="submit" variant="gold" className="mt-5 w-full">
+            <Plus size={18} />
+            Not ekle
+          </Button>
+        </form>
+
+        <div className="space-y-4">
+          {notes.length === 0 ? (
+            <EmptyState title="Henüz not yok." description="İlk notunu eklediğinde burada modern kartlar halinde görünür." />
+          ) : (
+            notes.map((note) => {
+              const topic = topics.find((item) => item.id === note.topicId);
+
+              return (
+                <Card key={note.id}>
+                  <div className="flex items-start justify-between gap-5">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{topic?.title ?? "Genel Not"}</p>
+                      <h2 className="mt-2 text-2xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{note.title}</h2>
+                      <p className="mt-3 whitespace-pre-wrap text-sm font-semibold leading-7 text-[var(--text-secondary)]">{note.body}</p>
+                      <p className="mt-4 text-xs font-bold text-[var(--text-muted)]">{new Date(note.createdAt).toLocaleDateString("tr-TR")}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => deleteNote(note.id)}
+                      className="grid size-10 shrink-0 place-items-center rounded-full border border-[#9a3412]/20 bg-[#fff0e9] text-[#9a3412]"
+                      aria-label="Notu sil"
+                    >
+                      <Trash2 size={17} />
+                    </button>
+                  </div>
+                </Card>
+              );
+            })
+          )}
+        </div>
       </section>
     </div>
   );

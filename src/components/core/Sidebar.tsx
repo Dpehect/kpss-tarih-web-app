@@ -65,12 +65,12 @@ export function Sidebar() {
             className={cn(
               "group flex min-h-12 items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-black transition duration-200",
               active
-                ? "bg-[var(--museum-navy-2)] text-[var(--museum-cream)] shadow-[0_16px_50px_rgba(11,18,32,.18)] hover:bg-[var(--museum-navy-2)]"
-                : "text-[#172033] hover:bg-[rgba(11,18,32,.055)] hover:text-[var(--museum-navy-2)]"
+                ? "bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(11,18,32,.18)] hover:bg-[var(--navy-900)]"
+                : "text-[#172033] hover:bg-[rgba(11,18,32,.055)] hover:text-[var(--navy-900)]"
             )}
           >
-            <Icon size={18} className={cn("shrink-0 transition group-hover:scale-110", active ? "text-[var(--museum-cream)]" : "text-[#334155]")} />
-            <span className={cn("min-w-0 truncate", active ? "text-[var(--museum-cream)]" : "text-[#111827]")}>
+            <Icon size={18} className={cn("shrink-0 transition group-hover:scale-110", active ? "text-[var(--text-inverse)]" : "text-[var(--text-secondary)]")} />
+            <span className={cn("min-w-0 truncate", active ? "text-[var(--text-inverse)]" : "text-[var(--navy-900)]")}>
               {item.label}
             </span>
           </a>
@@ -81,11 +81,11 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.90)] p-3 shadow-[var(--shadow-soft)] backdrop-blur-2xl lg:block scrollbar-clean">
-        <div className="mb-4 overflow-hidden rounded-[1.55rem] bg-[var(--museum-navy-2)] p-4 text-[var(--museum-cream)] shadow-[0_16px_50px_rgba(11,18,32,.16)]">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--museum-gold)]">Çalışma Atlası</p>
-          <p className="mt-2 text-2xl font-black tracking-[-0.06em] text-[var(--museum-cream)]">Tarih masası</p>
-          <p className="mt-2 text-sm leading-6 text-[rgba(255,248,234,.74)]">
+      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.90)] p-3 shadow-[var(--shadow-sm)] backdrop-blur-2xl lg:block scrollbar-clean">
+        <div className="mb-4 overflow-hidden rounded-[1.55rem] bg-[var(--navy-900)] p-4 text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(11,18,32,.16)]">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--gold-500)]">Çalışma Atlası</p>
+          <p className="mt-2 text-2xl font-black tracking-[-0.06em] text-[var(--text-inverse)]">Tarih masası</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--text-inverse-muted)]">
             Konu, test, deneme ve analiz için düzenli çalışma merkezi.
           </p>
         </div>
@@ -95,14 +95,14 @@ export function Sidebar() {
       {isOpen ? (
         <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
           <aside
-            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[rgba(11,18,32,.10)] bg-[var(--museum-cream)] p-4 scrollbar-clean"
+            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--border-soft)] bg-[var(--bg)] p-4 scrollbar-clean"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--museum-navy-2)] font-black text-[var(--museum-cream)]">T</span>
+              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--navy-900)] font-black text-[var(--text-inverse)]">T</span>
               <div>
-                <p className="font-black text-[var(--museum-navy-2)]">KPSS Tarih</p>
-                <p className="text-xs text-[#475569]">Çalışma menüsü</p>
+                <p className="font-black text-[var(--navy-900)]">KPSS Tarih</p>
+                <p className="text-xs text-[var(--text-muted)]">Çalışma menüsü</p>
               </div>
             </div>
             {nav}
