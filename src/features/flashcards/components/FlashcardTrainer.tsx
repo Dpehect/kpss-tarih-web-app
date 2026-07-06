@@ -130,7 +130,7 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
             <button type="button" onClick={() => goToCard(index - 1, -1)} className="btn-ghost px-4 py-2 text-sm">
               Önceki
             </button>
-            <button type="button" onClick={() => goToCard(index + 1, 1)} className="btn-primary px-4 py-2 text-sm">
+            <button type="button" onClick={() => goToCard(index + 1, 1)} className="btn-primary px-4 py-2 text-sm" data-dark-button="true">
               Sonraki
             </button>
           </div>
@@ -215,14 +215,35 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
         <section className="rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-sm)]">
           <p className="kicker">Deste filtresi</p>
           <div className="mt-5 max-h-[420px] space-y-2 overflow-y-auto pr-1 scrollbar-clean">
-            <button type="button" onClick={() => handleTopicChange("all")} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === "all" ? "bg-[var(--navy-900)] text-[var(--text-inverse)]" : "bg-white text-[var(--text-secondary)] hover:bg-white"}`}>
-              Tüm kartlar <span className="ml-2 opacity-70">({cards.length})</span>
+            <button
+              type="button"
+              onClick={() => handleTopicChange("all")}
+              data-dark-button={selectedTopicId === "all" ? "true" : undefined}
+              className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${
+                selectedTopicId === "all"
+                  ? "bg-[var(--navy-900)] !text-[var(--text-inverse)]"
+                  : "bg-white text-[var(--text-secondary)] hover:bg-white"
+              }`}
+            >
+              Tüm kartlar <span className={selectedTopicId === "all" ? "!text-[var(--text-inverse)] opacity-80" : "opacity-70"}>({cards.length})</span>
             </button>
             {deckTopics.map((topic) => {
               const count = cards.filter((card) => card.topicId === topic.id).length;
+              const active = selectedTopicId === topic.id;
+
               return (
-                <button key={topic.id} type="button" onClick={() => handleTopicChange(topic.id)} className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${selectedTopicId === topic.id ? "bg-[var(--navy-900)] text-[var(--text-inverse)]" : "bg-white text-[var(--text-secondary)] hover:bg-white"}`}>
-                  {topic.title}<span className="ml-2 opacity-70">({count})</span>
+                <button
+                  key={topic.id}
+                  type="button"
+                  onClick={() => handleTopicChange(topic.id)}
+                  data-dark-button={active ? "true" : undefined}
+                  className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-black transition ${
+                    active
+                      ? "bg-[var(--navy-900)] !text-[var(--text-inverse)]"
+                      : "bg-white text-[var(--text-secondary)] hover:bg-white"
+                  }`}
+                >
+                  {topic.title}<span className={active ? "ml-2 !text-[var(--text-inverse)] opacity-80" : "ml-2 opacity-70"}>({count})</span>
                 </button>
               );
             })}

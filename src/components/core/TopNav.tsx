@@ -32,7 +32,7 @@ export function TopNav() {
             placeholder="Kavram, dönem veya belge ara"
             autoComplete="off"
           />
-          <button type="submit" className="inline-flex min-w-12 items-center justify-center rounded-full bg-[var(--navy-900)] px-4 py-1.5 text-xs font-black text-[var(--text-inverse)]">
+          <button type="submit" className="btn-primary min-w-12 px-4 py-1.5 text-xs" data-dark-button="true">
             Ara
           </button>
         </form>

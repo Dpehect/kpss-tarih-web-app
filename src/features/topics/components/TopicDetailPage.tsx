@@ -114,11 +114,11 @@ export function TopicDetailPage({ slug }: { slug: string }) {
               {relatedQuestions.length} soru, {relatedFlashcards.length} flashcard bağlı.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <a href={`/question-bank?topic=${topic.id}`} className="inline-flex items-center gap-2 rounded-full bg-[var(--navy-900)] px-4 py-2 text-sm font-black text-[var(--text-inverse)]">
+              <a href={`/question-bank?topic=${topic.id}`} className="btn-primary px-4 py-2 text-sm" data-dark-button="true">
                 Test çöz
                 <ArrowRight size={15} />
               </a>
-              <a href="/flashcards" className="inline-flex items-center gap-2 rounded-full bg-[var(--navy-900)] px-4 py-2 text-sm font-black text-[var(--text-inverse)]">
+              <a href="/flashcards" className="btn-primary px-4 py-2 text-sm" data-dark-button="true">
                 Kart aç
                 <ArrowRight size={15} />
               </a>
