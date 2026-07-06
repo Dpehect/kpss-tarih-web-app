@@ -12,10 +12,10 @@ export function Providers({ children }: { children: ReactNode }) {
       root
       options={{
         lerp: 0.075,
-        duration: 1.2,
+        duration: 1.18,
         smoothWheel: true,
-        wheelMultiplier: 0.92,
-        touchMultiplier: 1.16
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.12
       }}
     >
       <GSAPPremiumEffects />
@@ -27,9 +27,9 @@ export function Providers({ children }: { children: ReactNode }) {
         toastOptions={{
           style: {
             borderRadius: "22px",
-            border: "1px solid rgba(15,23,42,0.10)",
+            border: "1px solid rgba(11,18,32,0.12)",
             backdropFilter: "blur(18px)",
-            boxShadow: "0 18px 60px rgba(15,23,42,0.12)"
+            boxShadow: "0 20px 70px rgba(11,18,32,0.14)"
           }
         }}
       />

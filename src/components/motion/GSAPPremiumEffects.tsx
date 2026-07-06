@@ -18,7 +18,6 @@ export function GSAPPremiumEffects() {
 
         const revealElements = gsap.utils.toArray<HTMLElement>("[data-premium-reveal]");
         const parallaxElements = gsap.utils.toArray<HTMLElement>("[data-premium-parallax]");
-        const progressElements = gsap.utils.toArray<HTMLElement>("[data-premium-progress]");
 
         revealElements.forEach((element) => {
           gsap.fromTo(
@@ -30,17 +29,14 @@ export function GSAPPremiumEffects() {
               filter: "blur(0px)",
               duration: 0.9,
               ease: "power3.out",
-              scrollTrigger: {
-                trigger: element,
-                start: "top 88%"
-              }
+              scrollTrigger: { trigger: element, start: "top 88%" }
             }
           );
         });
 
         parallaxElements.forEach((element) => {
           gsap.to(element, {
-            yPercent: -7,
+            yPercent: -8,
             ease: "none",
             scrollTrigger: {
               trigger: element,
@@ -51,26 +47,7 @@ export function GSAPPremiumEffects() {
           });
         });
 
-        progressElements.forEach((element) => {
-          const target = element.getAttribute("data-premium-progress") ?? "0";
-          gsap.fromTo(
-            element,
-            { width: "0%" },
-            {
-              width: `${target}%`,
-              duration: 1.1,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: element,
-                start: "top 92%"
-              }
-            }
-          );
-        });
-
-        cleanup = () => {
-          ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-        };
+        cleanup = () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       } catch {
         cleanup = () => {};
       }

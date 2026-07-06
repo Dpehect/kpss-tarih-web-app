@@ -8,9 +8,8 @@ import { TopNav } from "@/components/core/TopNav";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isLanding = pathname === "/";
 
-  if (isLanding) {
+  if (pathname === "/") {
     return <PageTransition>{children}</PageTransition>;
   }
 
@@ -19,8 +18,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <TopNav />
       <main className="content-shell grid gap-6 py-6 lg:grid-cols-[286px_minmax(0,1fr)]">
         <Sidebar />
-        <section className="min-w-0 rounded-[2.6rem] editorial-shell p-3 md:p-5">
-          <div className="page-noise min-h-[calc(100vh-7.25rem)] rounded-[2rem] border border-[var(--border-soft)] bg-[color-mix(in_srgb,var(--surface-strong),transparent_32%)] p-4 md:p-7">
+        <section className="min-w-0 rounded-[2.75rem] border border-[rgba(11,18,32,.10)] bg-[rgba(255,248,234,.72)] p-3 shadow-[var(--shadow-soft)] backdrop-blur-2xl md:p-5">
+          <div className="min-h-[calc(100vh-7.25rem)] rounded-[2.15rem] border border-[rgba(11,18,32,.08)] bg-[rgba(255,255,255,.38)] p-4 md:p-7">
             <PageTransition>{children}</PageTransition>
           </div>
         </section>

@@ -22,13 +22,7 @@ const sizeClass = {
   lg: "min-h-14 px-7 py-4 text-base"
 };
 
-export function Button({
-  variant = "primary",
-  size = "md",
-  className,
-  children,
-  ...props
-}: ButtonProps) {
+export function Button({ variant = "primary", size = "md", className, children, ...props }: ButtonProps) {
   return (
     <button className={cn(variantClass[variant], sizeClass[size], className)} {...props}>
       {children}
@@ -38,13 +32,7 @@ export function Button({
 
 type ButtonLinkProps = BaseProps & AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export function ButtonLink({
-  variant = "primary",
-  size = "md",
-  className,
-  children,
-  ...props
-}: ButtonLinkProps) {
+export function ButtonLink({ variant = "primary", size = "md", className, children, ...props }: ButtonLinkProps) {
   return (
     <a className={cn(variantClass[variant], sizeClass[size], className)} {...props}>
       {children}
