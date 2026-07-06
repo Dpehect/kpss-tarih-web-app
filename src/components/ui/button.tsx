@@ -41,15 +41,10 @@ export function Button({
   return (
     <motion.button
       data-dark-button={isDark ? "true" : undefined}
-      whileHover={{ y: -2, scale: 1.015 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.18 }}
-      className={cn(
-        "transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(76,141,255,.35)]",
-        variants[variant],
-        sizes[size],
-        className
-      )}
+      whileHover={{ y: -2, scale: 1.012 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(36,63,115,.35)]", variants[variant], sizes[size], className)}
       {...props}
     >
       {children}
@@ -69,15 +64,10 @@ export function ButtonLink({
   return (
     <motion.a
       data-dark-button={isDark ? "true" : undefined}
-      whileHover={{ y: -2, scale: 1.015 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.18 }}
-      className={cn(
-        "transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(76,141,255,.35)]",
-        variants[variant],
-        sizes[size],
-        className
-      )}
+      whileHover={{ y: -2, scale: 1.012 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className={cn("transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(36,63,115,.35)]", variants[variant], sizes[size], className)}
       {...props}
     >
       {children}

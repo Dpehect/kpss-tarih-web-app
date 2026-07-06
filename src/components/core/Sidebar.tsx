@@ -62,15 +62,16 @@ export function Sidebar() {
             onClick={() => setOpen(false)}
             title={item.label}
             aria-current={active ? "page" : undefined}
+            data-dark-button={active ? "true" : undefined}
             className={cn(
-              "group flex min-h-12 items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-black transition duration-200",
+              "group flex min-h-12 items-center gap-3 rounded-[1rem] px-4 py-3 text-sm font-black transition duration-200",
               active
-                ? "bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(11,18,32,.18)] hover:bg-[var(--navy-900)]"
-                : "text-[#172033] hover:bg-[rgba(11,18,32,.055)] hover:text-[var(--navy-900)]"
+                ? "bg-[var(--atlas-ink)] text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(7,11,22,.16)]"
+                : "text-[var(--text-secondary)] hover:bg-[rgba(7,11,22,.055)] hover:text-[var(--atlas-ink)]"
             )}
           >
             <Icon size={18} className={cn("shrink-0 transition group-hover:scale-110", active ? "text-[var(--text-inverse)]" : "text-[var(--text-secondary)]")} />
-            <span className={cn("min-w-0 truncate", active ? "text-[var(--text-inverse)]" : "text-[var(--navy-900)]")}>
+            <span className={cn("min-w-0 truncate", active ? "text-[var(--text-inverse)]" : "text-[var(--atlas-ink)]")}>
               {item.label}
             </span>
           </a>
@@ -81,12 +82,12 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.90)] p-3 shadow-[var(--shadow-sm)] backdrop-blur-2xl lg:block scrollbar-clean">
-        <div className="mb-4 overflow-hidden rounded-[1.55rem] bg-[var(--navy-900)] p-4 text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(11,18,32,.16)]">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--gold-500)]">Çalışma Atlası</p>
-          <p className="mt-2 text-2xl font-black tracking-[-0.06em] text-[var(--text-inverse)]">Tarih masası</p>
+      <aside className="sticky top-24 z-20 hidden h-[calc(100vh-7rem)] overflow-y-auto rounded-[1.75rem] border border-[rgba(7,11,22,.08)] bg-[rgba(255,250,240,.80)] p-3 shadow-[var(--shadow-sm)] backdrop-blur-2xl lg:block scrollbar-clean">
+        <div className="mb-4 overflow-hidden rounded-[1.35rem] bg-[var(--atlas-ink)] p-4 text-[var(--text-inverse)] shadow-[0_16px_50px_rgba(7,11,22,.16)]">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--atlas-copper-2)]">Arşiv Masası</p>
+          <p className="mt-2 text-2xl font-black tracking-[-0.06em] text-[var(--text-inverse)]">Çalışma rotası</p>
           <p className="mt-2 text-sm leading-6 text-[var(--text-inverse-muted)]">
-            Konu, test, deneme ve analiz için düzenli çalışma merkezi.
+            Konu, test, tekrar ve analiz tek akışta.
           </p>
         </div>
         {nav}
@@ -95,14 +96,14 @@ export function Sidebar() {
       {isOpen ? (
         <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
           <aside
-            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--border-soft)] bg-[var(--bg)] p-4 scrollbar-clean"
+            className="h-full w-[86vw] max-w-sm overflow-y-auto border-r border-[var(--border-soft)] bg-[var(--atlas-paper)] p-4 scrollbar-clean"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="mb-5 flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--navy-900)] font-black text-[var(--text-inverse)]">T</span>
+              <span className="grid size-10 place-items-center rounded-2xl bg-[var(--atlas-ink)] font-black text-[var(--text-inverse)]">T</span>
               <div>
-                <p className="font-black text-[var(--navy-900)]">KPSS Tarih</p>
-                <p className="text-xs text-[var(--text-muted)]">Çalışma menüsü</p>
+                <p className="font-black text-[var(--atlas-ink)]">KPSS Tarih</p>
+                <p className="text-xs text-[var(--atlas-muted)]">Çalışma menüsü</p>
               </div>
             </div>
             {nav}

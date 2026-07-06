@@ -83,18 +83,18 @@ export function SearchPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Arama"
-        title="Kavram, dönem veya soru ara."
-        description="Konu, sözlük, soru ve flashcard içerikleri arasında hızlıca arama yap."
+        title="Arşiv içinde hızlı bağlantı kur."
+        description="Konu, kavram, soru ve flashcard metinleri arasında tek arama alanıyla gez."
       />
 
-      <div className="rounded-[2rem] border border-[var(--border-soft)] bg-white/78 p-3 shadow-[var(--shadow-xs)] backdrop-blur-2xl">
-        <label className="flex min-h-14 items-center gap-3 rounded-[1.55rem] bg-[rgba(11,18,32,.045)] px-4">
+      <div className="atlas-panel rounded-[1.75rem] p-3">
+        <label className="flex min-h-14 items-center gap-3 rounded-[1.3rem] bg-[rgba(7,11,22,.045)] px-4">
           <Search size={18} className="text-[var(--text-secondary)]" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Örn. Malazgirt, Ahilik, Tanzimat, Lozan..."
-            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--navy-900)] outline-none placeholder:text-[var(--text-muted)]"
+            className="min-w-0 flex-1 bg-transparent font-semibold text-[var(--atlas-ink)] outline-none placeholder:text-[var(--atlas-muted)]"
             autoFocus
           />
         </label>
@@ -106,14 +106,14 @@ export function SearchPage() {
             results.map((result) => <ResultCard key={result.id} result={result} />)
           ) : (
             <Card>
-              <p className="text-xl font-black text-[var(--navy-900)]">Sonuç bulunamadı.</p>
+              <p className="text-xl font-black text-[var(--atlas-ink)]">Sonuç bulunamadı.</p>
               <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">Daha kısa bir kavram veya dönem adıyla tekrar dene.</p>
             </Card>
           )}
         </section>
       ) : (
         <Card>
-          <p className="text-xl font-black text-[var(--navy-900)]">Aramaya başla.</p>
+          <p className="text-xl font-black text-[var(--atlas-ink)]">Aramaya başla.</p>
           <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">Konu, kavram, soru veya flashcard metni yazabilirsin.</p>
         </Card>
       )}
@@ -130,14 +130,12 @@ function ResultCard({ result }: { result: SearchResult }) {
   }[result.type];
 
   return (
-    <a href={result.href} className="group rounded-[2rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.92)] p-5 shadow-[var(--shadow-xs)] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[var(--shadow-sm)]">
+    <a href={result.href} className="group atlas-card block rounded-[1.65rem] p-5">
       <div className="flex gap-4">
-        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-[var(--navy-900)] text-[var(--text-inverse)]">
-          {icon}
-        </span>
+        <span className="grid size-11 shrink-0 place-items-center rounded-[1rem] bg-[var(--atlas-ink)] text-[var(--text-inverse)]">{icon}</span>
         <span className="min-w-0">
-          <span className="text-xs font-black uppercase tracking-[0.22em] text-[#8d6500]">{result.type}</span>
-          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--navy-900)]">{result.title}</span>
+          <span className="text-xs font-black uppercase tracking-[0.22em] text-[var(--atlas-copper)]">{result.type}</span>
+          <span className="mt-2 block text-xl font-black tracking-[-0.04em] text-[var(--atlas-ink)]">{result.title}</span>
           <span className="mt-2 block text-sm font-semibold leading-7 text-[var(--text-secondary)]">{result.description}</span>
         </span>
       </div>

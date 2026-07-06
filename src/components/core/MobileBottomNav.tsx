@@ -17,7 +17,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed inset-x-3 bottom-3 z-40 rounded-[1.65rem] border border-[var(--border-soft)] bg-[rgba(255,248,234,.90)] p-2 shadow-[var(--shadow-md)] backdrop-blur-2xl lg:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 rounded-[1.55rem] border border-[rgba(7,11,22,.10)] bg-[rgba(251,241,220,.92)] p-2 shadow-[var(--shadow-md)] backdrop-blur-2xl lg:hidden"
       aria-label="Mobil hızlı menü"
     >
       <div className="grid grid-cols-5 gap-1">
@@ -30,11 +30,12 @@ export function MobileBottomNav() {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
+              data-dark-button={active ? "true" : undefined}
               className={cn(
-                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-[1.15rem] text-[11px] font-black transition",
+                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-[1.05rem] text-[11px] font-black transition",
                 active
-                  ? "bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[var(--shadow-xs)]"
-                  : "text-[var(--text-secondary)] hover:bg-white hover:text-[var(--navy-900)]"
+                  ? "bg-[var(--atlas-ink)] text-[var(--text-inverse)] shadow-[var(--shadow-xs)]"
+                  : "text-[var(--text-secondary)] hover:bg-white hover:text-[var(--atlas-ink)]"
               )}
             >
               <Icon size={18} />

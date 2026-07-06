@@ -17,12 +17,10 @@ export function Card({ children, className, interactive = false, ...props }: Sta
   if (interactive) {
     return (
       <motion.div
-        whileHover={{ y: -5, scale: 1.01 }}
-        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-        className={cn(
-          "rounded-[var(--radius-card)] border border-[var(--border-soft)] bg-white/78 p-6 text-[var(--text-primary)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
-          className
-        )}
+        data-atlas-card="true"
+        whileHover={{ y: -6, scale: 1.006 }}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        className={cn("atlas-card rounded-[1.65rem] p-6", className)}
         {...(props as MotionCardProps)}
       >
         {children}
@@ -31,30 +29,16 @@ export function Card({ children, className, interactive = false, ...props }: Sta
   }
 
   return (
-    <div
-      className={cn(
-        "rounded-[var(--radius-card)] border border-[var(--border-soft)] bg-white/78 p-6 text-[var(--text-primary)] shadow-[var(--shadow-sm)] backdrop-blur-2xl",
-        className
-      )}
-      {...(props as StaticCardProps)}
-    >
+    <div data-atlas-card="true" className={cn("atlas-card rounded-[1.65rem] p-6", className)} {...(props as StaticCardProps)}>
       {children}
     </div>
   );
 }
 
 export function CardTitle({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <h3 className={cn("text-2xl font-black tracking-[-0.055em] text-[var(--navy-900)]", className)}>
-      {children}
-    </h3>
-  );
+  return <h3 className={cn("text-2xl font-black tracking-[-0.055em] text-[var(--atlas-ink)]", className)}>{children}</h3>;
 }
 
 export function CardDescription({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <p className={cn("mt-2 text-sm font-medium leading-7 text-[var(--text-secondary)]", className)}>
-      {children}
-    </p>
-  );
+  return <p className={cn("mt-2 text-sm font-medium leading-7 text-[var(--text-secondary)]", className)}>{children}</p>;
 }

@@ -3,8 +3,6 @@
 import { ArrowRight, BookOpen, CreditCard, FileQuestion, Flame, Sparkles, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
 import { ButtonLink } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { StatCard } from "@/components/ui/stat-card";
 import { exams, flashcards, questions, recommendations, topics } from "@/data/kpss-history";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
@@ -31,22 +29,16 @@ export default function DashboardRoute() {
   const averageProgress = Math.round((topicProgress + questionProgress + flashcardProgress + examProgress) / 4);
 
   return (
-    <div className="space-y-8">
-      <motion.section
-        initial={{ opacity: 0, y: 24, filter: "blur(12px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="surface-dark relative overflow-hidden rounded-[2.75rem] p-6 md:p-10 xl:p-12"
-      >
-        <div className="absolute right-[-6rem] top-[-7rem] size-80 rounded-full bg-[rgba(76,141,255,.26)] blur-3xl" />
-        <div className="relative z-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_330px] xl:items-center">
+    <div className="space-y-7">
+      <section className="atlas-dark relative overflow-hidden rounded-[2.35rem] p-6 md:p-9 xl:p-11">
+        <div className="relative z-10 grid gap-8 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-center">
           <div>
-            <p className="kicker">Kontrol Merkezi</p>
-            <h1 className="heading-display mt-5 max-w-4xl text-balance text-5xl text-[var(--text-inverse)] md:text-6xl 2xl:text-7xl">
-              Hoş geldin, bugünkü çalışmanı tek ekranda yönet.
+            <p className="kicker">Çalışma masası</p>
+            <h1 className="heading-display mt-5 max-w-5xl text-balance text-5xl text-[var(--text-inverse)] md:text-6xl 2xl:text-7xl">
+              Bugünkü rotanı tek bakışta yönet.
             </h1>
             <p className="mt-6 max-w-3xl text-base leading-8 text-[var(--text-inverse-muted)] md:text-lg">
-              İlerlemen sade, okunaklı ve eyleme dönük biçimde gösterilir. Soru, tekrar, deneme ve konu akışı tek bir profesyonel çalışma masasında birleşir.
+              Konu, test, tekrar ve deneme ilerlemesi tek masada. Gereksiz gösterge yok; karar vermek için yeterli veri var.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/question-bank" variant="gold" size="lg">
@@ -59,36 +51,31 @@ export default function DashboardRoute() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/12 bg-white/[.08] p-5 text-[var(--text-inverse)] backdrop-blur-2xl">
+          <div className="rounded-[1.75rem] border border-white/12 bg-white/[.08] p-5 backdrop-blur-2xl">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[rgba(255,248,234,.62)]">Genel ilerleme</p>
             <div className="mt-5 grid place-items-center">
               <ProgressRing value={mounted ? averageProgress : 0} />
             </div>
-            <p className="mt-5 text-center text-sm leading-6 text-[var(--text-inverse-muted)]">
-              Konu, test, flashcard ve deneme ilerlemesinin ortalaması.
-            </p>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-        <StatCard icon={<BookOpen size={21} />} label="Konu" value={`${mounted ? uniqueCompletedTopics : 0}/${topics.length}`} helper="Tamamlanan konu sayısı." tone="gold" />
-        <StatCard icon={<FileQuestion size={21} />} label="Soru" value={`${mounted ? answeredQuestions : 0}/${questions.length}`} helper={`Son denemelere göre doğruluk: %${accuracy}`} tone="sky" />
-        <StatCard icon={<CreditCard size={21} />} label="Flashcard" value={`${mounted ? reviewedCards : 0}/${flashcards.length}`} helper="En az bir kez tekrar edilen kart." tone="rose" />
-        <StatCard icon={<Trophy size={21} />} label="Deneme" value={`${mounted ? completedExams : 0}/${exams.length}`} helper="Bitirilen deneme sayısı." tone="mint" />
+        <Metric icon={<BookOpen size={21} />} label="Konu" value={`${mounted ? uniqueCompletedTopics : 0}/${topics.length}`} helper="Tamamlanan başlık" tone="copper" />
+        <Metric icon={<FileQuestion size={21} />} label="Soru" value={`${mounted ? answeredQuestions : 0}/${questions.length}`} helper={`Doğruluk: %${accuracy}`} tone="blue" />
+        <Metric icon={<CreditCard size={21} />} label="Kart" value={`${mounted ? reviewedCards : 0}/${flashcards.length}`} helper="Tekrar edilen kart" tone="wine" />
+        <Metric icon={<Trophy size={21} />} label="Deneme" value={`${mounted ? completedExams : 0}/${exams.length}`} helper="Tamamlanan deneme" tone="teal" />
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <Card>
+        <div className="atlas-card rounded-[2rem] p-6 md:p-7">
           <div className="flex items-start justify-between gap-5">
             <div>
-              <p className="kicker">Streak Counter</p>
-              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Çalışma ritmi</h2>
-              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
-                Bugünkü akışını kısa ve sürdürülebilir bloklara böl.
-              </p>
+              <p className="kicker">Study rhythm</p>
+              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--atlas-ink)]">Çalışma dengesi</h2>
+              <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">Her modül için ilerleme oranını sade şekilde izle.</p>
             </div>
-            <span className="grid size-14 place-items-center rounded-2xl bg-[var(--gold-soft)] text-[#8d6500]">
+            <span className="grid size-14 place-items-center rounded-[1.15rem] bg-[var(--atlas-copper-soft)] text-[var(--atlas-copper)]">
               <Flame size={24} />
             </span>
           </div>
@@ -99,15 +86,15 @@ export default function DashboardRoute() {
             <ProgressLine label="Tekrar" value={flashcardProgress} />
             <ProgressLine label="Deneme" value={examProgress} />
           </div>
-        </Card>
+        </div>
 
-        <Card>
+        <div className="atlas-card rounded-[2rem] p-6 md:p-7">
           <div className="flex items-start justify-between gap-5">
             <div>
-              <p className="kicker">Önerilen Konular</p>
-              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--navy-900)]">Sıradaki çalışma akışı</h2>
+              <p className="kicker">Next best action</p>
+              <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[var(--atlas-ink)]">Sıradaki en mantıklı adım</h2>
             </div>
-            <Sparkles className="text-[var(--sky-600)]" size={26} />
+            <Sparkles className="text-[var(--atlas-blue)]" size={26} />
           </div>
 
           <div className="mt-7 grid gap-3">
@@ -116,31 +103,41 @@ export default function DashboardRoute() {
                 key={item.id}
                 href={item.href}
                 whileHover={{ x: 4 }}
-                className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-[var(--border-soft)] bg-white/72 p-4 transition hover:bg-white"
+                transition={{ duration: .18, ease: "easeOut" }}
+                className="group flex items-center justify-between gap-4 rounded-[1.2rem] border border-[var(--border-soft)] bg-[rgba(255,250,240,.70)] p-4 transition hover:bg-[rgba(255,250,240,.95)]"
               >
                 <span className="flex min-w-0 items-center gap-4">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--navy-900)] text-sm font-black text-[var(--text-inverse)]">
-                    {index + 1}
-                  </span>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[var(--atlas-ink)] text-sm font-black text-[var(--text-inverse)]">{index + 1}</span>
                   <span className="min-w-0">
-                    <span className="block truncate font-black text-[var(--navy-900)]">{item.title}</span>
+                    <span className="block truncate font-black text-[var(--atlas-ink)]">{item.title}</span>
                     <span className="mt-1 block truncate text-sm text-[var(--text-secondary)]">{item.description}</span>
                   </span>
                 </span>
-                <ArrowRight size={18} className="shrink-0 text-[var(--navy-900)] transition group-hover:translate-x-1" />
+                <ArrowRight size={18} className="shrink-0 text-[var(--atlas-ink)] transition group-hover:translate-x-1" />
               </motion.a>
             ))}
           </div>
-        </Card>
-      </section>
-
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <QuickAccess href="/topics" title="Konu Özetleri" icon={<BookOpen size={20} />} />
-        <QuickAccess href="/question-bank" title="Konu Testleri" icon={<FileQuestion size={20} />} />
-        <QuickAccess href="/flashcards" title="Flashcard" icon={<CreditCard size={20} />} />
-        <QuickAccess href="/exams" title="Denemeler" icon={<Trophy size={20} />} />
+        </div>
       </section>
     </div>
+  );
+}
+
+function Metric({ icon, label, value, helper, tone }: { icon: React.ReactNode; label: string; value: string; helper: string; tone: "copper" | "blue" | "wine" | "teal" }) {
+  const tones = {
+    copper: "bg-[var(--atlas-copper-soft)] text-[var(--atlas-copper)]",
+    blue: "bg-[var(--atlas-blue-soft)] text-[var(--atlas-blue)]",
+    wine: "bg-[var(--atlas-wine-soft)] text-[var(--atlas-wine)]",
+    teal: "bg-[var(--atlas-teal-soft)] text-[var(--atlas-teal)]"
+  };
+
+  return (
+    <article className="atlas-card rounded-[1.65rem] p-6">
+      <div className={`grid size-12 place-items-center rounded-[1rem] ${tones[tone]}`}>{icon}</div>
+      <p className="mt-7 text-xs font-black uppercase tracking-[0.22em] text-[var(--atlas-muted)]">{label}</p>
+      <p className="mt-3 text-4xl font-black tracking-[-0.08em] text-[var(--atlas-ink)] md:text-5xl">{value}</p>
+      <p className="mt-3 text-sm font-medium leading-6 text-[var(--text-secondary)]">{helper}</p>
+    </article>
   );
 }
 
@@ -165,13 +162,13 @@ function ProgressRing({ value }: { value: number }) {
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: offset }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.1, ease: "easeOut" }}
         />
         <defs>
           <linearGradient id="dashboard-progress" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#4c8dff" />
-            <stop offset="52%" stopColor="#58bfa3" />
-            <stop offset="100%" stopColor="#c9a227" />
+            <stop offset="0%" stopColor="#243f73" />
+            <stop offset="58%" stopColor="#138184" />
+            <stop offset="100%" stopColor="#dba34a" />
           </linearGradient>
         </defs>
       </svg>
@@ -189,34 +186,12 @@ function ProgressLine({ label, value }: { label: string; value: number }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between text-sm font-black">
-        <span className="text-[var(--navy-900)]">{label}</span>
-        <span className="text-[var(--text-muted)]">{normalized}%</span>
+        <span className="text-[var(--atlas-ink)]">{label}</span>
+        <span className="text-[var(--atlas-muted)]">{normalized}%</span>
       </div>
       <div className="progress-track">
-        <motion.div
-          className="progress-fill"
-          initial={{ width: "0%" }}
-          whileInView={{ width: `${normalized}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        />
+        <motion.div className="progress-fill" initial={{ width: "0%" }} whileInView={{ width: `${normalized}%` }} viewport={{ once: true }} transition={{ duration: .72, ease: "easeOut" }} />
       </div>
     </div>
-  );
-}
-
-function QuickAccess({ href, title, icon }: { href: string; title: string; icon: React.ReactNode }) {
-  return (
-    <motion.a
-      href={href}
-      whileHover={{ y: -4, scale: 1.02 }}
-      className="rounded-[2rem] border border-[var(--border-soft)] bg-white/72 p-5 text-[var(--navy-900)] shadow-[var(--shadow-sm)] backdrop-blur-2xl transition hover:bg-white"
-    >
-      <span className="grid size-12 place-items-center rounded-2xl bg-[var(--navy-900)] text-[var(--text-inverse)]">
-        {icon}
-      </span>
-      <h3 className="mt-6 text-xl font-black tracking-[-0.05em] text-[var(--navy-900)]">{title}</h3>
-      <p className="mt-2 text-sm text-[var(--text-secondary)]">Hızlı erişim</p>
-    </motion.a>
   );
 }

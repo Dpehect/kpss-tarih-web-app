@@ -6,9 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { topics } from "@/data/kpss-history";
 
 const containerVariants: Variants = {
-  hidden: {
-    opacity: 1
-  },
+  hidden: { opacity: 1 },
   show: {
     opacity: 1,
     transition: {
@@ -19,10 +17,7 @@ const containerVariants: Variants = {
 };
 
 const cardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24
-  },
+  hidden: { opacity: 0, y: 24 },
   show: {
     opacity: 1,
     y: 0,
@@ -43,20 +38,18 @@ const clampThreeLines: CSSProperties = {
 export function TopicsPage() {
   return (
     <div className="mx-auto w-full max-w-[1420px] px-1 pb-10 pt-1 sm:px-2 lg:px-3">
-      <section className="relative mb-8 overflow-hidden rounded-[1.75rem] border border-[rgba(11,18,32,.08)] bg-[#fffaf2] px-6 py-8 shadow-[0_14px_50px_rgba(11,18,32,.055)] sm:px-8 sm:py-10 lg:mb-10 lg:px-10 lg:py-12">
-        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(11,18,32,.18)] to-transparent" />
+      <section className="atlas-panel relative mb-8 overflow-hidden rounded-[1.75rem] px-6 py-8 sm:px-8 sm:py-10 lg:mb-10 lg:px-10 lg:py-12">
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(7,11,22,.18)] to-transparent" />
 
         <div className="relative z-10 max-w-5xl">
-          <p className="text-[11px] font-black uppercase tracking-[0.28em] text-[#8f6b19]">
-            Konu Özetleri
-          </p>
+          <p className="kicker">Konu Özetleri</p>
 
-          <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.065em] text-[#0b1220] sm:text-5xl lg:text-6xl">
-            KPSS Tarih konularını temiz, düzenli ve odaklı bir akışla çalış.
+          <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.065em] text-[var(--atlas-ink)] sm:text-5xl lg:text-6xl">
+            Müfredatı parça parça değil, düzenli bir rota gibi çalış.
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-[#475569] sm:text-lg">
-            Müfredattaki her konu kısa özetiyle ayrı kartlarda sunulur; istediğin başlıktan başlayıp konu detayına geçebilirsin.
+          <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-[var(--text-secondary)] sm:text-lg">
+            Her konu kısa özetiyle ayrı kartlarda sunulur; karttan detay sayfasına geçerek test ve tekrar akışını başlatabilirsin.
           </p>
         </div>
       </section>
@@ -73,42 +66,27 @@ export function TopicsPage() {
             key={topic.id}
             variants={cardVariants}
             href={`/topics/${topic.slug}`}
-            whileHover={{
-              y: -7,
-              scale: 1.003
-            }}
-            transition={{
-              duration: 0.24,
-              ease: "easeOut"
-            }}
-            className="group flex min-h-[268px] flex-col justify-between rounded-[1.45rem] border border-[rgba(11,18,32,.09)] bg-[#fffdf8] p-6 text-[#0b1220] shadow-[0_10px_36px_rgba(11,18,32,.05)] outline-none transition-shadow duration-300 ease-out hover:shadow-[0_30px_90px_rgba(11,18,32,.14)] focus-visible:ring-4 focus-visible:ring-[rgba(76,141,255,.26)] sm:p-7"
+            whileHover={{ y: -7, scale: 1.003 }}
+            transition={{ duration: 0.24, ease: "easeOut" }}
+            className="group atlas-card flex min-h-[268px] flex-col justify-between rounded-[1.45rem] p-6 outline-none focus-visible:ring-4 focus-visible:ring-[rgba(36,63,115,.26)] sm:p-7"
           >
             <div>
               <div className="mb-5 flex items-center justify-between gap-4">
-                <span className="text-xs font-black tracking-[0.22em] text-[#8f6b19]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="h-px flex-1 bg-[rgba(11,18,32,.08)]" />
+                <span className="text-xs font-black tracking-[0.22em] text-[var(--atlas-copper)]">{String(index + 1).padStart(2, "0")}</span>
+                <span className="h-px flex-1 bg-[rgba(7,11,22,.08)]" />
               </div>
 
-              <h2 className="text-[1.45rem] font-black leading-[1.12] tracking-[-0.045em] text-[#0b1220] sm:text-[1.6rem]">
-                {topic.title}
-              </h2>
+              <h2 className="text-[1.45rem] font-black leading-[1.12] tracking-[-0.045em] text-[var(--atlas-ink)] sm:text-[1.6rem]">{topic.title}</h2>
 
-              <p
-                className="mt-4 text-[15px] font-medium leading-7 text-[#475569]"
-                style={clampThreeLines}
-              >
+              <p className="mt-4 text-[15px] font-medium leading-7 text-[var(--text-secondary)]" style={clampThreeLines}>
                 {topic.shortDescription}
               </p>
             </div>
 
-            <div className="mt-8 flex items-center justify-between border-t border-[rgba(11,18,32,.08)] pt-5">
-              <span className="text-sm font-black text-[#64748b]">
-                Konuyu incele
-              </span>
+            <div className="mt-8 flex items-center justify-between border-t border-[rgba(7,11,22,.08)] pt-5">
+              <span className="text-sm font-black text-[var(--atlas-muted)]">Konuyu incele</span>
 
-              <span className="grid size-9 place-items-center rounded-full border border-[rgba(11,18,32,.10)] bg-[#f7efe0] text-[#0b1220] transition-transform duration-300 ease-out group-hover:translate-x-1">
+              <span className="grid size-9 place-items-center rounded-full border border-[rgba(7,11,22,.10)] bg-[rgba(184,121,45,.12)] text-[var(--atlas-ink)] transition-transform duration-300 ease-out group-hover:translate-x-1">
                 <ArrowRight size={17} />
               </span>
             </div>

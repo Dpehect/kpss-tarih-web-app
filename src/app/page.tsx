@@ -1,120 +1,111 @@
-import { ArrowRight, BarChart3, BookOpen, CreditCard, FileQuestion, Sparkles } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpen, CreditCard, FileQuestion } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { exams, flashcards, questions, topics } from "@/data/kpss-history";
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden">
-      <section className="content-shell relative flex min-h-screen flex-col items-center justify-center py-24 text-center">
-        <div data-premium-parallax className="absolute left-[-9rem] top-24 size-96 rounded-full bg-[rgba(76,141,255,.16)] blur-[120px]" />
-        <div data-premium-parallax className="absolute right-[-9rem] top-12 size-96 rounded-full bg-[rgba(201,162,39,.22)] blur-[120px]" />
-
+      <section className="content-shell relative grid min-h-screen items-center gap-12 py-24 lg:grid-cols-[1.05fr_0.95fr]">
         <ScrollReveal>
-          <div className="mx-auto max-w-6xl">
+          <div>
             <p className="kicker">KPSS Tarih Akademi</p>
-            <h1 className="heading-display mt-6 text-balance text-5xl md:text-7xl xl:text-8xl">
-              Tarihi ezber listesi değil, yaşayan bir çalışma atlası olarak keşfet.
+            <h1 className="heading-display mt-6 max-w-5xl text-balance text-5xl text-[var(--atlas-ink)] md:text-7xl xl:text-8xl">
+              Tarihi bir veri listesi değil, etkileşimli bir arşiv olarak çalış.
             </h1>
-            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-[var(--text-secondary)] md:text-xl">
-              Konu özetleri, açıklamalı sorular, denemeler, flashcard tekrarları, zaman çizelgesi ve online ilerleme takibi tek bir ciddi çalışma deneyiminde birleşir.
+            <p className="mt-7 max-w-3xl text-lg leading-8 text-[var(--text-secondary)] md:text-xl">
+              Konu, test, flashcard, timeline ve analiz modülleri tek bir çalışma rotasında birleşir. Amaç daha çok ekran değil; daha iyi odak.
             </p>
 
-            <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/dashboard" variant="gold" size="lg">
-                Çalışmaya başla
+                Çalışma masasına geç
                 <ArrowRight size={19} />
               </ButtonLink>
-              <ButtonLink href="/topics" variant="ghost" size="lg">
-                Müfredatı keşfet
+              <ButtonLink href="/timeline" variant="ghost" size="lg">
+                Timeline’ı keşfet
               </ButtonLink>
+            </div>
+
+            <div className="mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
+              <LandingStat label="Konu" value={topics.length} />
+              <LandingStat label="Soru" value={questions.length} />
+              <LandingStat label="Kart" value={flashcards.length} />
+              <LandingStat label="Deneme" value={exams.length} />
             </div>
           </div>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1} className="mt-16 w-full">
-          <MuseumMap />
+        <ScrollReveal delay={0.1}>
+          <AtlasArtifact />
         </ScrollReveal>
+      </section>
 
-        <ScrollReveal delay={0.16} className="mt-16 w-full">
-          <div className="grid gap-4 md:grid-cols-3">
-            <FeatureCard icon={<BookOpen size={22} />} title="Özet odaklı öğrenme" body="Her konu, test sayfası ve tekrar akışı ayrı düşünülür." />
-            <FeatureCard icon={<FileQuestion size={22} />} title="Konu bazlı test sayfaları" body="Her konu kendi net ve odaklı test ekranında çözülür." />
-            <FeatureCard icon={<BarChart3 size={22} />} title="Online istatistik" body="Google giriş sonrası ilerleme Supabase üzerinde saklanır." />
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.22} className="mt-16 w-full">
-          <div className="surface-glass grid gap-4 rounded-[2.75rem] p-5 md:grid-cols-4 md:p-6">
-            <LandingStat label="Konu" value={topics.length} icon={<BookOpen size={18} />} />
-            <LandingStat label="Soru" value={questions.length} icon={<FileQuestion size={18} />} />
-            <LandingStat label="Flashcard" value={flashcards.length} icon={<CreditCard size={18} />} />
-            <LandingStat label="Deneme" value={exams.length} icon={<Sparkles size={18} />} />
-          </div>
-        </ScrollReveal>
+      <section className="content-shell pb-24">
+        <div className="grid gap-4 md:grid-cols-3">
+          <Feature icon={<BookOpen size={22} />} title="Konu rotası" body="Her başlık temiz bir öğrenme akışına bağlanır." />
+          <Feature icon={<FileQuestion size={22} />} title="Test refleksi" body="Soru geçişleri ve geri bildirimler odak kaybettirmez." />
+          <Feature icon={<BarChart3 size={22} />} title="Analiz masası" body="İlerleme, yanlışlar ve tekrarlar tek bakışta okunur." />
+        </div>
       </section>
     </main>
   );
 }
 
-function MuseumMap() {
+function AtlasArtifact() {
   return (
-    <div className="surface-dark relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] p-8 md:p-12">
+    <div className="atlas-dark relative overflow-hidden rounded-[2.75rem] p-6 md:p-8">
       <div className="absolute inset-0 opacity-30">
-        <svg viewBox="0 0 1000 360" className="h-full w-full">
-          <path d="M120 205 C230 140, 330 100, 470 132 C610 164, 690 90, 840 135 C915 158, 942 228, 864 258 C720 314, 578 266, 455 282 C322 300, 186 285, 120 205Z" fill="none" stroke="rgba(255,248,234,.34)" strokeWidth="3" />
-          <path d="M190 220 C300 180, 390 158, 514 178 C620 196, 710 160, 820 188" fill="none" stroke="rgba(201,162,39,.52)" strokeWidth="2" strokeDasharray="10 14" />
-          {Array.from({ length: 14 }).map((_, index) => (
-            <circle key={index} cx={170 + index * 55} cy={180 + (index % 4) * 18} r="3.5" fill="rgba(201,162,39,.85)" />
+        <svg viewBox="0 0 900 620" className="h-full w-full">
+          <path d="M86 346 C196 230, 327 215, 470 258 C613 301, 716 191, 820 270 C923 348, 775 478, 610 450 C445 422, 359 542, 220 476 C115 426, 30 405, 86 346Z" fill="none" stroke="rgba(255,248,234,.35)" strokeWidth="3" />
+          <path d="M150 388 C282 318, 380 334, 516 310 C633 290, 730 328, 815 381" fill="none" stroke="rgba(219,163,74,.70)" strokeWidth="2" strokeDasharray="12 16" />
+          {Array.from({ length: 16 }).map((_, index) => (
+            <circle key={index} cx={158 + index * 42} cy={360 + (index % 5) * 16} r="3.8" fill="rgba(219,163,74,.88)" />
           ))}
         </svg>
       </div>
 
-      <div className="relative z-10 grid gap-8 md:grid-cols-[1fr_320px] md:items-center">
-        <div className="text-left">
-          <p className="kicker">Dijital tarih atlası</p>
-          <h2 className="heading-display mt-4 text-4xl md:text-6xl">Orta Asya’dan Cumhuriyet’e tek akış.</h2>
-          <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--text-inverse-muted)]">
-            Müfredat, ezberden çıkıp dönemler arası ilişki kuran bir görsel çalışma deneyimine dönüşür.
-          </p>
+      <div className="relative z-10 grid min-h-[520px] content-between">
+        <div>
+          <p className="kicker">Interactive archive</p>
+          <h2 className="heading-display mt-4 max-w-xl text-5xl text-[var(--text-inverse)] md:text-6xl">
+            Dönemler arası bağlantı kur.
+          </h2>
         </div>
-        <div className="rounded-[2rem] border border-white/12 bg-white/[.08] p-5 backdrop-blur-2xl">
-          <p className="text-xs font-black uppercase tracking-[.22em] text-[rgba(255,248,234,.62)]">Akış</p>
-          <div className="mt-5 space-y-3">
-            {["Konu", "Test", "Flashcard", "Deneme"].map((item, index) => (
-              <div key={item} className="flex items-center gap-3">
-                <span className="grid size-8 place-items-center rounded-full bg-[var(--gold-500)] text-sm font-black text-[var(--navy-900)]">{index + 1}</span>
-                <span className="font-black text-[var(--text-inverse)]">{item}</span>
-              </div>
-            ))}
-          </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            ["01", "Konu haritası"],
+            ["02", "Soru bankası"],
+            ["03", "Aktif hatırlama"],
+            ["04", "Timeline"]
+          ].map(([step, title]) => (
+            <div key={step} className="rounded-[1.45rem] border border-white/10 bg-white/[.08] p-4 backdrop-blur-2xl">
+              <p className="text-xs font-black uppercase tracking-[.2em] text-[rgba(255,248,234,.55)]">{step}</p>
+              <p className="mt-2 text-lg font-black text-[var(--text-inverse)]">{title}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
+function LandingStat({ label, value }: { label: string; value: number }) {
   return (
-    <Card interactive className="text-left">
-      <span className="grid size-12 place-items-center rounded-2xl bg-[var(--navy-900)] text-[var(--text-inverse)] shadow-[var(--shadow-sm)]">
-        {icon}
-      </span>
-      <h2 className="mt-7 text-2xl font-black tracking-[-0.055em] text-[var(--navy-900)]">{title}</h2>
-      <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{body}</p>
-    </Card>
+    <div className="rounded-[1.2rem] border border-[var(--border-soft)] bg-[rgba(255,250,240,.78)] p-4 shadow-[var(--shadow-xs)]">
+      <p className="text-xs font-black uppercase tracking-[.2em] text-[var(--atlas-muted)]">{label}</p>
+      <p className="mt-2 text-3xl font-black tracking-[-.07em] text-[var(--atlas-ink)]">{value}</p>
+    </div>
   );
 }
 
-function LandingStat({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
+function Feature({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
   return (
-    <div className="rounded-[1.6rem] border border-[var(--border-soft)] bg-white/74 p-5 text-left shadow-[var(--shadow-xs)]">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">{label}</p>
-        <span className="text-[var(--sky-600)]">{icon}</span>
-      </div>
-      <p className="mt-4 text-4xl font-black tracking-[-0.08em] text-[var(--navy-900)]">{value}</p>
+    <div className="atlas-card rounded-[1.65rem] p-6">
+      <span className="grid size-12 place-items-center rounded-[1rem] bg-[var(--atlas-ink)] text-[var(--text-inverse)]">{icon}</span>
+      <h2 className="mt-7 text-2xl font-black tracking-[-0.05em] text-[var(--atlas-ink)]">{title}</h2>
+      <p className="mt-3 text-sm font-medium leading-7 text-[var(--text-secondary)]">{body}</p>
     </div>
   );
 }
