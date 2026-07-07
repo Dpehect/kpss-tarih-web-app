@@ -39,14 +39,16 @@ const baseItems = [
   { href: "/notes", label: "Notlar", icon: ScrollText },
   { href: "/achievements", label: "Başarılar", icon: ShieldCheck },
   { href: "/profile", label: "Profil", icon: User }
-];
+] as const;
+
+const adminItem = { href: "/admin", label: "Admin", icon: UsersRound } as const;
 
 export function Sidebar() {
   const pathname = usePathname();
   const isOpen = useUIStore((state) => state.isNavigationOpen);
   const setOpen = useUIStore((state) => state.setNavigationOpen);
   const { isAdmin } = useAdminSession();
-  const items = isAdmin ? [...baseItems, { href: "/admin", label: "Admin", icon: UsersRound }] : baseItems;
+  const items = isAdmin ? [...baseItems, adminItem] : baseItems;
 
   const nav = (
     <nav className="space-y-1">
@@ -55,7 +57,7 @@ export function Sidebar() {
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
         return (
-          <Link
+          <a
             key={item.href}
             href={item.href}
             onClick={() => setOpen(false)}
@@ -69,7 +71,7 @@ export function Sidebar() {
           >
             <Icon size={18} />
             {item.label}
-          </Link>
+          </a>
         );
       })}
     </nav>
@@ -78,13 +80,13 @@ export function Sidebar() {
   return (
     <>
       <aside className="hidden border-r border-[#e4d8c8] bg-[#f8f1e7]/82 px-4 py-5 backdrop-blur-2xl lg:block">
-        <div className="mb-6 flex items-center gap-3 px-1">
+        <Link href="/dashboard" className="mb-6 flex items-center gap-3 px-1">
           <FoxBrandMark className="size-11 shrink-0" />
           <div>
             <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
             <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>
           </div>
-        </div>
+        </Link>
         {nav}
       </aside>
 
@@ -94,13 +96,13 @@ export function Sidebar() {
             className="h-full w-[310px] max-w-[82vw] border-r border-[#e4d8c8] bg-[#f8f1e7] p-5 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-6 flex items-center gap-3">
+            <Link href="/dashboard" onClick={() => setOpen(false)} className="mb-6 flex items-center gap-3">
               <FoxBrandMark className="size-11 shrink-0" />
               <div>
                 <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
                 <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>
               </div>
-            </div>
+            </Link>
             {nav}
           </aside>
         </div>
