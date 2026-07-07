@@ -1,0 +1,195 @@
+/*
+  Admin hard contrast fix.
+  /admin route açıkken body.route-admin class'ı eklenir.
+  Bu dosya admin panelindeki silik metin, tablo ve istatistik renklerini kesin şekilde okunur yapar.
+*/
+
+body.route-admin {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(180, 35, 42, 0.08), transparent 34rem),
+    radial-gradient(circle at 90% 15%, rgba(212, 162, 72, 0.12), transparent 28rem),
+    #f7efe3 !important;
+}
+
+body.route-admin main {
+  color: #101828 !important;
+}
+
+body.route-admin main,
+body.route-admin main section,
+body.route-admin main article,
+body.route-admin main div {
+  opacity: 1 !important;
+}
+
+body.route-admin main *:not(svg):not(path) {
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+body.route-admin main h1,
+body.route-admin main h2,
+body.route-admin main h3,
+body.route-admin main h4,
+body.route-admin main strong,
+body.route-admin main b {
+  color: #101828 !important;
+}
+
+body.route-admin main p,
+body.route-admin main span,
+body.route-admin main small,
+body.route-admin main label,
+body.route-admin main li {
+  color: #475467 !important;
+}
+
+body.route-admin main [class*="text-white"],
+body.route-admin main [class*="text-slate-100"],
+body.route-admin main [class*="text-slate-200"],
+body.route-admin main [class*="text-slate-300"],
+body.route-admin main [class*="text-slate-400"],
+body.route-admin main [class*="text-stone-100"],
+body.route-admin main [class*="text-stone-200"],
+body.route-admin main [class*="text-stone-300"],
+body.route-admin main [class*="text-stone-400"],
+body.route-admin main [class*="text-amber-100"],
+body.route-admin main [class*="text-amber-200"],
+body.route-admin main [class*="text-amber-300"],
+body.route-admin main [class*="text-yellow-100"],
+body.route-admin main [class*="text-yellow-200"],
+body.route-admin main [class*="text-yellow-300"] {
+  color: #475467 !important;
+}
+
+body.route-admin main [class*="uppercase"],
+body.route-admin main [class*="tracking-"] {
+  color: #b7791f !important;
+}
+
+body.route-admin main table {
+  width: 100% !important;
+  overflow: hidden !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid #d8c7ad !important;
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: 0 24px 80px rgba(16, 24, 40, 0.1) !important;
+}
+
+body.route-admin main thead,
+body.route-admin main thead tr,
+body.route-admin main th {
+  background: #fff7ea !important;
+}
+
+body.route-admin main th {
+  color: #7a4a13 !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+body.route-admin main td {
+  color: #344054 !important;
+  font-weight: 800 !important;
+  border-top: 1px solid #eadfce !important;
+}
+
+body.route-admin main td:first-child,
+body.route-admin main td:first-child *,
+body.route-admin main tbody tr td:first-child,
+body.route-admin main tbody tr td:first-child * {
+  color: #101828 !important;
+  font-weight: 950 !important;
+}
+
+body.route-admin main tbody tr {
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+body.route-admin main tbody tr:hover {
+  background: #fffaf3 !important;
+}
+
+body.route-admin main tbody tr:hover td,
+body.route-admin main tbody tr:hover td * {
+  color: #101828 !important;
+}
+
+body.route-admin main [class*="border"] {
+  border-color: #e4d8c8 !important;
+}
+
+body.route-admin main [class*="bg-white"],
+body.route-admin main [class*="bg-[#fff"],
+body.route-admin main [class*="bg-[#f"],
+body.route-admin main [class*="bg-stone"],
+body.route-admin main [class*="bg-amber"],
+body.route-admin main [class*="bg-yellow"] {
+  color: #101828 !important;
+}
+
+body.route-admin main [class*="bg-white"] *,
+body.route-admin main [class*="bg-[#fff"] *,
+body.route-admin main [class*="bg-[#f"] *,
+body.route-admin main [class*="bg-stone"] *,
+body.route-admin main [class*="bg-amber"] *,
+body.route-admin main [class*="bg-yellow"] * {
+  opacity: 1 !important;
+}
+
+body.route-admin main a,
+body.route-admin main button {
+  opacity: 1 !important;
+}
+
+body.route-admin main a[class*="bg-[#101828]"],
+body.route-admin main button[class*="bg-[#101828]"],
+body.route-admin main a[class*="bg-[#b4232a]"],
+body.route-admin main button[class*="bg-[#b4232a]"],
+body.route-admin main a[class*="bg-slate-900"],
+body.route-admin main button[class*="bg-slate-900"],
+body.route-admin main a[class*="bg-red"],
+body.route-admin main button[class*="bg-red"] {
+  color: #fffaf2 !important;
+}
+
+body.route-admin main a[class*="bg-[#101828]"] *,
+body.route-admin main button[class*="bg-[#101828]"] *,
+body.route-admin main a[class*="bg-[#b4232a]"] *,
+body.route-admin main button[class*="bg-[#b4232a]"] *,
+body.route-admin main a[class*="bg-slate-900"] *,
+body.route-admin main button[class*="bg-slate-900"] *,
+body.route-admin main a[class*="bg-red"] *,
+body.route-admin main button[class*="bg-red"] * {
+  color: #fffaf2 !important;
+}
+
+body.route-admin main input,
+body.route-admin main textarea,
+body.route-admin main select {
+  color: #101828 !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: #d8c7ad !important;
+}
+
+body.route-admin main input::placeholder,
+body.route-admin main textarea::placeholder {
+  color: #667085 !important;
+}
+
+/* Admin kullanıcı tablosunda e-posta satırları da görünür kalsın. */
+body.route-admin main td:first-child small,
+body.route-admin main td:first-child span,
+body.route-admin main td:first-child p {
+  color: #667085 !important;
+  font-weight: 750 !important;
+}
+
+/* Sayfanın altındaki içerik yönetimi blokları da soluk kalmasın. */
+body.route-admin main section + section,
+body.route-admin main section + section * {
+  opacity: 1 !important;
+}
