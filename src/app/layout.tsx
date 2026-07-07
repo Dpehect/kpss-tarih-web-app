@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Providers } from "@/app/providers";
 import "@/app/globals.css";
 import "@/app/contrast-fixes.css";
+import "@/app/cta-white-text-fix.css";
 
 const sans = Geist({
   variable: "--font-sans",

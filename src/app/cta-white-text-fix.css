@@ -1,0 +1,46 @@
+/*
+  Softbridge CTA contrast fix.
+  Kırmızı / koyu CTA butonların içinde metin veya icon siyah kalmasın.
+*/
+
+a[data-dark-button="true"],
+button[data-dark-button="true"],
+.softbridge-dark-action,
+.softbridge-google-button {
+  color: #fffaf2 !important;
+}
+
+a[data-dark-button="true"] *,
+button[data-dark-button="true"] *,
+.softbridge-dark-action *,
+.softbridge-google-button * {
+  color: #fffaf2 !important;
+  stroke: #fffaf2 !important;
+}
+
+a[class*="bg-[#b4232a]"],
+button[class*="bg-[#b4232a]"],
+a[class*="bg-[#101828]"],
+button[class*="bg-[#101828]"],
+a[class*="bg-red"],
+button[class*="bg-red"],
+a[class*="bg-rose"],
+button[class*="bg-rose"],
+a[class*="bg-slate-900"],
+button[class*="bg-slate-900"] {
+  color: #fffaf2 !important;
+}
+
+a[class*="bg-[#b4232a]"] *,
+button[class*="bg-[#b4232a]"] *,
+a[class*="bg-[#101828]"] *,
+button[class*="bg-[#101828]"] *,
+a[class*="bg-red"] *,
+button[class*="bg-red"] *,
+a[class*="bg-rose"] *,
+button[class*="bg-rose"] *,
+a[class*="bg-slate-900"] *,
+button[class*="bg-slate-900"] * {
+  color: #fffaf2 !important;
+  stroke: #fffaf2 !important;
+}

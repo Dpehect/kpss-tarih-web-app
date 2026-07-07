@@ -46,12 +46,15 @@ export function AuthPanel() {
 
   async function signInWithGoogle() {
     if (!supabase) {
-      toast.error("Giriş altyapısı henüz yapılandırılmadı.");
+      toast.error("Giriş sistemi şu anda hazırlanıyor.");
       return;
     }
 
     const client = supabase;
-    const redirectTo = `${window.location.origin}/auth/callback?next=/dashboard`;
+    const next = searchParams.get("next") ?? "/dashboard";
+    const safeNext = next.startsWith("/") ? next : "/dashboard";
+    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext)}`;
+
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo }
@@ -73,6 +76,7 @@ export function AuthPanel() {
 
     toast.success("Oturum kapatıldı.");
     setUser(null);
+    window.location.href = "/login";
   }
 
   if (isLoading) {
@@ -92,12 +96,12 @@ export function AuthPanel() {
       <div className="mx-auto grid w-full max-w-5xl gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
         <AuthCopy />
         <div className="rounded-[2.5rem] border border-[#e4d8c8] bg-white/80 p-7 shadow-[0_32px_110px_rgba(16,24,40,.10)] backdrop-blur-2xl">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Kurulum gerekli</p>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Hesap sistemi</p>
           <h2 className="mt-3 text-3xl font-black leading-tight tracking-[-0.06em] text-[#101828]">
-            Giriş altyapısı için environment variable eksik.
+            Giriş sistemi şu anda hazırlanıyor.
           </h2>
           <p className="mt-4 text-sm font-semibold leading-7 text-slate-600">
-            Vercel Project Settings → Environment Variables bölümüne Supabase public URL ve publishable key eklenmeli.
+            Platforma erişim için hesap bağlantısının aktif olması gerekir. Lütfen proje ayarlarını tamamladıktan sonra tekrar dene.
           </p>
         </div>
       </div>
@@ -122,14 +126,14 @@ export function AuthPanel() {
           </div>
 
           <p className="text-sm font-semibold leading-7 text-slate-600">
-            Çalışma verilerin online saklanır; farklı cihazda tekrar giriş yaptığında panelden devam edebilirsin.
+            Çalışma panelin hazır. Testlerine, konu ilerlemene ve tekrar akışına kaldığın yerden devam edebilirsin.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <a
               href="/dashboard"
               data-dark-button="true"
-              className="softbridge-dark-action inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-5 text-sm font-black"
+              className="softbridge-dark-action inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-5 text-sm font-black text-white"
             >
               Panele geç
               <ArrowRight size={17} />
@@ -159,32 +163,31 @@ export function AuthPanel() {
             <SBBrandMark className="size-12" />
             <div>
               <p className="text-sm font-black text-[#101828]">Softbridge Akademi</p>
-              <p className="text-xs font-semibold text-slate-500">Güvenli çalışma hesabı</p>
+              <p className="text-xs font-semibold text-slate-500">Kişisel çalışma hesabı</p>
             </div>
           </div>
 
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Oturum aç</p>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Zorunlu giriş</p>
           <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.075em] text-[#101828] md:text-5xl">
-            İlerlemeni güvenli şekilde senkronize et.
+            Devam etmek için hesabınla giriş yap.
           </h1>
           <p className="mt-4 text-sm font-semibold leading-7 text-slate-600">
-            Konu ilerlemen, test cevapların, yanlışların, deneme sonuçların ve tekrarların hesabına bağlı olarak saklanır.
+            Panel, testler, tekrarlar ve ilerleme ekranı kişisel hesabınla birlikte çalışır. Böylece çalışma düzenin tek yerde kalır.
           </p>
 
           <button
             type="button"
             data-dark-button="true"
             onClick={() => void signInWithGoogle()}
-            className="softbridge-google-button mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#101828] px-5 text-sm font-black shadow-[0_22px_70px_rgba(16,24,40,.22)] transition hover:bg-[#1d2939]"
-            style={{ color: "#fffaf2" }}
+            className="softbridge-google-button mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#101828] px-5 text-sm font-black text-white shadow-[0_22px_70px_rgba(16,24,40,.22)] transition hover:bg-[#1d2939]"
           >
             <GoogleMark />
-            <span style={{ color: "#fffaf2" }}>Google hesabıyla güvenli devam et</span>
+            <span className="text-white">Google ile giriş yap</span>
             <ArrowRight size={17} />
           </button>
 
           <p className="mt-4 text-center text-xs font-semibold leading-6 text-slate-500">
-            İçerikler JSON’da kalır; yalnızca sana ait çalışma verileri online saklanır.
+            Güvenli oturumla kişisel çalışma paneline eriş.
           </p>
         </div>
       </section>
@@ -197,21 +200,21 @@ function AuthCopy() {
     <section className="rounded-[2.5rem] bg-[#101828] p-7 text-white shadow-[0_32px_110px_rgba(16,24,40,.24)]">
       <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.08] px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-white/70">
         <ShieldCheck size={15} />
-        Hesap avantajı
+        Giriş zorunlu
       </div>
 
       <h2 className="mt-6 text-5xl font-black leading-[0.95] tracking-[-0.08em] text-white md:text-6xl">
-        Aynı yerden devam et.
+        Önce giriş, sonra çalışma.
       </h2>
       <p className="mt-5 text-sm font-semibold leading-7 text-white/68">
-        Giriş yaptığında çalışma ilerlemen cihazına bağlı kalmaz. Panel, testler, yanlışlar ve tekrarların daha düzenli takip edilir.
+        Kişisel panelin; test sonuçlarını, yanlışlarını, tekrarlarını ve çalışma rotanı tek merkezde toplar.
       </p>
 
       <div className="mt-7 grid gap-3">
         {[
-          "Test cevapların ve yanlışların saklanır.",
-          "Deneme sonuçların takip edilir.",
-          "Flashcard tekrarların kaydedilir."
+          "Kişisel panelin sadece sana özel açılır.",
+          "Test sonuçların ve yanlışların takip edilir.",
+          "Tekrar akışın kaldığın yerden devam eder."
         ].map((item) => (
           <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[.07] p-3">
             <span className="grid size-9 place-items-center rounded-xl bg-white/10 text-white">
