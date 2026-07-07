@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { TimelinePage } from "@/features/timeline/components/TimelinePage";
 
 export const metadata: Metadata = {
-  title: "Timeline",
-  description: "KPSS Tarih olaylarını premium timeline deneyimiyle keşfet."
+  title: "Zaman Çizelgesi",
+  description: "KPSS Tarih olaylarını dönem, konu ve kronolojik ilişkiyle keşfet."
 };
 
 export default function TimelineRoute() {
