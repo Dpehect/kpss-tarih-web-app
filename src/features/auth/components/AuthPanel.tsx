@@ -8,6 +8,41 @@ import { toast } from "sonner";
 import { SBBrandMark } from "@/components/brand/SBBrandMark";
 import { createClient } from "@/lib/supabase/client";
 
+function cleanOrigin(value?: string | null) {
+  return value?.trim().replace(/\/+$/, "") ?? "";
+}
+
+function isLocalOrigin(origin: string) {
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+}
+
+function getAppOrigin() {
+  const runtimeOrigin = typeof window !== "undefined" ? cleanOrigin(window.location.origin) : "";
+  const configuredOrigin = cleanOrigin(process.env.NEXT_PUBLIC_SITE_URL);
+
+  if (!runtimeOrigin) {
+    return configuredOrigin;
+  }
+
+  if (isLocalOrigin(runtimeOrigin)) {
+    return runtimeOrigin;
+  }
+
+  if (configuredOrigin && !isLocalOrigin(configuredOrigin)) {
+    return configuredOrigin;
+  }
+
+  return runtimeOrigin;
+}
+
+function getSafeNext(value: string | null) {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return value;
+}
+
 export function AuthPanel() {
   const searchParams = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
@@ -51,13 +86,18 @@ export function AuthPanel() {
     }
 
     const client = supabase;
-    const next = searchParams.get("next") ?? "/dashboard";
-    const safeNext = next.startsWith("/") ? next : "/dashboard";
-    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext)}`;
+    const safeNext = getSafeNext(searchParams.get("next"));
+    const redirectTo = `${getAppOrigin()}/auth/callback?next=${encodeURIComponent(safeNext)}`;
 
     const { error } = await client.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo }
+      options: {
+        redirectTo,
+        queryParams: {
+          access_type: "offline",
+          prompt: "select_account"
+        }
+      }
     });
 
     if (error) toast.error(error.message);
