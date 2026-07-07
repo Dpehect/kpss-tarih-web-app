@@ -1,21 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PageHeader } from "@/components/core/PageHeader";
-import { useAdminSession } from "@/hooks/useAdminSession";
-import {
-  fetchAdminOverview,
-  fetchAdminContentItems,
-  type AdminContentItem,
-  type AdminOverview
-} from "@/lib/admin/admin-service";
 import { AdminContentManager } from "@/features/admin/components/AdminContentManager";
 import { AdminMetricGrid } from "@/features/admin/components/AdminMetricGrid";
 import { AdminUserTable } from "@/features/admin/components/AdminUserTable";
+import { useAdminSession } from "@/hooks/useAdminSession";
+import {
+  fetchAdminContentItems,
+  fetchAdminOverview,
+  type AdminContentItem,
+  type AdminOverview
+} from "@/lib/admin/admin-service";
 
-/**
- * Admin paneli sadece ADMIN_EMAILS içindeki hesapla görünür.
- */
 export function AdminPage() {
   const { isAdmin, isLoading, user } = useAdminSession();
   const [overview, setOverview] = useState<AdminOverview | null>(null);
@@ -50,72 +46,70 @@ export function AdminPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <PageHeader eyebrow="Admin" title="Oturum kontrol ediliyor." description="Admin yetkisi doğrulanıyor." />
-      </div>
+      <AdminShell>
+        <StatusCard title="Admin oturumu kontrol ediliyor" body="Yetki bilgisi hazırlanıyor." />
+      </AdminShell>
     );
   }
 
   if (!user) {
     return (
-      <div className="space-y-6">
-        <PageHeader
-          eyebrow="Admin"
-          title="Admin paneli için giriş gerekiyor."
-          description="Bu alan yalnızca yetkili Google hesabı ile giriş yapıldığında açılır."
-          actions={
-            <a href="/auth" className="rounded-full bg-[#f2c15f] px-5 py-3 font-semibold text-[#120b07]">
-              Google ile giriş yap
-            </a>
-          }
+      <AdminShell>
+        <StatusCard
+          title="Admin paneli için giriş gerekli"
+          body="Bu alan sadece yetkili hesaplarla açılır."
+          action={<a href="/login" className="rounded-full bg-[#101828] px-5 py-3 text-sm font-black text-white">Giriş yap</a>}
         />
-      </div>
+      </AdminShell>
     );
   }
 
   if (!isAdmin) {
     return (
-      <div className="space-y-6">
-        <PageHeader
-          eyebrow="Yetkisiz"
-          title="Bu hesap admin değil."
-          description="Admin paneli yalnızca tanımlı yönetici hesabı ile kullanılabilir."
+      <AdminShell>
+        <StatusCard
+          title="Bu hesap admin yetkisine sahip değil"
+          body={`Giriş yapılan hesap: ${user.email ?? "Bilinmeyen hesap"}`}
         />
-        <section className="rounded-xl parchment-surface p-6">
-          <p className="text-[#ead7b7]/70">Giriş yapılan hesap: {user.email}</p>
-        </section>
-      </div>
+      </AdminShell>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        eyebrow="Admin Panel"
-        title="Kullanıcı verileri ve içerik yönetimi."
-        description="Aktif kullanıcıları, öğrenme istatistiklerini, not sayılarını, deneme sonuçlarını ve admin içerik taslaklarını buradan yönetebilirsin."
-        actions={
+    <AdminShell>
+      <header className="rounded-[2rem] border border-[#d8c7ad] bg-white p-6 shadow-[0_24px_80px_rgba(16,24,40,.08)]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#9a5d13]">Admin paneli</p>
+            <h1 className="mt-2 text-4xl font-black tracking-[-0.065em] text-[#101828] md:text-5xl">
+              Yönetim merkezi
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#475467]">
+              Kullanıcı ilerlemesini, soru çözümünü, flashcard tekrarlarını ve admin içeriklerini tek yerden yönet.
+            </p>
+          </div>
+
           <button
             type="button"
             onClick={() => void loadAdminData()}
-            className="rounded-full bg-[#f2c15f] px-5 py-3 font-semibold text-[#120b07]"
+            className="rounded-full bg-[#101828] px-5 py-3 text-sm font-black text-white shadow-[0_18px_45px_rgba(16,24,40,.18)]"
           >
             Yenile
           </button>
-        }
-      />
+        </div>
 
-      {error ? (
-        <section className="rounded-xl border border-[#ff7968]/30 bg-[#ff7968]/10 p-6 text-[#ffb4aa]">
-          {error}
-        </section>
-      ) : null}
+        {error ? (
+          <div className="mt-5 rounded-2xl border border-[#f7b2b7] bg-[#fff1f2] p-4 text-sm font-black text-[#b4232a]">
+            {error}
+          </div>
+        ) : null}
 
-      {isDataLoading && !overview ? (
-        <section className="rounded-xl parchment-surface p-6">
-          <p className="text-[#ead7b7]/70">Admin verileri yükleniyor...</p>
-        </section>
-      ) : null}
+        {isDataLoading && !overview ? (
+          <div className="mt-5 rounded-2xl border border-[#eadfce] bg-[#fffaf3] p-4 text-sm font-bold text-[#475467]">
+            Admin verileri yükleniyor...
+          </div>
+        ) : null}
+      </header>
 
       {overview ? (
         <>
@@ -125,6 +119,33 @@ export function AdminPage() {
       ) : null}
 
       <AdminContentManager items={items} onChange={() => void loadAdminData()} />
-    </div>
+    </AdminShell>
+  );
+}
+
+function AdminShell({ children }: { children: React.ReactNode }) {
+  return (
+    <main className="min-h-screen bg-[#f7efe3] px-4 py-6 text-[#101828] md:px-8 md:py-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-6">{children}</div>
+    </main>
+  );
+}
+
+function StatusCard({
+  title,
+  body,
+  action
+}: {
+  title: string;
+  body: string;
+  action?: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-[2rem] border border-[#d8c7ad] bg-white p-6 shadow-[0_24px_80px_rgba(16,24,40,.08)]">
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#9a5d13]">Admin</p>
+      <h1 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#101828]">{title}</h1>
+      <p className="mt-3 text-sm font-bold leading-7 text-[#475467]">{body}</p>
+      {action ? <div className="mt-5">{action}</div> : null}
+    </section>
   );
 }

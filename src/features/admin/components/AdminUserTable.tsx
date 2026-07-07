@@ -2,55 +2,67 @@ import type { AdminUserRow } from "@/lib/admin/admin-service";
 
 export function AdminUserTable({ users }: { users: AdminUserRow[] }) {
   return (
-    <section className="rounded-xl parchment-surface p-6">
-      <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <section className="rounded-[2rem] border border-[#d8c7ad] bg-white p-5 shadow-[0_24px_80px_rgba(16,24,40,.09)]">
+      <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#f6c465]">Kullanıcılar</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight">Aktif kullanıcı verileri</h2>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#9a5d13]">Kullanıcılar</p>
+          <h2 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#101828]">Aktif kullanıcı verileri</h2>
         </div>
-        <p className="text-sm text-[#ead7b7]/58">Son aktiviteye göre sıralanır.</p>
+        <p className="text-sm font-bold text-[#475467]">Son aktiviteye göre sıralanır.</p>
       </div>
 
-      <div className="mt-6 overflow-x-auto">
-        <table className="min-w-[960px] w-full border-separate border-spacing-y-2 text-left">
+      <div className="overflow-x-auto rounded-3xl border border-[#eadfce] bg-[#fffaf3]">
+        <table className="min-w-[980px] w-full border-separate border-spacing-0 text-left">
           <thead>
-            <tr className="text-xs uppercase tracking-wider text-[#ead7b7]/46">
-              <th className="px-4 py-2">Kullanıcı</th>
-              <th className="px-4 py-2">Konu</th>
-              <th className="px-4 py-2">Soru</th>
-              <th className="px-4 py-2">Doğru</th>
-              <th className="px-4 py-2">Flashcard</th>
-              <th className="px-4 py-2">Deneme</th>
-              <th className="px-4 py-2">Not</th>
-              <th className="px-4 py-2">Son aktivite</th>
+            <tr className="bg-[#fff3df]">
+              {["Kullanıcı", "Konu", "Soru", "Doğru", "Flashcard", "Deneme", "Not", "Son aktivite"].map((heading) => (
+                <th
+                  key={heading}
+                  className="border-b border-[#dcc7a6] px-5 py-4 text-xs font-black uppercase tracking-[0.14em] text-[#7a4a13]"
+                >
+                  {heading}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan={8} className="rounded-2xl bg-white/[0.055] px-4 py-5 text-[#ead7b7]/64">
+                <td colSpan={8} className="px-5 py-8 text-center text-sm font-bold text-[#475467]">
                   Henüz kullanıcı verisi yok.
                 </td>
               </tr>
-            ) : users.map((user) => (
-              <tr key={user.id} className="bg-white/[0.055] text-sm text-[#ead7b7]/76">
-                <td className="rounded-l-2xl px-4 py-4">
-                  <p className="font-semibold text-[#fff8e8]">{user.fullName ?? "İsimsiz kullanıcı"}</p>
-                  <p className="mt-1 text-xs text-[#ead7b7]/52">{user.email ?? user.id}</p>
-                </td>
-                <td className="px-4 py-4">{user.completedTopics}</td>
-                <td className="px-4 py-4">{user.questionAttempts}</td>
-                <td className="px-4 py-4">{user.correctAnswers}</td>
-                <td className="px-4 py-4">{user.flashcardReviews}</td>
-                <td className="px-4 py-4">{user.examResults}</td>
-                <td className="px-4 py-4">{user.notes}</td>
-                <td className="rounded-r-2xl px-4 py-4">{formatDate(user.lastActivity)}</td>
-              </tr>
-            ))}
+            ) : (
+              users.map((user) => (
+                <tr key={user.id} className="bg-white transition hover:bg-[#fffaf3]">
+                  <td className="border-b border-[#eadfce] px-5 py-5">
+                    <p className="text-sm font-black text-[#101828]">{user.fullName ?? "İsimsiz kullanıcı"}</p>
+                    <p className="mt-1 text-xs font-bold text-[#667085]">{user.email ?? user.id}</p>
+                  </td>
+                  <NumberCell value={user.completedTopics} />
+                  <NumberCell value={user.questionAttempts} />
+                  <NumberCell value={user.correctAnswers} />
+                  <NumberCell value={user.flashcardReviews} />
+                  <NumberCell value={user.examResults} />
+                  <NumberCell value={user.notes} />
+                  <td className="border-b border-[#eadfce] px-5 py-5 text-sm font-black text-[#344054]">
+                    {formatDate(user.lastActivity)}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
     </section>
+  );
+}
+
+function NumberCell({ value }: { value: number }) {
+  return (
+    <td className="border-b border-[#eadfce] px-5 py-5 text-sm font-black tabular-nums text-[#344054]">
+      {value}
+    </td>
   );
 }
 
