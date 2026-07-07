@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* KPSS Tarih — Professional Dossier UI
-   No yellow palette. High contrast. Compatible with older route classes. */
+   Global button contrast hardening + no-yellow palette. */
 
 :root {
   --bureau-bone: #f6efe3;
@@ -279,6 +279,7 @@ select {
   color: var(--bureau-copy) !important;
 }
 
+/* Buttons */
 .btn-primary,
 .btn-dark,
 [data-dark-button="true"] {
@@ -368,6 +369,58 @@ select {
   color: var(--bureau-ink) !important;
   fill: currentColor;
   stroke: currentColor;
+}
+
+/* Global selected/active button visibility fix.
+   This covers year buttons, tab buttons, filters, mobile nav pills and all dark active states. */
+:is(button, a, [role="button"]):where(
+  [data-active="true"],
+  [data-state="active"],
+  [aria-selected="true"],
+  [aria-pressed="true"],
+  [aria-current="page"],
+  [data-selected="true"]
+) {
+  background-color: var(--bureau-ink) !important;
+  border-color: var(--bureau-ink) !important;
+  color: var(--bureau-inverse) !important;
+}
+
+:is(button, a, [role="button"]):where(
+  [data-active="true"],
+  [data-state="active"],
+  [aria-selected="true"],
+  [aria-pressed="true"],
+  [aria-current="page"],
+  [data-selected="true"]
+) * {
+  color: var(--bureau-inverse) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+:is(button, a, [role="button"])[class*="bg-[var(--ink)]"],
+:is(button, a, [role="button"])[class*="bg-[var(--bureau-ink)]"],
+:is(button, a, [role="button"])[class*="bg-black"],
+:is(button, a, [role="button"])[class*="bg-slate-900"],
+:is(button, a, [role="button"])[class*="bg-gray-900"],
+:is(button, a, [role="button"])[class*="bg-[#0e1117]"],
+:is(button, a, [role="button"])[class*="bg-[#111827]"],
+:is(button, a, [role="button"])[class*="bg-[#10131a]"] {
+  color: var(--bureau-inverse) !important;
+}
+
+:is(button, a, [role="button"])[class*="bg-[var(--ink)]"] *,
+:is(button, a, [role="button"])[class*="bg-[var(--bureau-ink)]"] *,
+:is(button, a, [role="button"])[class*="bg-black"] *,
+:is(button, a, [role="button"])[class*="bg-slate-900"] *,
+:is(button, a, [role="button"])[class*="bg-gray-900"] *,
+:is(button, a, [role="button"])[class*="bg-[#0e1117]"] *,
+:is(button, a, [role="button"])[class*="bg-[#111827]"] *,
+:is(button, a, [role="button"])[class*="bg-[#10131a]"] * {
+  color: var(--bureau-inverse) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
 }
 
 .progress-track {
