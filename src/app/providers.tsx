@@ -2,12 +2,12 @@
 
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
-import { OnlineProgressHydrator } from "@/components/core/OnlineProgressHydrator";
+import { IdleOnlineProgressHydrator } from "@/components/core/IdleOnlineProgressHydrator";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <>
-      <OnlineProgressHydrator />
+      <IdleOnlineProgressHydrator />
       {children}
       <Toaster richColors position="top-center" closeButton />
     </>
