@@ -1,52 +1,34 @@
 "use client";
 
-import type { CSSProperties } from "react";
-import { useMemo, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
-  Clock3,
   FileQuestion,
-  ListChecks,
+  Layers3,
+  Shuffle,
   ShieldAlert
 } from "lucide-react";
-import { getTestCountsForTopic, topicQuestionTests, type TestLevel } from "@/data/generated-30-question-tests";
+import { mixedQuestionTests, topicQuestionTests, type TestLevel } from "@/data/generated-30-question-tests";
 import { topics } from "@/data/kpss-history";
 import type { Topic } from "@/types/study";
 
 type TopicRecord = {
   topic: Topic;
-  totalTests: number;
-  totalQuestions: number;
-  easyTests: number;
-  mediumTests: number;
-  hardTests: number;
   firstMistake: string;
-};
-
-const levelContent: Record<TestLevel, { title: string; body: string; button: string }> = {
-  kolay: {
-    title: "Kolay testler",
-    body: "Temel kavramları ve doğrudan bilgileri ölçen testler.",
-    button: "Kolay konuları listele"
-  },
-  orta: {
-    title: "Orta testler",
-    body: "Kavram, olay ve sonuç ilişkisini birlikte düşündüren testler.",
-    button: "Orta konuları listele"
-  },
-  zor: {
-    title: "Zor testler",
-    body: "Karıştırılan kavramlara ve seçici yorumlara odaklanan testler.",
-    button: "Zor konuları listele"
-  }
 };
 
 const levelLabels: Record<TestLevel, string> = {
   kolay: "Kolay",
   orta: "Orta",
   zor: "Zor"
+};
+
+const levelDescriptions: Record<TestLevel, string> = {
+  kolay: "Temel bilgileri ve doğrudan kavramları ölçen karışık testler.",
+  orta: "Olay, kavram ve sonuç ilişkisini birlikte yoklayan karışık testler.",
+  zor: "Seçici yorum, kronoloji ve karıştırılan kavramlara odaklanan karışık testler."
 };
 
 const containerVariants: Variants = {
@@ -110,177 +92,157 @@ function naturalMistakeNote(raw: string | undefined, topicTitle: string) {
 }
 
 export function QuestionBankPage() {
-  const [activeLevel, setActiveLevel] = useState<TestLevel>("kolay");
+  const records: TopicRecord[] = topics.map((topic) => ({
+    topic,
+    firstMistake: naturalMistakeNote(topic.commonMistakes[0], topic.title)
+  }));
 
-  const records: TopicRecord[] = useMemo(
-    () =>
-      topics.map((topic) => {
-        const counts = getTestCountsForTopic(topic.id);
-
-        return {
-          topic,
-          totalTests: counts.totalTests,
-          totalQuestions: counts.totalQuestions,
-          easyTests: counts.kolay,
-          mediumTests: counts.orta,
-          hardTests: counts.zor,
-          firstMistake: naturalMistakeNote(topic.commonMistakes[0], topic.title)
-        };
-      }),
-    []
-  );
-
-  const totalQuestions = topicQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
-  const totalMinutes = topics.reduce((sum, topic) => sum + topic.estimatedMinutes, 0);
-  const activeQuestionCount = records.reduce((sum, record) => sum + getLevelTestCount(record, activeLevel) * 30, 0);
+  const topicCount = topics.length;
+  const topicTestCount = topicQuestionTests.length;
+  const topicQuestionCount = topicQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
+  const mixedTestCount = mixedQuestionTests.length;
+  const mixedQuestionCount = mixedQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
 
   return (
-    <div className="space-y-7">
-      <header className="rounded-[2.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.86)] p-6 shadow-[var(--shadow-paper)] backdrop-blur-xl md:p-8">
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-end">
+    <div className="space-y-8">
+      <header className="rounded-[2rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.82)] p-6 shadow-[var(--shadow-paper)] backdrop-blur-xl md:p-7">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <p className="bureau-kicker">Soru Bankası</p>
-            <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.065em] text-[var(--bureau-ink)] md:text-6xl">
-              KPSS Tarih testleri.
+            <h1 className="mt-3 max-w-4xl text-4xl font-black leading-[1.04] tracking-[-0.06em] text-[var(--bureau-ink)] md:text-6xl">
+              Konu seç, zorluk seç, teste başla.
             </h1>
-            <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-[var(--bureau-copy)] md:text-lg">
-              Her konuda 10 kolay, 10 orta ve 10 zor test bulunur. Her test 30 sorudan oluşur.
+            <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-[var(--bureau-copy)]">
+              Önce çalışmak istediğin konuyu aç. Sonraki ekranda kolay, orta veya zor testlerden birini seçebilirsin.
             </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a href={`/question-bank/all?level=${activeLevel}`} className="btn-accent px-5 py-3">
-                {levelLabels[activeLevel]} karma testleri gör
-                <ArrowRight size={17} />
-              </a>
-              <a href="#konu-testleri" className="btn-ghost px-5 py-3">
-                Konu testlerini gör
-              </a>
-            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <SummaryCard icon={<FileQuestion size={18} />} label="Toplam soru" value={totalQuestions} />
-            <SummaryCard icon={<BookOpen size={18} />} label="Konu" value={topics.length} />
-            <SummaryCard icon={<ListChecks size={18} />} label="Konu testi" value={topicQuestionTests.length} />
-            <SummaryCard icon={<Clock3 size={18} />} label="Tahmini süre" value={`${totalMinutes} dk`} />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 xl:w-[520px]">
+            <MiniSummary icon={<BookOpen size={17} />} label="Konu" value={topicCount} />
+            <MiniSummary icon={<Layers3 size={17} />} label="Konu testi" value={topicTestCount} />
+            <MiniSummary icon={<FileQuestion size={17} />} label="Konu sorusu" value={topicQuestionCount} />
+            <MiniSummary icon={<Shuffle size={17} />} label="Karma test" value={mixedTestCount} />
           </div>
         </div>
       </header>
 
-      <section className="grid gap-5 lg:grid-cols-3">
-        {(["kolay", "orta", "zor"] as const).map((level) => (
-          <LevelPicker
-            key={level}
-            level={level}
-            active={activeLevel === level}
-            onClick={() => setActiveLevel(level)}
-            title={levelContent[level].title}
-            body={levelContent[level].body}
-            button={levelContent[level].button}
-          />
-        ))}
-      </section>
+      <section className="space-y-4">
+        <SectionTitle
+          eyebrow="Karışık testler"
+          title="Tüm konulardan sorular"
+          description={`Karışık testlerde ${topicCount} KPSS Tarih konusu birlikte gelir. Her zorluk düzeyinde 10 test, her testte 30 soru bulunur.`}
+        />
 
-      <section className="flex flex-col gap-3 rounded-[1.75rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] p-5 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="bureau-kicker">{levelLabels[activeLevel]} testler</p>
-          <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">
-            {levelLabels[activeLevel]} testi olan konular
-          </h2>
-          <p className="mt-2 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
-            Aşağıdaki her konuda {getLevelTestCount(records[0], activeLevel)} test bulunur. Toplam {activeQuestionCount} soru listelenir.
-          </p>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {(["kolay", "orta", "zor"] as const).map((level) => (
+            <MixedTestCard
+              key={level}
+              level={level}
+              testCount={mixedQuestionTests.filter((test) => test.level === level).length}
+              questionCount={mixedQuestionTests
+                .filter((test) => test.level === level)
+                .reduce((sum, test) => sum + test.questionCount, 0)}
+            />
+          ))}
         </div>
-
-        <a href={`/question-bank/all?level=${activeLevel}`} className="btn-primary shrink-0" data-dark-button="true">
-          {levelLabels[activeLevel]} karma testleri
-          <ArrowRight size={17} />
-        </a>
       </section>
 
-      <motion.section
-        id="konu-testleri"
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
-      >
-        {records.map((record, index) => (
-          <TopicCard key={`${record.topic.id}-${activeLevel}`} record={record} index={index} activeLevel={activeLevel} />
-        ))}
-      </motion.section>
+      <section id="konu-testleri" className="space-y-4">
+        <SectionTitle
+          eyebrow="Konu testleri"
+          title="Çalışmak istediğin konuyu seç"
+          description="Konuya girdikten sonra kolay, orta ve zor testler ayrı ayrı karşına çıkar."
+        />
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
+        >
+          {records.map((record, index) => (
+            <TopicCard key={record.topic.id} record={record} index={index} />
+          ))}
+        </motion.div>
+      </section>
     </div>
   );
 }
 
-function LevelPicker({
+function MixedTestCard({
   level,
-  active,
-  title,
-  body,
-  button,
-  onClick
+  testCount,
+  questionCount
 }: {
   level: TestLevel;
-  active: boolean;
-  title: string;
-  body: string;
-  button: string;
-  onClick: () => void;
+  testCount: number;
+  questionCount: number;
 }) {
-  const testCount = 10;
-  const questionCount = 300;
+  const includedTopics = topics.map((topic) => topic.title);
+  const visibleTopics = includedTopics.slice(0, 6);
+  const remainingCount = includedTopics.length - visibleTopics.length;
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      data-dark-button={active ? "true" : undefined}
-      className={`text-left transition ${
-        active
-          ? "bureau-stage rounded-[1.75rem] p-5"
-          : "bureau-card rounded-[1.75rem] p-5 hover:-translate-y-1"
-      }`}
+    <a
+      href={`/question-bank/all?level=${level}`}
+      className="group bureau-stage relative min-h-[330px] overflow-hidden rounded-[2rem] p-6"
     >
-      <div className="flex items-start justify-between gap-4">
+      <svg className="absolute inset-0 h-full w-full opacity-20" viewBox="0 0 460 340">
+        <path d="M42 216 C114 110 248 116 394 174" fill="none" stroke="rgba(255,250,242,.35)" strokeWidth="2" />
+        <path d="M70 264 C152 214 238 234 390 214" fill="none" stroke="rgba(4,126,137,.72)" strokeWidth="2" strokeDasharray="9 12" />
+      </svg>
+
+      <div className="relative z-10 flex h-full flex-col justify-between">
         <div>
-          <h2 className={`text-2xl font-black tracking-[-0.055em] ${active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-ink)]"}`}>
-            {title}
+          <div className="flex items-start justify-between gap-4">
+            <p className="bureau-kicker">{levelLabels[level]} karma</p>
+            <span className="rounded-full border border-white/10 bg-white/[.08] px-3 py-1 text-xs font-black text-[var(--bureau-inverse)]">
+              {testCount} test
+            </span>
+          </div>
+
+          <h2 className="mt-4 text-4xl font-black tracking-[-0.07em] text-[var(--bureau-inverse)]">
+            {levelLabels[level]} karışık testler
           </h2>
-          <p className={`mt-3 text-sm font-semibold leading-7 ${active ? "text-[var(--bureau-inverse-copy)]" : "text-[var(--bureau-copy)]"}`}>
-            {body}
+          <p className="mt-4 text-sm font-medium leading-7 text-[var(--bureau-inverse-copy)]">
+            {levelDescriptions[level]}
           </p>
         </div>
 
-        <span className={`rounded-full px-3 py-1 text-xs font-black ${active ? "bg-white/[.12] text-[var(--bureau-inverse)]" : "bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]"}`}>
-          {testCount} test
-        </span>
-      </div>
+        <div className="mt-6 rounded-[1.35rem] border border-white/10 bg-white/[.08] p-4">
+          <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--bureau-inverse-muted)]">
+            İçindeki konular
+          </p>
+          <p className="mt-3 text-sm font-semibold leading-7 text-[var(--bureau-inverse-copy)]">
+            {visibleTopics.join(", ")}
+            {remainingCount > 0 ? ` ve ${remainingCount} konu daha` : ""}
+          </p>
+        </div>
 
-      <div className="mt-5 flex items-center justify-between border-t border-[var(--bureau-line)] pt-4">
-        <span className={`text-sm font-black ${active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-ink)]"}`}>
-          {button}
-        </span>
-        <span className={`text-xs font-black ${active ? "text-[var(--bureau-inverse-muted)]" : "text-[var(--bureau-muted)]"}`}>
-          {questionCount} soru / konu
-        </span>
+        <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+          <span className="text-sm font-black text-[var(--bureau-inverse)]">
+            {questionCount} soru
+          </span>
+          <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-inverse)]">
+            Testleri gör
+            <ArrowRight size={17} className="transition group-hover:translate-x-1" />
+          </span>
+        </div>
       </div>
-    </button>
+    </a>
   );
 }
 
-function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index: number; activeLevel: TestLevel }) {
+function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
   const mustKnow = record.topic.mustKnow.slice(0, 3);
-  const levelTestCount = getLevelTestCount(record, activeLevel);
-  const levelQuestionCount = levelTestCount * 30;
 
   return (
     <motion.a
       variants={cardVariants}
-      href={`/question-bank/${record.topic.id}?level=${activeLevel}`}
+      href={`/question-bank/${record.topic.id}`}
       whileHover={{ y: -6, scale: 1.003 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
-      className="group bureau-card relative flex min-h-[310px] flex-col justify-between overflow-hidden rounded-[2rem] p-6"
+      className="group bureau-card relative flex min-h-[320px] flex-col justify-between overflow-hidden rounded-[2rem] p-6"
     >
       <div className="absolute right-[-4rem] top-[-4rem] size-40 rounded-full bg-[var(--bureau-teal-soft)] blur-3xl" />
 
@@ -290,7 +252,7 @@ function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index:
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="rounded-full bg-[var(--bureau-blue-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-blue)]">
-            {levelLabels[activeLevel]}
+            30 test
           </span>
         </div>
 
@@ -317,9 +279,9 @@ function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index:
 
       <div className="relative z-10 mt-8">
         <div className="grid grid-cols-3 gap-2">
-          <Chip label="Test" value={levelTestCount} />
-          <Chip label="Soru" value={levelQuestionCount} />
-          <Chip label="Toplam" value={record.totalTests} />
+          <Chip label="Kolay" value={10} />
+          <Chip label="Orta" value={10} />
+          <Chip label="Zor" value={10} />
         </div>
 
         <div className="mt-4 rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4">
@@ -333,7 +295,7 @@ function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index:
 
         <div className="mt-5 flex items-center justify-between border-t border-[var(--bureau-line)] pt-5">
           <span className="text-sm font-black text-[var(--bureau-muted)]">
-            {levelLabels[activeLevel]} testleri aç
+            Zorluk seç
           </span>
           <span className="grid size-9 place-items-center rounded-full bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] transition group-hover:translate-x-1">
             <ArrowRight size={17} />
@@ -344,19 +306,35 @@ function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index:
   );
 }
 
-function getLevelTestCount(record: TopicRecord | undefined, level: TestLevel) {
-  if (!record) return 0;
-
-  if (level === "kolay") return record.easyTests;
-  if (level === "orta") return record.mediumTests;
-  return record.hardTests;
+function SectionTitle({
+  eyebrow,
+  title,
+  description
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p className="bureau-kicker">{eyebrow}</p>
+        <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)] md:text-4xl">
+          {title}
+        </h2>
+      </div>
+      <p className="max-w-2xl text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
+        {description}
+      </p>
+    </div>
+  );
 }
 
-function SummaryCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) {
+function MiniSummary({ icon, label, value }: { icon: ReactNode; label: string; value: number | string }) {
   return (
-    <div className="rounded-[1.35rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] p-4">
-      <div className="flex items-center gap-2 text-[var(--bureau-teal)]">{icon}</div>
-      <p className="mt-3 text-xs font-black uppercase tracking-[0.18em] text-[var(--bureau-muted)]">{label}</p>
+    <div className="rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4">
+      <div className="text-[var(--bureau-teal)]">{icon}</div>
+      <p className="mt-3 text-[10px] font-black uppercase tracking-[0.18em] text-[var(--bureau-muted)]">{label}</p>
       <p className="mt-1 text-2xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">{value}</p>
     </div>
   );
