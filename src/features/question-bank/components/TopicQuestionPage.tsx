@@ -1,12 +1,18 @@
 import { ArrowLeft, ArrowRight, BookOpen, FileQuestion } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
-import { getQuestionsForTest, getTestsForTopic } from "@/data/generated-30-question-tests";
+import { getQuestionsForTest, getTestsForTopic, type TestLevel } from "@/data/generated-30-question-tests";
 import { topics } from "@/data/kpss-history";
 import { TopicQuestionRunner } from "@/features/question-bank/components/TopicQuestionRunner";
 
-export function TopicQuestionPage({ topicId, testId }: { topicId: string; testId?: string }) {
+const levelTitles: Record<TestLevel, string> = {
+  kolay: "Kolay Testler",
+  orta: "Orta Testler",
+  zor: "Zor Testler"
+};
+
+export function TopicQuestionPage({ topicId, testId, level }: { topicId: string; testId?: string; level?: TestLevel }) {
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const tests = getTestsForTopic(topicId);
+  const tests = getTestsForTopic(topicId, level);
   const selectedTest = testId ? tests.find((test) => test.id === testId) : null;
   const title = topic ? `${topic.title} testleri` : "Karma KPSS Tarih testleri";
 
@@ -20,7 +26,7 @@ export function TopicQuestionPage({ topicId, testId }: { topicId: string; testId
           title={selectedTest.title}
           description="Bu test 30 sorudan oluşur. Soruları çözdükten sonra kısa açıklamayı okuyarak konuyu pekiştirebilirsin."
           actions={
-            <a href={`/question-bank/${topicId}`} className="btn-ghost px-5 py-3">
+            <a href={`/question-bank/${topicId}${level ? `?level=${level}` : ""}`} className="btn-ghost px-5 py-3">
               <ArrowLeft size={17} />
               Test listesi
             </a>
@@ -32,12 +38,36 @@ export function TopicQuestionPage({ topicId, testId }: { topicId: string; testId
     );
   }
 
+  if (level) {
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          eyebrow={levelTitles[level]}
+          title={title}
+          description="Bu bölümde seçtiğin zorluk düzeyine ait 10 test bulunur. Her test 30 sorudan oluşur."
+          actions={
+            <a href="/question-bank" className="btn-ghost px-5 py-3">
+              <ArrowLeft size={17} />
+              Soru bankası
+            </a>
+          }
+        />
+
+        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {tests.map((test) => (
+            <TestCard key={test.id} topicId={topicId} test={test} level={level} />
+          ))}
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Test Listesi"
         title={title}
-        description="Her zorluk düzeyinde 5 test bulunur. Her test 30 sorudan oluşur."
+        description="Her zorluk düzeyinde 10 test bulunur. Her test 30 sorudan oluşur."
         actions={
           <a href="/question-bank" className="btn-ghost px-5 py-3">
             <ArrowLeft size={17} />
@@ -63,7 +93,7 @@ function LevelColumn({
 }: {
   title: string;
   topicId: string;
-  level: "kolay" | "orta" | "zor";
+  level: TestLevel;
   tests: Array<{
     id: string;
     title: string;
@@ -91,30 +121,47 @@ function LevelColumn({
 
       <div className="mt-5 grid gap-3">
         {tests.map((test) => (
-          <a
-            key={test.id}
-            href={`/question-bank/${topicId}?test=${test.id}`}
-            className="group rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.76)] p-4 transition hover:bg-white"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <span className="flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
-                <FileQuestion size={17} />
-                Test {test.testNo}
-              </span>
-              <span className="rounded-full bg-[var(--bureau-teal-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-teal)]">
-                {test.questionCount} soru
-              </span>
-            </div>
-            <p className="mt-2 text-sm font-semibold leading-6 text-[var(--bureau-copy)]">
-              Açıklamalı 30 soruluk çalışma testi.
-            </p>
-            <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
-              Testi aç
-              <ArrowRight size={16} className="transition group-hover:translate-x-1" />
-            </span>
-          </a>
+          <TestCard key={test.id} topicId={topicId} test={test} level={level} />
         ))}
       </div>
     </div>
+  );
+}
+
+function TestCard({
+  topicId,
+  test,
+  level
+}: {
+  topicId: string;
+  level: TestLevel;
+  test: {
+    id: string;
+    testNo: number;
+    questionCount: number;
+  };
+}) {
+  return (
+    <a
+      href={`/question-bank/${topicId}?level=${level}&test=${test.id}`}
+      className="group rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.76)] p-4 transition hover:bg-white"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
+          <FileQuestion size={17} />
+          Test {test.testNo}
+        </span>
+        <span className="rounded-full bg-[var(--bureau-teal-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-teal)]">
+          {test.questionCount} soru
+        </span>
+      </div>
+      <p className="mt-2 text-sm font-semibold leading-6 text-[var(--bureau-copy)]">
+        Açıklamalı 30 soruluk çalışma testi.
+      </p>
+      <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
+        Testi aç
+        <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+      </span>
+    </a>
   );
 }

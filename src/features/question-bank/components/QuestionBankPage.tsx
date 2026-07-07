@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useMemo, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import {
   ArrowRight,
@@ -10,7 +11,7 @@ import {
   ListChecks,
   ShieldAlert
 } from "lucide-react";
-import { getTestCountsForTopic, mixedQuestionTests, topicQuestionTests } from "@/data/generated-30-question-tests";
+import { getTestCountsForTopic, topicQuestionTests, type TestLevel } from "@/data/generated-30-question-tests";
 import { topics } from "@/data/kpss-history";
 import type { Topic } from "@/types/study";
 
@@ -22,6 +23,30 @@ type TopicRecord = {
   mediumTests: number;
   hardTests: number;
   firstMistake: string;
+};
+
+const levelContent: Record<TestLevel, { title: string; body: string; button: string }> = {
+  kolay: {
+    title: "Kolay testler",
+    body: "Temel kavramları ve doğrudan bilgileri ölçen testler.",
+    button: "Kolay konuları listele"
+  },
+  orta: {
+    title: "Orta testler",
+    body: "Kavram, olay ve sonuç ilişkisini birlikte düşündüren testler.",
+    button: "Orta konuları listele"
+  },
+  zor: {
+    title: "Zor testler",
+    body: "Karıştırılan kavramlara ve seçici yorumlara odaklanan testler.",
+    button: "Zor konuları listele"
+  }
+};
+
+const levelLabels: Record<TestLevel, string> = {
+  kolay: "Kolay",
+  orta: "Orta",
+  zor: "Zor"
 };
 
 const containerVariants: Variants = {
@@ -85,22 +110,29 @@ function naturalMistakeNote(raw: string | undefined, topicTitle: string) {
 }
 
 export function QuestionBankPage() {
-  const records: TopicRecord[] = topics.map((topic) => {
-    const counts = getTestCountsForTopic(topic.id);
+  const [activeLevel, setActiveLevel] = useState<TestLevel>("kolay");
 
-    return {
-      topic,
-      totalTests: counts.totalTests,
-      totalQuestions: counts.totalQuestions,
-      easyTests: counts.kolay,
-      mediumTests: counts.orta,
-      hardTests: counts.zor,
-      firstMistake: naturalMistakeNote(topic.commonMistakes[0], topic.title)
-    };
-  });
+  const records: TopicRecord[] = useMemo(
+    () =>
+      topics.map((topic) => {
+        const counts = getTestCountsForTopic(topic.id);
+
+        return {
+          topic,
+          totalTests: counts.totalTests,
+          totalQuestions: counts.totalQuestions,
+          easyTests: counts.kolay,
+          mediumTests: counts.orta,
+          hardTests: counts.zor,
+          firstMistake: naturalMistakeNote(topic.commonMistakes[0], topic.title)
+        };
+      }),
+    []
+  );
 
   const totalQuestions = topicQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
   const totalMinutes = topics.reduce((sum, topic) => sum + topic.estimatedMinutes, 0);
+  const activeQuestionCount = records.reduce((sum, record) => sum + getLevelTestCount(record, activeLevel) * 30, 0);
 
   return (
     <div className="space-y-7">
@@ -109,15 +141,15 @@ export function QuestionBankPage() {
           <div>
             <p className="bureau-kicker">Soru Bankası</p>
             <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.065em] text-[var(--bureau-ink)] md:text-6xl">
-              Her konu için ayrı testler.
+              KPSS Tarih testleri.
             </h1>
             <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-[var(--bureau-copy)] md:text-lg">
-              Her konuda 5 kolay, 5 orta ve 5 zor test bulunur. Her test 30 sorudan oluşur.
+              Her konuda 10 kolay, 10 orta ve 10 zor test bulunur. Her test 30 sorudan oluşur.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a href="/question-bank/all" className="btn-accent px-5 py-3">
-                Karma testleri gör
+              <a href={`/question-bank/all?level=${activeLevel}`} className="btn-accent px-5 py-3">
+                {levelLabels[activeLevel]} karma testleri gör
                 <ArrowRight size={17} />
               </a>
               <a href="#konu-testleri" className="btn-ghost px-5 py-3">
@@ -136,18 +168,34 @@ export function QuestionBankPage() {
       </header>
 
       <section className="grid gap-5 lg:grid-cols-3">
-        <InfoPanel
-          title="Kolaydan başla"
-          body="Temel kavramları ve doğrudan bilgileri ölçen testlerle konuya giriş yapabilirsin."
-        />
-        <InfoPanel
-          title="Orta düzeyde pekiştir"
-          body="Kavram, olay ve sonuç ilişkisini birlikte düşünmeni isteyen sorularla ilerlersin."
-        />
-        <InfoPanel
-          title="Zor testlerle seçici çalış"
-          body="Karıştırılan kavramları, kronoloji bağlantılarını ve yorum sorularını daha dikkatli çözersin."
-        />
+        {(["kolay", "orta", "zor"] as const).map((level) => (
+          <LevelPicker
+            key={level}
+            level={level}
+            active={activeLevel === level}
+            onClick={() => setActiveLevel(level)}
+            title={levelContent[level].title}
+            body={levelContent[level].body}
+            button={levelContent[level].button}
+          />
+        ))}
+      </section>
+
+      <section className="flex flex-col gap-3 rounded-[1.75rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] p-5 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="bureau-kicker">{levelLabels[activeLevel]} testler</p>
+          <h2 className="mt-2 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">
+            {levelLabels[activeLevel]} testi olan konular
+          </h2>
+          <p className="mt-2 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
+            Aşağıdaki her konuda {getLevelTestCount(records[0], activeLevel)} test bulunur. Toplam {activeQuestionCount} soru listelenir.
+          </p>
+        </div>
+
+        <a href={`/question-bank/all?level=${activeLevel}`} className="btn-primary shrink-0" data-dark-button="true">
+          {levelLabels[activeLevel]} karma testleri
+          <ArrowRight size={17} />
+        </a>
       </section>
 
       <motion.section
@@ -157,55 +205,79 @@ export function QuestionBankPage() {
         animate="show"
         className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
       >
-        <motion.a
-          variants={cardVariants}
-          href="/question-bank/all"
-          className="group bureau-stage relative min-h-[310px] overflow-hidden rounded-[2rem] p-6"
-        >
-          <svg className="absolute inset-0 h-full w-full opacity-25" viewBox="0 0 420 340">
-            <path d="M44 214 C112 106 246 112 364 174" fill="none" stroke="rgba(255,250,242,.28)" strokeWidth="2" />
-            <path d="M72 260 C154 210 232 232 356 214" fill="none" stroke="rgba(4,126,137,.62)" strokeWidth="2" strokeDasharray="9 12" />
-          </svg>
-
-          <div className="relative z-10 flex h-full flex-col justify-between">
-            <div>
-              <p className="bureau-kicker">Karma Testler</p>
-              <h2 className="mt-4 text-4xl font-black tracking-[-0.07em] text-[var(--bureau-inverse)]">
-                Tüm konuları karışık çöz.
-              </h2>
-              <p className="mt-4 text-sm font-medium leading-7 text-[var(--bureau-inverse-copy)]">
-                Karma bölümde de 5 kolay, 5 orta ve 5 zor test bulunur.
-              </p>
-            </div>
-
-            <div className="mt-8 grid grid-cols-3 gap-2">
-              <DarkChip label="Kolay" value={5} />
-              <DarkChip label="Orta" value={5} />
-              <DarkChip label="Zor" value={5} />
-            </div>
-
-            <span className="mt-7 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-inverse)]">
-              Testleri gör
-              <ArrowRight size={17} className="transition group-hover:translate-x-1" />
-            </span>
-          </div>
-        </motion.a>
-
         {records.map((record, index) => (
-          <TopicCard key={record.topic.id} record={record} index={index} />
+          <TopicCard key={`${record.topic.id}-${activeLevel}`} record={record} index={index} activeLevel={activeLevel} />
         ))}
       </motion.section>
     </div>
   );
 }
 
-function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
+function LevelPicker({
+  level,
+  active,
+  title,
+  body,
+  button,
+  onClick
+}: {
+  level: TestLevel;
+  active: boolean;
+  title: string;
+  body: string;
+  button: string;
+  onClick: () => void;
+}) {
+  const testCount = 10;
+  const questionCount = 300;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      data-dark-button={active ? "true" : undefined}
+      className={`text-left transition ${
+        active
+          ? "bureau-stage rounded-[1.75rem] p-5"
+          : "bureau-card rounded-[1.75rem] p-5 hover:-translate-y-1"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className={`text-2xl font-black tracking-[-0.055em] ${active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-ink)]"}`}>
+            {title}
+          </h2>
+          <p className={`mt-3 text-sm font-semibold leading-7 ${active ? "text-[var(--bureau-inverse-copy)]" : "text-[var(--bureau-copy)]"}`}>
+            {body}
+          </p>
+        </div>
+
+        <span className={`rounded-full px-3 py-1 text-xs font-black ${active ? "bg-white/[.12] text-[var(--bureau-inverse)]" : "bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]"}`}>
+          {testCount} test
+        </span>
+      </div>
+
+      <div className="mt-5 flex items-center justify-between border-t border-[var(--bureau-line)] pt-4">
+        <span className={`text-sm font-black ${active ? "text-[var(--bureau-inverse)]" : "text-[var(--bureau-ink)]"}`}>
+          {button}
+        </span>
+        <span className={`text-xs font-black ${active ? "text-[var(--bureau-inverse-muted)]" : "text-[var(--bureau-muted)]"}`}>
+          {questionCount} soru / konu
+        </span>
+      </div>
+    </button>
+  );
+}
+
+function TopicCard({ record, index, activeLevel }: { record: TopicRecord; index: number; activeLevel: TestLevel }) {
   const mustKnow = record.topic.mustKnow.slice(0, 3);
+  const levelTestCount = getLevelTestCount(record, activeLevel);
+  const levelQuestionCount = levelTestCount * 30;
 
   return (
     <motion.a
       variants={cardVariants}
-      href={`/question-bank/${record.topic.id}`}
+      href={`/question-bank/${record.topic.id}?level=${activeLevel}`}
       whileHover={{ y: -6, scale: 1.003 }}
       transition={{ duration: 0.22, ease: "easeOut" }}
       className="group bureau-card relative flex min-h-[310px] flex-col justify-between overflow-hidden rounded-[2rem] p-6"
@@ -218,7 +290,7 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="rounded-full bg-[var(--bureau-blue-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-blue)]">
-            {record.totalTests} test
+            {levelLabels[activeLevel]}
           </span>
         </div>
 
@@ -245,9 +317,9 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
 
       <div className="relative z-10 mt-8">
         <div className="grid grid-cols-3 gap-2">
-          <Chip label="Kolay" value={record.easyTests} />
-          <Chip label="Orta" value={record.mediumTests} />
-          <Chip label="Zor" value={record.hardTests} />
+          <Chip label="Test" value={levelTestCount} />
+          <Chip label="Soru" value={levelQuestionCount} />
+          <Chip label="Toplam" value={record.totalTests} />
         </div>
 
         <div className="mt-4 rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4">
@@ -261,7 +333,7 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
 
         <div className="mt-5 flex items-center justify-between border-t border-[var(--bureau-line)] pt-5">
           <span className="text-sm font-black text-[var(--bureau-muted)]">
-            {record.totalQuestions} soru
+            {levelLabels[activeLevel]} testleri aç
           </span>
           <span className="grid size-9 place-items-center rounded-full bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] transition group-hover:translate-x-1">
             <ArrowRight size={17} />
@@ -270,6 +342,14 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
       </div>
     </motion.a>
   );
+}
+
+function getLevelTestCount(record: TopicRecord | undefined, level: TestLevel) {
+  if (!record) return 0;
+
+  if (level === "kolay") return record.easyTests;
+  if (level === "orta") return record.mediumTests;
+  return record.hardTests;
 }
 
 function SummaryCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) {
@@ -282,29 +362,11 @@ function SummaryCard({ icon, label, value }: { icon: React.ReactNode; label: str
   );
 }
 
-function InfoPanel({ title, body }: { title: string; body: string }) {
-  return (
-    <article className="bureau-card rounded-[1.75rem] p-5">
-      <h2 className="text-2xl font-black tracking-[-0.055em] text-[var(--bureau-ink)]">{title}</h2>
-      <p className="mt-3 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">{body}</p>
-    </article>
-  );
-}
-
 function Chip({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-[1rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.74)] px-3 py-2">
       <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--bureau-muted)]">{label}</p>
       <p className="mt-1 text-lg font-black text-[var(--bureau-ink)]">{value}</p>
-    </div>
-  );
-}
-
-function DarkChip({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-[1rem] border border-white/10 bg-white/[.08] px-3 py-2">
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[var(--bureau-inverse-muted)]">{label}</p>
-      <p className="mt-1 text-lg font-black text-[var(--bureau-inverse)]">{value}</p>
     </div>
   );
 }

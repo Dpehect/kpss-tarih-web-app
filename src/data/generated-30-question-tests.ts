@@ -22,6 +22,9 @@ export type GeneratedQuestionTest = {
   questionIds: string[];
 };
 
+const TESTS_PER_LEVEL = 10;
+const QUESTIONS_PER_TEST = 30;
+
 const levelLabels: Record<TestLevel, string> = {
   kolay: "Kolay",
   orta: "Orta",
@@ -137,7 +140,7 @@ function easyQuestion(topic: Topic, testNo: number, questionNo: number): Generat
         `${keyword} sınavlarda herhangi bir tarihsel bağlam taşımaz.`
       ],
       explanation: `${keyword}, bu başlıkta diğer kavramlarla birlikte sorulabilecek temel bir ipucudur.`,
-      examTip: `Kavramı ezberlemek yerine hangi kurum, olay veya sonuçla birlikte kullanıldığını kontrol et.`
+      examTip: "Kavramı ezberlemek yerine hangi kurum, olay veya sonuçla birlikte kullanıldığını kontrol et."
     },
     {
       stem: `${timeline.date ? `${timeline.date} tarihiyle verilen ${timeline.event} bilgisi` : `${topic.title} kronolojisi`} için aşağıdakilerden hangisi söylenebilir?`,
@@ -147,8 +150,8 @@ function easyQuestion(topic: Topic, testNo: number, questionNo: number): Generat
         "Bu gelişme yalnızca ekonomik bir kavram olarak değerlendirilir.",
         "Bu olay konunun temel çerçevesi dışında kalır."
       ],
-      explanation: `Bu soru, konunun temel kronolojisini ve ana kavramlarını birlikte yoklar.`,
-      examTip: `Tarihleri olay adıyla birlikte öğrenmek soru çözümünü hızlandırır.`
+      explanation: "Bu soru, konunun temel kronolojisini ve ana kavramlarını birlikte yoklar.",
+      examTip: "Tarihleri olay adıyla birlikte öğrenmek soru çözümünü hızlandırır."
     }
   ];
 
@@ -172,7 +175,7 @@ function mediumQuestion(topic: Topic, testNo: number, questionNo: number): Gener
         "Bu kavramın dönemin genel yapısıyla bağlantısı yoktur."
       ],
       explanation: `${block?.heading ?? topic.title} bölümündeki temel bağlantı, sorunun ana ipucunu verir.`,
-      examTip: `Orta düzey sorularda kavramın yanında verilen bağlama bak.`
+      examTip: "Orta düzey sorularda kavramın yanında verilen bağlama bak."
     },
     {
       stem: `${topic.title} konusunda öğrencinin dikkat etmesi gereken nokta aşağıdakilerden hangisidir?`,
@@ -182,8 +185,8 @@ function mediumQuestion(topic: Topic, testNo: number, questionNo: number): Gener
         "Bu konuda kronoloji bilgisi hiçbir soruda kullanılmaz.",
         "Bütün gelişmeler aynı sonuçla açıklanabilir."
       ],
-      explanation: `Bu tür sorular genellikle benzer kavramları ayırmayı gerektirir.`,
-      examTip: `Yanlış seçenekler çoğu zaman kavramları birbirinin yerine kullanır.`
+      explanation: "Bu tür sorular genellikle benzer kavramları ayırmayı gerektirir.",
+      examTip: "Yanlış seçenekler çoğu zaman kavramları birbirinin yerine kullanır."
     },
     {
       stem: `${topic.title} ile ilgili verilen kısa açıklamadan hangi sonuca ulaşılabilir?`,
@@ -193,8 +196,8 @@ function mediumQuestion(topic: Topic, testNo: number, questionNo: number): Gener
         "Bu başlık, KPSS tarihinde bağımsız bir konu olarak değerlendirilmez.",
         "Bu bilgiler sadece coğrafya konularıyla ilişkilidir."
       ],
-      explanation: `Konu açıklaması, başlığın sınavdaki kapsamını gösterir.`,
-      examTip: `Kapsam sorularında anahtar kavramları birlikte düşün.`
+      explanation: "Konu açıklaması, başlığın sınavdaki kapsamını gösterir.",
+      examTip: "Kapsam sorularında anahtar kavramları birlikte düşün."
     }
   ];
 
@@ -216,8 +219,8 @@ function hardQuestion(topic: Topic, testNo: number, questionNo: number): Generat
         "Benzer kavramlar arasında ayrım yapmak sınav için gerekli değildir.",
         "Soru kökündeki dönem bilgisi dikkate alınmadan cevap seçilebilir."
       ],
-      explanation: `Zor sorular genellikle kavramı doğrudan sormaz; kavramın sınırını ve dönem içindeki işlevini yoklar.`,
-      examTip: `Önce kavramın hangi dönemde ve hangi amaçla kullanıldığını belirle.`
+      explanation: "Zor sorular genellikle kavramı doğrudan sormaz; kavramın sınırını ve dönem içindeki işlevini yoklar.",
+      examTip: "Önce kavramın hangi dönemde ve hangi amaçla kullanıldığını belirle."
     },
     {
       stem: `${timeline.event ? `${timeline.date} - ${timeline.event}` : topic.title} bilgisinden hareketle hangi değerlendirme yapılabilir?`,
@@ -227,8 +230,8 @@ function hardQuestion(topic: Topic, testNo: number, questionNo: number): Generat
         "Olayın kronolojideki yeri cevap için önemsizdir.",
         "Bu gelişme yalnızca kültürel bir ayrıntı olarak kalır."
       ],
-      explanation: `Seçici sorularda olayın tarihsel yeri ile kavramsal sonucu birlikte düşünülmelidir.`,
-      examTip: `Olay, sonuç ve kavram üçlüsünü birlikte kur.`
+      explanation: "Seçici sorularda olayın tarihsel yeri ile kavramsal sonucu birlikte düşünülmelidir.",
+      examTip: "Olay, sonuç ve kavram üçlüsünü birlikte kur."
     },
     {
       stem: `${topic.title} başlığında verilen bir paragrafta ${mustKnow} geçiyorsa hangi cevap daha güçlüdür?`,
@@ -238,8 +241,8 @@ function hardQuestion(topic: Topic, testNo: number, questionNo: number): Generat
         `${mustKnow} bu konuyla bağlantısı olmayan bir ayrıntıdır.`,
         "Paragraf sorularında kavramın işlevi dikkate alınmaz."
       ],
-      explanation: `Paragraf tipi tarih sorularında kavramın görevi ve bağlamı doğru okunmalıdır.`,
-      examTip: `Kavramı, soruda verilen olay veya kurumla eşleştir.`
+      explanation: "Paragraf tipi tarih sorularında kavramın görevi ve bağlamı doğru okunmalıdır.",
+      examTip: "Kavramı, soruda verilen olay veya kurumla eşleştir."
     }
   ];
 
@@ -277,11 +280,11 @@ function buildQuestionTests() {
 
   for (const topic of topics) {
     for (const level of ["kolay", "orta", "zor"] as const) {
-      for (let testNo = 1; testNo <= 5; testNo += 1) {
+      for (let testNo = 1; testNo <= TESTS_PER_LEVEL; testNo += 1) {
         const testId = `test-${topic.id}-${level}-${testNo}`;
         const questionIds: string[] = [];
 
-        for (let questionNo = 1; questionNo <= 30; questionNo += 1) {
+        for (let questionNo = 1; questionNo <= QUESTIONS_PER_TEST; questionNo += 1) {
           const question = buildQuestion(topic, level, testNo, questionNo);
           questions.push(question);
           questionIds.push(question.id);
@@ -294,7 +297,7 @@ function buildQuestionTests() {
           level,
           levelLabel: levelLabels[level],
           testNo,
-          questionCount: 30,
+          questionCount: QUESTIONS_PER_TEST,
           questionIds
         });
       }
@@ -304,10 +307,10 @@ function buildQuestionTests() {
   const mixedTests: GeneratedQuestionTest[] = [];
 
   for (const level of ["kolay", "orta", "zor"] as const) {
-    for (let testNo = 1; testNo <= 5; testNo += 1) {
-      const questionIds = Array.from({ length: 30 }, (_, index) => {
+    for (let testNo = 1; testNo <= TESTS_PER_LEVEL; testNo += 1) {
+      const questionIds = Array.from({ length: QUESTIONS_PER_TEST }, (_, index) => {
         const topic = topics[index % topics.length];
-        const sourceQuestionNo = (index % 30) + 1;
+        const sourceQuestionNo = (index % QUESTIONS_PER_TEST) + 1;
         return `test-${topic.id}-${level}-${testNo}-q${String(sourceQuestionNo).padStart(2, "0")}`;
       });
 
@@ -318,7 +321,7 @@ function buildQuestionTests() {
         level,
         levelLabel: levelLabels[level],
         testNo,
-        questionCount: 30,
+        questionCount: QUESTIONS_PER_TEST,
         questionIds
       });
     }
@@ -340,9 +343,12 @@ export const allQuestionTests = [...topicQuestionTests, ...mixedQuestionTests];
 
 const questionMap = new Map(expandedQuestions.map((question) => [question.id, question]));
 
-export function getTestsForTopic(topicId: string) {
-  if (topicId === "all") return mixedQuestionTests;
-  return topicQuestionTests.filter((test) => test.topicId === topicId);
+export function getTestsForTopic(topicId: string, level?: TestLevel) {
+  const tests = topicId === "all" ? mixedQuestionTests : topicQuestionTests.filter((test) => test.topicId === topicId);
+
+  if (!level) return tests;
+
+  return tests.filter((test) => test.level === level);
 }
 
 export function getQuestionsForTest(testId: string) {
