@@ -23,9 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
 
   if (topicId !== "all" && !topic) {
-    return {
-      title: "Test bulunamadı"
-    };
+    return { title: "Test bulunamadı" };
   }
 
   const title = topic ? `${topic.title} Testi` : "Karma KPSS Tarih Testi";
@@ -39,9 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function TopicQuestionRoute({ params }: PageProps) {
   const { topicId } = await params;
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const filteredQuestions = topicId === "all"
-    ? questions
-    : questions.filter((question) => question.topicId === topicId);
+  const filteredQuestions = topicId === "all" ? questions : questions.filter((question) => question.topicId === topicId);
 
   if (topicId !== "all" && !topic) {
     notFound();

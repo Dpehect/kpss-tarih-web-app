@@ -5,27 +5,24 @@ import { TopicQuestionRunner } from "@/features/question-bank/components/TopicQu
 
 export function TopicQuestionPage({ topicId }: { topicId: string }) {
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const filteredQuestions = topicId === "all"
-    ? questions
-    : questions.filter((question) => question.topicId === topicId);
-
-  const title = topic ? `${topic.title} testi` : "Karma KPSS Tarih testi";
+  const filteredQuestions = topicId === "all" ? questions : questions.filter((question) => question.topicId === topicId);
+  const title = topic ? `${topic.title} soru dosyası` : "Karma KPSS Tarih soru dosyası";
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Test Ekranı"
+        eyebrow="Aktif çözüm oturumu"
         title={title}
-        description="Bu sayfa yalnızca seçilen test akışına odaklanır. Yan panel, filtre kalabalığı ve gereksiz görsel yük kaldırıldı."
+        description="Cevap verdikten sonra gerekçe, doğru seçenek ve çözüm yönünü gösteren kısa ipucu görünür."
         actions={
-          <a href="/question-bank" className="btn-gold">
-            <ArrowLeft size={18} />
+          <a href="/question-bank" className="btn-ghost px-5 py-3">
+            <ArrowLeft size={17} />
             Test listesi
           </a>
         }
       />
 
-      <TopicQuestionRunner questions={filteredQuestions} topicTitle={topic?.title ?? "Karma test"} />
+      <TopicQuestionRunner questions={filteredQuestions} topicTitle={title} />
     </div>
   );
 }

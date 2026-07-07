@@ -14,7 +14,9 @@ const forbidden = [
   /#eab308/gi,
   /#f6c66d/gi,
   /#dba34a/gi,
-  /#c9a227/gi
+  /#c9a227/gi,
+  /#c8a44e/gi,
+  /#8d6500/gi
 ];
 
 const allowed = new Set(["src/app/globals.css"]);
