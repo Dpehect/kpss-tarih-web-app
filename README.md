@@ -1,72 +1,63 @@
-# KPSS Tarih Web App — Final Faz
+# KPSS History Educational Platform
 
-Bu sürüm, KPSS Tarih için tek başına kullanılabilir bol sayfalı çalışma platformudur.
+## Overview
+A comprehensive, interactive web application designed to facilitate preparation for the KPSS History exam. This platform serves as a standalone educational ecosystem, featuring advanced 3D visual elements, interactive testing environments, and robust localized progress tracking. The application focuses on delivering a highly engaging user experience through fluid animations, responsive design, and intuitive navigation.
 
-## Finalde tamamlananlar
+## Technical Architecture & Stack
 
-- WebGL destekli yaratıcı landing page
-- Sticky navbar + sidebar
-- Dashboard
-- 12 kapsamlı KPSS Tarih konusu
-- Her konu için özet, kritik bilgiler, sık hatalar, mini timeline, kavramlar
-- 60 açıklamalı test sorusu
-- Konuya göre filtrelenen soru bankası
-- Cevap kaydı, doğru/yanlış kontrolü ve KPSS ipucu
-- 48 flashcard
-- 6 deneme sınavı
-- Deneme sonuç kaydı
-- Timeline
-- Analiz sayfası
-- Yanlışlarım sayfası
-- Kavram sözlüğü
-- Notlar
-- Rozetler
-- İçerik ekleme stüdyosu
-- Profil ve auth placeholder
-- Zustand + localStorage ile kalıcı ilerleme takibi
+### Core Technologies
+- **Framework:** Next.js (App Router) leveraging Turbopack for optimized build and development performance.
+- **Language:** TypeScript for strict type safety, predictable code behavior, and enhanced developer experience.
+- **Styling:** Tailwind CSS combined with custom utility classes for a highly modular, maintainable, and responsive design system.
 
-## Kurulum
+### State Management & Data Flow
+- **Global State:** Zustand is utilized for lightweight, fast, and scalable state management across the application.
+- **Persistence:** LocalStorage integration ensures seamless, offline-capable progress tracking for topics, question banks, flashcards, and exam results without requiring a persistent backend database connection for core features.
+- **Form Handling:** React Hook Form coupled with Zod for rigorous, schema-based validation.
 
+### UI/UX and Animations
+- **WebGL & 3D Rendering:** Three.js and React Three Fiber are integrated to create an immersive landing page experience, featuring complex custom components like a WebGL Hero Panel and Softbridge Orb.
+- **Advanced Animations:** Framer Motion and GSAP handle complex micro-interactions, layout transitions, and scroll-based animation sequences.
+- **Smooth Scrolling:** Lenis is implemented for performant, frictionless scroll behaviors across the application.
+- **UI Components:** Strategic integration of Aceternity UI and Magic UI patterns to deliver a premium, modern interface.
+
+### Authentication & Infrastructure
+- **Authentication:** Supabase SSR (Server-Side Rendering) middleware is configured for robust session management and route protection.
+- **Routing:** Complex dynamic routing strategies (e.g., `/topics/[slug]`, `/exams/[id]`) provide seamless navigation across extensive educational modules.
+
+## Key Features
+
+- **Immersive Landing Experience:** A WebGL-powered introduction that establishes a high-quality visual standard.
+- **Comprehensive Dashboard:** A centralized hub for tracking user metrics, recent activities, and customized study plans.
+- **Structured Topic Modules:** 12 deeply structured history topics featuring summaries, critical insights, common mistakes, mini-timelines, and glossaries.
+- **Dynamic Question Bank:** Hundreds of categorized questions equipped with real-time feedback, detailed explanations, and progress recording.
+- **Interactive Flashcards:** Specialized flashcards designed for active recall and memory retention.
+- **Mock Examinations:** Full-length practice exams with automated scoring and performance analytics.
+- **Analytics & Mistake Tracking:** Dedicated interfaces allowing users to review their weak points and visualize their overall progress trajectory.
+- **Content Studio:** An internal toolset structure engineered for managing and expanding the educational curriculum efficiently.
+
+## Getting Started
+
+### Prerequisites
+Ensure you have Node.js installed on your local environment.
+
+### Installation
+
+1. Install project dependencies:
 ```bash
 npm install
+```
+
+2. Start the development server:
+```bash
 npm run dev
 ```
 
-## Sayfalar
+The application will be accessible at `http://localhost:3000`.
 
-```txt
-/
- /dashboard
- /topics
- /topics/[slug]
- /question-bank
- /exams
- /exams/[id]
- /flashcards
- /timeline
- /analytics
- /mistakes
- /glossary
- /notes
- /achievements
- /study-plan
- /content-studio
- /profile
- /auth
-```
+## Scripts
 
-## Veri merkezi
-
-```txt
-src/data/kpss-history.ts
-```
-
-Tüm konu, soru, flashcard, deneme, timeline, kavram sözlüğü ve öneriler tek merkezden yönetilir.
-
-## Progress sistemi
-
-```txt
-src/store/useStudyProgressStore.ts
-```
-
-Kullanıcının tamamladığı konular, soru cevapları, flashcard tekrarları, deneme sonuçları ve notları localStorage'da saklanır.
+- `npm run dev`: Starts the Next.js development server with Turbopack and executes pre-requisite scripts for data generation.
+- `npm run build`: Cleans up ambiguous routes, forces required data generation, and builds the application for production.
+- `npm run lint`: Executes ESLint for code quality checks.
+- `npm run typecheck`: Runs the TypeScript compiler to identify type errors without emitting compiled files.
