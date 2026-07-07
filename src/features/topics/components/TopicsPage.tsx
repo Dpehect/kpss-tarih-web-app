@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ArrowRight, BookOpen, CheckCircle2, Clock3, FileQuestion, Search, Sparkles, Target } from "lucide-react";
 import { getTestCountsForTopic } from "@/data/generated-30-question-tests";
 import { topics } from "@/data/kpss-history";
@@ -145,7 +145,6 @@ export function TopicsPage() {
 }
 
 function TopicCard({ topic, index, completed, attempts }: { topic: Topic; index: number; completed: boolean; attempts: number }) {
-  const visual = getTopicVisual(topic, index);
   const counts = getTestCountsForTopic(topic.id);
   const progress = Math.min(100, counts.totalQuestions ? Math.round((attempts / counts.totalQuestions) * 100) : 0);
 
