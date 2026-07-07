@@ -1,7 +1,9 @@
-import { ArrowLeft, ArrowRight, BookOpen, FileQuestion, Shuffle } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, FileQuestion, Layers3, Shuffle } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
 import {
+  QUESTIONS_PER_TEST,
   getQuestionsForTest,
+  getTestCountsForTopic,
   getTestsForTopic,
   type GeneratedQuestionTest,
   type TestLevel
@@ -16,17 +18,41 @@ const levelTitles: Record<TestLevel, string> = {
 };
 
 const levelDescriptions: Record<TestLevel, string> = {
-  kolay: "Temel bilgileri ve doğrudan kavramları ölçen testler.",
-  orta: "Olay, kavram ve sonuç ilişkisini birlikte yoklayan testler.",
-  zor: "Seçici yorum, kronoloji ve karıştırılan kavramlara odaklanan testler."
+  kolay: "Temel bilgi, doğrudan kavram ve net tarih bilgisini ölçer.",
+  orta: "Olay, kavram, dönem ve sonuç ilişkisini birlikte yoklar.",
+  zor: "Seçici yorum, kronoloji, çeldirici ve karıştırılan kavramlara odaklanır."
 };
 
-export function TopicQuestionPage({ topicId, testId, level }: { topicId: string; testId?: string; level?: TestLevel }) {
+const levelOrder: TestLevel[] = ["kolay", "orta", "zor"];
+
+export function TopicQuestionPage({
+  topicId,
+  testId,
+  level
+}: {
+  topicId: string;
+  testId?: string;
+  level?: TestLevel;
+}) {
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const tests = getTestsForTopic(topicId, level);
-  const selectedTest = testId ? tests.find((test) => test.id === testId) : null;
-  const title = topic ? `${topic.title} testleri` : "Karışık KPSS Tarih testleri";
   const isMixed = topicId === "all";
+  const allTests = getTestsForTopic(topicId);
+  const tests = getTestsForTopic(topicId, level);
+  const selectedTest = testId ? allTests.find((test) => test.id === testId) : null;
+  const counts = getTestCountsForTopic(topicId);
+  const title = topic ? `${topic.title} testleri` : "Karışık KPSS Tarih testleri";
+
+  if (!isMixed && !topic) {
+    return (
+      <div className="bureau-card rounded-[2rem] p-6">
+        <h1 className="text-3xl font-black text-[var(--bureau-ink)]">Konu bulunamadı</h1>
+        <a href="/question-bank" className="btn-primary mt-5" data-dark-button="true">
+          Soru bankasına dön
+          <ArrowRight size={17} />
+        </a>
+      </div>
+    );
+  }
 
   if (selectedTest) {
     const selectedQuestions = getQuestionsForTest(selectedTest.id);
@@ -36,13 +62,9 @@ export function TopicQuestionPage({ topicId, testId, level }: { topicId: string;
         <PageHeader
           eyebrow={selectedTest.levelLabel}
           title={selectedTest.title}
-          description={
-            isMixed
-              ? "Bu karışık test 30 sorudan oluşur. Sorular farklı KPSS Tarih konularından gelir."
-              : "Bu test 30 sorudan oluşur. Soruları çözdükten sonra kısa açıklamayı okuyarak konuyu pekiştirebilirsin."
-          }
+          description={`${selectedTest.questionCount} soruluk açıklamalı çalışma testi. Cevapladıktan sonra gerekçeyi okuyup sonraki soruya geç.`}
           actions={
-            <a href={`/question-bank/${topicId}${level ? `?level=${level}` : ""}`} className="btn-ghost px-5 py-3">
+            <a href={`/question-bank/${topicId}?level=${selectedTest.level}`} className="btn-ghost">
               <ArrowLeft size={17} />
               Test listesi
             </a>
@@ -62,13 +84,9 @@ export function TopicQuestionPage({ topicId, testId, level }: { topicId: string;
         <PageHeader
           eyebrow={levelTitles[level]}
           title={title}
-          description={
-            isMixed
-              ? "Bu bölümde seçtiğin zorluk düzeyine ait 10 karışık test bulunur. Her test 30 sorudur."
-              : "Bu bölümde seçtiğin zorluk düzeyine ait 10 test bulunur. Her test 30 sorudan oluşur."
-          }
+          description={`${tests.length} test, toplam ${tests.length * QUESTIONS_PER_TEST} soru. Her test ${QUESTIONS_PER_TEST} sorudan oluşur.`}
           actions={
-            <a href={`/question-bank/${topicId}`} className="btn-ghost px-5 py-3">
+            <a href={`/question-bank/${topicId}`} className="btn-ghost">
               <ArrowLeft size={17} />
               Zorluk seçimi
             </a>
@@ -79,7 +97,7 @@ export function TopicQuestionPage({ topicId, testId, level }: { topicId: string;
 
         <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {tests.map((test) => (
-            <TestCard key={test.id} topicId={topicId} test={test} level={level} isMixed={isMixed} />
+            <TestCard key={test.id} topicId={topicId} test={test} isMixed={isMixed} />
           ))}
         </section>
       </div>
@@ -89,25 +107,25 @@ export function TopicQuestionPage({ topicId, testId, level }: { topicId: string;
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow={isMixed ? "Karışık testler" : "Konu testleri"}
-        title={isMixed ? "Karışık testlerde zorluk seç" : title}
+        eyebrow="Soru bankası"
+        title={title}
         description={
           isMixed
-            ? "Karışık testlerde sorular farklı konulardan gelir. Önce zorluk düzeyini seç, sonra testlerden birini aç."
-            : "Önce zorluk düzeyini seç. Her zorlukta 10 test, her testte 30 soru bulunur."
+            ? `Karışık testlerde bütün KPSS Tarih konularından soru gelir. Toplam ${counts.totalTests} test ve ${counts.totalQuestions} soru var.`
+            : `Önce zorluk seviyesini seç. Bu konuda toplam ${counts.totalTests} test ve ${counts.totalQuestions} soru var.`
         }
         actions={
-          <a href="/question-bank" className="btn-ghost px-5 py-3">
+          <a href="/question-bank" className="btn-ghost">
             <ArrowLeft size={17} />
-            Soru bankası
+            Konulara dön
           </a>
         }
       />
 
       {isMixed ? <MixedTopicsNotice /> : null}
 
-      <section className="grid gap-5 lg:grid-cols-3">
-        {(["kolay", "orta", "zor"] as const).map((item) => (
+      <section className="grid gap-5 md:grid-cols-3">
+        {levelOrder.map((item) => (
           <LevelChoiceCard key={item} topicId={topicId} level={item} isMixed={isMixed} />
         ))}
       </section>
@@ -124,30 +142,31 @@ function LevelChoiceCard({ topicId, level, isMixed }: { topicId: string; level: 
   }[level];
 
   return (
-    <a href={`/question-bank/${topicId}?level=${level}`} className="group bureau-card rounded-[2rem] p-5">
-      <div className="flex items-start justify-between gap-4">
-        <span className={`grid size-12 place-items-center rounded-[1rem] ${tone}`}>
-          {isMixed ? <Shuffle size={20} /> : <BookOpen size={20} />}
-        </span>
-        <span className="rounded-full bg-[var(--bureau-teal-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-teal)]">
-          {tests.length} test
-        </span>
+    <a
+      href={`/question-bank/${topicId}?level=${level}`}
+      className="bureau-card group flex min-h-[300px] flex-col justify-between rounded-[2rem] p-6"
+    >
+      <div>
+        <div className="flex items-center justify-between gap-3">
+          <span className={`grid size-12 place-items-center rounded-[1rem] ${tone}`}>
+            {isMixed ? <Shuffle size={20} /> : <BookOpen size={20} />}
+          </span>
+          <span className="rounded-full bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]">
+            {tests.length} test
+          </span>
+        </div>
+
+        <h2 className="mt-7 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">{levelTitles[level]}</h2>
+        <p className="mt-4 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
+          {isMixed ? `${levelDescriptions[level]} Sorular farklı konulardan seçilir.` : levelDescriptions[level]}
+        </p>
       </div>
 
-      <h2 className="mt-6 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">
-        {levelTitles[level]}
-      </h2>
-      <p className="mt-3 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
-        {isMixed ? `${levelDescriptions[level]} Sorular farklı konulardan seçilir.` : levelDescriptions[level]}
-      </p>
-
-      <div className="mt-6 flex items-center justify-between border-t border-[var(--bureau-line)] pt-5">
-        <span className="text-sm font-black text-[var(--bureau-ink)]">
+      <div className="mt-6 flex items-center justify-between gap-3 border-t border-[var(--bureau-line)] pt-5">
+        <span className="text-sm font-black text-[var(--bureau-ink)]">{tests.length * QUESTIONS_PER_TEST} soru</span>
+        <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-teal)]">
           Testleri gör
-        </span>
-        <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-muted)]">
-          300 soru
-          <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+          <ArrowRight size={17} />
         </span>
       </div>
     </a>
@@ -157,47 +176,47 @@ function LevelChoiceCard({ topicId, level, isMixed }: { topicId: string; level: 
 function TestCard({
   topicId,
   test,
-  level,
   isMixed
 }: {
   topicId: string;
-  level: TestLevel;
   test: GeneratedQuestionTest;
   isMixed: boolean;
 }) {
   return (
     <a
-      href={`/question-bank/${topicId}?level=${level}&test=${test.id}`}
-      className="group bureau-card rounded-[1.6rem] p-5 transition hover:-translate-y-1"
+      href={`/question-bank/${topicId}?level=${test.level}&test=${test.id}`}
+      className="bureau-card group flex min-h-[270px] flex-col justify-between rounded-[2rem] p-6"
     >
-      <div className="flex items-center justify-between gap-3">
-        <span className="flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
-          <FileQuestion size={17} />
-          Test {test.testNo}
-        </span>
-        <span className="rounded-full bg-[var(--bureau-teal-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-teal)]">
-          {test.questionCount} soru
-        </span>
+      <div>
+        <div className="flex items-center justify-between gap-3">
+          <span className="rounded-full bg-[var(--bureau-blue-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-blue)]">
+            Test {test.testNo}
+          </span>
+          <span className="rounded-full bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]">
+            {test.questionCount} soru
+          </span>
+        </div>
+
+        <h2 className="mt-7 text-2xl font-black leading-tight tracking-[-0.055em] text-[var(--bureau-ink)]">
+          {test.title}
+        </h2>
+        <p className="mt-4 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
+          {isMixed ? "Farklı konulardan hazırlanmış açıklamalı karışık test." : "Açıklamalı 30 soruluk çalışma testi."}
+        </p>
+
+        {isMixed ? (
+          <div className="mt-4 rounded-[1.2rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-3">
+            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--bureau-muted)]">Konular</p>
+            <p className="mt-2 text-xs font-semibold leading-6 text-[var(--bureau-copy)]">
+              {topics.slice(0, 5).map((topic) => topic.title).join(", ")} ve {topics.length - 5} konu daha
+            </p>
+          </div>
+        ) : null}
       </div>
 
-      <p className="mt-4 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
-        {isMixed ? "Farklı konulardan hazırlanmış açıklamalı karışık test." : "Açıklamalı 30 soruluk çalışma testi."}
-      </p>
-
-      {isMixed ? (
-        <div className="mt-4 rounded-[1.15rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-3">
-          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--bureau-muted)]">
-            Konular
-          </p>
-          <p className="mt-2 text-xs font-semibold leading-6 text-[var(--bureau-copy)]">
-            {topics.slice(0, 5).map((topic) => topic.title).join(", ")} ve {topics.length - 5} konu daha
-          </p>
-        </div>
-      ) : null}
-
-      <span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
+      <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-teal)]">
         Testi aç
-        <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+        <ArrowRight size={17} />
       </span>
     </a>
   );
@@ -205,20 +224,27 @@ function TestCard({
 
 function MixedTopicsNotice() {
   return (
-    <section className="rounded-[1.75rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] p-5">
-      <p className="bureau-kicker">Karışık test konuları</p>
-      <h2 className="mt-2 text-2xl font-black tracking-[-0.05em] text-[var(--bureau-ink)]">
-        Bu testlerde tüm KPSS Tarih konularından soru gelir.
-      </h2>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {topics.map((topic) => (
-          <span
-            key={topic.id}
-            className="rounded-full border border-[var(--bureau-line)] bg-[rgba(255,250,242,.80)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]"
-          >
-            {topic.title}
-          </span>
-        ))}
+    <section className="bureau-card rounded-[2rem] p-5">
+      <div className="flex items-start gap-4">
+        <span className="grid size-12 shrink-0 place-items-center rounded-[1rem] bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]">
+          <Layers3 size={20} />
+        </span>
+        <div>
+          <p className="bureau-kicker">Karışık test konuları</p>
+          <h2 className="mt-2 text-2xl font-black tracking-[-0.055em] text-[var(--bureau-ink)]">
+            Bu testlerde tüm KPSS Tarih konularından soru gelir.
+          </h2>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {topics.map((topic) => (
+              <span
+                key={topic.id}
+                className="rounded-full border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]"
+              >
+                {topic.title}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
