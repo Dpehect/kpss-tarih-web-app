@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const target = path.join(process.cwd(), "src", "app", "(main)", "exams", "[examId]");
+const duplicateRoute = path.join(process.cwd(), "src", "app", "(main)", "exams", "[examId]");
 
-if (fs.existsSync(target)) {
-  fs.rmSync(target, { recursive: true, force: true });
-  console.log("Silindi:", path.relative(process.cwd(), target));
+if (fs.existsSync(duplicateRoute)) {
+  fs.rmSync(duplicateRoute, { recursive: true, force: true });
+  console.log("Removed duplicate exams route:", path.relative(process.cwd(), duplicateRoute));
 } else {
-  console.log("Zaten yok:", path.relative(process.cwd(), target));
+  console.log("Duplicate exams route not found:", path.relative(process.cwd(), duplicateRoute));
 }
