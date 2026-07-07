@@ -3,15 +3,24 @@ import type { Difficulty, Question, QuestionChoice, Topic } from "@/types/study"
 
 export type TestLevel = "kolay" | "orta" | "zor";
 
-type QuestionFocus = "bilgi" | "kavram" | "kronoloji" | "yorum" | "ayrim";
+type AuditFocus = "bilgi" | "kavram" | "kronoloji" | "yorum" | "ipucu";
+type FactKind = "summary" | "bullet" | "timeline" | "concept" | "mistake" | "short";
+
+type TrustedFact = {
+  id: string;
+  kind: FactKind;
+  text: string;
+  keyword?: string;
+  date?: string;
+};
 
 type QuestionModel = {
+  focus: AuditFocus;
   stem: string;
   answer: string;
   distractors: string[];
   explanation: string;
   examTip: string;
-  focus: QuestionFocus;
 };
 
 export type GeneratedQuestionTest = {
@@ -42,6 +51,13 @@ const internalDifficulty: Record<TestLevel, Difficulty> = {
 
 const choiceIds = ["A", "B", "C", "D"] as const;
 
+const invalidCrossTopicExamples = [
+  "I. Meşrutiyet 1876'da ilan edildi.",
+  "II. Meşrutiyet 1908'de ilan edildi.",
+  "Tanzimat Fermanı 1839'da ilan edildi.",
+  "Islahat Fermanı 1856'da ilan edildi."
+];
+
 const bannedArtificialPhrases = [
   "alfabetik",
   "coğrafya dersi",
@@ -68,28 +84,37 @@ function toSlug(value: string) {
     .replace(/^-|-$/g, "");
 }
 
+function normalize(value: string) {
+  return value.toLocaleLowerCase("tr-TR").replace(/\s+/g, " ").trim();
+}
+
 function cleanText(value: string | undefined, fallback: string) {
   const text = (value ?? "")
     .replace(/\s+/g, " ")
     .replace(/\bL\d+:\s*/g, "")
+    .replace(/["“”]/g, "")
     .trim();
 
   return text || fallback;
 }
 
-function sentence(value: string | undefined, fallback: string) {
-  const text = cleanText(value, fallback);
+function ensureSentence(value: string | undefined, fallback: string) {
+  const text = cleanText(value, fallback).replace(/\s+/g, " ");
   return /[.!?]$/.test(text) ? text : `${text}.`;
 }
 
-function question(value: string | undefined, fallback: string) {
+function ensureQuestion(value: string | undefined, fallback: string) {
   const text = cleanText(value, fallback).replace(/[.!?]+$/g, "");
   return `${text}?`;
 }
 
-function short(value: string, max = 170) {
+function shorten(value: string, max = 145) {
   const text = cleanText(value, "");
-  if (text.length <= max) return text;
+
+  if (text.length <= max) {
+    return text;
+  }
+
   return `${text.slice(0, max - 1).replace(/\s+\S*$/, "")}.`;
 }
 
@@ -98,323 +123,347 @@ function pick<T>(items: T[], index: number, fallback: T): T {
   return items[Math.abs(index) % items.length] ?? fallback;
 }
 
-function unique(items: string[]) {
+function uniqueTexts(items: string[]) {
   const seen = new Set<string>();
   const result: string[] = [];
 
   for (const item of items) {
-    const cleaned = sentence(item, "").trim();
+    const cleaned = ensureSentence(item, "").trim();
     if (!cleaned) continue;
-    const key = cleaned.toLocaleLowerCase("tr-TR");
+
+    const key = normalize(cleaned);
     if (seen.has(key)) continue;
+
     seen.add(key);
-    result.push(short(cleaned));
+    result.push(shorten(cleaned));
   }
 
   return result;
 }
 
-function topicBullets(topic: Topic) {
-  return topic.summary.flatMap((block) => block.bullets.map((bullet) => sentence(bullet, topic.shortDescription)));
+function topicFactPrefix(topic: Topic, text: string) {
+  const cleaned = shorten(text, 140).replace(/[.!?]+$/g, "");
+  return ensureSentence(`${topic.title} kapsamında ${cleaned}`, topic.shortDescription);
 }
 
-function topicBodyFacts(topic: Topic) {
-  return topic.summary.map((block) => sentence(block.body, topic.shortDescription));
+function safeConcepts(topic: Topic) {
+  return uniqueTexts([...topic.mustKnow, ...topic.keywords]).map((text) => text.replace(/[.!?]+$/g, ""));
 }
 
-function topicTimelineFacts(topic: Topic) {
-  return topic.quickTimeline.map((item) => sentence(`${item.date}: ${item.event}`, topic.shortDescription));
+function trustedFacts(topic: Topic): TrustedFact[] {
+  const facts: TrustedFact[] = [];
+
+  topic.summary.forEach((block, blockIndex) => {
+    facts.push({
+      id: `${topic.id}-summary-${blockIndex}`,
+      kind: "summary",
+      text: topicFactPrefix(topic, block.body)
+    });
+
+    block.bullets.forEach((bullet, bulletIndex) => {
+      facts.push({
+        id: `${topic.id}-bullet-${blockIndex}-${bulletIndex}`,
+        kind: "bullet",
+        text: topicFactPrefix(topic, bullet)
+      });
+    });
+  });
+
+  topic.quickTimeline.forEach((event, index) => {
+    facts.push({
+      id: `${topic.id}-timeline-${index}`,
+      kind: "timeline",
+      date: cleanText(event.date, ""),
+      text: ensureSentence(`${topic.title} kronolojisinde ${cleanText(event.date, "ilgili dönem")}: ${cleanText(event.event, topic.shortDescription)}`, topic.shortDescription)
+    });
+  });
+
+  safeConcepts(topic).forEach((concept, index) => {
+    facts.push({
+      id: `${topic.id}-concept-${index}`,
+      kind: "concept",
+      keyword: concept,
+      text: ensureSentence(`${topic.title} konusunda ${concept} kavramı dönem, kurum ve sonuç ilişkisini kurmak için kullanılan temel başlıklardan biridir`, topic.shortDescription)
+    });
+  });
+
+  if (topic.shortDescription) {
+    facts.push({
+      id: `${topic.id}-short`,
+      kind: "short",
+      text: topicFactPrefix(topic, topic.shortDescription)
+    });
+  }
+
+  return dedupeFacts(facts);
 }
 
-function conceptFacts(topic: Topic) {
-  const allConcepts = unique([...topic.mustKnow, ...topic.keywords]);
+function dedupeFacts(facts: TrustedFact[]) {
+  const seen = new Set<string>();
+  const result: TrustedFact[] = [];
 
-  return allConcepts.map((concept) =>
-    sentence(
-      `${concept}, ${topic.title} içinde olay, kurum veya sonuç ilişkisini kurmak için kullanılan temel başlıklardan biridir`,
-      topic.shortDescription
-    )
-  );
+  for (const fact of facts) {
+    const key = normalize(fact.text);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    result.push(fact);
+  }
+
+  return result;
 }
 
-function topicFacts(topic: Topic) {
-  return unique([
-    ...topicBullets(topic),
-    ...topicBodyFacts(topic),
-    ...topicTimelineFacts(topic),
-    ...conceptFacts(topic),
-    topic.shortDescription
-  ]).filter((item) => item.length >= 24);
-}
+function commonWrongClaims(topic: Topic, seed: number) {
+  const concepts = safeConcepts(topic);
+  const conceptA = pick(concepts, seed, topic.title);
+  const conceptB = pick(concepts, seed + 2, topic.title);
+  const timeline = pick(topic.quickTimeline, seed, { date: "ilgili dönem", event: topic.title });
 
-function mistakeToFalseClaim(raw: string | undefined, topic: Topic) {
-  const text = cleanText(raw, "");
+  const mistakeClaims = topic.commonMistakes.map((mistake, index) => {
+    const cleaned = cleanText(mistake, "");
 
-  if (!text) {
-    return sentence(`${topic.title} konusundaki kavramların dönem ve işlev farkı yoktur`, topic.shortDescription);
-  }
+    if (!cleaned) {
+      return `${topic.title} konusunda dönem, kurum ve sonuç ilişkisi kurulmasına gerek yoktur.`;
+    }
 
-  const lower = text.toLocaleLowerCase("tr-TR");
+    if (cleaned.toLocaleLowerCase("tr-TR").includes("sanmak")) {
+      return `${topic.title} konusunda ${cleaned.replace(/\s+sanmak\.?$/i, "")} doğru kabul edilmelidir.`;
+    }
 
-  if (lower.includes("tımar") && lower.includes("özel mülkiyet")) {
-    return "Tımar sistemi özel mülkiyet olarak kabul edilir.";
-  }
+    if (cleaned.toLocaleLowerCase("tr-TR").includes("karıştırmak")) {
+      return `${topic.title} konusunda ${cleaned.replace(/\s+karıştırmak\.?$/i, "")} arasında ayrım yapılmasına gerek yoktur.`;
+    }
 
-  if (lower.includes("modern parlamento")) {
-    return "Kurultay modern anlamda yasama yetkisine sahip bir parlamento olarak çalışmıştır.";
-  }
+    if (cleaned.toLocaleLowerCase("tr-TR").includes("unutmak")) {
+      return `${topic.title} konusunda ${cleaned.replace(/\s+unutmak\.?$/i, "")} dikkate alınmaz.`;
+    }
 
-  if (lower.includes("başkent")) {
-    const cleaned = text.replace(/\s+sanmak\.?$/i, "").trim();
-    return sentence(`${cleaned} doğru bir bilgidir`, `${topic.title} içinde başkent bilgisi doğru verilmiştir.`);
-  }
+    return `${topic.title} konusunda ${cleaned} doğru bir yaklaşımdır.`;
+  });
 
-  if (lower.includes("sadece")) {
-    return sentence(text.replace(/\s+sanmak\.?$/i, "").replace(/\s+düşünmek\.?$/i, ""), `${topic.title} yalnızca tek yönlü değerlendirilmelidir`);
-  }
-
-  if (lower.includes("sanmak")) {
-    const cleaned = text.replace(/\s+sanmak\.?$/i, "").trim();
-    return sentence(`${cleaned} doğru bir yorumdur`, `${topic.title} içinde kavram doğru yorumlanmıştır`);
-  }
-
-  if (lower.includes("karıştırmak")) {
-    const cleaned = text.replace(/\s+karıştırmak\.?$/i, "").trim();
-    return sentence(`${cleaned} arasında ayrım yapılmasına gerek yoktur`, `${topic.title} içinde ayrım gerekli değildir`);
-  }
-
-  if (lower.includes("unutmak")) {
-    const cleaned = text.replace(/\s+unutmak\.?$/i, "").trim();
-    return sentence(`${cleaned} bilgisi bu konuda dikkate alınmaz`, `${topic.title} içinde bu bilgi belirleyici değildir`);
-  }
-
-  return sentence(`${text} doğru kabul edilmelidir`, `${topic.title} içinde bu yorum doğrudur`);
-}
-
-function sameTopicWrongClaims(topic: Topic, seed: number) {
-  const keyword = pick(topic.mustKnow.concat(topic.keywords), seed, topic.title);
-  const timeline = pick(topic.quickTimeline, seed, { date: "", event: topic.title });
-  const mistakeClaims = topic.commonMistakes.map((mistake) => mistakeToFalseClaim(mistake, topic));
-
-  return unique([
+  return uniqueTexts([
     ...mistakeClaims,
-    `${keyword}, ${topic.title} konusuyla ilişkilendirilemeyen bağımsız bir kavramdır.`,
-    `${topic.title} içinde olay, kurum ve sonuç bağlantısı kurulmasına gerek yoktur.`,
-    `${timeline.event}, ${topic.title} kronolojisiyle ilişkilendirilemez.`,
-    `${topic.title} yalnızca tarih ezberiyle çözülebilecek bir başlıktır.`,
-    `${topic.title} sorularında kavramın hangi döneme ait olduğu belirleyici değildir.`
+    `${topic.title} konusunda ${conceptA} kavramının ait olduğu dönem ve kurum bağlantısı aranmaz.`,
+    `${topic.title} başlığında ${conceptB} yalnızca ezberlenecek bir isimdir; tarihsel bağlamı yoktur.`,
+    `${topic.title} kronolojisinde ${cleanText(timeline.event, topic.title)} gelişmesi konu bağlamı dışında değerlendirilir.`,
+    `${topic.title} sorularında olayların neden-sonuç ilişkisi yerine yalnızca seçenek uzunluğu dikkate alınmalıdır.`,
+    `${topic.title} konusunda kavramlar, kurumlar ve olaylar birbirinden tamamen bağımsız kabul edilmelidir.`,
+    `${topic.title} başlığında doğru cevabı bulmak için dönem bilgisi kontrol edilmez.`
   ]);
 }
 
-function chronologyPairs(topic: Topic) {
-  const fallback = [{ date: "", event: topic.title }];
-  const source = topic.quickTimeline.length > 0 ? topic.quickTimeline : fallback;
+function conceptWrongClaims(topic: Topic, keyword: string, seed: number) {
+  return uniqueTexts([
+    `${topic.title} konusunda ${keyword} kavramı konu dışı bir ayrıntı olarak kabul edilir.`,
+    `${topic.title} içinde ${keyword} yalnızca kelime anlamıyla öğrenilir; dönem bağlantısı kurulmaz.`,
+    `${topic.title} sorularında ${keyword} kavramı kurum, olay veya sonuç ilişkisiyle birlikte değerlendirilmez.`,
+    `${topic.title} başlığında ${keyword} kavramının sınav sorularında ayırt edici değeri yoktur.`,
+    ...commonWrongClaims(topic, seed)
+  ]);
+}
 
-  return source.map((item) => ({
-    date: cleanText(item.date, ""),
-    event: cleanText(item.event, topic.title)
+function chronologyFacts(topic: Topic) {
+  const source = topic.quickTimeline.length > 0
+    ? topic.quickTimeline
+    : [{ date: "ilgili dönem", event: topic.shortDescription || topic.title }];
+
+  return source.map((item, index) => ({
+    id: `${topic.id}-chronology-${index}`,
+    date: cleanText(item.date, "ilgili dönem"),
+    event: cleanText(item.event, topic.title),
+    text: ensureSentence(`${topic.title} kronolojisinde ${cleanText(item.date, "ilgili dönem")}: ${cleanText(item.event, topic.title)}`, topic.shortDescription)
   }));
 }
 
-function shiftedChronologyDistractors(topic: Topic, correctDate: string, correctEvent: string, seed: number) {
-  const pairs = chronologyPairs(topic);
+function chronologyWrongClaims(topic: Topic, correctIndex: number) {
+  const facts = chronologyFacts(topic);
 
-  if (pairs.length <= 1) {
-    return unique([
-      `${correctDate || "Bu dönem"}: Bu gelişme ${topic.title} dışında değerlendirilir.`,
-      `${correctDate || "Bu dönem"}: Bu gelişme yalnızca kültürel bir ayrıntıdır.`,
-      `${correctDate || "Bu dönem"}: Bu gelişme konu kronolojisinde yer almaz.`
+  if (facts.length <= 1) {
+    return uniqueTexts([
+      `${topic.title} kronolojisinde ilgili dönem: Bu gelişme konu dışındaki bağımsız bir olaydır.`,
+      `${topic.title} kronolojisinde ilgili dönem: Olayların sıralaması bu konuda belirleyici değildir.`,
+      `${topic.title} kronolojisinde ilgili dönem: Bu başlık yalnızca kavram ezberiyle çözülür.`
     ]);
   }
 
-  const shifted = pairs
-    .filter((pair) => pair.event !== correctEvent || pair.date !== correctDate)
-    .map((pair, index) => {
-      const dateSource = pairs[(seed + index + 1) % pairs.length] ?? pair;
-      const wrongDate = dateSource.date === pair.date ? correctDate : dateSource.date;
-      return sentence(`${wrongDate || "Bu dönem"}: ${pair.event}`, `${topic.title} kronolojisinde hatalı eşleştirme`);
+  const shifted = facts
+    .filter((_, index) => index !== correctIndex)
+    .map((fact, index) => {
+      const wrongDate = facts[(index + correctIndex + 1) % facts.length]?.date ?? fact.date;
+      return `${topic.title} kronolojisinde ${wrongDate}: ${fact.event}`;
     });
 
-  return unique([
+  return uniqueTexts([
     ...shifted,
-    `${correctDate || "Bu dönem"}: ${correctEvent} ${topic.title} dışındaki bir gelişmedir.`,
-    `${correctDate || "Bu dönem"}: ${correctEvent} kronolojik bağ kurmak için kullanılmaz.`
+    `${topic.title} kronolojisinde ${facts[correctIndex]?.date ?? "ilgili dönem"}: Bu gelişme konu dışında kalır.`,
+    `${topic.title} kronolojisinde olayların tarihsel sırası ayırt edici değildir.`
   ]);
 }
 
-function buildConceptModel(topic: Topic, seed: number): QuestionModel {
-  const keyword = pick(topic.mustKnow.concat(topic.keywords), seed, topic.title);
-  const answer = sentence(
-    `${keyword}, ${topic.title} kapsamında olay, kurum veya sonuç ilişkisini açıklayan temel kavramlardan biridir`,
-    topic.shortDescription
-  );
-
-  const distractors = unique([
-    `${keyword}, ${topic.title} başlığıyla ilişkilendirilemeyen bağımsız bir kavramdır.`,
-    `${keyword}, yalnızca kelime anlamıyla öğrenilmelidir; tarihsel bağlamı aranmaz.`,
-    `${keyword}, bu konuda dönem ve kurum ilişkisi kurmak için kullanılmaz.`,
-    ...sameTopicWrongClaims(topic, seed)
-  ]);
-
-  return {
-    stem: question(`${keyword} kavramı ${topic.title} içinde hangi bağlamda ele alınır`, `${topic.title} içinde bu kavram nasıl değerlendirilir`),
-    answer,
-    distractors,
-    explanation: sentence(`${keyword} kavramı ${topic.title} başlığı içinde dönem, kurum veya sonuç ilişkisiyle anlam kazanır`, "Kavram konu bağlamıyla birlikte değerlendirilmelidir"),
-    examTip: sentence("Kavram sorularında önce kavramın hangi döneme ve hangi kuruma bağlandığını belirle", "Kavramı konu başlığıyla eşleştir"),
-    focus: "kavram"
-  };
-}
-
-function buildKnowledgeModel(topic: Topic, seed: number): QuestionModel {
-  const fact = pick(topicFacts(topic), seed, topic.shortDescription);
-  const distractors = sameTopicWrongClaims(topic, seed);
-
-  return {
-    stem: question(`${topic.title} konusunda aşağıdaki bilgilerden hangisi doğrudur`, `${topic.title} konusunda doğru bilgi hangisidir`),
-    answer: fact,
-    distractors,
-    explanation: sentence(`Doğru seçenek ${topic.title} başlığındaki temel bilgiyle ve konu bağlamıyla uyumludur`, "Doğru cevap konu bilgisini verir"),
-    examTip: sentence("Bilgi sorularında seçeneğin aynı konu, doğru dönem ve doğru kavramla uyumlu olmasına dikkat et", "Konu-dönem uyumunu kontrol et"),
-    focus: "bilgi"
-  };
-}
-
-function buildChronologyModel(topic: Topic, seed: number): QuestionModel {
-  const pairs = chronologyPairs(topic);
-  const correct = pick(pairs, seed, pairs[0] ?? { date: "", event: topic.title });
-  const answer = sentence(`${correct.date || "Bu dönem"}: ${correct.event}`, topic.shortDescription);
-
-  return {
-    stem: question(`${topic.title} kronolojisi için hangi tarih-olay eşleştirmesi doğrudur`, `${topic.title} kronolojisinde doğru eşleştirme hangisidir`),
-    answer,
-    distractors: shiftedChronologyDistractors(topic, correct.date, correct.event, seed),
-    explanation: sentence(`${correct.event}, ${topic.title} kronolojisinde doğru tarihsel bağlamla verilmiştir`, "Doğru seçenek tarih ve olay uyumunu verir"),
-    examTip: sentence("Kronoloji sorularında yalnızca yılı değil, olayın hangi süreç içinde yer aldığını da kontrol et", "Tarih-olay eşleşmesini birlikte öğren"),
-    focus: "kronoloji"
-  };
-}
-
-function buildInterpretationModel(topic: Topic, seed: number): QuestionModel {
-  const fact = pick(topicFacts(topic), seed * 2, topic.shortDescription);
-  const keyword = pick(topic.mustKnow.concat(topic.keywords), seed + 3, topic.title);
-
-  return {
-    stem: question(`${topic.title} başlığında verilen bir soruda hangi yorum daha tutarlıdır`, `${topic.title} için doğru yorum hangisidir`),
-    answer: sentence(`${fact.replace(/\.$/, "")}; bu bilgi ${topic.title} içinde neden-sonuç ilişkisi kurmak için kullanılabilir`, topic.shortDescription),
-    distractors: unique([
-      `${keyword} bu konuda yalnızca ezberlenecek bir isimdir; sonuç ilişkisi kurulmaz.`,
-      `${topic.title} içinde verilen gelişmeler birbirinden bağımsız kabul edilmelidir.`,
-      `${topic.title} sorularında dönem, kurum ve sonuç ilişkisi aranmaz.`,
-      ...sameTopicWrongClaims(topic, seed)
-    ]),
-    explanation: sentence(`Doğru yorum, ${topic.title} bilgisini konu içindeki neden-sonuç ilişkisiyle birlikte değerlendirir`, "Doğru yorum bağlam kurar"),
-    examTip: sentence("Yorum sorularında seçenekleri olayın sonucu ve konu başlığının ana fikriyle karşılaştır", "Yorumda neden-sonuç bağına bak"),
-    focus: "yorum"
-  };
-}
-
-function buildMistakeModel(topic: Topic, seed: number): QuestionModel {
-  const falseClaim = mistakeToFalseClaim(pick(topic.commonMistakes, seed, ""), topic);
-  const trueFacts = topicFacts(topic);
-
-  return {
-    stem: question(`${topic.title} konusunda aşağıdaki ifadelerden hangisi hatalıdır`, `${topic.title} konusunda hatalı ifade hangisidir`),
-    answer: falseClaim,
-    distractors: unique([
-      pick(trueFacts, seed, topic.shortDescription),
-      pick(trueFacts, seed + 2, topic.shortDescription),
-      pick(trueFacts, seed + 4, topic.shortDescription),
-      ...conceptFacts(topic)
-    ]),
-    explanation: sentence(`Doğru cevap, ${topic.title} konusunda sık yapılan bir kavram veya dönem hatasını içerir`, "Seçilen ifade hatalıdır"),
-    examTip: sentence("Hatalı ifade sorularında çeldiriciler genellikle doğru kavramı yanlış işlev veya yanlış dönemle verir", "Hatalı ifadede bağlam kaymasına dikkat et"),
-    focus: "ayrim"
-  };
-}
-
-function modelFor(topic: Topic, level: TestLevel, testNo: number, questionNo: number): QuestionModel {
-  const seed = testNo * 31 + questionNo * 17 + topic.id.length;
-  const cycle = level === "kolay"
-    ? ["bilgi", "kavram", "kronoloji", "bilgi", "kavram"]
-    : level === "orta"
-      ? ["yorum", "bilgi", "kavram", "ayrim", "kronoloji"]
-      : ["yorum", "ayrim", "kronoloji", "kavram", "bilgi"];
-
-  const focus = cycle[(testNo + questionNo) % cycle.length];
-
-  if (focus === "kavram") return buildConceptModel(topic, seed);
-  if (focus === "kronoloji") return buildChronologyModel(topic, seed);
-  if (focus === "yorum") return buildInterpretationModel(topic, seed);
-  if (focus === "ayrim") return buildMistakeModel(topic, seed);
-  return buildKnowledgeModel(topic, seed);
-}
-
-function questionType(focus: QuestionFocus, questionNo: number): Question["type"] {
-  if (focus === "kronoloji") return "chronology";
-  if (focus === "yorum" || questionNo % 7 === 0) return "case";
-  return "single";
-}
-
-function enoughDistractors(topic: Topic, model: QuestionModel, seed: number) {
-  const pool = unique([
-    ...model.distractors,
-    ...sameTopicWrongClaims(topic, seed + 9),
-    `${topic.title} içinde kavramların ait olduğu dönem önem taşımaz.`,
-    `${topic.title} başlığındaki gelişmeler sadece isim ezberiyle değerlendirilmelidir.`,
-    `${topic.title} sorularında doğru cevap konu bağlamı kurulmadan bulunur.`
-  ]).filter((item) => item !== sentence(model.answer, ""));
+function answerWithThreeDistractors(answer: string, distractors: string[], topic: Topic, seed: number) {
+  const correct = ensureSentence(answer, topic.shortDescription);
+  const pool = uniqueTexts([
+    ...distractors,
+    ...commonWrongClaims(topic, seed),
+    `${topic.title} konusunda doğru cevap için konu bağlamı kontrol edilmez.`,
+    `${topic.title} başlığında kavramların ait olduğu dönem önemli değildir.`
+  ]).filter((item) => normalize(item) !== normalize(correct));
 
   while (pool.length < 3) {
-    pool.push(sentence(`${topic.title} kapsamında bu seçenek eksik veya yanlış bağlamda verilmiştir`, topic.shortDescription));
+    pool.push(ensureSentence(`${topic.title} kapsamında bu seçenek eksik veya hatalı bağlamda verilmiştir`, topic.shortDescription));
   }
 
-  return pool.slice(0, 3);
+  return [correct, ...pool.slice(0, 3)];
 }
 
-function makeChoices(topic: Topic, model: QuestionModel, seed: number): { choices: QuestionChoice[]; correctChoiceId: string } {
-  const answerText = sentence(model.answer, topic.shortDescription);
-  const distractors = enoughDistractors(topic, model, seed)
-    .filter((item) => item !== answerText)
-    .slice(0, 3);
+function rotateChoices(options: string[], seed: number): { choices: QuestionChoice[]; correctChoiceId: string } {
+  const uniqueOptions = uniqueTexts(options).slice(0, 4);
 
-  const options = unique([answerText, ...distractors]).slice(0, 4);
-
-  while (options.length < 4) {
-    options.push(sentence(`${topic.title} kapsamında bu seçenek yanlış bağlamda verilmiştir`, topic.shortDescription));
+  while (uniqueOptions.length < 4) {
+    uniqueOptions.push("Bu seçenek konu bağlamı açısından eksik verilmiştir.");
   }
 
+  const correct = uniqueOptions[0];
   const rotate = Math.abs(seed) % 4;
-  const rotated = [...options.slice(rotate), ...options.slice(0, rotate)].slice(0, 4);
-  const correctIndex = rotated.findIndex((item) => item === answerText);
-  const safeCorrectIndex = correctIndex >= 0 ? correctIndex : 0;
+  const rotated = [...uniqueOptions.slice(rotate), ...uniqueOptions.slice(0, rotate)].slice(0, 4);
+  const correctIndex = rotated.findIndex((item) => normalize(item) === normalize(correct));
 
   return {
     choices: rotated.map((text, index) => ({
       id: choiceIds[index],
       text
     })),
-    correctChoiceId: choiceIds[safeCorrectIndex]
+    correctChoiceId: choiceIds[correctIndex >= 0 ? correctIndex : 0]
   };
+}
+
+function buildKnowledgeModel(topic: Topic, seed: number): QuestionModel {
+  const fact = pick(trustedFacts(topic).filter((item) => item.kind !== "timeline"), seed, {
+    id: `${topic.id}-fallback`,
+    kind: "short",
+    text: topicFactPrefix(topic, topic.shortDescription)
+  });
+
+  return {
+    focus: "bilgi",
+    stem: ensureQuestion(`${topic.title} konusunda aşağıdaki ifadelerden hangisi konu bilgisiyle uyumludur`, `${topic.title} konusunda doğru bilgi hangisidir`),
+    answer: fact.text,
+    distractors: commonWrongClaims(topic, seed),
+    explanation: ensureSentence(`Doğru cevap, ${topic.title} konu anlatımındaki güvenilir bilgiyle aynı bağlamdadır`, "Doğru seçenek konu bilgisiyle uyumludur"),
+    examTip: ensureSentence("Bilgi sorularında seçenekleri aynı konu, doğru dönem ve doğru kavram ilişkisiyle kontrol et", "Konu bağlamını kontrol et")
+  };
+}
+
+function buildConceptModel(topic: Topic, seed: number): QuestionModel {
+  const concept = pick(safeConcepts(topic), seed, topic.title);
+  const answer = ensureSentence(`${topic.title} konusunda ${concept} kavramı olay, kurum veya sonuç ilişkisini açıklayan temel bir kavramdır`, topic.shortDescription);
+
+  return {
+    focus: "kavram",
+    stem: ensureQuestion(`${topic.title} içinde ${concept} kavramı hangi açıklamayla daha doğru ilişkilendirilir`, `${topic.title} içinde bu kavram nasıl değerlendirilir`),
+    answer,
+    distractors: conceptWrongClaims(topic, concept, seed),
+    explanation: ensureSentence(`${concept} kavramı ${topic.title} başlığında kendi dönem ve kurum bağlamıyla değerlendirilmelidir`, "Kavram konu bağlamıyla birlikte değerlendirilir"),
+    examTip: ensureSentence("Kavram sorularında kavramı doğrudan konu başlığına, döneme ve işlevine bağla", "Kavramı dönem ve işleviyle eşleştir")
+  };
+}
+
+function buildChronologyModel(topic: Topic, seed: number): QuestionModel {
+  const facts = chronologyFacts(topic);
+  const index = Math.abs(seed) % facts.length;
+  const fact = facts[index];
+
+  return {
+    focus: "kronoloji",
+    stem: ensureQuestion(`${topic.title} kronolojisi için hangi tarih-olay eşleştirmesi doğrudur`, `${topic.title} kronolojisinde doğru eşleştirme hangisidir`),
+    answer: fact.text,
+    distractors: chronologyWrongClaims(topic, index),
+    explanation: ensureSentence(`Doğru seçenek, ${topic.title} kronolojisindeki tarih ve olay bilgisini aynı bağlamda verir`, "Doğru seçenek tarih-olay uyumunu verir"),
+    examTip: ensureSentence("Kronoloji sorularında yıl, olay ve sürecin aynı konu içinde olup olmadığını birlikte kontrol et", "Tarih-olay eşleşmesini birlikte kontrol et")
+  };
+}
+
+function buildInterpretationModel(topic: Topic, seed: number): QuestionModel {
+  const fact = pick(trustedFacts(topic), seed + 3, {
+    id: `${topic.id}-fallback-yorum`,
+    kind: "short",
+    text: topicFactPrefix(topic, topic.shortDescription)
+  });
+
+  return {
+    focus: "yorum",
+    stem: ensureQuestion(`${topic.title} başlığıyla ilgili hangi yorum daha tutarlıdır`, `${topic.title} için doğru yorum hangisidir`),
+    answer: ensureSentence(`${fact.text.replace(/[.!?]+$/g, "")}; bu nedenle konu neden-sonuç ilişkisiyle değerlendirilmelidir`, topic.shortDescription),
+    distractors: uniqueTexts([
+      `${topic.title} konusunda olaylar, kurumlar ve kavramlar birbirinden bağımsız kabul edilmelidir.`,
+      `${topic.title} sorularında dönem bilgisi ve sonuç ilişkisi cevap seçimini etkilemez.`,
+      `${topic.title} başlığı yalnızca isim ezberiyle öğrenilmelidir; yorum ilişkisi kurulmaz.`,
+      ...commonWrongClaims(topic, seed)
+    ]),
+    explanation: ensureSentence(`Doğru yorum, ${topic.title} konusundaki bilgiyi neden-sonuç ve kavram ilişkisiyle birlikte değerlendirir`, "Doğru yorum bağlam kurar"),
+    examTip: ensureSentence("Yorum sorularında seçenekleri olayın sonucu, kavramın işlevi ve dönem bilgisiyle karşılaştır", "Yorumda neden-sonuç bağına bak")
+  };
+}
+
+function buildStudyTipModel(topic: Topic, seed: number): QuestionModel {
+  const concept = pick(safeConcepts(topic), seed + 5, topic.title);
+
+  return {
+    focus: "ipucu",
+    stem: ensureQuestion(`${topic.title} sorularını çözerken hangi çalışma yaklaşımı daha doğrudur`, `${topic.title} için doğru sınav yaklaşımı hangisidir`),
+    answer: ensureSentence(`${topic.title} çalışılırken ${concept} gibi kavramlar dönem, kurum ve sonuç ilişkisiyle birlikte değerlendirilmelidir`, topic.shortDescription),
+    distractors: uniqueTexts([
+      `${topic.title} çalışılırken kavramların ait olduğu dönem göz ardı edilmelidir.`,
+      `${topic.title} sorularında yalnızca seçeneklerin uzunluğu karşılaştırılmalıdır.`,
+      `${topic.title} başlığında kronoloji, kurum ve sonuç ilişkisi kurulmadan cevap verilmelidir.`,
+      `${topic.title} çalışılırken kavramlar konu başlığından bağımsız ezberlenmelidir.`
+    ]),
+    explanation: ensureSentence(`Bu yaklaşım, ${topic.title} konusunu ezberden çıkarıp sınavda kullanılan kavram-dönem-sonuç ilişkisine bağlar`, "Doğru yaklaşım kavramları bağlam içinde değerlendirmektir"),
+    examTip: ensureSentence("Sınavda önce konu başlığını, sonra kavramın işlevini ve son olarak seçeneklerin dönem uyumunu kontrol et", "Önce bağlamı kur, sonra seçenekleri ele")
+  };
+}
+
+function modelFor(topic: Topic, level: TestLevel, testNo: number, questionNo: number): QuestionModel {
+  const seed = topic.id.length * 13 + testNo * 31 + questionNo * 17;
+  const cycle: AuditFocus[] =
+    level === "kolay"
+      ? ["bilgi", "kavram", "kronoloji", "bilgi", "ipucu"]
+      : level === "orta"
+        ? ["yorum", "bilgi", "kavram", "kronoloji", "ipucu"]
+        : ["yorum", "kronoloji", "kavram", "bilgi", "ipucu"];
+
+  const focus = cycle[(testNo + questionNo + topic.id.length) % cycle.length];
+
+  if (focus === "kavram") return buildConceptModel(topic, seed);
+  if (focus === "kronoloji") return buildChronologyModel(topic, seed);
+  if (focus === "yorum") return buildInterpretationModel(topic, seed);
+  if (focus === "ipucu") return buildStudyTipModel(topic, seed);
+  return buildKnowledgeModel(topic, seed);
+}
+
+function questionType(focus: AuditFocus): Question["type"] {
+  if (focus === "kronoloji") return "chronology";
+  if (focus === "yorum") return "case";
+  return "single";
 }
 
 function buildQuestion(topic: Topic, level: TestLevel, testNo: number, questionNo: number): Question {
   const model = modelFor(topic, level, testNo, questionNo);
   const testId = `test-${topic.id}-${level}-${testNo}`;
-  const seed = topic.id.length + testNo * 17 + questionNo * 11;
-  const { choices, correctChoiceId } = makeChoices(topic, model, seed);
+  const seed = topic.id.length * 19 + testNo * 37 + questionNo * 23;
+  const options = answerWithThreeDistractors(model.answer, model.distractors, topic, seed);
+  const { choices, correctChoiceId } = rotateChoices(options, seed);
 
   return {
     id: `${testId}-q${String(questionNo).padStart(2, "0")}`,
     topicId: topic.id,
-    type: questionType(model.focus, questionNo),
+    type: questionType(model.focus),
     difficulty: internalDifficulty[level],
-    stem: question(model.stem, `${topic.title} konusunda doğru seçenek hangisidir`),
+    stem: ensureQuestion(model.stem, `${topic.title} konusunda doğru seçenek hangisidir`),
     choices,
     correctChoiceId,
-    explanation: sentence(model.explanation, "Doğru cevap konu bilgisini ve tarihsel bağlamı birlikte verir."),
-    examTip: sentence(model.examTip, "Cevap seçerken kavram, dönem ve sonuç ilişkisini birlikte kontrol et."),
-    tags: [topic.era, toSlug(topic.title), level, model.focus]
+    explanation: ensureSentence(model.explanation, "Doğru seçenek konu bilgisini ve tarihsel bağlamı birlikte verir."),
+    examTip: ensureSentence(model.examTip, "Cevap seçerken kavram, dönem ve sonuç ilişkisini birlikte kontrol et."),
+    tags: [topic.era, toSlug(topic.title), level, `audit:${model.focus}`]
   };
 }
 
@@ -454,7 +503,7 @@ function buildQuestionTests() {
     for (let testNo = 1; testNo <= TESTS_PER_LEVEL; testNo += 1) {
       const questionIds = Array.from({ length: QUESTIONS_PER_TEST }, (_, index) => {
         const topic = topics[(index + testNo) % topics.length];
-        const sourceQuestionNo = ((index * 5 + testNo) % QUESTIONS_PER_TEST) + 1;
+        const sourceQuestionNo = ((index * 7 + testNo) % QUESTIONS_PER_TEST) + 1;
         return `test-${topic.id}-${level}-${testNo}-q${String(sourceQuestionNo).padStart(2, "0")}`;
       });
 
@@ -513,60 +562,162 @@ export function getTestCountsForTopic(topicId: string) {
   };
 }
 
-export function getQuestionBankQualityReport() {
+function getQuestionTopic(questionItem: Question) {
+  return topics.find((topic) => topic.id === questionItem.topicId);
+}
+
+function correctChoice(questionItem: Question) {
+  return questionItem.choices.find((choice) => choice.id === questionItem.correctChoiceId);
+}
+
+function includesTopicTitle(questionItem: Question) {
+  const topic = getQuestionTopic(questionItem);
+  if (!topic) return false;
+
+  const title = normalize(topic.title);
+  const allTexts = [
+    questionItem.stem,
+    questionItem.explanation,
+    questionItem.examTip,
+    ...questionItem.choices.map((choice) => choice.text)
+  ];
+
+  return allTexts.every((text) => normalize(text).includes(title) || normalize(text).includes("sınavda"));
+}
+
+function allChoicesSameFrame(questionItem: Question) {
+  if (questionItem.type === "chronology") {
+    return questionItem.choices.every((choice) => choice.text.includes("kronolojisinde") && choice.text.includes(":"));
+  }
+
+  const topic = getQuestionTopic(questionItem);
+  if (!topic) return false;
+
+  return questionItem.choices.every((choice) => normalize(choice.text).includes(normalize(topic.title)));
+}
+
+export function getStrictQuestionBankAuditReport() {
   const errors: string[] = [];
   const warnings: string[] = [];
-  const ids = new Set<string>();
+  const questionIds = new Set<string>();
+  const expectedTopicQuestionCount = topics.length * 3 * TESTS_PER_LEVEL * QUESTIONS_PER_TEST;
+  const expectedTopicTestCount = topics.length * 3 * TESTS_PER_LEVEL;
+  const expectedMixedTestCount = 3 * TESTS_PER_LEVEL;
+
+  if (expandedQuestions.length !== expectedTopicQuestionCount) {
+    errors.push(`Soru sayısı değişmiş: ${expandedQuestions.length} / beklenen ${expectedTopicQuestionCount}`);
+  }
+
+  if (topicQuestionTests.length !== expectedTopicTestCount) {
+    errors.push(`Konu test sayısı değişmiş: ${topicQuestionTests.length} / beklenen ${expectedTopicTestCount}`);
+  }
+
+  if (mixedQuestionTests.length !== expectedMixedTestCount) {
+    errors.push(`Karma test sayısı değişmiş: ${mixedQuestionTests.length} / beklenen ${expectedMixedTestCount}`);
+  }
 
   for (const questionItem of expandedQuestions) {
-    if (ids.has(questionItem.id)) errors.push(`Tekrarlanan soru id: ${questionItem.id}`);
-    ids.add(questionItem.id);
+    const topic = getQuestionTopic(questionItem);
 
-    if (!questionItem.stem || questionItem.stem.length < 24) errors.push(`Kısa soru kökü: ${questionItem.id}`);
-    if (!questionItem.explanation || questionItem.explanation.length < 35) warnings.push(`Kısa açıklama: ${questionItem.id}`);
-    if (!questionItem.examTip || questionItem.examTip.length < 25) warnings.push(`Kısa sınav notu: ${questionItem.id}`);
-    if (questionItem.choices.length !== 4) errors.push(`4 seçenek yok: ${questionItem.id}`);
+    if (!topic) {
+      errors.push(`Konu bulunamadı: ${questionItem.id}`);
+      continue;
+    }
 
-    const choiceTexts = new Set(questionItem.choices.map((choice) => choice.text));
-    if (choiceTexts.size !== questionItem.choices.length) errors.push(`Tekrarlanan seçenek: ${questionItem.id}`);
-    if (!questionItem.choices.some((choice) => choice.id === questionItem.correctChoiceId)) {
+    if (questionIds.has(questionItem.id)) {
+      errors.push(`Tekrarlanan soru id: ${questionItem.id}`);
+    }
+
+    questionIds.add(questionItem.id);
+
+    if (!questionItem.stem || questionItem.stem.length < 35) {
+      errors.push(`Kısa veya boş soru kökü: ${questionItem.id}`);
+    }
+
+    if (questionItem.choices.length !== 4) {
+      errors.push(`4 seçenek yok: ${questionItem.id}`);
+    }
+
+    const uniqueChoiceTexts = new Set(questionItem.choices.map((choice) => normalize(choice.text)));
+    if (uniqueChoiceTexts.size !== questionItem.choices.length) {
+      errors.push(`Tekrarlanan seçenek var: ${questionItem.id}`);
+    }
+
+    if (!correctChoice(questionItem)) {
       errors.push(`Doğru seçenek id bulunamadı: ${questionItem.id}`);
     }
 
-    const joined = [questionItem.stem, questionItem.explanation, questionItem.examTip, ...questionItem.choices.map((choice) => choice.text)]
-      .join(" ")
-      .toLocaleLowerCase("tr-TR");
+    if (!questionItem.explanation || questionItem.explanation.length < 45) {
+      errors.push(`Açıklama zayıf: ${questionItem.id}`);
+    }
+
+    if (!questionItem.examTip || questionItem.examTip.length < 35) {
+      errors.push(`İpucu zayıf: ${questionItem.id}`);
+    }
+
+    if (!allChoicesSameFrame(questionItem)) {
+      errors.push(`Şık formatı soru tipiyle uyumsuz: ${questionItem.id}`);
+    }
+
+    if (!includesTopicTitle(questionItem)) {
+      warnings.push(`Bazı alanlar konu başlığıyla doğrudan bağ kurmuyor olabilir: ${questionItem.id}`);
+    }
+
+    const joined = [
+      questionItem.stem,
+      questionItem.explanation,
+      questionItem.examTip,
+      ...questionItem.choices.map((choice) => choice.text)
+    ].join(" ");
 
     for (const phrase of bannedArtificialPhrases) {
-      if (joined.includes(phrase)) {
-        warnings.push(`Yapay/saçma kalıp olabilir (${phrase}): ${questionItem.id}`);
+      if (normalize(joined).includes(normalize(phrase))) {
+        errors.push(`Yapay/uygunsuz kalıp var (${phrase}): ${questionItem.id}`);
       }
     }
 
-    if (questionItem.type === "chronology") {
-      const allChoicesLookChronological = questionItem.choices.every((choice) => choice.text.includes(":"));
-      if (!allChoicesLookChronological) {
-        warnings.push(`Kronoloji sorusunda format uyumsuzluğu olabilir: ${questionItem.id}`);
+    for (const phrase of invalidCrossTopicExamples) {
+      if (!normalize(topic.title).includes("meşrutiyet") && normalize(joined).includes(normalize(phrase))) {
+        errors.push(`Bağlam dışı örnek sızmış olabilir (${phrase}): ${questionItem.id}`);
       }
     }
   }
 
   for (const test of allQuestionTests) {
-    if (test.questionIds.length !== QUESTIONS_PER_TEST) errors.push(`Test soru sayısı hatalı: ${test.id}`);
-    if (new Set(test.questionIds).size !== test.questionIds.length) errors.push(`Test içinde tekrar eden soru: ${test.id}`);
+    if (test.questionCount !== QUESTIONS_PER_TEST || test.questionIds.length !== QUESTIONS_PER_TEST) {
+      errors.push(`Test soru sayısı hatalı: ${test.id}`);
+    }
+
+    if (new Set(test.questionIds).size !== test.questionIds.length) {
+      errors.push(`Test içinde tekrar eden soru var: ${test.id}`);
+    }
+
+    for (const questionId of test.questionIds) {
+      if (!questionMap.has(questionId)) {
+        errors.push(`Testte bulunmayan soru id var: ${test.id} -> ${questionId}`);
+      }
+    }
   }
 
   return {
-    ok: errors.length === 0 && warnings.length === 0,
+    ok: errors.length === 0,
     constants: {
       TESTS_PER_LEVEL,
       QUESTIONS_PER_TEST,
       topicCount: topics.length,
       topicTestCount: topicQuestionTests.length,
       mixedTestCount: mixedQuestionTests.length,
-      expandedQuestionCount: expandedQuestions.length
+      allTestCount: allQuestionTests.length,
+      expandedQuestionCount: expandedQuestions.length,
+      expectedTopicQuestionCount,
+      expectedTopicTestCount,
+      expectedMixedTestCount
     },
     errors,
     warnings
   };
+}
+
+export function getQuestionBankQualityReport() {
+  return getStrictQuestionBankAuditReport();
 }
