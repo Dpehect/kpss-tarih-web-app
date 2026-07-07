@@ -5,12 +5,15 @@ import {
   BookOpen,
   BrainCircuit,
   CheckCircle2,
+  Clock3,
   FileQuestion,
   Layers3,
   LineChart,
   Play,
   ShieldCheck,
+  Sparkles,
   Target,
+  Trophy,
   Zap
 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
@@ -27,7 +30,7 @@ const stats = [
   { label: "Kart", value: nf.format(flashcards.length) }
 ];
 
-const primaryActions = [
+const quickActions = [
   {
     title: "Konuya başla",
     body: "Müfredatı kısa özetlerle keşfet.",
@@ -52,10 +55,34 @@ const primaryActions = [
 ];
 
 const steps = [
-  ["01", "Konu seç", "Müfredatı kısa özetlerle keşfet"],
-  ["02", "Test çöz", "Her konunun testine hemen geç"],
-  ["03", "Tekrar et", "Flashcard'larla hızlı tekrar yap"],
-  ["04", "Analiz et", "Yanlışlarını ve ilerlemeni izle"]
+  {
+    step: "01",
+    title: "Konu seç",
+    body: "Müfredatı kısa özetlerle keşfet",
+    href: "/topics",
+    icon: <BookOpen size={20} />
+  },
+  {
+    step: "02",
+    title: "Test çöz",
+    body: "Her konunun testine hemen geç",
+    href: "/question-bank",
+    icon: <FileQuestion size={20} />
+  },
+  {
+    step: "03",
+    title: "Tekrar et",
+    body: "Flashcard'larla hızlı tekrar yap",
+    href: "/flashcards",
+    icon: <BrainCircuit size={20} />
+  },
+  {
+    step: "04",
+    title: "Analiz et",
+    body: "Yanlışlarını ve ilerlemeni izle",
+    href: "/analytics",
+    icon: <BarChart3 size={20} />
+  }
 ];
 
 const features = [
@@ -78,15 +105,15 @@ const features = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#f7f1e8] text-[#0d1321]">
-      <MagicBackground />
+    <main className="relative min-h-screen overflow-hidden bg-[#f7f1e8] text-[#0d1321]">
+      <SpotlightBackground />
       <Navbar />
 
       <section className="content-shell grid min-h-[calc(100vh-80px)] gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-12">
         <ScrollReveal>
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[#b4232a]/20 bg-white/70 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a] shadow-sm backdrop-blur-xl">
-              <ShieldCheck size={15} />
+              <Sparkles size={15} />
               Softbridge Akademi
             </div>
 
@@ -136,7 +163,7 @@ export default function Home() {
 
       <section className="content-shell pb-10">
         <div className="grid gap-4 lg:grid-cols-3">
-          {primaryActions.map((action, index) => (
+          {quickActions.map((action, index) => (
             <ScrollReveal key={action.title} delay={index * 0.05}>
               <ActionCard {...action} />
             </ScrollReveal>
@@ -150,9 +177,9 @@ export default function Home() {
         </ScrollReveal>
 
         <div className="grid gap-3 md:grid-cols-2">
-          {steps.map(([step, title, body], index) => (
-            <ScrollReveal key={step} delay={index * 0.04}>
-              <StepCard step={step} title={title} body={body} />
+          {steps.map((step, index) => (
+            <ScrollReveal key={step.step} delay={index * 0.04}>
+              <StepCard {...step} />
             </ScrollReveal>
           ))}
         </div>
@@ -192,7 +219,7 @@ export default function Home() {
   );
 }
 
-function MagicBackground() {
+function SpotlightBackground() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,19,33,.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,19,33,.055)_1px,transparent_1px)] bg-[size:58px_58px]" />
@@ -345,20 +372,37 @@ function BentoIntro() {
   );
 }
 
-function StepCard({ step, title, body }: { step: string; title: string; body: string }) {
+function StepCard({
+  step,
+  title,
+  body,
+  href,
+  icon
+}: {
+  step: string;
+  title: string;
+  body: string;
+  href: string;
+  icon: ReactNode;
+}) {
   return (
-    <div className="rounded-[1.6rem] border border-[#d9cfc1] bg-white/78 p-5 shadow-sm backdrop-blur-xl">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">{step}</p>
-      <h3 className="mt-4 text-2xl font-black tracking-[-0.055em] text-[#0d1321]">{title}</h3>
-      <p className="mt-2 text-sm font-semibold leading-7 text-slate-600">{body}</p>
-    </div>
+    <a href={href} className="flex min-h-[165px] flex-col justify-between rounded-[1.6rem] border border-[#d9cfc1] bg-white/78 p-5 shadow-sm backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white hover:shadow-xl">
+      <div className="flex items-start justify-between gap-4">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">{step}</p>
+        <span className="grid size-10 place-items-center rounded-xl bg-[#0d1321] text-white">{icon}</span>
+      </div>
+      <div>
+        <h3 className="mt-4 text-2xl font-black tracking-[-0.055em] text-[#0d1321]">{title}</h3>
+        <p className="mt-2 text-sm font-semibold leading-7 text-slate-600">{body}</p>
+      </div>
+    </a>
   );
 }
 
 function FeatureCard({ title, body, icon }: { title: string; body: string; icon: ReactNode }) {
   return (
     <div className="rounded-[2rem] border border-[#d9cfc1] bg-white/78 p-6 shadow-sm backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white hover:shadow-xl">
-      <span className="grid size-13 place-items-center rounded-2xl bg-[#0d1321] text-white shadow-lg">{icon}</span>
+      <span className="grid size-12 place-items-center rounded-2xl bg-[#0d1321] text-white shadow-lg">{icon}</span>
       <h3 className="mt-6 text-2xl font-black tracking-[-0.055em] text-[#0d1321]">{title}</h3>
       <p className="mt-3 text-sm font-semibold leading-7 text-slate-600">{body}</p>
     </div>
