@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import {
   ArrowRight,
@@ -22,6 +23,7 @@ import {
 } from "@/data/kpss-history";
 import { getTopicVisual } from "@/data/topic-visuals";
 import { MarkTopicCompleteButton } from "@/features/topics/components/MarkTopicCompleteButton";
+import type { Topic } from "@/types/study";
 
 export function TopicDetailPage({ slug }: { slug: string }) {
   const topic = getTopicBySlug(slug);
@@ -57,7 +59,7 @@ export function TopicDetailPage({ slug }: { slug: string }) {
               <a
                 href={`/question-bank/${topic.id}`}
                 data-dark-button="true"
-                className="softbridge-dark-action inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-6 text-sm font-black"
+                className="softbridge-dark-action inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-6 text-sm font-black text-white"
               >
                 Testlere geç
                 <ArrowRight size={17} />
@@ -66,7 +68,7 @@ export function TopicDetailPage({ slug }: { slug: string }) {
             </div>
           </div>
 
-          <TopicHeroVisual index={Number(topic.id.replace(/\D/g, "")) || 0} title={topic.title} />
+          <TopicHeroVisual topic={topic} />
         </div>
       </section>
 
@@ -177,20 +179,34 @@ export function TopicDetailPage({ slug }: { slug: string }) {
             <a
               href={`/question-bank/${topic.id}`}
               data-dark-button="true"
-              className="softbridge-dark-action mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#101828] px-5 text-sm font-black"
+              className="softbridge-dark-action mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#101828] px-5 text-sm font-black text-white"
             >
               Testleri aç
               <ArrowRight size={17} />
             </a>
           </SidePanel>
+
+          {terms.length > 0 ? (
+            <SidePanel icon={<BookOpen size={21} />} title="Kavram sözlüğü">
+              <div className="space-y-3">
+                {terms.slice(0, 5).map((term) => (
+                  <div key={term.term} className="rounded-2xl border border-[#eadfce] bg-[#fffaf3]/76 p-3">
+                    <p className="text-sm font-black text-[#101828]">{term.term}</p>
+                    <p className="mt-1 text-xs font-semibold leading-6 text-slate-600">{term.definition}</p>
+                  </div>
+                ))}
+              </div>
+            </SidePanel>
+          ) : null}
         </aside>
       </section>
     </div>
   );
 }
 
-function TopicHeroVisual({ title, index }: { title: string; index: number }) {
-  const visual = getTopicVisual({ id: String(index), title, slug: "", era: "osmanli", shortDescription: "", examImportance: 0, estimatedMinutes: 0, keywords: [], summary: [], mustKnow: [], commonMistakes: [], quickTimeline: [] }, index);
+function TopicHeroVisual({ topic }: { topic: Topic }) {
+  const index = Number(topic.id.replace(/\D/g, "")) || 0;
+  const visual = getTopicVisual(topic, index);
 
   return (
     <div className={`relative min-h-[280px] overflow-hidden rounded-[2.25rem] bg-gradient-to-br ${visual.gradient} p-6`}>
@@ -206,7 +222,7 @@ function TopicHeroVisual({ title, index }: { title: string; index: number }) {
         </div>
         <div>
           <p className="text-sm font-black uppercase tracking-[0.14em] text-[#101828]">{visual.line}</p>
-          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[#101828]">{title}</h2>
+          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[#101828]">{topic.title}</h2>
         </div>
       </div>
     </div>
