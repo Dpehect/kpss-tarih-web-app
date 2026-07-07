@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { LockKeyhole } from "lucide-react";
 import { AuthPanel } from "@/features/auth/components/AuthPanel";
 
 export function AuthPage() {
@@ -9,8 +11,22 @@ export function AuthPage() {
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl items-center px-5 py-10 md:px-8">
-        <AuthPanel />
+        <Suspense fallback={<AuthLoadingCard />}>
+          <AuthPanel />
+        </Suspense>
       </div>
     </main>
+  );
+}
+
+function AuthLoadingCard() {
+  return (
+    <div className="mx-auto w-full max-w-xl rounded-[2.5rem] border border-[#e4d8c8] bg-white/78 p-8 text-center shadow-[0_32px_110px_rgba(16,24,40,.10)] backdrop-blur-2xl">
+      <div className="mx-auto mb-5 grid size-14 place-items-center rounded-2xl bg-[#101828] text-white">
+        <LockKeyhole size={24} />
+      </div>
+      <h1 className="text-3xl font-black tracking-[-0.06em] text-[#101828]">Oturum hazırlanıyor</h1>
+      <p className="mt-3 text-sm font-semibold leading-7 text-slate-600">Güvenli bağlantı kontrol ediliyor.</p>
+    </div>
   );
 }
