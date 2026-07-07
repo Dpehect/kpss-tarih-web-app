@@ -3,7 +3,7 @@ import { TimelinePage } from "@/features/timeline/components/TimelinePage";
 
 export const metadata: Metadata = {
   title: "Zaman Çizelgesi",
-  description: "KPSS Tarih olaylarını dönem, konu ve kronolojik ilişkiyle keşfet."
+  description: "KPSS Tarih olaylarını sade, hızlı ve odaklı bir kronoloji ekranında çalış."
 };
 
 export default function TimelineRoute() {
