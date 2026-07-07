@@ -98,8 +98,8 @@ export function QuestionBankPage() {
         return {
           topic,
           questionCount: topicQuestions.length,
-          caseCount: topicQuestions.filter((question) => question.type === "case").length,
-          chronologyCount: topicQuestions.filter((question) => question.type === "chronology").length,
+          caseCount: topicQuestions.filter((question) => String(question.type) === "case").length,
+          chronologyCount: topicQuestions.filter((question) => String(question.type) === "chronology").length,
           firstMistake: topic.commonMistakes[0] ?? "Bu konu için belirgin hata notu yok."
         };
       }),
@@ -128,8 +128,8 @@ export function QuestionBankPage() {
   const totalMinutes = topics.reduce((sum, topic) => sum + topic.estimatedMinutes, 0);
   const averageImportance = Math.round(topics.reduce((sum, topic) => sum + topic.examImportance, 0) / topics.length);
   const highPriorityTopics = [...topics].sort((a, b) => b.examImportance - a.examImportance).slice(0, 3);
-  const totalCaseQuestions = questions.filter((question) => question.type === "case").length;
-  const totalChronologyQuestions = questions.filter((question) => question.type === "chronology").length;
+  const totalCaseQuestions = questions.filter((question) => String(question.type) === "case").length;
+  const totalChronologyQuestions = questions.filter((question) => String(question.type) === "chronology").length;
 
   return (
     <div className="space-y-6">
