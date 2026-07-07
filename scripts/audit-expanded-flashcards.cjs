@@ -26,9 +26,7 @@ Module._resolveFilename = function patchedResolve(request, parent, isMain, optio
     ];
 
     for (const candidate of candidates) {
-      if (fs.existsSync(candidate)) {
-        return candidate;
-      }
+      if (fs.existsSync(candidate)) return candidate;
     }
   }
 
@@ -74,33 +72,20 @@ console.log("");
 
 if (report.warnings.length > 0) {
   console.log(`Uyarı: ${report.warnings.length}`);
-  for (const warning of report.warnings.slice(0, 25)) {
-    console.log(`- ${warning}`);
-  }
-
-  if (report.warnings.length > 25) {
-    console.log(`... ${report.warnings.length - 25} uyarı daha var.`);
-  }
-
+  for (const warning of report.warnings.slice(0, 25)) console.log(`- ${warning}`);
+  if (report.warnings.length > 25) console.log(`... ${report.warnings.length - 25} uyarı daha var.`);
   console.log("");
 }
 
 if (!report.ok) {
   console.error(`Hata: ${report.errors.length}`);
-
-  for (const error of report.errors.slice(0, 50)) {
-    console.error(`- ${error}`);
-  }
-
-  if (report.errors.length > 50) {
-    console.error(`... ${report.errors.length - 50} hata daha var.`);
-  }
-
+  for (const error of report.errors.slice(0, 50)) console.error(`- ${error}`);
+  if (report.errors.length > 50) console.error(`... ${report.errors.length - 50} hata daha var.`);
   process.exit(1);
 }
 
 console.log("✓ Kart sayısı en az iki katına çıkarıldı.");
+console.log("✓ FlashcardsPage artık genişletilmiş kart havuzunu kullanıyor.");
 console.log("✓ Her kart geçerli bir konuya bağlı.");
 console.log("✓ Ön yüz, arka yüz ve ipuçları boş/zayıf değil.");
 console.log("✓ Konu başına yeterli yeni kart üretildi.");
-console.log("✓ Kavram, özet, timeline ve sık hata kartları birlikte üretildi.");

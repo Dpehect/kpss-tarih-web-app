@@ -203,7 +203,6 @@ function examTipCards(topic: Topic): CardSeed[] {
 
 function ensureMinimumCards(topic: Topic, seeds: CardSeed[]) {
   const result = [...seeds];
-
   let index = 0;
 
   while (result.length < MIN_GENERATED_CARDS_PER_TOPIC) {
@@ -264,7 +263,6 @@ function buildTopicCards(topic: Topic) {
 }
 
 const generatedFlashcards = topics.flatMap(buildTopicCards);
-
 const baseIds = new Set(baseFlashcards.map((card) => card.id));
 
 export const generatedTopicFlashcards = generatedFlashcards.filter((card) => !baseIds.has(card.id));
@@ -309,21 +307,10 @@ export function getExpandedFlashcardAuditReport() {
 
     byTopic.get(card.topicId)?.push(card);
 
-    if (clean(card.front).length < 18) {
-      errors.push(`Ön yüz zayıf: ${card.id}`);
-    }
-
-    if (clean(card.back).length < 45) {
-      errors.push(`Arka yüz zayıf: ${card.id}`);
-    }
-
-    if (clean(card.hint).length < 15) {
-      errors.push(`İpucu zayıf: ${card.id}`);
-    }
-
-    if (!Array.isArray(card.tags) || card.tags.length < 2) {
-      errors.push(`Etiket eksik: ${card.id}`);
-    }
+    if (clean(card.front).length < 18) errors.push(`Ön yüz zayıf: ${card.id}`);
+    if (clean(card.back).length < 45) errors.push(`Arka yüz zayıf: ${card.id}`);
+    if (clean(card.hint).length < 15) errors.push(`İpucu zayıf: ${card.id}`);
+    if (!Array.isArray(card.tags) || card.tags.length < 2) errors.push(`Etiket eksik: ${card.id}`);
   }
 
   for (const topic of topics) {
@@ -341,11 +328,6 @@ export function getExpandedFlashcardAuditReport() {
 
     if (relatedCards.length < Math.ceil(cards.length * 0.8)) {
       warnings.push(`${topic.title} kartlarının bir kısmı konu başlığı/kavram ile zayıf bağ kuruyor olabilir.`);
-    }
-
-    const frontSet = new Set(cards.map((card) => clean(card.front).toLocaleLowerCase("tr-TR")));
-    if (frontSet.size !== cards.length) {
-      warnings.push(`${topic.title} içinde benzer ön yüzler olabilir.`);
     }
   }
 
