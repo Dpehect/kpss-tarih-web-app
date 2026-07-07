@@ -29,9 +29,9 @@ const levelLabels: Record<TestLevel, string> = {
 };
 
 const internalDifficulty: Record<TestLevel, Difficulty> = {
-  kolay: "kolay",
+  kolay: "temel",
   orta: "orta",
-  zor: "zor"
+  zor: "ileri"
 };
 
 const choiceIds = ["A", "B", "C", "D"] as const;
