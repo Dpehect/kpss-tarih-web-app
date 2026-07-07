@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   Archive,
   BarChart3,
@@ -18,6 +19,7 @@ import {
   XCircle
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { FoxBrandMark } from "@/components/brand/FoxBrandMark";
 import { useAdminSession } from "@/hooks/useAdminSession";
 import { cn } from "@/lib/cn";
 import { useUIStore } from "@/store/useUIStore";
@@ -44,33 +46,30 @@ export function Sidebar() {
   const isOpen = useUIStore((state) => state.isNavigationOpen);
   const setOpen = useUIStore((state) => state.setNavigationOpen);
   const { isAdmin } = useAdminSession();
-
-  const items = isAdmin
-    ? [...baseItems, { href: "/admin", label: "Admin", icon: UsersRound }]
-    : baseItems;
+  const items = isAdmin ? [...baseItems, { href: "/admin", label: "Admin", icon: UsersRound }] : baseItems;
 
   const nav = (
-    <nav className="flex flex-col gap-0.5" aria-label="Ana menü">
+    <nav className="space-y-1">
       {items.map((item) => {
         const Icon = item.icon;
         const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
         return (
-          <a
+          <Link
             key={item.href}
             href={item.href}
             onClick={() => setOpen(false)}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] transition-colors duration-150",
+              "group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[13px] font-bold transition-colors duration-150",
               active
-                ? "border-l-2 border-[var(--sage)] bg-[var(--sage-soft)] font-semibold text-[var(--ink)]"
-                : "border-l-2 border-transparent text-[var(--graphite)] hover:bg-[var(--cream)] hover:text-[var(--ink)]"
+                ? "bg-[#101828] text-white shadow-[0_12px_34px_rgba(16,24,40,.18)]"
+                : "text-slate-600 hover:bg-white hover:text-[#101828]"
             )}
           >
-            <Icon size={17} className={cn("shrink-0", active ? "text-[var(--sage)]" : "text-[var(--slate)]")} />
-            <span className="truncate">{item.label}</span>
-          </a>
+            <Icon size={18} />
+            {item.label}
+          </Link>
         );
       })}
     </nav>
@@ -78,21 +77,28 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="sticky top-[60px] z-20 hidden h-[calc(100vh-76px)] overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-2.5 lg:block scrollbar-clean">
+      <aside className="hidden border-r border-[#e4d8c8] bg-[#f8f1e7]/82 px-4 py-5 backdrop-blur-2xl lg:block">
+        <div className="mb-6 flex items-center gap-3 px-1">
+          <FoxBrandMark className="size-11 shrink-0" />
+          <div>
+            <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
+            <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>
+          </div>
+        </div>
         {nav}
       </aside>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-50 bg-black/40 lg:hidden" onClick={() => setOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-[#101828]/35 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)}>
           <aside
-            className="h-full w-72 overflow-y-auto border-r border-[var(--border)] bg-[var(--stone)] p-4 scrollbar-clean"
+            className="h-full w-[310px] max-w-[82vw] border-r border-[#e4d8c8] bg-[#f8f1e7] p-5 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-4 flex items-center gap-2.5 pb-4 border-b border-[var(--border)]">
-              <span className="grid size-9 place-items-center rounded-lg bg-[var(--ink)] text-sm font-semibold text-white">T</span>
+            <div className="mb-6 flex items-center gap-3">
+              <FoxBrandMark className="size-11 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-[var(--ink)]">Tarih</p>
-                <p className="text-[11px] text-[var(--slate)]">KPSS Çalışma Platformu</p>
+                <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
+                <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>
               </div>
             </div>
             {nav}

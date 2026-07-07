@@ -1,7 +1,16 @@
 "use client";
 
-import { ArrowRight, BookOpen, CreditCard, FileQuestion, Flame, MoreHorizontal, RefreshCw, Trophy } from "lucide-react";
-import { exams, flashcards, questions, topics } from "@/data/kpss-history";
+import {
+  ArrowRight,
+  BarChart3,
+  BookOpen,
+  BrainCircuit,
+  CheckCircle2,
+  FileQuestion,
+  Trophy
+} from "lucide-react";
+import { exams, flashcards, topics } from "@/data/kpss-history";
+import { expandedQuestions } from "@/data/generated-30-question-tests";
 import { useMounted } from "@/hooks/useMounted";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
@@ -13,355 +22,120 @@ export function DashboardPage() {
   const examResults = useStudyProgressStore((state) => state.examResults);
 
   const uniqueCompletedTopics = new Set(completedTopicIds).size;
-  const latestAttempts = Array.from(new Map(attempts.map((a) => [a.questionId, a])).values());
-  const answeredQuestions = latestAttempts.length;
-  const correctAnswers = latestAttempts.filter((a) => a.isCorrect).length;
+  const latestAttempts = Array.from(new Map(attempts.map((attempt) => [attempt.questionId, attempt])).values());
+  const answeredQuestions = mounted ? latestAttempts.length : 0;
+  const correctAnswers = latestAttempts.filter((attempt) => attempt.isCorrect).length;
   const accuracy = answeredQuestions ? Math.round((correctAnswers / answeredQuestions) * 100) : 0;
-  const reviewedCards = new Set(reviews.map((r) => r.cardId)).size;
-  const completedExams = new Set(examResults.map((r) => r.examId)).size;
-
-  const overallProgress = Math.round(
-    ((uniqueCompletedTopics / topics.length) * 25 +
-      (answeredQuestions / questions.length) * 25 +
-      (reviewedCards / flashcards.length) * 25 +
-      (completedExams / exams.length) * 25)
-  );
-
+  const reviewedCards = mounted ? new Set(reviews.map((review) => review.cardId)).size : 0;
+  const completedExams = mounted ? new Set(examResults.map((result) => result.examId)).size : 0;
   const topicProgress = Math.round((uniqueCompletedTopics / topics.length) * 100);
-
-  // Pick a featured topic (first incomplete or first)
-  const featuredTopic = topics.find((t) => !completedTopicIds.includes(t.id)) ?? topics[0];
+  const questionProgress = Math.min(100, Math.round((answeredQuestions / expandedQuestions.length) * 100));
+  const cardProgress = Math.round((reviewedCards / flashcards.length) * 100);
+  const examProgress = Math.round((completedExams / exams.length) * 100);
+  const overallProgress = Math.round((topicProgress + questionProgress + cardProgress + examProgress) / 4);
+  const nextTopic = topics.find((topic) => !completedTopicIds.includes(topic.id)) ?? topics[0];
 
   return (
-    <div className="space-y-5">
-      {/* ── Hero Section ── */}
-      <section className="relative overflow-hidden rounded-2xl bg-[#1a1a1a]">
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/hero-steppe.png"
-            alt=""
-            className="h-full w-full object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent" />
-        </div>
+    <div className="space-y-6">
+      <section className="relative overflow-hidden rounded-[2.5rem] border border-[#e4d8c8] bg-white/78 p-6 shadow-[0_28px_100px_rgba(16,24,40,.08)] backdrop-blur-2xl md:p-8">
+        <div className="absolute right-[-8rem] top-[-8rem] size-72 rounded-full bg-[#b4232a]/12 blur-3xl" />
+        <div className="absolute bottom-[-10rem] left-[20%] size-80 rounded-full bg-[#0f766e]/10 blur-3xl" />
 
-        <div className="relative z-10 flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8 lg:p-10">
-          <div className="max-w-lg">
-            <a
-              href="/study-plan"
-              className="inline-flex items-center gap-2 rounded-full border border-[#c8a44e]/30 bg-[#c8a44e]/10 px-3.5 py-1.5 text-xs font-medium text-[#c8a44e] transition hover:bg-[#c8a44e]/20"
-            >
-              <Flame size={13} />
-              <span>{mounted ? answeredQuestions : 0} soru çözüldü</span>
-              <ArrowRight size={12} />
-            </a>
+        <div className="relative z-10 grid gap-7 lg:grid-cols-[minmax(0,1fr)_310px] lg:items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#e4d8c8] bg-white/86 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">
+              <Trophy size={15} />
+              {answeredQuestions} soru çözüldü
+            </div>
 
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
-              Hoş geldin!
+            <h1 className="mt-5 text-5xl font-black leading-[0.96] tracking-[-0.08em] text-[#101828] md:text-6xl">
+              Hoş geldin. Bugün kısa ve net ilerleyelim.
             </h1>
-            <p className="mt-2.5 text-[15px] leading-relaxed text-white/60">
-              Bozkırın kadim ruhu ve kut anlayışı bugün seninle.
-              Hadi tarihi yolculuğuna devam edelim.
+            <p className="mt-4 max-w-3xl text-base font-semibold leading-8 text-slate-600">
+              Sıradaki konuyu aç, açıklamalı test çöz ve yanlışlarını aynı panelden takip et. Her şey okunaklı ve tek akışta.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-2.5">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
-                href="/question-bank"
-                className="inline-flex items-center gap-2 rounded-lg bg-[#c8a44e] px-4 py-2.5 text-[13px] font-medium text-[#1a1a1a] shadow-lg shadow-[#c8a44e]/20 transition hover:bg-[#d4b058]"
+                href="/question-bank/all?level=kolay"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-6 text-sm font-black text-white shadow-[0_20px_70px_rgba(180,35,42,.20)]"
               >
                 Teste başla
-                <ArrowRight size={14} />
+                <ArrowRight size={17} />
               </a>
               <a
                 href="/topics"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/12 bg-white/5 px-4 py-2.5 text-[13px] font-medium text-white/80 transition hover:bg-white/10"
+                className="inline-flex min-h-13 items-center justify-center gap-2 rounded-2xl border border-[#e4d8c8] bg-white/86 px-6 text-sm font-black text-[#101828]"
               >
                 Konuları gör
+                <BookOpen size={17} />
               </a>
             </div>
           </div>
 
-          {/* Progress Ring */}
-          <div className="flex items-center justify-center">
-            <div className="relative">
-              <svg width="160" height="160" viewBox="0 0 160 160" className="drop-shadow-2xl">
-                <circle
-                  cx="80" cy="80" r="68"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth="10"
-                />
-                <circle
-                  cx="80" cy="80" r="68"
-                  fill="none"
-                  stroke="url(#progressGrad)"
-                  strokeWidth="10"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 68}`}
-                  strokeDashoffset={`${2 * Math.PI * 68 * (1 - (mounted ? overallProgress : 0) / 100)}`}
-                  transform="rotate(-90 80 80)"
-                  className="transition-all duration-1000 ease-out"
-                />
-                <defs>
-                  <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#34d399" />
-                    <stop offset="100%" stopColor="#22c55e" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-white">{mounted ? overallProgress : 0}%</span>
-                <span className="text-[11px] text-white/40">genel</span>
-              </div>
-            </div>
+          <div className="rounded-[2rem] bg-[#101828] p-5 text-white shadow-[0_26px_90px_rgba(16,24,40,.22)]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-white/48">Genel durum</p>
+            <p className="mt-3 text-6xl font-black tracking-[-0.08em]">{overallProgress}%</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-white/64">Konu, soru, kart ve deneme ilerlemesinin birleşik özeti.</p>
           </div>
         </div>
       </section>
 
-      {/* ── Stat Cards ── */}
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <StatCard
-          label="Genel İlerleme"
-          value={`${mounted ? overallProgress : 0}%`}
-          helper="Hedef: %85"
-          ringValue={mounted ? overallProgress : 0}
-          ringColor="#22c55e"
-        />
-        <StatCard
-          label="Doğruluk"
-          value={`%${mounted ? accuracy : 0}`}
-          helper={`${mounted ? correctAnswers : 0} doğru`}
-          ringValue={mounted ? accuracy : 0}
-          ringColor="#c8a44e"
-        />
-        <StatCard
-          label="Tamamlanan Konu"
-          value={`${mounted ? uniqueCompletedTopics : 0}/${topics.length}`}
-          helper={`%${topicProgress} tamamlandı`}
-        />
-        <StatCard
-          label="Çözülen Soru"
-          value={`${mounted ? answeredQuestions : 0}`}
-          helper={`${questions.length} soruda`}
-        />
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <MetricCard icon={<BookOpen size={21} />} label="Konu" value={`${uniqueCompletedTopics}/${topics.length}`} helper={`${topicProgress}% tamamlandı`} />
+        <MetricCard icon={<FileQuestion size={21} />} label="Soru" value={String(answeredQuestions)} helper={`${accuracy}% doğruluk`} />
+        <MetricCard icon={<BrainCircuit size={21} />} label="Kart" value={`${reviewedCards}/${flashcards.length}`} helper="Tekrar edilen kart" />
+        <MetricCard icon={<CheckCircle2 size={21} />} label="Deneme" value={`${completedExams}/${exams.length}`} helper="Tamamlanan deneme" />
       </section>
 
-      {/* ── Featured Topic + Quick Actions ── */}
-      <section className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-        {/* Featured Topic */}
-        <div className="group relative overflow-hidden rounded-2xl bg-[#1a1a1a]">
-          <img
-            src="/images/featured-topic.png"
-            alt={featuredTopic?.title ?? "Öne çıkan konu"}
-            className="h-64 w-full object-cover opacity-60 transition duration-500 group-hover:scale-105 group-hover:opacity-70 lg:h-72"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/40 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-[#c8a44e]">Öne Çıkan Konu</p>
-                <h2 className="mt-2 text-xl font-bold text-white md:text-2xl">{featuredTopic?.title ?? "Konu"}</h2>
-                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-white/55">
-                  {featuredTopic?.shortDescription ?? ""}
-                </p>
-              </div>
-              <div className="flex shrink-0 gap-1.5">
-                <button className="grid size-9 place-items-center rounded-lg border border-white/10 text-white/50 transition hover:bg-white/10 hover:text-white" aria-label="Yenile">
-                  <RefreshCw size={15} />
-                </button>
-                <button className="grid size-9 place-items-center rounded-lg border border-white/10 text-white/50 transition hover:bg-white/10 hover:text-white" aria-label="Daha fazla">
-                  <MoreHorizontal size={15} />
-                </button>
-              </div>
-            </div>
-            <a
-              href={featuredTopic ? `/topics/${featuredTopic.slug}` : "/topics"}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#c8a44e] px-4 py-2 text-[13px] font-medium text-[#1a1a1a] transition hover:bg-[#d4b058]"
-            >
-              Konuyu incele
-              <ArrowRight size={14} />
-            </a>
-          </div>
+      <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="rounded-[2.25rem] border border-[#e4d8c8] bg-white/78 p-6 shadow-[0_24px_80px_rgba(16,24,40,.07)] backdrop-blur-xl">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Sıradaki konu</p>
+          <h2 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[#101828]">{nextTopic.title}</h2>
+          <p className="mt-4 text-sm font-semibold leading-7 text-slate-600">{nextTopic.shortDescription}</p>
+          <a href={`/topics/${nextTopic.slug}`} className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-2xl bg-[#101828] px-5 text-sm font-black text-white">
+            Konuyu aç
+            <ArrowRight size={17} />
+          </a>
         </div>
 
-        {/* Quick Actions */}
-        <div className="rounded-2xl bg-[#1a1a1a] p-5">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#c8a44e]">Hızlı Aksiyon</p>
-          <h2 className="mt-1.5 text-lg font-bold text-white">Bugün ne çalışmak istersin?</h2>
-
-          <div className="mt-5 space-y-2.5">
-            <ActionCard
-              icon={<BookOpen size={18} />}
-              title="Konuları çalış"
-              desc="Konu özetlerini oku ve pekiştir."
-              href="/topics"
-              accent="#22c55e"
-            />
-            <ActionCard
-              icon={<FileQuestion size={18} />}
-              title="Test çöz"
-              desc="Konu testleriyle bilgini sına."
-              href="/question-bank"
-              accent="#3b82f6"
-            />
-            <ActionCard
-              icon={<CreditCard size={18} />}
-              title="Flashcard tekrarı"
-              desc="Hızlı kartlarla hafıza tazele."
-              href="/flashcards"
-              accent="#c8a44e"
-            />
-            <ActionCard
-              icon={<Trophy size={18} />}
-              title="Deneme sınavı"
-              desc="Gerçek sınav formatında pratik yap."
-              href="/exams"
-              accent="#a855f7"
-            />
+        <div className="rounded-[2.25rem] border border-[#e4d8c8] bg-white/78 p-6 shadow-[0_24px_80px_rgba(16,24,40,.07)] backdrop-blur-xl">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Çalışma rotası</p>
+          <div className="mt-5 space-y-3">
+            <ProgressRow icon={<BookOpen size={18} />} label="Konu özetleri" value={topicProgress} href="/topics" />
+            <ProgressRow icon={<FileQuestion size={18} />} label="Konu testleri" value={questionProgress} href="/question-bank" />
+            <ProgressRow icon={<BrainCircuit size={18} />} label="Flashcard tekrarı" value={cardProgress} href="/flashcards" />
+            <ProgressRow icon={<BarChart3 size={18} />} label="Denemeler" value={examProgress} href="/exams" />
           </div>
-        </div>
-      </section>
-
-      {/* ── Progress Overview ── */}
-      <section className="rounded-2xl bg-[#1a1a1a] p-5 md:p-6">
-        <div className="flex items-center justify-between gap-4 border-b border-white/8 pb-4">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-[#c8a44e]">Haftalık Akış</p>
-            <h2 className="mt-1 text-lg font-bold text-white">Çalışma rotası</h2>
-          </div>
-          <span className="rounded-lg bg-white/8 px-3 py-1.5 text-xs font-medium text-white/70">
-            %{Math.max(
-              Math.round((uniqueCompletedTopics / topics.length) * 100),
-              Math.round((answeredQuestions / questions.length) * 100),
-              Math.round((reviewedCards / flashcards.length) * 100),
-              Math.round((completedExams / exams.length) * 100)
-            )}
-          </span>
-        </div>
-
-        <div className="mt-4 grid gap-2.5">
-          <ProgressRow icon={<BookOpen size={15} />} label="Konu özetleri" value={Math.round((uniqueCompletedTopics / topics.length) * 100)} href="/topics" color="#22c55e" />
-          <ProgressRow icon={<FileQuestion size={15} />} label="Konu testleri" value={Math.round((answeredQuestions / questions.length) * 100)} href="/question-bank" color="#3b82f6" />
-          <ProgressRow icon={<CreditCard size={15} />} label="Flashcard tekrarı" value={Math.round((reviewedCards / flashcards.length) * 100)} href="/flashcards" color="#c8a44e" />
-          <ProgressRow icon={<Trophy size={15} />} label="Denemeler" value={Math.round((completedExams / exams.length) * 100)} href="/exams" color="#a855f7" />
         </div>
       </section>
     </div>
   );
 }
 
-/* ── Stat Card with optional mini ring ── */
-function StatCard({
-  label,
-  value,
-  helper,
-  ringValue,
-  ringColor
-}: {
-  label: string;
-  value: string;
-  helper: string;
-  ringValue?: number;
-  ringColor?: string;
-}) {
+function MetricCard({ icon, label, value, helper }: { icon: React.ReactNode; label: string; value: string; helper: string }) {
   return (
-    <div className="rounded-xl border border-white/6 bg-[#1a1a1a] p-4 transition hover:border-white/12">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="truncate text-[11px] font-medium uppercase tracking-wider text-white/40">{label}</p>
-          <p className="mt-2 text-2xl font-bold tracking-tight text-white">{value}</p>
-          <p className="mt-1 text-xs text-white/35">{helper}</p>
-        </div>
-        {ringValue !== undefined && ringColor && (
-          <svg width="44" height="44" viewBox="0 0 44 44" className="shrink-0">
-            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4" />
-            <circle
-              cx="22" cy="22" r="18"
-              fill="none"
-              stroke={ringColor}
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray={`${2 * Math.PI * 18}`}
-              strokeDashoffset={`${2 * Math.PI * 18 * (1 - ringValue / 100)}`}
-              transform="rotate(-90 22 22)"
-              className="transition-all duration-700"
-            />
-          </svg>
-        )}
-      </div>
+    <div className="rounded-[2rem] border border-[#e4d8c8] bg-white/78 p-5 shadow-sm backdrop-blur-xl">
+      <span className="grid size-12 place-items-center rounded-2xl bg-[#101828] text-white">{icon}</span>
+      <p className="mt-5 text-xs font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
+      <p className="mt-2 text-3xl font-black tracking-[-0.06em] text-[#101828]">{value}</p>
+      <p className="mt-2 text-sm font-semibold text-slate-500">{helper}</p>
     </div>
   );
 }
 
-/* ── Action Card ── */
-function ActionCard({
-  icon,
-  title,
-  desc,
-  href,
-  accent
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  href: string;
-  accent: string;
-}) {
+function ProgressRow({ icon, label, value, href }: { icon: React.ReactNode; label: string; value: number; href: string }) {
   return (
-    <a
-      href={href}
-      className="group flex items-center gap-3.5 rounded-xl border border-white/6 bg-white/[.03] p-3.5 transition hover:border-white/12 hover:bg-white/[.06]"
-    >
-      <span
-        className="grid size-10 shrink-0 place-items-center rounded-lg text-white"
-        style={{ backgroundColor: `${accent}20`, color: accent }}
-      >
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-white">{title}</p>
-        <p className="mt-0.5 truncate text-xs text-white/40">{desc}</p>
+    <a href={href} className="block rounded-2xl border border-[#eadfce] bg-white/76 p-4 transition hover:bg-white">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <span className="flex items-center gap-2 text-sm font-black text-[#101828]">
+          {icon}
+          {label}
+        </span>
+        <span className="text-sm font-black text-[#b4232a]">%{value}</span>
       </div>
-      <ArrowRight size={14} className="shrink-0 text-white/20 transition group-hover:translate-x-0.5 group-hover:text-white/50" />
-    </a>
-  );
-}
-
-/* ── Progress Row ── */
-function ProgressRow({
-  icon,
-  label,
-  value,
-  href,
-  color
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-  href: string;
-  color: string;
-}) {
-  return (
-    <a href={href} className="group flex items-center gap-3.5 rounded-xl border border-white/6 bg-white/[.02] p-3.5 transition hover:border-white/12 hover:bg-white/[.05]">
-      <span
-        className="grid size-9 shrink-0 place-items-center rounded-lg"
-        style={{ backgroundColor: `${color}15`, color }}
-      >
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-medium text-white/80">{label}</p>
-          <p className="text-sm font-bold text-white">%{value}</p>
-        </div>
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/6">
-          <div
-            className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${value}%`, backgroundColor: color }}
-          />
-        </div>
+      <div className="h-2 overflow-hidden rounded-full bg-[#eee2d4]">
+        <div className="h-full rounded-full bg-[#b4232a]" style={{ width: `${Math.min(100, Math.max(0, value))}%` }} />
       </div>
     </a>
   );

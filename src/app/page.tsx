@@ -4,11 +4,9 @@ import {
   BarChart3,
   BookOpen,
   BrainCircuit,
-  CheckCircle2,
   FileQuestion,
   LineChart,
   Play,
-  ShieldCheck,
   Sparkles
 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
@@ -60,17 +58,17 @@ export default function Home() {
       <header className="relative z-30">
         <div className="mx-auto flex min-h-[78px] w-full max-w-7xl items-center justify-between px-5 md:px-8">
           <a href="/" className="flex items-center gap-3">
-            <BrandMark />
+            <FoxLogo />
             <div>
               <p className="text-base font-black tracking-[-0.035em] text-[#101828]">Softbridge Akademi</p>
               <p className="text-xs font-semibold text-slate-500">KPSS Tarih Çalışma Platformu</p>
             </div>
           </a>
 
-          <nav className="hidden rounded-full border border-[#e0d2c2] bg-white/72 p-1 shadow-[0_12px_34px_rgba(16,24,40,.06)] backdrop-blur-xl lg:flex">
+          <nav className="hidden items-center gap-2 rounded-full border border-[#e0d2c2] bg-white/72 px-2 py-2 shadow-[0_12px_34px_rgba(16,24,40,.06)] backdrop-blur-xl lg:flex">
             <NavLink href="/topics">Konular</NavLink>
             <NavLink href="/question-bank">Testler</NavLink>
-            <NavLink href="/flashcards">Flashcard'lar</NavLink>
+            <NavLink href="/flashcards">Flashcard&apos;lar</NavLink>
             <NavLink href="/analytics">İlerleme</NavLink>
           </nav>
 
@@ -110,7 +108,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-slate-600 md:text-lg">
-            Konular, testler, flashcard'lar ve zaman çizelgesi tek bir platformda. Sade, odaklı, etkili.
+            Konular, testler, flashcard&apos;lar ve zaman çizelgesi tek bir platformda. Sade, odaklı, etkili.
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -213,22 +211,55 @@ function Background() {
   );
 }
 
-function BrandMark() {
+function FoxLogo() {
   return (
-    <span className="relative grid size-12 place-items-center rounded-[1.15rem] border border-[#e0d2c2] bg-white/86 shadow-[0_16px_50px_rgba(16,24,40,.10)]">
-      <svg width="30" height="24" viewBox="0 0 30 24" fill="none" aria-hidden="true">
-        <path d="M4 16.5C8.7 7.3 21.3 7.3 26 16.5" stroke="#101828" strokeWidth="2.6" strokeLinecap="round" />
-        <path d="M7 16.5H23" stroke="#b4232a" strokeWidth="2.6" strokeLinecap="round" />
-        <path d="M10 16.5V20M15 13.8V20M20 16.5V20" stroke="#101828" strokeWidth="2.2" strokeLinecap="round" />
+    <span className="relative grid size-12 place-items-center rounded-[1.15rem] border border-[#e0d2c2] bg-white/88 shadow-[0_16px_50px_rgba(16,24,40,.10)]">
+      <svg width="32" height="30" viewBox="0 0 64 60" fill="none" aria-hidden="true">
+        <path
+          d="M13 8L25.4 16.6C29.3 14.9 34.7 14.9 38.6 16.6L51 8L47.6 28.5C49.5 37.8 42.1 50 32 50C21.9 50 14.5 37.8 16.4 28.5L13 8Z"
+          fill="#F97316"
+        />
+        <path
+          d="M13 8L25.4 16.6L19.6 29.7L13 8Z"
+          fill="#FB923C"
+        />
+        <path
+          d="M51 8L38.6 16.6L44.4 29.7L51 8Z"
+          fill="#FB923C"
+        />
+        <path
+          d="M18.8 29.2C23.4 24.8 27.7 23.2 32 23.2C36.3 23.2 40.6 24.8 45.2 29.2C43.6 40.5 38.4 48 32 48C25.6 48 20.4 40.5 18.8 29.2Z"
+          fill="#FFF7ED"
+        />
+        <path
+          d="M25.2 30.7C26.9 30.7 28.2 32 28.2 33.7C28.2 35.4 26.9 36.7 25.2 36.7C23.5 36.7 22.2 35.4 22.2 33.7C22.2 32 23.5 30.7 25.2 30.7Z"
+          fill="#101828"
+        />
+        <path
+          d="M38.8 30.7C40.5 30.7 41.8 32 41.8 33.7C41.8 35.4 40.5 36.7 38.8 36.7C37.1 36.7 35.8 35.4 35.8 33.7C35.8 32 37.1 30.7 38.8 30.7Z"
+          fill="#101828"
+        />
+        <path
+          d="M28.6 41.2L32 44.5L35.4 41.2H28.6Z"
+          fill="#101828"
+        />
+        <path
+          d="M21.5 20.2C25.3 17.7 28.7 16.7 32 16.7C35.3 16.7 38.7 17.7 42.5 20.2"
+          stroke="#101828"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
       </svg>
-      <span className="absolute -right-1 -top-1 size-3 rounded-full bg-[#b4232a] ring-4 ring-[#f6efe4]" />
     </span>
   );
 }
 
 function NavLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a href={href} className="rounded-full px-4 py-2 text-sm font-black text-slate-600 transition hover:bg-[#101828] hover:text-white">
+    <a
+      href={href}
+      className="inline-flex min-h-10 items-center rounded-full px-4 text-sm font-black text-slate-600 transition hover:bg-[#101828] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b4232a]/40"
+    >
       {children}
     </a>
   );
