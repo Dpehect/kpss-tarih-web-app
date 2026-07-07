@@ -1,0 +1,116 @@
+/*
+  Admin readability fix.
+  Admin panelde krem arka plan üstünde silik kalan tablo/metin renklerini zorlar.
+*/
+
+[href="/admin"],
+[href="/admin"] * {
+  color: inherit;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) main,
+body:has(a[href="/admin"][aria-current="page"]) main *,
+body:has(a[href="/admin"][aria-current="page"]) section,
+body:has(a[href="/admin"][aria-current="page"]) section *,
+body:has(a[href="/admin"][aria-current="page"]) table,
+body:has(a[href="/admin"][aria-current="page"]) table * {
+  opacity: 1 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) main {
+  color: #101828 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) h1,
+body:has(a[href="/admin"][aria-current="page"]) h2,
+body:has(a[href="/admin"][aria-current="page"]) h3,
+body:has(a[href="/admin"][aria-current="page"]) h4,
+body:has(a[href="/admin"][aria-current="page"]) strong,
+body:has(a[href="/admin"][aria-current="page"]) b {
+  color: #101828 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) p,
+body:has(a[href="/admin"][aria-current="page"]) span,
+body:has(a[href="/admin"][aria-current="page"]) small,
+body:has(a[href="/admin"][aria-current="page"]) label,
+body:has(a[href="/admin"][aria-current="page"]) li,
+body:has(a[href="/admin"][aria-current="page"]) td,
+body:has(a[href="/admin"][aria-current="page"]) th {
+  color: #344054 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) table {
+  width: 100%;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e4d8c8 !important;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78) !important;
+  box-shadow: 0 22px 70px rgba(16, 24, 40, 0.07);
+}
+
+body:has(a[href="/admin"][aria-current="page"]) thead,
+body:has(a[href="/admin"][aria-current="page"]) thead tr,
+body:has(a[href="/admin"][aria-current="page"]) th {
+  background: #fffaf3 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) th {
+  color: #7a4a13 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.11em !important;
+  text-transform: uppercase !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) td {
+  color: #344054 !important;
+  font-weight: 700 !important;
+  border-top: 1px solid #eadfce !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) td:first-child,
+body:has(a[href="/admin"][aria-current="page"]) td:first-child *,
+body:has(a[href="/admin"][aria-current="page"]) [data-admin-primary],
+body:has(a[href="/admin"][aria-current="page"]) [data-admin-primary] * {
+  color: #101828 !important;
+  font-weight: 900 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) .text-white,
+body:has(a[href="/admin"][aria-current="page"]) [class*="text-white"] {
+  color: #fffaf2 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) .text-slate-100,
+body:has(a[href="/admin"][aria-current="page"]) .text-slate-200,
+body:has(a[href="/admin"][aria-current="page"]) .text-slate-300,
+body:has(a[href="/admin"][aria-current="page"]) .text-slate-400,
+body:has(a[href="/admin"][aria-current="page"]) .text-stone-100,
+body:has(a[href="/admin"][aria-current="page"]) .text-stone-200,
+body:has(a[href="/admin"][aria-current="page"]) .text-stone-300,
+body:has(a[href="/admin"][aria-current="page"]) .text-stone-400,
+body:has(a[href="/admin"][aria-current="page"]) .text-amber-100,
+body:has(a[href="/admin"][aria-current="page"]) .text-amber-200,
+body:has(a[href="/admin"][aria-current="page"]) .text-amber-300 {
+  color: #475467 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) [class*="bg-white"],
+body:has(a[href="/admin"][aria-current="page"]) [class*="bg-[#fff"],
+body:has(a[href="/admin"][aria-current="page"]) [class*="bg-[#f"] {
+  border-color: #e4d8c8 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) a,
+body:has(a[href="/admin"][aria-current="page"]) button {
+  opacity: 1 !important;
+}
+
+body:has(a[href="/admin"][aria-current="page"]) a[class*="bg-[#101828]"],
+body:has(a[href="/admin"][aria-current="page"]) button[class*="bg-[#101828]"],
+body:has(a[href="/admin"][aria-current="page"]) a[class*="bg-[#b4232a]"],
+body:has(a[href="/admin"][aria-current="page"]) button[class*="bg-[#b4232a]"] {
+  color: #fffaf2 !important;
+}
