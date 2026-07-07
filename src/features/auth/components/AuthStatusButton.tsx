@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
+import { LogOut, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 
@@ -43,31 +44,38 @@ export function AuthStatusButton() {
 
     toast.success("Çıkış yapıldı");
     setUser(null);
-    window.location.href = "/";
+    window.location.href = "/login";
   }
 
   if (!supabase || !user) {
     return (
-      <a href="/auth" className="btn-gold hidden sm:inline-flex">
-        Google giriş
+      <a
+        href="/login"
+        data-dark-button="true"
+        className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-[#0f766e] px-4 text-sm font-black text-white shadow-[0_14px_38px_rgba(15,118,110,.22)] transition hover:bg-[#115e59]"
+      >
+        Giriş Yap
       </a>
     );
   }
 
   return (
-    <div className="hidden items-center gap-2 sm:flex">
+    <div className="flex items-center gap-2">
       <a
         href="/profile"
-        className="max-w-[180px] truncate rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--foreground)]"
+        className="hidden min-h-10 items-center gap-2 rounded-2xl border border-[#e4d8c8] bg-white/76 px-3 text-sm font-bold text-[#101828] shadow-sm transition hover:bg-white md:inline-flex"
       >
-        {user.user_metadata?.full_name ?? user.email}
+        <UserRound size={16} />
+        <span className="max-w-[150px] truncate">{user.user_metadata?.full_name ?? user.email}</span>
       </a>
+
       <button
         type="button"
-        onClick={signOut}
-        className="rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--muted-foreground)] transition hover:bg-[var(--surface-strong)]"
+        onClick={() => void signOut()}
+        className="inline-flex min-h-10 items-center justify-center gap-2 rounded-2xl border border-[#e4d8c8] bg-white/76 px-3 text-sm font-black text-[#101828] shadow-sm transition hover:bg-white"
       >
-        Çıkış
+        <LogOut size={16} />
+        <span className="hidden sm:inline">Çıkış</span>
       </button>
     </div>
   );
