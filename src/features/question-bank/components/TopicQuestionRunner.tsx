@@ -6,7 +6,6 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  FileQuestion,
   Lightbulb,
   Map,
   Target,
@@ -131,14 +130,6 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
             className="relative z-10"
           >
             <article className="rounded-[2rem] border border-white/10 bg-white/[.08] p-5 backdrop-blur-2xl md:p-7">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge>{current.type}</Badge>
-                <Badge>{current.difficulty}</Badge>
-                {current.tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag}>{tag}</Badge>
-                ))}
-              </div>
-
               <h3 className="mt-7 text-3xl font-black leading-tight tracking-[-0.055em] text-[var(--bureau-inverse)] md:text-4xl">
                 {current.stem}
               </h3>
@@ -302,14 +293,6 @@ export function TopicQuestionRunner({ questions, topicTitle }: { questions: Ques
         </div>
       </aside>
     </section>
-  );
-}
-
-function Badge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full border border-white/10 bg-white/[.08] px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-[var(--bureau-inverse-muted)]">
-      {children}
-    </span>
   );
 }
 

@@ -10,14 +10,17 @@ import {
   ListChecks,
   ShieldAlert
 } from "lucide-react";
-import { questions, topics } from "@/data/kpss-history";
+import { getTestCountsForTopic, mixedQuestionTests, topicQuestionTests } from "@/data/generated-30-question-tests";
+import { topics } from "@/data/kpss-history";
 import type { Topic } from "@/types/study";
 
 type TopicRecord = {
   topic: Topic;
-  questionCount: number;
-  caseCount: number;
-  chronologyCount: number;
+  totalTests: number;
+  totalQuestions: number;
+  easyTests: number;
+  mediumTests: number;
+  hardTests: number;
   firstMistake: string;
 };
 
@@ -59,22 +62,45 @@ const clampThree: CSSProperties = {
   overflow: "hidden"
 };
 
+function naturalMistakeNote(raw: string | undefined, topicTitle: string) {
+  if (!raw) return `${topicTitle} sorularında kavramların hangi döneme ait olduğuna dikkat etmek gerekir.`;
+
+  const text = raw.toLocaleLowerCase("tr-TR");
+
+  if (text.includes("tımar") && text.includes("özel mülkiyet")) {
+    return "Tımar sistemi özel mülkiyet değildi; toprak devlete aitti, gelirleri ise hizmet karşılığı kullanılırdı.";
+  }
+
+  if (text.includes("sanmak")) {
+    const cleaned = raw.replace(/\s+sanmak\.?$/i, "").trim();
+    return `${cleaned} şeklinde düşünmek yanıltır; kavramın dönemdeki işlevine bakmak gerekir.`;
+  }
+
+  if (text.includes("karıştırmak")) {
+    const cleaned = raw.replace(/\s+karıştırmak\.?$/i, "").trim();
+    return `${cleaned} ayrımı bu konuda sık karıştırılır; soruda verilen bağlama dikkat edilmelidir.`;
+  }
+
+  return raw.endsWith(".") ? raw : `${raw}.`;
+}
+
 export function QuestionBankPage() {
   const records: TopicRecord[] = topics.map((topic) => {
-    const topicQuestions = questions.filter((question) => question.topicId === topic.id);
+    const counts = getTestCountsForTopic(topic.id);
 
     return {
       topic,
-      questionCount: topicQuestions.length,
-      caseCount: topicQuestions.filter((question) => String(question.type) === "case").length,
-      chronologyCount: topicQuestions.filter((question) => String(question.type) === "chronology").length,
-      firstMistake: topic.commonMistakes[0] ?? "Bu konu için özel bir uyarı bulunmuyor."
+      totalTests: counts.totalTests,
+      totalQuestions: counts.totalQuestions,
+      easyTests: counts.kolay,
+      mediumTests: counts.orta,
+      hardTests: counts.zor,
+      firstMistake: naturalMistakeNote(topic.commonMistakes[0], topic.title)
     };
   });
 
+  const totalQuestions = topicQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
   const totalMinutes = topics.reduce((sum, topic) => sum + topic.estimatedMinutes, 0);
-  const totalCaseQuestions = questions.filter((question) => String(question.type) === "case").length;
-  const totalChronologyQuestions = questions.filter((question) => String(question.type) === "chronology").length;
 
   return (
     <div className="space-y-7">
@@ -83,15 +109,15 @@ export function QuestionBankPage() {
           <div>
             <p className="bureau-kicker">Soru Bankası</p>
             <h1 className="mt-4 max-w-4xl text-4xl font-black leading-[1.02] tracking-[-0.065em] text-[var(--bureau-ink)] md:text-6xl">
-              Konulara göre hazırlanmış açıklamalı sorular.
+              Her konu için ayrı testler.
             </h1>
             <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-[var(--bureau-copy)] md:text-lg">
-              Bir konuyu seçip o başlığa ait soruları çözebilir ya da tüm soruları karışık şekilde çalışabilirsin.
+              Her konuda 5 kolay, 5 orta ve 5 zor test bulunur. Her test 30 sorudan oluşur.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a href="/question-bank/all" className="btn-accent px-5 py-3">
-                Karma teste başla
+                Karma testleri gör
                 <ArrowRight size={17} />
               </a>
               <a href="#konu-testleri" className="btn-ghost px-5 py-3">
@@ -101,26 +127,26 @@ export function QuestionBankPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <SummaryCard icon={<FileQuestion size={18} />} label="Soru" value={questions.length} />
+            <SummaryCard icon={<FileQuestion size={18} />} label="Toplam soru" value={totalQuestions} />
             <SummaryCard icon={<BookOpen size={18} />} label="Konu" value={topics.length} />
+            <SummaryCard icon={<ListChecks size={18} />} label="Konu testi" value={topicQuestionTests.length} />
             <SummaryCard icon={<Clock3 size={18} />} label="Tahmini süre" value={`${totalMinutes} dk`} />
-            <SummaryCard icon={<ListChecks size={18} />} label="Karma çalışma" value="Var" />
           </div>
         </div>
       </header>
 
       <section className="grid gap-5 lg:grid-cols-3">
         <InfoPanel
-          title="Konuya göre ilerle"
-          body="Her kart seni doğrudan ilgili konunun testine götürür. Böylece çalıştığın başlığı hemen pekiştirebilirsin."
+          title="Kolaydan başla"
+          body="Temel kavramları ve doğrudan bilgileri ölçen testlerle konuya giriş yapabilirsin."
         />
         <InfoPanel
-          title="Açıklamayı oku"
-          body="Cevap verdikten sonra kısa açıklama görünür. Amaç sadece doğru şıkkı görmek değil, nedenini anlamaktır."
+          title="Orta düzeyde pekiştir"
+          body="Kavram, olay ve sonuç ilişkisini birlikte düşünmeni isteyen sorularla ilerlersin."
         />
         <InfoPanel
-          title="Karıştırarak tekrar et"
-          body={`Karma testte ${questions.length} soru tek akışta gelir. Konu ayrımı yapmadan genel durumunu ölçebilirsin.`}
+          title="Zor testlerle seçici çalış"
+          body="Karıştırılan kavramları, kronoloji bağlantılarını ve yorum sorularını daha dikkatli çözersin."
         />
       </section>
 
@@ -143,23 +169,23 @@ export function QuestionBankPage() {
 
           <div className="relative z-10 flex h-full flex-col justify-between">
             <div>
-              <p className="bureau-kicker">Karma Test</p>
+              <p className="bureau-kicker">Karma Testler</p>
               <h2 className="mt-4 text-4xl font-black tracking-[-0.07em] text-[var(--bureau-inverse)]">
                 Tüm konuları karışık çöz.
               </h2>
               <p className="mt-4 text-sm font-medium leading-7 text-[var(--bureau-inverse-copy)]">
-                Genel tekrar yapmak ya da sınav temposuna yaklaşmak istediğinde bu bölümü kullan.
+                Karma bölümde de 5 kolay, 5 orta ve 5 zor test bulunur.
               </p>
             </div>
 
             <div className="mt-8 grid grid-cols-3 gap-2">
-              <DarkChip label="Soru" value={questions.length} />
-              <DarkChip label="Vaka" value={totalCaseQuestions} />
-              <DarkChip label="Sıra" value={totalChronologyQuestions} />
+              <DarkChip label="Kolay" value={5} />
+              <DarkChip label="Orta" value={5} />
+              <DarkChip label="Zor" value={5} />
             </div>
 
             <span className="mt-7 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-inverse)]">
-              Başla
+              Testleri gör
               <ArrowRight size={17} className="transition group-hover:translate-x-1" />
             </span>
           </div>
@@ -175,7 +201,6 @@ export function QuestionBankPage() {
 
 function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
   const mustKnow = record.topic.mustKnow.slice(0, 3);
-  const timeline = record.topic.quickTimeline.slice(0, 2);
 
   return (
     <motion.a
@@ -193,7 +218,7 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
             {String(index + 1).padStart(2, "0")}
           </span>
           <span className="rounded-full bg-[var(--bureau-blue-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-blue)]">
-            %{record.topic.examImportance}
+            {record.totalTests} test
           </span>
         </div>
 
@@ -220,9 +245,9 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
 
       <div className="relative z-10 mt-8">
         <div className="grid grid-cols-3 gap-2">
-          <Chip label="Soru" value={record.questionCount} />
-          <Chip label="Vaka" value={record.caseCount} />
-          <Chip label="Sıra" value={record.chronologyCount} />
+          <Chip label="Kolay" value={record.easyTests} />
+          <Chip label="Orta" value={record.mediumTests} />
+          <Chip label="Zor" value={record.hardTests} />
         </div>
 
         <div className="mt-4 rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4">
@@ -234,22 +259,9 @@ function TopicCard({ record, index }: { record: TopicRecord; index: number }) {
           </div>
         </div>
 
-        {timeline.length > 0 ? (
-          <div className="mt-4 flex items-center gap-2 overflow-hidden">
-            {timeline.map((item) => (
-              <span
-                key={`${item.date}-${item.event}`}
-                className="shrink-0 rounded-full bg-[var(--bureau-plum-soft)] px-3 py-1 text-[11px] font-black text-[var(--bureau-plum)]"
-              >
-                {item.date}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
         <div className="mt-5 flex items-center justify-between border-t border-[var(--bureau-line)] pt-5">
           <span className="text-sm font-black text-[var(--bureau-muted)]">
-            Teste geç
+            {record.totalQuestions} soru
           </span>
           <span className="grid size-9 place-items-center rounded-full bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] transition group-hover:translate-x-1">
             <ArrowRight size={17} />

@@ -1,28 +1,120 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, FileQuestion } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
-import { questions, topics } from "@/data/kpss-history";
+import { getQuestionsForTest, getTestsForTopic } from "@/data/generated-30-question-tests";
+import { topics } from "@/data/kpss-history";
 import { TopicQuestionRunner } from "@/features/question-bank/components/TopicQuestionRunner";
 
-export function TopicQuestionPage({ topicId }: { topicId: string }) {
+export function TopicQuestionPage({ topicId, testId }: { topicId: string; testId?: string }) {
   const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const filteredQuestions = topicId === "all" ? questions : questions.filter((question) => question.topicId === topicId);
-  const title = topic ? `${topic.title} soru dosyası` : "Karma KPSS Tarih soru dosyası";
+  const tests = getTestsForTopic(topicId);
+  const selectedTest = testId ? tests.find((test) => test.id === testId) : null;
+  const title = topic ? `${topic.title} testleri` : "Karma KPSS Tarih testleri";
+
+  if (selectedTest) {
+    const selectedQuestions = getQuestionsForTest(selectedTest.id);
+
+    return (
+      <div className="space-y-6">
+        <PageHeader
+          eyebrow={selectedTest.levelLabel}
+          title={selectedTest.title}
+          description="Bu test 30 sorudan oluşur. Soruları çözdükten sonra kısa açıklamayı okuyarak konuyu pekiştirebilirsin."
+          actions={
+            <a href={`/question-bank/${topicId}`} className="btn-ghost px-5 py-3">
+              <ArrowLeft size={17} />
+              Test listesi
+            </a>
+          }
+        />
+
+        <TopicQuestionRunner questions={selectedQuestions} topicTitle={selectedTest.title} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Aktif çözüm oturumu"
+        eyebrow="Test Listesi"
         title={title}
-        description="Cevap verdikten sonra gerekçe, doğru seçenek ve çözüm yönünü gösteren kısa ipucu görünür."
+        description="Her zorluk düzeyinde 5 test bulunur. Her test 30 sorudan oluşur."
         actions={
           <a href="/question-bank" className="btn-ghost px-5 py-3">
             <ArrowLeft size={17} />
-            Test listesi
+            Soru bankası
           </a>
         }
       />
 
-      <TopicQuestionRunner questions={filteredQuestions} topicTitle={title} />
+      <section className="grid gap-5 lg:grid-cols-3">
+        <LevelColumn level="kolay" title="Kolay Testler" topicId={topicId} tests={tests.filter((test) => test.level === "kolay")} />
+        <LevelColumn level="orta" title="Orta Testler" topicId={topicId} tests={tests.filter((test) => test.level === "orta")} />
+        <LevelColumn level="zor" title="Zor Testler" topicId={topicId} tests={tests.filter((test) => test.level === "zor")} />
+      </section>
+    </div>
+  );
+}
+
+function LevelColumn({
+  title,
+  topicId,
+  tests,
+  level
+}: {
+  title: string;
+  topicId: string;
+  level: "kolay" | "orta" | "zor";
+  tests: Array<{
+    id: string;
+    title: string;
+    testNo: number;
+    questionCount: number;
+  }>;
+}) {
+  const tone = {
+    kolay: "bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]",
+    orta: "bg-[var(--bureau-blue-soft)] text-[var(--bureau-blue)]",
+    zor: "bg-[var(--bureau-plum-soft)] text-[var(--bureau-plum)]"
+  }[level];
+
+  return (
+    <div className="bureau-card rounded-[2rem] p-5">
+      <div className="flex items-center gap-3">
+        <span className={`grid size-12 place-items-center rounded-[1rem] ${tone}`}>
+          <BookOpen size={20} />
+        </span>
+        <div>
+          <p className="bureau-kicker">{tests.length} test</p>
+          <h2 className="mt-1 text-2xl font-black tracking-[-0.05em] text-[var(--bureau-ink)]">{title}</h2>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-3">
+        {tests.map((test) => (
+          <a
+            key={test.id}
+            href={`/question-bank/${topicId}?test=${test.id}`}
+            className="group rounded-[1.25rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.76)] p-4 transition hover:bg-white"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <span className="flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
+                <FileQuestion size={17} />
+                Test {test.testNo}
+              </span>
+              <span className="rounded-full bg-[var(--bureau-teal-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-teal)]">
+                {test.questionCount} soru
+              </span>
+            </div>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[var(--bureau-copy)]">
+              Açıklamalı 30 soruluk çalışma testi.
+            </p>
+            <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-ink)]">
+              Testi aç
+              <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+            </span>
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
