@@ -1,0 +1,93 @@
+/*
+  Click hitbox fix.
+  Giriş sonrası app shell'de sidebar/topbar/mobile nav üzerine binen görünmez katmanları
+  etkisizleştirir ve menü linklerinin gerçek tıklanabilir alanını büyütür.
+*/
+
+[data-app-shell="true"] {
+  isolation: isolate;
+}
+
+[data-app-sidebar="true"],
+[data-app-sidebar="true"] *,
+[data-app-topbar="true"],
+[data-app-topbar="true"] *,
+[data-mobile-bottom-nav="true"],
+[data-mobile-bottom-nav="true"] *,
+[data-mobile-menu-layer="true"],
+[data-mobile-menu-layer="true"] * {
+  pointer-events: auto;
+}
+
+[data-app-sidebar="true"],
+[data-app-topbar="true"],
+[data-mobile-bottom-nav="true"] {
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+[data-clickable="true"] {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(16, 24, 40, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+[data-app-sidebar="true"] a,
+[data-app-sidebar="true"] button,
+[data-mobile-bottom-nav="true"] a,
+[data-mobile-bottom-nav="true"] button,
+[data-mobile-menu-layer="true"] a,
+[data-mobile-menu-layer="true"] button,
+[data-app-topbar="true"] a,
+[data-app-topbar="true"] button {
+  pointer-events: auto !important;
+}
+
+[data-app-sidebar="true"] nav a,
+[data-mobile-menu-layer="true"] nav a {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 48px !important;
+}
+
+[data-mobile-bottom-nav="true"] a {
+  min-height: 64px !important;
+}
+
+/* Blur/dekoratif absolute katmanlar tıklama yemesin. */
+[data-app-content="true"] [class*="blur-"][class*="absolute"],
+[data-app-content="true"] [class*="absolute"][aria-hidden="true"],
+[data-app-content="true"] [data-decorative="true"],
+[data-app-shell="true"] [data-decorative="true"] {
+  pointer-events: none !important;
+}
+
+/*
+  Eski patchlerden kalmış olabilecek route/admin/body overlay veya geniş pseudo katmanlarının
+  navigasyonun üstüne binmesini engeller.
+*/
+[data-app-content="true"]::before,
+[data-app-content="true"]::after,
+[data-app-sidebar="true"]::before,
+[data-app-sidebar="true"]::after,
+[data-app-topbar="true"]::before,
+[data-app-topbar="true"]::after {
+  pointer-events: none !important;
+}
+
+/* SVG ikonlar linkin tıklamasını kesmesin. */
+[data-clickable="true"] svg,
+[data-clickable="true"] svg * {
+  pointer-events: none;
+}
+
+/* iOS/Android çift dokunma gecikmesini azaltır. */
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
