@@ -3,6 +3,14 @@ import type { Difficulty, Question, QuestionChoice, Topic } from "@/types/study"
 
 export type TestLevel = "kolay" | "orta" | "zor";
 
+type GeneratedQuestionDraft = {
+  stem: string;
+  correct: string;
+  wrongs: string[];
+  explanation: string;
+  examTip: string;
+};
+
 export type GeneratedQuestionTest = {
   id: string;
   topicId: string | "all";
@@ -21,9 +29,9 @@ const levelLabels: Record<TestLevel, string> = {
 };
 
 const internalDifficulty: Record<TestLevel, Difficulty> = {
-  kolay: "temel",
+  kolay: "kolay",
   orta: "orta",
-  zor: "ileri"
+  zor: "zor"
 };
 
 const choiceIds = ["A", "B", "C", "D"] as const;
@@ -102,7 +110,7 @@ function makeChoices(correct: string, wrongs: string[], seed: number): { choices
   };
 }
 
-function easyQuestion(topic: Topic, testNo: number, questionNo: number): Omit<Question, "id" | "topicId" | "type" | "difficulty" | "choices" | "correctChoiceId"> & { correct: string; wrongs: string[] } {
+function easyQuestion(topic: Topic, testNo: number, questionNo: number): GeneratedQuestionDraft {
   const bullets = topicBullets(topic);
   const keyword = pick(topic.mustKnow, questionNo + testNo, topic.keywords[0] ?? topic.title);
   const bullet = pick(bullets, questionNo + testNo, `${keyword} bu konunun temel bilgilerinden biridir.`);
@@ -147,7 +155,7 @@ function easyQuestion(topic: Topic, testNo: number, questionNo: number): Omit<Qu
   return variants[(questionNo + testNo) % variants.length];
 }
 
-function mediumQuestion(topic: Topic, testNo: number, questionNo: number): Omit<Question, "id" | "topicId" | "type" | "difficulty" | "choices" | "correctChoiceId"> & { correct: string; wrongs: string[] } {
+function mediumQuestion(topic: Topic, testNo: number, questionNo: number): GeneratedQuestionDraft {
   const blocks = topic.summary;
   const block = pick(blocks, questionNo + testNo, blocks[0]);
   const bullet = pick(block?.bullets ?? [], questionNo, topic.shortDescription);
@@ -193,7 +201,7 @@ function mediumQuestion(topic: Topic, testNo: number, questionNo: number): Omit<
   return variants[(questionNo + testNo) % variants.length];
 }
 
-function hardQuestion(topic: Topic, testNo: number, questionNo: number): Omit<Question, "id" | "topicId" | "type" | "difficulty" | "choices" | "correctChoiceId"> & { correct: string; wrongs: string[] } {
+function hardQuestion(topic: Topic, testNo: number, questionNo: number): GeneratedQuestionDraft {
   const mustKnow = pick(topic.mustKnow, questionNo + testNo, topic.keywords[0] ?? topic.title);
   const mistake = naturalMistake(pick(topic.commonMistakes, questionNo + testNo, ""), topic.title);
   const timeline = pick(topic.quickTimeline, questionNo + testNo, { date: "", event: "" });
