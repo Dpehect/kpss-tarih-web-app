@@ -19,7 +19,7 @@ import {
   XCircle
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { FoxBrandMark } from "@/components/brand/FoxBrandMark";
+import { SBBrandMark } from "@/components/brand/SBBrandMark";
 import { useAdminSession } from "@/hooks/useAdminSession";
 import { cn } from "@/lib/cn";
 import { useUIStore } from "@/store/useUIStore";
@@ -81,7 +81,7 @@ export function Sidebar() {
     <>
       <aside className="hidden border-r border-[#e4d8c8] bg-[#f8f1e7]/82 px-4 py-5 backdrop-blur-2xl lg:block">
         <Link href="/dashboard" className="mb-6 flex items-center gap-3 px-1">
-          <FoxBrandMark className="size-11 shrink-0" />
+          <SBBrandMark className="size-11" />
           <div>
             <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
             <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>
@@ -97,7 +97,7 @@ export function Sidebar() {
             onClick={(event) => event.stopPropagation()}
           >
             <Link href="/dashboard" onClick={() => setOpen(false)} className="mb-6 flex items-center gap-3">
-              <FoxBrandMark className="size-11 shrink-0" />
+              <SBBrandMark className="size-11" />
               <div>
                 <p className="text-sm font-black tracking-[-0.03em] text-[#101828]">Softbridge Akademi</p>
                 <p className="text-xs font-semibold text-slate-500">KPSS Tarih</p>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Providers } from "@/app/providers";
 import "@/app/globals.css";
+import "@/app/contrast-fixes.css";
 
 const sans = Geist({
   variable: "--font-sans",
@@ -27,8 +28,8 @@ const serif = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "KPSS Tarih Akademi | Premium KPSS Tarih Çalışma Platformu",
-    template: "%s | KPSS Tarih Akademi"
+    default: "Softbridge Akademi | Premium KPSS Tarih Çalışma Platformu",
+    template: "%s | Softbridge Akademi"
   },
   description:
     "KPSS Tarih için konu özetleri, açıklamalı sorular, denemeler, flashcard tekrarları, timeline ve online ilerleme takibi.",
@@ -42,9 +43,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    title: "KPSS Tarih Akademi",
+    title: "Softbridge Akademi",
     description: "Premium KPSS Tarih çalışma platformu.",
-    siteName: "KPSS Tarih Akademi"
+    siteName: "Softbridge Akademi"
   },
   robots: {
     index: true,
@@ -54,8 +55,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fff8ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#050814" }
+    { media: "(prefers-color-scheme: light)", color: "#f8f1e7" },
+    { media: "(prefers-color-scheme: dark)", color: "#101828" }
   ],
   width: "device-width",
   initialScale: 1
@@ -63,8 +64,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" suppressHydrationWarning>
-      <body className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="tr" className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>

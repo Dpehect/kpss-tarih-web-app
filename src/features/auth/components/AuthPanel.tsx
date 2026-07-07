@@ -5,7 +5,7 @@ import type { User } from "@supabase/supabase-js";
 import { ArrowRight, CheckCircle2, LockKeyhole, ShieldCheck } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { FoxBrandMark } from "@/components/brand/FoxBrandMark";
+import { SBBrandMark } from "@/components/brand/SBBrandMark";
 import { createClient } from "@/lib/supabase/client";
 
 export function AuthPanel() {
@@ -16,10 +16,7 @@ export function AuthPanel() {
 
   useEffect(() => {
     const error = searchParams.get("error");
-
-    if (error) {
-      toast.error(error);
-    }
+    if (error) toast.error(error);
   }, [searchParams]);
 
   useEffect(() => {
@@ -33,7 +30,6 @@ export function AuthPanel() {
 
     client.auth.getUser().then(({ data }) => {
       if (!mounted) return;
-
       setUser(data.user ?? null);
       setIsLoading(false);
     });
@@ -61,9 +57,7 @@ export function AuthPanel() {
       options: { redirectTo }
     });
 
-    if (error) {
-      toast.error(error.message);
-    }
+    if (error) toast.error(error.message);
   }
 
   async function signOut() {
@@ -97,7 +91,6 @@ export function AuthPanel() {
     return (
       <div className="mx-auto grid w-full max-w-5xl gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
         <AuthCopy />
-
         <div className="rounded-[2.5rem] border border-[#e4d8c8] bg-white/80 p-7 shadow-[0_32px_110px_rgba(16,24,40,.10)] backdrop-blur-2xl">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Kurulum gerekli</p>
           <h2 className="mt-3 text-3xl font-black leading-tight tracking-[-0.06em] text-[#101828]">
@@ -115,7 +108,6 @@ export function AuthPanel() {
     return (
       <div className="mx-auto grid w-full max-w-5xl gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
         <AuthCopy />
-
         <div className="rounded-[2.5rem] border border-[#e4d8c8] bg-white/84 p-7 shadow-[0_32px_110px_rgba(16,24,40,.10)] backdrop-blur-2xl">
           <div className="mb-5 flex items-center gap-3">
             <span className="grid size-12 place-items-center rounded-2xl bg-[#101828] text-white">
@@ -136,7 +128,8 @@ export function AuthPanel() {
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <a
               href="/dashboard"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-5 text-sm font-black text-white shadow-[0_18px_60px_rgba(180,35,42,.20)]"
+              data-dark-button="true"
+              className="softbridge-dark-action inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[#b4232a] px-5 text-sm font-black"
             >
               Panele geç
               <ArrowRight size={17} />
@@ -163,7 +156,7 @@ export function AuthPanel() {
 
         <div className="relative z-10">
           <div className="mb-6 flex items-center gap-3">
-            <FoxBrandMark className="size-12 shrink-0" />
+            <SBBrandMark className="size-12" />
             <div>
               <p className="text-sm font-black text-[#101828]">Softbridge Akademi</p>
               <p className="text-xs font-semibold text-slate-500">Güvenli çalışma hesabı</p>
@@ -180,11 +173,13 @@ export function AuthPanel() {
 
           <button
             type="button"
+            data-dark-button="true"
             onClick={() => void signInWithGoogle()}
-            className="mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#101828] px-5 text-sm font-black text-white shadow-[0_22px_70px_rgba(16,24,40,.22)] transition hover:bg-[#1d2939]"
+            className="softbridge-google-button mt-7 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#101828] px-5 text-sm font-black shadow-[0_22px_70px_rgba(16,24,40,.22)] transition hover:bg-[#1d2939]"
+            style={{ color: "#fffaf2" }}
           >
             <GoogleMark />
-            Google hesabıyla güvenli devam et
+            <span style={{ color: "#fffaf2" }}>Google hesabıyla güvenli devam et</span>
             <ArrowRight size={17} />
           </button>
 
@@ -205,7 +200,7 @@ function AuthCopy() {
         Hesap avantajı
       </div>
 
-      <h2 className="mt-6 text-5xl font-black leading-[0.95] tracking-[-0.08em] md:text-6xl">
+      <h2 className="mt-6 text-5xl font-black leading-[0.95] tracking-[-0.08em] text-white md:text-6xl">
         Aynı yerden devam et.
       </h2>
       <p className="mt-5 text-sm font-semibold leading-7 text-white/68">
@@ -232,7 +227,7 @@ function AuthCopy() {
 
 function GoogleMark() {
   return (
-    <svg width="19" height="19" viewBox="0 0 48 48" aria-hidden="true">
+    <svg width="19" height="19" viewBox="0 0 48 48" aria-hidden="true" className="shrink-0">
       <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
       <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.6 8.3 6.3 14.7z" />
       <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.8l-6.6 5.1C9.4 39.6 16.1 44 24 44z" />

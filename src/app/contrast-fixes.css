@@ -1,0 +1,61 @@
+/* Softbridge readability hardening */
+.softbridge-dark-action,
+.softbridge-dark-action *,
+[data-dark-button="true"],
+[data-dark-button="true"] *,
+.btn-primary,
+.btn-primary *,
+.btn-accent,
+.btn-accent *,
+.btn-dark,
+.btn-dark * {
+  color: #fffaf2 !important;
+}
+
+:is(a, button, [role="button"]):where(
+  [class*="bg-[#101828]"],
+  [class*="bg-[#0d1321]"],
+  [class*="bg-[#060914]"],
+  [class*="bg-[#0e1117]"],
+  [class*="bg-slate-900"],
+  [class*="bg-gray-900"],
+  [class*="bg-black"]
+),
+:is(a, button, [role="button"]):where(
+  [class*="bg-[#101828]"],
+  [class*="bg-[#0d1321]"],
+  [class*="bg-[#060914]"],
+  [class*="bg-[#0e1117]"],
+  [class*="bg-slate-900"],
+  [class*="bg-gray-900"],
+  [class*="bg-black"]
+) * {
+  color: #fffaf2 !important;
+}
+
+.softbridge-nav-link {
+  color: #344054 !important;
+}
+
+.softbridge-nav-link:hover {
+  color: #fffaf2 !important;
+  background: #101828 !important;
+}
+
+.softbridge-readable-card,
+.softbridge-readable-card :where(h1,h2,h3,h4,strong,b) {
+  color: #101828 !important;
+}
+
+.softbridge-readable-card :where(p,li,span,small,label) {
+  color: #475467 !important;
+}
+
+.softbridge-muted-readable {
+  color: #475467 !important;
+}
+
+.softbridge-google-button,
+.softbridge-google-button * {
+  color: #fffaf2 !important;
+}
