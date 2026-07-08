@@ -1,0 +1,95 @@
+/* KPSS Tarih — professional UI contrast guard
+   Rule: light button surfaces use dark text; dark/accent button surfaces use light text.
+   This file intentionally uses broad selectors because several screens mix Tailwind arbitrary
+   background classes, Framer Motion links and custom button classes. */
+
+:root {
+  --kpss-button-text-on-light: #0e1117;
+  --kpss-button-text-on-light-muted: #354052;
+  --kpss-button-text-on-dark: #fffaf2;
+  --kpss-button-border-light: rgba(14, 17, 23, 0.14);
+  --kpss-button-border-dark: rgba(255, 250, 242, 0.18);
+}
+
+:where(button, a, [role="button"]) {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Explicit light buttons */
+:where(.btn-light, .btn-ghost, .btn-outline, [data-light-button="true"], [data-button-surface="light"]),
+:is(button, a, [role="button"]):where(
+  [class*="bg-white"],
+  [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"],
+  [class*="bg-gray-50"], [class*="bg-gray-100"], [class*="bg-gray-200"],
+  [class*="bg-zinc-50"], [class*="bg-zinc-100"], [class*="bg-zinc-200"],
+  [class*="bg-neutral-50"], [class*="bg-neutral-100"], [class*="bg-neutral-200"],
+  [class*="bg-stone-50"], [class*="bg-stone-100"], [class*="bg-stone-200"],
+  [class*="bg-[#fff"], [class*="bg-[#f8"], [class*="bg-[#f9"], [class*="bg-[#faf"], [class*="bg-[#fb"], [class*="bg-[#fc"], [class*="bg-[#fd"], [class*="bg-[#fe"],
+  [class*="bg-[var(--paper"], [class*="bg-[var(--warm-white"], [class*="bg-[var(--cream"], [class*="bg-[var(--bureau-bone"],
+  [class*="bg-[rgba(255"], [class*="bg-[rgba(246"]
+) {
+  color: var(--kpss-button-text-on-light) !important;
+  border-color: var(--kpss-button-border-light);
+}
+
+:where(.btn-light, .btn-ghost, .btn-outline, [data-light-button="true"], [data-button-surface="light"]) :where(span, strong, small, svg, path, i),
+:is(button, a, [role="button"]):where(
+  [class*="bg-white"],
+  [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"],
+  [class*="bg-gray-50"], [class*="bg-gray-100"], [class*="bg-gray-200"],
+  [class*="bg-zinc-50"], [class*="bg-zinc-100"], [class*="bg-zinc-200"],
+  [class*="bg-neutral-50"], [class*="bg-neutral-100"], [class*="bg-neutral-200"],
+  [class*="bg-stone-50"], [class*="bg-stone-100"], [class*="bg-stone-200"],
+  [class*="bg-[#fff"], [class*="bg-[#f8"], [class*="bg-[#f9"], [class*="bg-[#faf"], [class*="bg-[#fb"], [class*="bg-[#fc"], [class*="bg-[#fd"], [class*="bg-[#fe"],
+  [class*="bg-[var(--paper"], [class*="bg-[var(--warm-white"], [class*="bg-[var(--cream"], [class*="bg-[var(--bureau-bone"],
+  [class*="bg-[rgba(255"], [class*="bg-[rgba(246"]
+) :where(span, strong, small, svg, path, i) {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Explicit dark/accent buttons */
+:where(.btn-primary, .btn-dark, .btn-accent, .btn-gold, [data-dark-button="true"], [data-button-surface="dark"]),
+:is(button, a, [role="button"]):where(
+  [data-active="true"], [data-state="active"], [aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-selected="true"],
+  [class*="bg-black"],
+  [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"],
+  [class*="bg-gray-800"], [class*="bg-gray-900"], [class*="bg-gray-950"],
+  [class*="bg-zinc-800"], [class*="bg-zinc-900"], [class*="bg-zinc-950"],
+  [class*="bg-neutral-800"], [class*="bg-neutral-900"], [class*="bg-neutral-950"],
+  [class*="bg-stone-800"], [class*="bg-stone-900"], [class*="bg-stone-950"],
+  [class*="bg-[#0"], [class*="bg-[#1"], [class*="bg-[#2"],
+  [class*="bg-[var(--ink"], [class*="bg-[var(--navy"], [class*="bg-[var(--bureau-ink"], [class*="bg-[var(--bureau-blue"], [class*="bg-[var(--bureau-teal"]
+) {
+  color: var(--kpss-button-text-on-dark) !important;
+  border-color: var(--kpss-button-border-dark);
+}
+
+:where(.btn-primary, .btn-dark, .btn-accent, .btn-gold, [data-dark-button="true"], [data-button-surface="dark"]) :where(span, strong, small, svg, path, i),
+:is(button, a, [role="button"]):where(
+  [data-active="true"], [data-state="active"], [aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-selected="true"],
+  [class*="bg-black"],
+  [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"],
+  [class*="bg-gray-800"], [class*="bg-gray-900"], [class*="bg-gray-950"],
+  [class*="bg-zinc-800"], [class*="bg-zinc-900"], [class*="bg-zinc-950"],
+  [class*="bg-neutral-800"], [class*="bg-neutral-900"], [class*="bg-neutral-950"],
+  [class*="bg-stone-800"], [class*="bg-stone-900"], [class*="bg-stone-950"],
+  [class*="bg-[#0"], [class*="bg-[#1"], [class*="bg-[#2"],
+  [class*="bg-[var(--ink"], [class*="bg-[var(--navy"], [class*="bg-[var(--bureau-ink"], [class*="bg-[var(--bureau-blue"], [class*="bg-[var(--bureau-teal"]
+) :where(span, strong, small, svg, path, i) {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Professional polish: avoid washed-out white pills like the screenshot. */
+:where(.card-surface, .bureau-card, .lab-card, .atlas-card, .archive-card, .surface-glass, .bg-card) :is(button, a, [role="button"]):not(.btn-primary):not(.btn-dark):not(.btn-accent):not(.btn-gold):not([data-dark-button="true"]):not([data-active="true"]):not([aria-current="page"]) {
+  color: var(--kpss-button-text-on-light) !important;
+}
+
+/* Prevent pale active tabs from becoming invisible. */
+:is(button, a, [role="button"]):where([data-state="active"], [aria-selected="true"], [aria-current="page"]) {
+  font-weight: 820;
+}
