@@ -245,10 +245,16 @@ const choiceIds = ["A", "B", "C", "D", "E"] as const;
 function makeQuestion(topicItem: Topic, index: number): Question {
   const correctChoiceId = choiceIds[index % choiceIds.length];
   
+  // Konunun anahtar bilgilerinden benzersiz doğru cevap metni üret
+  const getCorrectText = () => {
+    const rawCorrect = topicItem.mustKnow[index % topicItem.mustKnow.length];
+    return `${topicItem.title} konusunda en kritik eşik; ${rawCorrect.charAt(0).toLowerCase() + rawCorrect.slice(1)} ve bunun dönem koşullarıyla ilişkilendirilmesidir.`;
+  };
+
   // Konuyla ilgili çeldirici havuzu
   const wrongAnswersPool = [
     ...(topicItem.keywords || []),
-    ...(topicItem.mustKnow || []),
+    ...(topicItem.commonMistakes || []),
     "Tarihsel gelişmelerin neden-sonuç ilişkisini göz ardı eden kronolojik ezberler.",
     "Dönemin şartlarını dikkate almadan günümüz değer yargılarıyla yapılan öznel analizler.",
     "Olayların gelişim süreçlerinden bağımsız, sadece kavram odaklı dar yorumlar.",
@@ -256,9 +262,11 @@ function makeQuestion(topicItem: Topic, index: number): Question {
     "Tarihsel olayların coğrafi çevre ile olan doğrudan etkileşimini reddetme."
   ];
 
-  // Her şık için mantıklı ve farklı bir tarihi çeldirici metni oluştur
+  // Her şık için mantıklı ve farklı bir tarihi çeldirici metni oluştur (indis kaydırma ile çakışmayı önle)
   const getWrongText = (choiceIndex: number) => {
-    const rawVal = wrongAnswersPool[choiceIndex % wrongAnswersPool.length];
+    const salt = topicItem.title.charCodeAt(0) + topicItem.id.charCodeAt(topicItem.id.length - 1);
+    const uniqueIndex = (choiceIndex * 7 + index * 13 + salt) % wrongAnswersPool.length;
+    const rawVal = wrongAnswersPool[uniqueIndex];
     if (rawVal.length < 15) {
       return `${rawVal} kavramının veya olayının tarihsel bağlamdan kopuk şekilde değerlendirilmesi.`;
     }
@@ -275,7 +283,7 @@ function makeQuestion(topicItem: Topic, index: number): Question {
       id,
       text:
         id === correctChoiceId
-          ? `${topicItem.title} öğrenilirken olayların dönem koşulları, kavram kökenleri ve neden-sonuç bütünlüğü birlikte ele alınmalıdır.`
+          ? getCorrectText()
           : getWrongText(choiceIndex),
     })),
     correctChoiceId,
