@@ -1,37 +1,58 @@
-export function SBBrandMark({ className = "size-11" }: { className?: string }) {
+"use client";
+
+import type { CSSProperties } from "react";
+
+type BrandSize = "xs" | "sm" | "md" | "lg" | "xl" | number;
+
+type SBBrandMarkProps = {
+  className?: string;
+  size?: BrandSize;
+  title?: string;
+};
+
+const sizeClassMap: Record<Exclude<BrandSize, number>, string> = {
+  xs: "size-8",
+  sm: "size-10",
+  md: "size-11",
+  lg: "size-12",
+  xl: "size-14",
+};
+
+function resolveSize(size: BrandSize): { className?: string; style?: CSSProperties } {
+  if (typeof size === "number") {
+    const value = Number.isFinite(size) && size > 0 ? size : 44;
+    return { style: { width: value, height: value } };
+  }
+
+  return { className: sizeClassMap[size] ?? sizeClassMap.md };
+}
+
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export function SBBrandMark({ className, size = "md", title = "KPSS Tarih Akademi" }: SBBrandMarkProps) {
+  const resolvedSize = resolveSize(size);
+
   return (
-    <span
-      className={`relative grid shrink-0 place-items-center overflow-hidden rounded-[1.15rem] border border-[#e0d2c2] bg-white/90 shadow-[0_16px_50px_rgba(16,24,40,.10)] ${className}`}
-      aria-hidden="true"
+    <div
+      aria-label={title}
+      role="img"
+      style={resolvedSize.style}
+      className={cx(
+        resolvedSize.className,
+        "relative shrink-0 overflow-hidden rounded-[1.15rem] border border-white/60 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.10)] ring-1 ring-slate-950/5",
+        className,
+      )}
     >
-      <span className="absolute inset-0 bg-[radial-gradient(circle_at_25%_12%,rgba(180,35,42,.22),transparent_38%),radial-gradient(circle_at_80%_90%,rgba(245,158,11,.18),transparent_42%)]" />
-      <svg width="38" height="38" viewBox="0 0 64 64" fill="none" className="relative z-10">
-        <path
-          d="M13 39.5C18.6 28.8 27.3 23.5 39 23.5H51"
-          stroke="#101828"
-          strokeWidth="5.2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M13 44.5C19.8 34.8 28.7 30 39.8 30H51"
-          stroke="#B4232A"
-          strokeWidth="5.2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M22.5 20.5H36C40.6 20.5 43.5 22.8 43.5 26.3C43.5 30.1 40.4 32 35.2 32H24"
-          stroke="#101828"
-          strokeWidth="5.2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M23 32H38C43.4 32 46.8 34.4 46.8 38.4C46.8 42.9 43.2 45.5 37.1 45.5H23"
-          stroke="#101828"
-          strokeWidth="5.2"
-          strokeLinecap="round"
-        />
-      </svg>
-      <span className="absolute -right-1 -top-1 size-3 rounded-full bg-[#b4232a] ring-4 ring-[#f6efe4]" />
-    </span>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(255,255,255,0.95),rgba(255,255,255,0)_38%),linear-gradient(135deg,#2563eb_0%,#16a34a_58%,#f59e0b_100%)]" />
+      <div className="absolute inset-[18%] rounded-full bg-white/20 blur-[1px]" />
+      <div className="relative grid h-full w-full place-items-center text-white">
+        <span className="select-none text-[0.72rem] font-black leading-none tracking-[-0.08em] drop-shadow-sm sm:text-sm">
+          TA
+        </span>
+      </div>
+      <span className="absolute bottom-1 right-1 size-1.5 rounded-full bg-white/90 shadow-sm" />
+    </div>
   );
 }
