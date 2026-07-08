@@ -39,7 +39,8 @@ export function MistakesPage() {
         <EmptyState
           title="Şu an yanlış listen temiz."
           description="Konu testleri çözdükçe yanlış cevapladığın sorular burada tekrar çalışman için birikir."
-          action={<ButtonLink href="/question-bank" variant="gold">Konu testi çöz</ButtonLink>}
+          href="/question-bank"
+          actionLabel="Konu testi çöz"
         />
       ) : (
         <section className="grid gap-4">
