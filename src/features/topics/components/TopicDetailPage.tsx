@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, BrainCircuit, CheckCircle2, Clock3, FileQuestion, KeyRound, Lightbulb, Map, ScrollText, Target, TriangleAlert } from "lucide-react";
 import { getTestCountsForTopic } from "@/data/generated-30-question-tests";
 import { getFlashcardsByTopic, getGlossaryByTopic, getQuestionsByTopic, getTopicBySlug } from "@/data/kpss-history";
+import { MarkTopicCompleteButton } from "@/features/topics/components/MarkTopicCompleteButton";
 
 export function TopicDetailPage({ slug }: { slug: string }) {
   const topic = getTopicBySlug(slug);
@@ -80,6 +81,10 @@ export function TopicDetailPage({ slug }: { slug: string }) {
                   </ul>
                 </section>
               ))}
+            </div>
+            
+            <div className="mt-6 flex justify-end border-t border-[var(--bureau-line)] pt-5">
+              <MarkTopicCompleteButton topicId={topic.id} />
             </div>
           </DetailPanel>
 
