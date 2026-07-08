@@ -174,10 +174,7 @@ VALUES
   '[{"date":"Genel","event":"Dönemler arası bağlantılı tekrar"}]',
   12
 )
-ON CONFLICT (id) DO UPDATE SET
-  title = EXCLUDED.title,
-  slug = EXCLUDED.slug,
-  updated_at = now();
+ON CONFLICT DO NOTHING;
 
 -- ─── 2. EXAMS TABLOSU (yoksa oluştur) ──────────────────────
 CREATE TABLE IF NOT EXISTS public.content_exams (
@@ -478,7 +475,7 @@ INSERT INTO public.content_exams (id, title, description, duration_minutes, ques
 ('deneme-38','Sınav Öncesi Son Tekrar 1','En kritik konuları kapsayan son tekrar.',50,40,'karma',38),
 ('deneme-39','Sınav Öncesi Son Tekrar 2','En sık sorulan konu ve kavramlar.',50,40,'karma',39),
 ('deneme-40','KPSS Tarih Final Denemesi','Tüm kazanımları final düzeyinde ölçen kapsamlı deneme.',55,40,'karma',40)
-ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title, updated_at = now();
+ON CONFLICT DO NOTHING;
 
 -- ─── 5. DENEME-SORU BAĞLANTILARI ────────────────────────────
 -- Tüm denemeler mevcut 60 soruyu döngüsel paylaşır
