@@ -92,8 +92,13 @@ export function searchKpssHistory(query: string): SearchResult[] {
 
   for (const card of flashcards) {
     const topic = topics.find((item) => item.id === card.topicId);
-    const score = scoreText(q, card.front, card.back, card.hint, card.tags.join(" "));
+    let score = scoreText(q, card.front, card.back, card.hint, card.tags.join(" "));
     if (score) {
+      const normFront = normalize(card.front);
+      const normQ = normalize(q);
+      if (normFront.includes(normQ) || normQ.includes(normFront)) {
+        score += 30;
+      }
       results.push({
         id: card.id,
         type: "Flashcard",
@@ -134,10 +139,15 @@ export function searchKpssHistory(query: string): SearchResult[] {
   }
 
   for (const item of glossary) {
-    const score = scoreText(q, item.term, item.definition);
+    let score = scoreText(q, item.term, item.definition);
     if (score) {
+      const normTerm = normalize(item.term);
+      const normQ = normalize(q);
+      if (normTerm.includes(normQ) || normQ.includes(normTerm)) {
+        score += 40;
+      }
       results.push({
-        id: item.term,
+        id: item.id,
         type: "Kavram",
         title: item.term,
         description: item.definition,
