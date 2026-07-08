@@ -1,24 +1,37 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { topics as fallbackTopics } from "@/data/kpss-history";
+import { getTopicBySlug, topics } from "@/data/kpss-history";
 import { TopicDetailPage } from "@/features/topics/components/TopicDetailPage";
-import { fetchContentTopicBySlug } from "@/lib/content/supabase-content-server";
-
-export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export function generateStaticParams() {
+  return topics.map((topic) => ({ slug: topic.slug }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const topic = (await fetchContentTopicBySlug(slug)) ?? fallbackTopics.find((item) => item.slug === slug);
-  return { title: topic?.title ?? "Konu bulunamadı", description: topic?.shortDescription };
+  const topic = getTopicBySlug(slug);
+
+  if (!topic) {
+    return { title: "Konu bulunamadı" };
+  }
+
+  return {
+    title: `${topic.title} | KPSS Tarih Konu Anlatımı`,
+    description: `${topic.title} için derin konu anlatımı, anahtar kavramlar, sık hata analizi, mini kronoloji ve açıklamalı KPSS Tarih testleri.`,
+  };
 }
 
 export default async function TopicDetailRoute({ params }: PageProps) {
   const { slug } = await params;
-  const topic = (await fetchContentTopicBySlug(slug)) ?? fallbackTopics.find((item) => item.slug === slug);
-  if (!topic) notFound();
-  return <TopicDetailPage topic={topic} />;
+  const topic = getTopicBySlug(slug);
+
+  if (!topic) {
+    notFound();
+  }
+
+  return <TopicDetailPage slug={slug} />;
 }

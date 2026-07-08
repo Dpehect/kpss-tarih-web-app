@@ -1,0 +1,57 @@
+/* KPSS Tarih interaction hardening patch.
+   Keeps decorative layers from intercepting clicks and standardizes professional focus/CTA behavior. */
+[data-decorative="true"],
+.decorative-layer,
+.decorative-overlay,
+.visual-overlay,
+.hero-glow,
+.mesh-gradient,
+.no-click-layer {
+  pointer-events: none !important;
+}
+
+#main-content,
+#main-content *,
+nav,
+nav *,
+aside,
+aside *,
+header,
+header * {
+  pointer-events: auto;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+a[href],
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+:is(a, button, [role="button"]):focus-visible {
+  outline: 3px solid rgba(4, 126, 137, .38) !important;
+  outline-offset: 4px !important;
+}
+
+/* Açık zeminlerde koyu yazı, koyu/aktif zeminlerde açık yazı. */
+:is(a, button, [role="button"]):where([data-active="true"], [aria-current="page"], [aria-pressed="true"]) {
+  color: var(--bureau-inverse) !important;
+}
+
+:is(a, button, [role="button"]):where([data-active="true"], [aria-current="page"], [aria-pressed="true"]) * {
+  color: var(--bureau-inverse) !important;
+  stroke: currentColor !important;
+}

@@ -1,120 +1,189 @@
-import { ArrowRight, CalendarDays, Clock, Flag, Landmark, Layers3, Milestone, Sparkles } from "lucide-react";
-import type { TimelineEvent, Topic } from "@/types/study";
+"use client";
 
-const toneClasses: Record<TimelineEvent["tone"], string> = {
-  gold: "bg-[#fff7ed] text-[#9a3412] border-[#fed7aa]",
-  turquoise: "bg-[#ecfeff] text-[#0e7490] border-[#a5f3fc]",
-  crimson: "bg-[#fff1f2] text-[#be123c] border-[#fecdd3]",
-  parchment: "bg-[#fffbeb] text-[#92400e] border-[#fde68a]"
+import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, CalendarClock, FileQuestion, MapPinned, MoveHorizontal, Search, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { timelineEvents, topics } from "@/data/kpss-history";
+import type { TimelineEvent } from "@/types/study";
+
+const toneMap: Record<TimelineEvent["tone"], { badge: string; line: string; glow: string }> = {
+  gold: { badge: "bg-[rgba(37,63,116,.10)] text-[var(--bureau-blue)]", line: "bg-[var(--bureau-blue)]", glow: "rgba(37,63,116,.18)" },
+  turquoise: { badge: "bg-[rgba(4,126,137,.10)] text-[var(--bureau-teal)]", line: "bg-[var(--bureau-teal)]", glow: "rgba(4,126,137,.18)" },
+  crimson: { badge: "bg-[rgba(158,63,63,.10)] text-[var(--bureau-rust)]", line: "bg-[var(--bureau-rust)]", glow: "rgba(158,63,63,.18)" },
+  parchment: { badge: "bg-[rgba(102,52,95,.10)] text-[var(--bureau-plum)]", line: "bg-[var(--bureau-plum)]", glow: "rgba(102,52,95,.18)" },
 };
 
-export function TimelinePage({ events, topics }: { events: TimelineEvent[]; topics: Topic[] }) {
-  const topicMap = new Map(topics.map((topic) => [topic.id, topic.title]));
-  const grouped = topics
-    .map((topic) => ({
-      topic,
-      events: events.filter((event) => event.topicId === topic.id)
-    }))
-    .filter((group) => group.events.length > 0);
+export function TimelinePage() {
+  const enriched = useMemo(
+    () =>
+      timelineEvents.map((event) => ({
+        ...event,
+        topic: topics.find((topic) => topic.id === event.topicId) ?? null,
+      })),
+    [],
+  );
 
-  const highlighted = events.slice(0, 4);
+  const [selectedId, setSelectedId] = useState(enriched[0]?.id ?? "");
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const normalized = query.trim().toLocaleLowerCase("tr-TR");
+    if (!normalized) return enriched;
+
+    return enriched.filter((event) =>
+      [event.date, event.title, event.description, event.topic?.title ?? ""]
+        .join(" ")
+        .toLocaleLowerCase("tr-TR")
+        .includes(normalized),
+    );
+  }, [enriched, query]);
+
+  const selected = filtered.find((event) => event.id === selectedId) ?? filtered[0] ?? enriched[0];
+  const selectedTone = selected ? toneMap[selected.tone] : toneMap.gold;
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-6">
-      <section className="relative overflow-hidden rounded-[2.75rem] border border-white/75 bg-white/78 p-6 shadow-[0_32px_105px_rgba(16,24,40,.12)] backdrop-blur-xl md:p-8">
-        <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[#fed7aa]/70 blur-3xl" />
-        <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute bottom-[-10rem] left-20 size-80 rounded-full bg-[#bfdbfe]/70 blur-3xl" />
+    <section className="space-y-8">
+      <div className="relative overflow-hidden rounded-[2rem] border border-[var(--bureau-line)] bg-[var(--bureau-ink)] p-6 text-[var(--bureau-inverse)] shadow-[var(--shadow-stage)] sm:p-8 lg:p-10">
+        <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute inset-0">
+          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[rgba(4,126,137,.26)] blur-3xl" />
+          <div className="absolute bottom-[-10rem] left-[18%] h-96 w-96 rounded-full bg-[rgba(37,63,116,.30)] blur-3xl" />
+          <div className="absolute inset-0 opacity-[.08] [background-image:linear-gradient(90deg,rgba(255,255,255,.28)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.24)_1px,transparent_1px)] [background-size:48px_48px]" />
+        </div>
 
-        <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_360px] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Tarih rotası</p>
-            <h1 className="mt-3 max-w-4xl text-5xl font-black leading-[0.92] tracking-[-0.08em] text-[#101828] md:text-7xl">
-              Olayları dönemlere bağla.
+            <p className="kicker text-[var(--bureau-inverse)]">Kronoloji Atlası</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-[-.055em] sm:text-5xl lg:text-6xl">
+              Olayları sıraya değil, neden-sonuç bağına yerleştir.
             </h1>
-            <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#475467]">
-              Kronoloji ezberi yerine olay, dönem ve sonuç ilişkisini birlikte gör. Her olay ilgili konu başlığıyla eşleşir.
+            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--bureau-inverse-copy)]">
+              Kartlara tıklayarak seçili olayı aç. Her kayıt ilgili konuya bağlanır; böylece kronoloji, konu anlatımı ve test pratiği tek akışta çalışır.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <Metric icon={<CalendarDays size={18} />} label="Olay" value={events.length} />
-            <Metric icon={<Layers3 size={18} />} label="Dönem" value={grouped.length || topics.length} />
-            <Metric icon={<Clock size={18} />} label="Akış" value="Kronolojik" />
-            <Metric icon={<Flag size={18} />} label="Odak" value="KPSS" />
+          <div className="rounded-[1.5rem] border border-white/10 bg-white/[.08] p-5">
+            <div className="flex items-center gap-3 text-[var(--bureau-inverse-copy)]">
+              <MoveHorizontal size={20} />
+              <span className="text-sm font-bold">Yatay kaydırılabilir olay masası</span>
+            </div>
+            <p className="mt-4 text-4xl font-black tracking-[-.05em] text-[var(--bureau-inverse)]">{timelineEvents.length}</p>
+            <p className="mt-1 text-sm font-bold text-[var(--bureau-inverse-muted)]">kritik KPSS tarih kaydı</p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {highlighted.length > 0 ? (
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {highlighted.map((event) => (
-            <article key={event.id} className={`rounded-[1.7rem] border p-4 shadow-[0_18px_55px_rgba(16,24,40,.07)] ${toneClasses[event.tone]}`}>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-black">
-                <Sparkles size={13} />
-                {event.date}
-              </div>
-              <h2 className="text-lg font-black tracking-[-0.03em]">{event.title}</h2>
-              <p className="mt-2 text-xs font-bold leading-5 opacity-80">{event.description}</p>
-            </article>
-          ))}
-        </section>
-      ) : null}
+      <div className="flex flex-col gap-4 rounded-[1.5rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.86)] p-4 shadow-[var(--shadow-paper)] backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
+        <label className="flex min-h-12 flex-1 items-center gap-3 rounded-2xl border border-[var(--bureau-line)] bg-white px-4 text-sm font-bold text-[var(--bureau-ink)] shadow-[var(--shadow-paper)]">
+          <Search size={18} className="text-[var(--bureau-muted)]" />
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Olay, tarih veya konu ara..."
+            className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-[var(--bureau-muted)]"
+          />
+        </label>
+        <p className="text-sm font-black text-[var(--bureau-muted)]">{filtered.length} olay gösteriliyor</p>
+      </div>
 
-      <section className="grid gap-5">
-        {grouped.map((group, groupIndex) => (
-          <article key={group.topic.id} className="rounded-[2.2rem] border border-white/75 bg-white/80 p-5 shadow-[0_20px_65px_rgba(16,24,40,.08)] backdrop-blur-xl">
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#b4232a]">Dönem {String(groupIndex + 1).padStart(2, "0")}</p>
-                <h2 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#101828]">{group.topic.title}</h2>
-              </div>
-              <span className="rounded-full bg-[#101828] px-4 py-2 text-xs font-black text-white">
-                {group.events.length} olay
-              </span>
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="rounded-[1.8rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.86)] p-4 shadow-[var(--shadow-paper)]">
+          <div className="mb-4 flex items-center justify-between gap-3 px-1">
+            <div>
+              <p className="kicker">Kronolojik akış</p>
+              <h2 className="mt-1 text-2xl font-black tracking-[-.04em] text-[var(--bureau-ink)]">Tıklanabilir olay kartları</h2>
             </div>
+            <CalendarClock className="text-[var(--bureau-teal)]" />
+          </div>
 
-            <div className="relative grid gap-4">
-              <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute bottom-5 left-[1.15rem] top-5 hidden w-px bg-[#e4d8c8] md:block" />
-              {group.events.map((event) => (
-                <div key={event.id} className="relative grid gap-3 rounded-[1.5rem] border border-[#e4d8c8] bg-[#fffaf3] p-4 md:grid-cols-[120px_1fr]">
-                  <div className="flex items-start gap-3">
-                    <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-2xl bg-[#101828] text-white shadow-[0_10px_28px_rgba(16,24,40,.14)]">
-                      <Milestone size={17} />
-                    </span>
-                    <div className="md:hidden">
-                      <p className="text-xs font-black text-[#b4232a]">{event.date}</p>
+          {filtered.length > 0 ? (
+            <div className="scrollbar-clean flex snap-x gap-4 overflow-x-auto pb-4">
+              {filtered.map((event, index) => {
+                const active = event.id === selected?.id;
+                const tone = toneMap[event.tone];
+
+                return (
+                  <motion.button
+                    key={event.id}
+                    type="button"
+                    onClick={() => setSelectedId(event.id)}
+                    whileHover={{ y: -4 }}
+                    whileTap={{ scale: 0.98 }}
+                    data-active={active ? "true" : undefined}
+                    aria-pressed={active}
+                    className={
+                      active
+                        ? "relative min-h-[250px] w-[260px] shrink-0 snap-start overflow-hidden rounded-[1.5rem] border border-[var(--bureau-ink)] bg-[var(--bureau-ink)] p-5 text-left text-[var(--bureau-inverse)] shadow-[var(--shadow-float)]"
+                        : "relative min-h-[250px] w-[260px] shrink-0 snap-start overflow-hidden rounded-[1.5rem] border border-[var(--bureau-line)] bg-white p-5 text-left text-[var(--bureau-ink)] shadow-[var(--shadow-paper)] transition hover:border-[rgba(4,126,137,.28)] hover:shadow-[var(--shadow-float)]"
+                    }
+                    style={{ boxShadow: active ? `0 28px 80px ${tone.glow}` : undefined }}
+                  >
+                    <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full blur-3xl" style={{ background: tone.glow }} />
+                    <div className="relative z-10 flex h-full flex-col">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className={active ? "rounded-full bg-white/10 px-3 py-1 text-xs font-black text-[var(--bureau-inverse)]" : `rounded-full px-3 py-1 text-xs font-black ${tone.badge}`}>
+                          {event.date}
+                        </span>
+                        <span className="text-xs font-black opacity-70">{String(index + 1).padStart(2, "0")}</span>
+                      </div>
+                      <h3 className="mt-5 text-xl font-black tracking-[-.035em]">{event.title}</h3>
+                      <p className={active ? "mt-3 line-clamp-3 text-sm leading-7 text-[var(--bureau-inverse-copy)]" : "mt-3 line-clamp-3 text-sm leading-7 text-[var(--bureau-copy)]"}>
+                        {event.description}
+                      </p>
+                      <div className="mt-auto pt-5">
+                        <span className={active ? "text-xs font-black text-[var(--bureau-inverse)]" : "text-xs font-black text-[var(--bureau-teal)]"}>{event.topic?.title ?? "Genel Tarih"}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div className="mb-2 hidden items-center gap-2 md:flex">
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#b4232a]">{event.date}</span>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#667085]">{topicMap.get(event.topicId) ?? group.topic.title}</span>
-                    </div>
-                    <h3 className="text-xl font-black tracking-[-0.035em] text-[#101828]">{event.title}</h3>
-                    <p className="mt-2 text-sm font-bold leading-7 text-[#475467]">{event.description}</p>
-                  </div>
+                  </motion.button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="rounded-[1.4rem] border border-dashed border-[var(--bureau-line-2)] bg-white/70 p-8 text-center">
+              <Sparkles className="mx-auto text-[var(--bureau-teal)]" />
+              <h2 className="mt-3 text-xl font-black text-[var(--bureau-ink)]">Olay bulunamadı</h2>
+              <button type="button" onClick={() => setQuery("")} className="btn-primary mt-4" data-dark-button="true">
+                Aramayı temizle
+              </button>
+            </div>
+          )}
+        </div>
+
+        {selected ? (
+          <aside className="relative overflow-hidden rounded-[1.8rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.92)] p-6 shadow-[var(--shadow-float)] xl:sticky xl:top-8 xl:self-start">
+            <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full blur-3xl" style={{ background: selectedTone.glow }} />
+            <div className="relative z-10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black ${selectedTone.badge}`}>{selected.date}</span>
+                  <p className="mt-3 text-xs font-black uppercase tracking-[.16em] text-[var(--bureau-muted)]">Seçili kayıt</p>
                 </div>
-              ))}
+                <MapPinned className="text-[var(--bureau-teal)]" />
+              </div>
+
+              <h2 className="mt-4 text-3xl font-black tracking-[-.045em] text-[var(--bureau-ink)]">{selected.title}</h2>
+              <p className="mt-4 text-sm leading-8 text-[var(--bureau-copy)]">{selected.description}</p>
+
+              <div className="mt-6 rounded-[1.25rem] border border-[var(--bureau-line)] bg-white/75 p-4">
+                <p className="text-[11px] font-black uppercase tracking-[.16em] text-[var(--bureau-teal)]">İlişkili konu</p>
+                <p className="mt-2 text-base font-black text-[var(--bureau-ink)]">{selected.topic?.title ?? "Genel Tarih"}</p>
+                <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">{selected.topic?.shortDescription ?? "Bu kayıt genel kronoloji bilgisini destekler."}</p>
+              </div>
+
+              <div className="mt-6 grid gap-2">
+                {selected.topic ? (
+                  <Link href={`/topics/${selected.topic.slug}`} className="btn-primary w-full" data-dark-button="true">
+                    Konu anlatımını aç <ArrowRight size={16} />
+                  </Link>
+                ) : null}
+                <Link href={selected.topic ? `/question-bank/${selected.topic.id}` : "/question-bank/all"} className="btn-ghost w-full">
+                  İlgili testi çöz <FileQuestion size={16} />
+                </Link>
+              </div>
             </div>
-          </article>
-        ))}
-      </section>
-
-      {events.length === 0 ? (
-        <section className="rounded-[2rem] border border-[#f7b2b7] bg-[#fff1f2] p-6 text-sm font-black text-[#b4232a]">
-          Timeline verisi bulunamadı. Supabase content_timeline_events tablosunu kontrol et.
-        </section>
-      ) : null}
-    </div>
-  );
-}
-
-function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
-  return (
-    <div className="rounded-3xl border border-white/80 bg-white/84 p-4 shadow-[0_16px_44px_rgba(16,24,40,.08)]">
-      <div className="mb-3 inline-grid size-10 place-items-center rounded-2xl bg-[#101828] text-white">{icon}</div>
-      <p className="text-xs font-black uppercase tracking-[0.12em] text-[#667085]">{label}</p>
-      <p className="mt-1 text-2xl font-black text-[#101828]">{value}</p>
-    </div>
+          </aside>
+        ) : null}
+      </div>
+    </section>
   );
 }
