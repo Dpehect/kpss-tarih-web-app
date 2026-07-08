@@ -32,7 +32,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1] as any } },
 };
 
 export function DashboardPage() {
@@ -213,7 +213,7 @@ function ProgressPill({ label, value }: { label: string; value: number }) {
 
 function Recommendation({ icon: Icon, title, description, href }: { icon: typeof BrainCircuit; title: string; description: string; href: string }) {
   return (
-    <Link href={href} className="group flex items-start gap-4 rounded-3xl border border-[var(--sb-line)] bg-[var(--sb-surface-muted)] p-4 transition hover:-translate-y-0.5 hover:border-blue-700/20 hover:bg-blue-700/5">
+    <Link href={href as any} className="group flex items-start gap-4 rounded-3xl border border-[var(--sb-line)] bg-[var(--sb-surface-muted)] p-4 transition hover:-translate-y-0.5 hover:border-blue-700/20 hover:bg-blue-700/5">
       <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-blue-700/10 text-[var(--sb-primary)]"><Icon size={20} /></span>
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-black text-[var(--sb-text)]">{title}</span>
