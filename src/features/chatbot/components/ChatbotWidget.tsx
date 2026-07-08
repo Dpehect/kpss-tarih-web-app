@@ -1,25 +1,41 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BotMessageSquare, Send, X, Sparkles, RotateCcw, Maximize2, Minimize2 } from "lucide-react";
+import { BotMessageSquare, CheckCircle2, Database, Loader2, Maximize2, Minimize2, Send, ShieldCheck, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 type Message = {
   id: string;
   role: "user" | "bot";
   text: string;
+  sourceMode?: "site-knowledge" | "direct-fact" | "safe-fallback";
   error?: boolean;
 };
 
-type HistoryItem = { role: "user" | "bot"; text: string };
-
 const QUICK_PROMPTS = [
-  "Kut anlayışı nedir?",
-  "Tanzimat ile Islahat farkı?",
-  "Saltanat ne zaman kaldırıldı?",
-  "Lozan'da neler düzenlendi?",
+  "Put kırıcı nedir?",
+  "Artuklular neyle bilinir?",
+  "Sened-i İttifak → Tanzimat → I. Meşrutiyet sırası doğru mu?",
+  "Miryokefalon'un önemi nedir?",
 ];
+
+function renderText(text: string) {
+  const html = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\n/g, "<br />");
+  return <span dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+function sourceLabel(sourceMode?: Message["sourceMode"]) {
+  if (sourceMode === "site-knowledge") return "Site havuzundan";
+  if (sourceMode === "direct-fact") return "Doğrulanmış hızlı bilgi";
+  if (sourceMode === "safe-fallback") return "Güvenli yanıt";
+  return "KPSS Tarih";
+}
 
 export function ChatbotWidget() {
   const [open, setOpen] = useState(false);
@@ -28,64 +44,65 @@ export function ChatbotWidget() {
     {
       id: "welcome",
       role: "bot",
-      text: "Merhaba! Ben KPSS Tarih Yapay Zeka Rehberiniz. KPSS Tarih müfredatına dair konuları, kavramları veya kronolojik gelişmeleri sorabilirsiniz. Size nasıl yardımcı olabilirim? 🎯",
+      sourceMode: "site-knowledge",
+      text: "Merhaba. Ben KPSS Tarih Rehberi'yim. Önce sitenin konu, soru, flashcard ve kronoloji havuzunu tararım; eşleşme bulursam onu sınav odaklı açıklarım.",
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const endRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const panelSize = useMemo(
+    () =>
+      expanded
+        ? "fixed inset-x-3 bottom-20 top-20 z-[70] sm:inset-auto sm:bottom-6 sm:right-6 sm:h-[760px] sm:w-[560px]"
+        : "fixed inset-x-3 bottom-20 z-[70] sm:inset-auto sm:bottom-6 sm:right-6 sm:h-[620px] sm:w-[420px]",
+    [expanded],
+  );
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => {
-        endRef.current?.scrollIntoView({ behavior: "smooth" });
-        inputRef.current?.focus();
-      }, 100);
-    }
+    if (!open) return;
+    const timer = window.setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      inputRef.current?.focus();
+    }, 80);
+    return () => window.clearTimeout(timer);
   }, [messages, open]);
 
-  async function sendMessage(text: string = input.trim()) {
+  async function sendMessage(text = input.trim()) {
     if (!text || loading) return;
-
-    const userMsg: Message = { id: `u-${Date.now()}`, role: "user", text };
-    setMessages((prev) => [...prev, userMsg]);
+    setMessages((current) => [...current, { id: `u-${Date.now()}`, role: "user", text }]);
     setInput("");
     setLoading(true);
 
-    // Konuşma geçmişini oluştur (welcome mesajı hariç)
-    const history: HistoryItem[] = messages
-      .filter((m) => m.id !== "welcome" && !m.error)
-      .map((m) => ({ role: m.role, text: m.text }));
-
     try {
-      const res = await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, history }),
+        body: JSON.stringify({ message: text }),
       });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.error ?? "Yanıt alınamadı");
 
-      const data = await res.json();
-
-      if (!res.ok || data.error) {
-        throw new Error(data.error ?? "Sunucu hatası");
-      }
-
-      setMessages((prev) => [
-        ...prev,
-        { id: `b-${Date.now()}`, role: "bot", text: data.reply },
+      setMessages((current) => [
+        ...current,
+        {
+          id: `b-${Date.now()}`,
+          role: "bot",
+          text: String(data.reply ?? data.answer ?? "Bu soruya güvenli bir yanıt üretemedim."),
+          sourceMode: data.sourceMode,
+        },
       ]);
-    } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : "Bağlantı hatası";
-      setMessages((prev) => [
-        ...prev,
+    } catch (error) {
+      const errorText = error instanceof Error ? error.message : "Bağlantı hatası";
+      setMessages((current) => [
+        ...current,
         {
           id: `e-${Date.now()}`,
           role: "bot",
-          text: errMsg.includes("GEMINI_API_KEY")
-            ? "⚠️ GEMINI_API_KEY ayarlanmamış. Lütfen .env.local dosyasına API anahtarınızı ekleyin: GEMINI_API_KEY=..."
-            : `⚠️ Hata: ${errMsg}. Lütfen tekrar deneyin.`,
           error: true,
+          text: `Bağlantı sorunu oluştu: ${errorText}. Birkaç saniye sonra tekrar dene.`,
         },
       ]);
     } finally {
@@ -93,208 +110,148 @@ export function ChatbotWidget() {
     }
   }
 
-  function handleKey(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      event.preventDefault();
       sendMessage();
     }
   }
 
-  function clearChat() {
-    setMessages([
-      {
-        id: "welcome",
-        role: "bot",
-        text: "Sohbet sıfırlandı. Yeni sorun nedir? 🎯",
-      },
-    ]);
-  }
-
   return (
     <>
-      {/* Floating Button */}
       <motion.button
         type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="KPSS Tarih AI Asistanı"
-        className="fixed bottom-24 right-5 z-[60] flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 to-indigo-800 text-white shadow-[0_8px_32px_rgba(30,58,138,.45)] lg:bottom-6 lg:right-6"
-        whileHover={{ scale: 1.08, y: -2 }}
-        whileTap={{ scale: 0.92 }}
+        aria-label="KPSS Tarih Rehberi"
+        onClick={() => setOpen((value) => !value)}
+        className="fixed bottom-24 right-5 z-[65] grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-blue-700 via-indigo-700 to-slate-950 text-white shadow-[0_18px_45px_rgba(30,58,138,.38)] ring-1 ring-white/20 lg:bottom-6 lg:right-6"
+        whileHover={{ y: -2, scale: 1.04 }}
+        whileTap={{ scale: 0.96 }}
       >
-        <AnimatePresence mode="wait">
-          {open ? (
-            <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <X size={22} />
-            </motion.span>
-          ) : (
-            <motion.span key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-              <BotMessageSquare size={22} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-        {/* Pulse ring */}
-        {!open && (
-          <span className="absolute inset-0 rounded-full bg-blue-600/30 animate-ping" style={{ animationDuration: "2.4s" }} />
-        )}
+        {open ? <X size={22} /> : <BotMessageSquare size={24} />}
+        {!open ? <span className="absolute -right-1 -top-1 size-3 rounded-full bg-amber-400 ring-4 ring-white dark:ring-slate-950" /> : null}
       </motion.button>
 
-      {/* Chat Panel */}
       <AnimatePresence>
-        {open && (
-          <motion.div
-            key="chat-panel"
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 20 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        {open ? (
+          <motion.section
+            initial={{ opacity: 0, y: 18, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 18, scale: 0.98 }}
+            transition={{ duration: 0.18 }}
             className={cn(
-              "fixed bottom-44 right-5 z-[59] flex flex-col overflow-hidden rounded-[1.8rem] border border-white/10 shadow-[0_32px_100px_rgba(15,23,42,.3)] backdrop-blur-2xl transition-[width,height] duration-300 lg:bottom-24 lg:right-6",
-              expanded ? "w-[min(96vw,720px)]" : "w-[min(94vw,420px)]"
+              panelSize,
+              "overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/96 shadow-[0_24px_80px_rgba(15,23,42,.24)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/96",
             )}
-            style={{ 
-              height: expanded ? "min(780px, calc(100dvh - 110px))" : "min(580px, calc(100dvh - 160px))", 
-              background: "var(--sb-surface-strong)" 
-            }}
           >
-            {/* Header */}
-            <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-blue-700 to-indigo-800 px-5 py-4">
-              <div className="grid size-9 shrink-0 place-items-center rounded-2xl bg-white/15">
-                <Sparkles size={17} className="text-white" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-black text-white">KPSS Tarih Yapay Zeka Rehberi</p>
-                <p className="text-[11px] text-white/65">Akademik Sınav Asistanı</p>
-              </div>
-              <button
-                type="button"
-                onClick={clearChat}
-                title="Sohbeti sıfırla"
-                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
-              >
-                <RotateCcw size={15} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setExpanded((v) => !v)}
-                title={expanded ? "Küçült" : "Genişlet"}
-                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
-              >
-                {expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-              </button>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
-                aria-label="Kapat"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 space-y-3 overflow-y-auto p-4">
-              {messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {msg.role === "bot" && (
-                    <div className="mr-2 mt-1 grid size-7 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
-                      <Sparkles size={12} />
-                    </div>
-                  )}
-                  <div
-                    className={`max-w-[82%] rounded-[1.1rem] px-4 py-2.5 text-[13px] leading-6 ${
-                      msg.role === "user"
-                        ? "rounded-br-sm bg-gradient-to-br from-blue-600 to-indigo-700 text-white"
-                        : msg.error
-                        ? "rounded-bl-sm border border-red-200 bg-red-50 text-red-700"
-                        : "rounded-bl-sm border border-[var(--sb-line)] bg-[var(--sb-surface)] text-[var(--sb-text)]"
-                    }`}
-                    style={{ whiteSpace: "pre-line" }}
+            <header className="relative overflow-hidden border-b border-white/10 bg-gradient-to-br from-blue-800 via-indigo-800 to-slate-950 px-5 py-4 text-white">
+              <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-amber-400/20 blur-3xl" />
+              <div className="relative flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/12 ring-1 ring-white/20">
+                    <Sparkles size={20} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-black tracking-tight">KPSS Tarih Rehberi</p>
+                    <p className="mt-0.5 text-xs font-medium text-blue-100">Veri havuzu öncelikli akıllı asistan</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setExpanded((value) => !value)}
+                    className="grid size-8 place-items-center rounded-xl text-white/70 transition hover:bg-white/10 hover:text-white"
+                    aria-label={expanded ? "Küçült" : "Büyüt"}
                   >
-                    {msg.text}
-                  </div>
+                    {expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="grid size-8 place-items-center rounded-xl text-white/70 transition hover:bg-white/10 hover:text-white"
+                    aria-label="Kapat"
+                  >
+                    <X size={16} />
+                  </button>
                 </div>
-              ))}
+              </div>
+              <div className="relative mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-blue-50">
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15"><Database size={13} /> Site havuzu</span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15"><ShieldCheck size={13} /> Yanlış eşleşmeye kilit</span>
+              </div>
+            </header>
 
-              {/* Loading indicator */}
-              {loading && (
-                <div className="flex items-start justify-start gap-2">
-                  <div className="grid size-7 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
-                    <Sparkles size={12} />
-                  </div>
-                  <div className="rounded-[1.1rem] rounded-bl-sm border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-3">
-                    <div className="flex items-center gap-1.5">
-                      {[0, 1, 2].map((i) => (
-                        <span
-                          key={i}
-                          className="size-2 rounded-full bg-blue-500"
-                          style={{ animation: `sb-bounce 1.2s ease-in-out ${i * 0.18}s infinite` }}
-                        />
-                      ))}
+            <div className="flex h-[calc(100%-148px)] flex-col">
+              <div className="flex-1 space-y-4 overflow-y-auto px-4 py-5">
+                {messages.map((message) => (
+                  <div key={message.id} className={cn("flex gap-2", message.role === "user" ? "justify-end" : "justify-start")}>
+                    {message.role === "bot" ? (
+                      <div className="mt-1 grid size-8 shrink-0 place-items-center rounded-xl bg-blue-700 text-white shadow-sm">
+                        <BotMessageSquare size={16} />
+                      </div>
+                    ) : null}
+                    <div className={cn("max-w-[82%] rounded-3xl px-4 py-3 text-sm leading-6", message.role === "user" ? "bg-blue-700 text-white shadow-lg shadow-blue-700/20" : "border border-slate-200 bg-slate-50 text-slate-800 dark:border-white/10 dark:bg-white/5 dark:text-slate-100", message.error && "border-red-200 bg-red-50 text-red-700")}> 
+                      {message.role === "bot" ? (
+                        <div className="mb-2 inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:ring-white/10">
+                          <CheckCircle2 size={11} /> {sourceLabel(message.sourceMode)}
+                        </div>
+                      ) : null}
+                      <p>{renderText(message.text)}</p>
                     </div>
                   </div>
-                </div>
-              )}
-              <div ref={endRef} />
-            </div>
-
-            {/* Quick prompts (shown when only welcome message) */}
-            {messages.length === 1 && !loading && (
-              <div className="shrink-0 border-t border-[var(--sb-line)] px-4 py-3">
-                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[var(--sb-text-muted)]">Hızlı sorular</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {QUICK_PROMPTS.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      onClick={() => sendMessage(q)}
-                      className="rounded-full border border-[var(--sb-line)] bg-[var(--sb-surface)] px-3 py-1 text-[11px] font-semibold text-[var(--sb-text-soft)] transition hover:border-blue-500/30 hover:bg-blue-600/5 hover:text-blue-700"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
+                ))}
+                {loading ? (
+                  <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
+                    <Loader2 className="animate-spin" size={16} /> Site veri havuzu taranıyor...
+                  </div>
+                ) : null}
+                <div ref={endRef} />
               </div>
-            )}
 
-            {/* Input */}
-            <div className="shrink-0 border-t border-[var(--sb-line)] p-3">
-              <div className="flex gap-2">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKey}
-                  placeholder="Örnek: Kut anlayışı nedir? veya Lozan Barış Antlaşması..."
-                  disabled={loading}
-                  className="min-w-0 flex-1 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-2.5 text-[13px] text-[var(--sb-text)] outline-none transition placeholder:text-[var(--sb-text-muted)] focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 disabled:opacity-60"
-                />
-                <motion.button
-                  type="button"
-                  onClick={() => sendMessage()}
-                  disabled={!input.trim() || loading}
-                  className="grid size-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-md disabled:opacity-40"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label="Gönder"
-                >
-                  <Send size={15} />
-                </motion.button>
+              {messages.length === 1 && !loading ? (
+                <div className="border-t border-slate-200/70 px-4 py-3 dark:border-white/10">
+                  <p className="mb-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Hızlı doğrulama</p>
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {QUICK_PROMPTS.map((prompt) => (
+                      <button
+                        key={prompt}
+                        type="button"
+                        onClick={() => sendMessage(prompt)}
+                        className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+                      >
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="border-t border-slate-200/70 bg-white/95 p-3 dark:border-white/10 dark:bg-slate-950/95">
+                <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 ring-blue-500/10 focus-within:ring-4 dark:border-white/10 dark:bg-white/5">
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={handleKeyDown}
+                    disabled={loading}
+                    placeholder="Örn: Put kırıcı kimdir?"
+                    className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-white"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => sendMessage()}
+                    disabled={!input.trim() || loading}
+                    className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-700 text-white shadow-sm transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-40"
+                    aria-label="Gönder"
+                  >
+                    <Send size={17} />
+                  </button>
+                </div>
+                <p className="mt-2 text-center text-[10px] font-semibold text-slate-400">Önce site havuzu taranır; emin olmayan bilgi uydurulmaz.</p>
               </div>
-              <p className="mt-2 text-center text-[10px] text-[var(--sb-text-muted)]">
-                Gemini AI · Yalnızca KPSS Tarih konularında
-              </p>
             </div>
-          </motion.div>
-        )}
+          </motion.section>
+        ) : null}
       </AnimatePresence>
-
-      <style jsx global>{`
-        @keyframes sb-bounce {
-          0%, 100% { transform: translateY(0); opacity: .6; }
-          50% { transform: translateY(-5px); opacity: 1; }
-        }
-      `}</style>
     </>
   );
 }
