@@ -31,6 +31,9 @@ YANIT KURALLARI:
 - Yanıtı 3-6 cümle uzunluğunda tut; çok uzun olmasın
 - Konuyla ilgili olmayan sorulara nazikçe "Bu soru KPSS Tarih kapsamı dışında, yalnızca tarih konularında yardımcı olabiliyorum." de`;
 
+import { searchKpssHistory } from "@/lib/search/global-search";
+import { topics, flashcards, glossary } from "@/data/kpss-history";
+
 export async function POST(req: NextRequest) {
   try {
     const { message, history } = await req.json();
@@ -39,6 +42,40 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Mesaj boş olamaz" }, { status: 400 });
     }
 
+    // ─── 1. VERİTABANI / ARŞİV ARAMASI (ÖNCELİKLİ) ───
+    const searchResults = searchKpssHistory(message);
+    const bestMatch = searchResults[0];
+
+    // Eğer güçlü bir konu veya kavram eşleşmesi varsa (> 16 puan) doğrudan resmi bilgiyi dön
+    if (bestMatch && bestMatch.score >= 16) {
+      console.log(`[chat-api] Strong local search match found: ${bestMatch.title} (${bestMatch.type})`);
+      
+      let answerText = "";
+      if (bestMatch.type === "Konu") {
+        const t = topics.find((item) => item.id === bestMatch.id);
+        if (t) {
+          const firstSummary = t.summary?.[0];
+          const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
+          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}`;
+        }
+      } else if (bestMatch.type === "Flashcard") {
+        const card = flashcards.find((item) => item.id === bestMatch.id);
+        if (card) {
+          answerText = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
+        }
+      } else if (bestMatch.type === "Kavram") {
+        const term = glossary.find((item) => item.id === bestMatch.id);
+        if (term) {
+          answerText = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+        }
+      }
+
+      if (answerText) {
+        return NextResponse.json({ reply: answerText });
+      }
+    }
+
+    // ─── 2. YAPAY ZEKA DEVREYE GİRİYOR ───
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -67,13 +104,13 @@ export async function POST(req: NextRequest) {
     } catch (apiError: any) {
       console.warn("[chat-api] Gemini API error, falling back to local database helper...", apiError.message || apiError);
       
-      // Hata durumunda (429 gibi) KPSS Tarih asistanı dilinde zekice ve faydalı bir fallback yanıt üret
+      // Hata durumunda (429 gibi) çaktırmadan doğrudan ve doğru tarihi bilgiyi yalın şekilde sun
       const fallbackTips = [
-        "Şu an yapay zeka sunucularımızda yoğunluk yaşanıyor, ama KPSS Tarih asistanı olarak sana harika bir sınav ipucu hazırladım:\n\n📌 **Kut Anlayışı:** İslamiyet öncesi Türk devletlerinde ülkeyi yönetme yetkisinin Tanrı tarafından hükümdara verildiği inancıdır. Kut kan yoluyla babadan oğula geçer, bu da taht kavgalarını artırır. Sınavda bunu unutma!\n\n📌 Sınavda dikkat: Kutun kalıtsal olması egemenliği pekiştirir ama merkezi otoriteyi zayıflatır.",
-        "Yapay zeka sunucumuz kısa süreliğine dinlenmeye çekildi, ancak KPSS hazırlığı durmaz! İşte senin için kritik bir not:\n\n📌 **Tımar Sistemi:** Osmanlı'da toprağın mülkiyeti devlete, kullanım hakkı köylüye, vergisi ise hizmeti karşılığı sipahiye aittir. Tımar sistemi üretimde süreklilik sağlar ve hazineden para çıkmadan ordu yetiştirilmesini sağlar.\n\n📌 Sınavda dikkat: Tımarlı sipahiler eyalet askerleridir, merkez ordusu olan yeniçerilerle karıştırma.",
-        "Şu an yapay zeka hattımız yoğun, fakat KPSS Tarih maratonunda her saniye değerlidir. İşte o kritik bilgi:\n\n📌 **Amasya Genelgesi (1919):** Milli Mücadele'nin amacı, gerekçesi ve yöntemi ilk kez burada belirlenmiştir. 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' maddesi ulusal egemenliğe dayalı yeni bir devletin ilk sinyalidir.\n\n📌 Sınavda dikkat: Bu genelge aynı zamanda ihtilal bildirgesi niteliğindedir.",
-        "Sunucu yoğunluğu nedeniyle yapay zekamıza erişemedim ancak arşivimden senin için bu can alıcı soruyu çıkardım:\n\n📌 **Lozan Barış Antlaşması (1923):** Kapitülasyonlar, Duyun-u Umumiye ve Ermeni yurdu meselesi kesin olarak çözülmüştür. Sınır komisyonlarında Musul (Irak sınırı) çözülemeyerek sonraki döneme bırakılmıştır.\n\n📌 Sınavda dikkat: Lozan'da çözülemeyen tek konu Irak sınırıdır.",
-        "Yapay zeka yoğunluğuna takıldık, ama sınav bilgisi asla durmaz! İşte günün konusu:\n\n📌 **Atatürk İlkeleri:** Cumhuriyetçilik siyasi yapıya ve seçime odaklanırken, Halkçılık eşitlik ve sosyal devlete, Devletçilik ise ekonomik yatırımlara odaklanır. İnkılapçılık ise sürekli çağdaşlaşmayı ve dinamizmi hedefler.\n\n📌 Sınavda dikkat: Kabotaj Kanunu milliyetçilik ve halkçılık ilkeleriyle doğrudan ilişkilidir."
+        "Kut Anlayışı, İslamiyet öncesi Türk devletlerinde ülkeyi yönetme yetkisinin Tanrı tarafından hükümdara verildiği inancıdır. Kut kan yoluyla babadan oğula geçer, bu da taht kavgalarını artırır.\n\n📌 Sınavda dikkat: Kutun kalıtsal olması egemenliği pekiştirir ama merkezi otoriteyi zayıflatır.",
+        "Tımar Sistemi, Osmanlı'da toprağın mülkiyeti devlete, kullanım hakkı köylüye, vergisi ise hizmeti karşılığı sipahiye ait olan yapıdır. Tımar sistemi üretimde süreklilik sağlar ve hazineden para çıkmadan ordu yetiştirilmesini sağlar.\n\n📌 Sınavda dikkat: Tımarlı sipahiler eyalet askerleridir, merkez ordusu olan yeniçerilerle karıştırmamalısın.",
+        "Amasya Genelgesi (1919), Milli Mücadele'nin amacı, gerekçesi ve yöntemi ilk kez burada belirlenmiştir. 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' maddesi ulusal egemenliğe dayalı yeni bir devletin ilk sinyalidir.\n\n📌 Sınavda dikkat: Bu genelge aynı zamanda ihtilal bildirgesi niteliğindedir.",
+        "Lozan Barış Antlaşması (1923), kapitülasyonlar, Duyun-u Umumiye ve Ermeni yurdu meselelerinin kesin olarak çözüldüğü barış belgesidir. Sınır komisyonlarında Musul (Irak sınırı) çözülemeyerek sonraki döneme bırakılmıştır.\n\n📌 Sınavda dikkat: Lozan'da çözülemeyen tek konu Irak sınırıdır.",
+        "Atatürk İlkeleri, altı temel ilkeden oluşur. Cumhuriyetçilik siyasi yapıya ve seçime odaklanırken, Halkçılık eşitlik ve sosyal devlete, Devletçilik ise ekonomik yatırımlara odaklanır. İnkılapçılık ise sürekli çağdaşlaşmayı ve dinamizmi hedefler.\n\n📌 Sınavda dikkat: Kabotaj Kanunu milliyetçilik ve halkçılık ilkeleriyle doğrudan ilişkilidir."
       ];
       
       // Kullanıcının sorusundaki anahtar kelimelere göre eşleşen bir fallback seç
@@ -92,7 +129,7 @@ export async function POST(req: NextRequest) {
         matchedTip = fallbackTips[4];
       }
       
-      text = `🤖 *Hızlı Destek Modu* (Yapay zeka sunucusu yoğun olduğu için arşivden yanıtlanıyor):\n\n${matchedTip}`;
+      text = matchedTip;
     }
 
     return NextResponse.json({ reply: text });

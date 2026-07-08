@@ -103,24 +103,33 @@ html[data-theme="dark"] {
 aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) {
   color: var(--sb-text-soft) !important;
 }
-aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) :where(span, strong, small, svg, path, i) {
-  color: inherit !important;
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) :where(span, strong, small, svg, path, i),
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg {
+  color: var(--sb-text-soft) !important;
   fill: none !important;
-  stroke: currentColor !important;
+  stroke: var(--sb-text-soft) !important;
 }
 
 aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
   color: var(--sb-primary) !important;
   background-color: rgba(30, 58, 138, 0.09) !important;
 }
-aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i) {
-  color: inherit !important;
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i),
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) svg {
+  color: var(--sb-primary) !important;
   fill: none !important;
-  stroke: currentColor !important;
+  stroke: var(--sb-primary) !important;
 }
 
 html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
   color: var(--sb-primary-2) !important;
   background-color: rgba(37, 99, 235, 0.15) !important;
 }
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i),
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) svg {
+  color: var(--sb-primary-2) !important;
+  fill: none !important;
+  stroke: var(--sb-primary-2) !important;
+}
+
 

@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BotMessageSquare, Send, X, Sparkles, RotateCcw } from "lucide-react";
+import { BotMessageSquare, Send, X, Sparkles, RotateCcw, Maximize2, Minimize2 } from "lucide-react";
+import { cn } from "@/lib/cn";
 
 type Message = {
   id: string;
@@ -22,6 +23,7 @@ const QUICK_PROMPTS = [
 
 export function ChatbotWidget() {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -145,8 +147,14 @@ export function ChatbotWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-44 right-5 z-[59] flex w-[min(94vw,420px)] flex-col overflow-hidden rounded-[1.8rem] border border-white/10 shadow-[0_32px_100px_rgba(15,23,42,.3)] backdrop-blur-2xl lg:bottom-24 lg:right-6"
-            style={{ height: "min(580px, calc(100dvh - 160px))", background: "var(--sb-surface-strong)" }}
+            className={cn(
+              "fixed bottom-44 right-5 z-[59] flex flex-col overflow-hidden rounded-[1.8rem] border border-white/10 shadow-[0_32px_100px_rgba(15,23,42,.3)] backdrop-blur-2xl transition-[width,height] duration-300 lg:bottom-24 lg:right-6",
+              expanded ? "w-[min(96vw,720px)]" : "w-[min(94vw,420px)]"
+            )}
+            style={{ 
+              height: expanded ? "min(780px, calc(100dvh - 110px))" : "min(580px, calc(100dvh - 160px))", 
+              background: "var(--sb-surface-strong)" 
+            }}
           >
             {/* Header */}
             <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-blue-700 to-indigo-800 px-5 py-4">
@@ -164,6 +172,14 @@ export function ChatbotWidget() {
                 className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
               >
                 <RotateCcw size={15} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setExpanded((v) => !v)}
+                title={expanded ? "Küçült" : "Genişlet"}
+                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
+              >
+                {expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
               </button>
               <button
                 type="button"
