@@ -4,7 +4,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   // 1. İslamiyet Öncesi Türk Tarihi
   {
     topicId: "t1",
-    front: "Kut Anlayışı",
+    front: "Kut",
     back: "İlk Türk devletlerinde hükümdara yönetme yetkisinin Tanrı tarafından verildiğine inanılmasıdır. Egemenliği meşrulaştırır ancak hanedanın ortak malı anlayışı nedeniyle taht kavgalarına yol açar.",
     hint: "Yönetme yetkisinin kan yoluyla hanedan üyelerine geçtiğini unutma.",
     tags: ["İslamiyet Öncesi", "Devlet Yönetimi"]
@@ -18,7 +18,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t1",
-    front: "Kurultay (Toy)",
+    front: "Kurultay",
     back: "Devlet işlerinin görüşüldüğü, boy beyleri ve hükümdarın katıldığı danışma meclisidir. Son söz hükümdara ait olsa da kağanın yetkilerini sınırlayabilen demokratik bir danışma organıdır.",
     hint: "Hükümdarın olmadığı durumlarda Hatun kurultaya başkanlık edebilir.",
     tags: ["İslamiyet Öncesi", "Yönetim"]
@@ -48,7 +48,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t2",
-    front: "İkta Sistemi",
+    front: "İkta",
     back: "Devlet görevlilerine ve ordu komutanlarına hizmet karşılığı verilen toprak gelirleri sistemidir. Hazineye yük olmadan büyük bir ordunun beslenmesini ve tarımsal üretimde sürekliliği sağlar.",
     hint: "Osmanlı'daki Tımar sisteminin temelidir; mülkiyeti devlete aittir.",
     tags: ["Türk-İslam", "Toprak Sistemi"]
@@ -64,28 +64,28 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   // 3. Anadolu Selçuklu ve Beylikler
   {
     topicId: "t3",
-    front: "Miryokefalon Savaşı",
+    front: "Miryokefalon",
     back: "1176 yılında Anadolu Selçuklu Devleti ile Bizans arasında yapılan savaştır. Bizans'ın taarruz gücü tamamen kırılmış ve Anadolu'nun Türk yurdu olduğu kesinleşmiştir.",
     hint: "Bizans'ın Anadolu'yu Türklerden geri alma ümitleri tamamen sona ermiştir.",
     tags: ["Anadolu Selçuklu", "Savaş"]
   },
   {
     topicId: "t3",
-    front: "Kösedağ Savaşı",
+    front: "Kösedağ",
     back: "1243 yılında Moğollarla yapılan savaştır. Anadolu Selçuklu ordusunun yenilmesiyle devlet yıkılış sürecine girmiş, Anadolu'da Moğol baskısı başlamış ve II. Beylikler Dönemi kurulmuştur.",
     hint: "Anadolu'daki siyasi birliğin tamamen parçalanmasına yol açmıştır.",
     tags: ["Anadolu Selçuklu", "Savaş"]
   },
   {
     topicId: "t3",
-    front: "Ahilik Teşkilatı",
+    front: "Ahilik",
     back: "Ahi Evran tarafından kurulan esnaf, zanaatkar ve ticaret örgütlenmesidir. Meslek eğitimi (çırak-kalfa-usta), esnaf ahlakı denetimi (narh kesme) ve sosyal dayanışmayı sağlar.",
     hint: "Gerektiğinde vatan savunmasında askeri güç olarak da görev almışlardır.",
     tags: ["Anadolu Selçuklu", "Sosyal Yapı"]
   },
   {
     topicId: "t3",
-    front: "Kervansaraylar",
+    front: "Kervansaray",
     back: "Ticaret yolları üzerinde kurulu konaklama ve savunma yapılarıdır. Tüccarların güvenliğini sağlar, 3 gün boyunca yeme-içme ve konaklama hizmetlerini ücretsiz sunar.",
     hint: "Devlet destekli ticari sigortacılığın dünyadaki ilk örneklerindendir.",
     tags: ["Anadolu Selçuklu", "Ticaret"]
@@ -94,7 +94,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   // 4. Osmanlı Kuruluş ve Yükseliş
   {
     topicId: "t4",
-    front: "İskan Politikası",
+    front: "İskan",
     back: "Osmanlı Devleti'nin Balkanlar'da fethettiği yerlere Anadolu'dan gelen Türk nüfusu yerleştirme siyasetidir. Fethedilen bölgelerin Türkleşmesini ve kalıcı olmasını sağlamıştır.",
     hint: "Göçebe Türkmenleri yerleşik yaşama geçirerek üretimi artırmayı hedeflemiştir.",
     tags: ["Osmanlı", "Siyaset"]
@@ -108,7 +108,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t4",
-    front: "Devşirme Sistemi",
+    front: "Devşirme",
     back: "Gayrimüslim tebaanın yetenekli çocuklarının devlet hizmeti için saray okulu (Enderun) ve ordu (Yeniçeriler) kadrosuna alınarak eğitilmesidir.",
     hint: "Osmanlı bürokrasisinin ve merkez ordusunun ana kaynağını oluşturur.",
     tags: ["Osmanlı", "Ordu"]
@@ -138,14 +138,14 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t5",
-    front: "Tımar Sistemi (Dirlik)",
-    back: "Miri arazilerin vergi gelirlerinin hizmet ve askeri görev karşılığı şahıslara verilmesidir. Hazineye yük olmadan tımarlı sipahi ordusu yetiştirilmesini ve taşra güvenliğini sağlar.",
+    front: "Tımar",
+    back: "Miri arazilerin vergi gelirlerinin hizmet ve askeri görev karşılığı şahıslara verilmesidir. Hazineye yük olmadan tımarlı sipahi ordu yetiştirilmesini ve taşra güvenliğini sağlar.",
     hint: "Üretimin denetimini sağlayarak vergi toplama maliyetini sıfıra indirmiştir.",
     tags: ["Osmanlı", "Toprak Sistemi"]
   },
   {
     topicId: "t5",
-    front: "İlmiye Sınıfı",
+    front: "İlmiye",
     back: "Eğitim (medreseler), hukuk (kadı, şeri yargı) ve din (müftü, şeyhülislam) işlerinden sorumlu olan, ulemadan oluşan yönetici sınıftır.",
     hint: "Kazasker ve Şeyhülislam bu sınıfın en üst düzey temsilcileridir.",
     tags: ["Osmanlı", "Sosyal Yapı"]
@@ -161,7 +161,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t6",
-    front: "Tanzimat Fermanı",
+    front: "Tanzimat",
     back: "1839 yılında ilan edilen, kanun gücünün üstünlüğünü ve tüm vatandaşların (Müslüman ve gayrimüslim) hak eşitliğini savunan fermandır.",
     hint: "Padişah Abdülmecit döneminde ilan edilmiş, hukukun üstünlüğünü getirmiştir.",
     tags: ["Osmanlı", "Hukuk"]
@@ -178,7 +178,7 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
     front: "Nizam-ı Cedid",
     back: "III. Selim döneminde kurulan batı tarzı yeni ordu ve bu ordunun giderlerini karşılamak amacıyla oluşturulan İrad-ı Cedid hazinesidir.",
     hint: "Yeniliklere karşı çıkan Yeniçeriler tarafından isyanla (Kabakçı Mustafa) sonlandırılmıştır.",
-    tags: ["Osmanlı", "Yenileşme"]
+    tags: ["Osnyanlı", "Yenileşme"]
   },
 
   // 7. Milli Mücadele Hazırlık Dönemi
@@ -221,21 +221,21 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   },
   {
     topicId: "t8",
-    front: "Lozan Barış Antlaşması",
+    front: "Lozan",
     back: "Yeni Türk devletinin bağımsızlığının uluslararası alanda tescillendiği 1923 antlaşmasıdır. Kapitülasyonlar, Duyun-u Umumiye ve Ermeni yurdu sorunları çözülmüş; Irak sınırı ise sonraya bırakılmıştır.",
     hint: "Lozan'da çözülemeyip sonraki döneme kalan tek konu Irak (Musul) sınırıdır.",
     tags: ["Kurtuluş Savaşı", "Antlaşma"]
   },
   {
     topicId: "t8",
-    front: "Sakarya Meydan Muharebesi",
+    front: "Sakarya Savaşı",
     back: "Yunan ordusunun Ankara'ya ilerlemesini durduran, Mustafa Kemal'in 'Hattı müdafaa yoktur, sathı müdafaa vardır' dediği, Türk ordusunun son savunma savaşıdır.",
     hint: "Kazanılması üzerine Fransa ile Ankara Antlaşması imzalanarak güney cephesi kapanmıştır.",
     tags: ["Kurtuluş Savaşı", "Savaş"]
   },
   {
     topicId: "t8",
-    front: "Gümrü Antlaşması",
+    front: "Gümrü",
     back: "Doğu cephesinde Ermenistan ile imzalanan antlaşmadır. TBMM'nin askeri ve diplomatik alanda elde ettiği ilk uluslararası zaferdir.",
     hint: "Ermeniler Doğu Anadolu'daki hak iddialarından resmen vazgeçmiştir.",
     tags: ["Kurtuluş Savaşı", "Antlaşma"]
@@ -274,14 +274,14 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   // 10. Cumhuriyet Dönemi Dış Politika
   {
     topicId: "t10",
-    front: "Montrö Boğazlar Sözleşmesi",
+    front: "Montrö",
     back: "1936 yılında imzalanan, Boğazlar Komisyonu'nu kaldırarak Boğazlar üzerinde tam Türk egemenliğini sağlayan sözleşmedir.",
     hint: "Türkiye, Boğazlarda asker bulundurma ve savaş durumunda kapatma yetkisi almıştır.",
     tags: ["Dış Politika", "Sözleşme"]
   },
   {
     topicId: "t10",
-    front: "Hatay Sorunu",
+    front: "Hatay",
     back: "Mustafa Kemal'in 'Şahsi meselem' dediği, 1939 yılında Hatay Meclisi'nin aldığı kararla Türkiye anavatanına katılan sınır şehridir.",
     hint: "Atatürk'ün ölümünden sonra çözüme kavuşturulabilmiştir.",
     tags: ["Dış Politika", "Sınır"]
@@ -304,14 +304,14 @@ export const staticFlashcards: Omit<Flashcard, "id">[] = [
   // 11. Çağdaş Türk ve Dünya Tarihi
   {
     topicId: "t11",
-    front: "NATO Üyeliği",
+    front: "NATO",
     back: "Türkiye'nin dış tehditlere (özellikle SSCB) karşı batı ittifakına entegre olmak amacıyla 1952 yılında katıldığı Kuzey Atlantik askeri örgütüdür.",
     hint: "NATO'ya girebilmek için Kore'ye asker gönderilmiştir.",
     tags: ["Çağdaş Dünya", "Askeri"]
   },
   {
     topicId: "t11",
-    front: "Kıbrıs Barış Harekatı",
+    front: "Kıbrıs",
     back: "1974 yılında adadaki Türklerin can güvenliğini korumak amacıyla Bülent Ecevit hükümeti liderliğinde düzenlenen askeri harekattır.",
     hint: "Sonucunda Kuzey Kıbrıs Türk Cumhuriyeti'nin (KKTC) temelleri atılmıştır.",
     tags: ["Çağdaş Dünya", "Askeri"]

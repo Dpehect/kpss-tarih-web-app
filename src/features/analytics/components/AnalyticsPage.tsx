@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 import { BarChart3, BookOpen, CreditCard, FileQuestion, Sparkles, Target, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
