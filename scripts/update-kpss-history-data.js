@@ -1,4 +1,9 @@
-import type {
+const fs = require("fs");
+const path = require("path");
+
+console.log("[Local Data Hydrator] kpss-history.ts zenginleştiriliyor...");
+
+const newHistoryContent = `import type {
   Exam,
   Flashcard,
   Question,
@@ -565,17 +570,17 @@ export const topics: Topic[] = [
 export const questions: Question[] = staticQuestions;
 
 export const flashcards: Flashcard[] = staticFlashcards.map((card, index) => ({
-  id: `${card.topicId}-card-${index + 1}`,
+  id: \`\${card.topicId}-card-\${index + 1}\`,
   ...card
 }));
 
 export const timelineEvents: TimelineEvent[] = topics.flatMap((topicItem, topicIndex) =>
   topicItem.quickTimeline.map((item, index) => ({
-    id: `${topicItem.id}-event-${index + 1}`,
+    id: \`\${topicItem.id}-event-\${index + 1}\`,
     topicId: topicItem.id,
     date: item.date,
     title: item.event,
-    description: `${item.event}, ${topicItem.title} başlığında kronoloji ve neden-sonuç ilişkisini kurmak için kritik bir referans noktasıdır.`,
+    description: \`\${item.event}, \${topicItem.title} başlığında kronoloji ve neden-sonuç ilişkisini kurmak için kritik bir referans noktasıdır.\`,
     tone: (["gold", "turquoise", "crimson", "parchment"] as const)[(topicIndex + index) % 4],
   }))
 );
@@ -583,10 +588,10 @@ export const timelineEvents: TimelineEvent[] = topics.flatMap((topicItem, topicI
 export const exams: Exam[] = Array.from({ length: 50 }).map((_, index) => {
   const examIndex = index + 1;
   return {
-    id: `kpss-tarih-genel-deneme-${examIndex}`,
-    title: `KPSS Tarih Genel Deneme ${examIndex}`,
+    id: \`kpss-tarih-genel-deneme-\${examIndex}\`,
+    title: \`KPSS Tarih Genel Deneme \${examIndex}\`,
     durationMinutes: 45,
-    description: `${examIndex}. sınav denemesi. Tüm ana dönemlerden dengeli seçilmiş açıklamalı genel tekrar denemesi.`,
+    description: \`\${examIndex}. sınav denemesi. Tüm ana dönemlerden dengeli seçilmiş açıklamalı genel tekrar denemesi.\`,
     questionIds: [] // Bu kısım SQL trigger tarafından dinamik doldurulur
   };
 });
@@ -649,27 +654,10 @@ export function getTimelineEventsByTopic(topicId: string) {
   });
 }
 
-export interface GlossaryTerm {
-  id: string;
-  topicId: string;
-  term: string;
-  definition: string;
-  whyImportant: string;
-}
-
-export const glossary: GlossaryTerm[] = flashcards.map((card) => ({
-  id: card.id,
-  topicId: card.topicId,
-  term: card.front,
-  definition: card.back,
-  whyImportant: card.hint
-}));
-
-export function getGlossaryByTopic(topicId: string): GlossaryTerm[] {
-  const target = normalizeCompatKey(topicId);
-  return glossary.filter((item) => {
-    return item.id.toLowerCase().startsWith(target);
-  });
-}
-
 export const recommendations = typeof studyRecommendations !== "undefined" ? studyRecommendations : [];
+`;
+
+const outputPath = path.join(process.cwd(), "src/data/kpss-history.ts");
+fs.writeFileSync(outputPath, newHistoryContent, "utf8");
+
+console.log(`[Local Data Hydrator] "${outputPath}" başarıyla zenginleştirildi!`);

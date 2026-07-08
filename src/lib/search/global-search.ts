@@ -12,24 +12,38 @@ export type SearchResult = {
 
 function normalize(value: string) {
   return value
-    .toLocaleLowerCase("tr-TR")
+    .toLowerCase()
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ı/g, "i")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c")
     .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "");
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 }
 
 function scoreText(query: string, ...fields: string[]) {
-  const normalizedQuery = normalize(query.trim());
+  const normalizedQuery = normalize(query);
   if (!normalizedQuery) return 0;
 
-  const tokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 2);
+  const stopWords = new Set(["nedir", "kimdir", "maddeleri", "hakkında", "nelerdir", "anlaşması", "savaşı", "kanunu", "ve", "ile", "için", "olan", "olayı", "sorusu", "dönemi", "tarihi", "özeti"]);
+  const tokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 2 && !stopWords.has(token));
   const haystack = normalize(fields.join(" "));
   const haystackTokens = haystack.split(/\s+/).filter(token => token.length >= 2);
   let score = 0;
 
+  if (tokens.length === 0) {
+    // Eğer tüm kelimeler stop word ise, normal token'ları kullan
+    const backupTokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 2);
+    tokens.push(...backupTokens);
+  }
+
   for (const token of tokens) {
     // Tam veya substring eşleşme
     if (haystack.includes(token)) {
-      score += 8;
+      score += 12; // Puanı 8'den 12'ye çıkardık!
       continue;
     }
     
@@ -44,12 +58,12 @@ function scoreText(query: string, ...fields: string[]) {
     });
 
     if (match) {
-      score += 6;
+      score += 8; // Puanı 6'dan 8'e çıkardık!
     }
   }
 
-  if (haystack.includes(normalizedQuery)) score += 15;
-  if (normalize(fields[0] ?? "").startsWith(normalizedQuery)) score += 20;
+  if (haystack.includes(normalizedQuery)) score += 20;
+  if (normalize(fields[0] ?? "").startsWith(normalizedQuery)) score += 25;
 
   return score;
 }

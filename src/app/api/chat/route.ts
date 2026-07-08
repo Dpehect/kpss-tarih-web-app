@@ -123,36 +123,52 @@ ${message}`
         text = `${text.trim()}${deepLink}`;
       }
     } catch (apiError: any) {
-      console.warn("[chat-api] Gemini API error, falling back to local database helper...", apiError.message || apiError);
+      console.warn("[chat-api] Primary model gemini-1.5-flash-8b failed, trying backup gemini-1.5-flash...", apiError.message || apiError);
       
-      // Hata durumunda (429 gibi) arama sonucunu (bestMatch) kullan.
-      let matchedTip = fallbackText;
-      if (!matchedTip && bestMatch && bestMatch.score > 0) {
-        if (bestMatch.type === "Konu") {
-          const t = topics.find((item) => item.id === bestMatch.id);
-          if (t) {
-            const firstSummary = t.summary?.[0];
-            const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
-          }
-        } else if (bestMatch.type === "Flashcard") {
-          const card = flashcards.find((item) => item.id === bestMatch.id);
-          if (card) {
-            matchedTip = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
-          }
-        } else if (bestMatch.type === "Kavram") {
-          const term = glossary.find((item) => item.id === bestMatch.id);
-          if (term) {
-            matchedTip = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+      try {
+        const backupModel = genAI.getGenerativeModel({
+          model: "gemini-1.5-flash",
+          systemInstruction: SYSTEM_PROMPT,
+        });
+        const backupChat = backupModel.startChat({ history: chatHistory });
+        const backupResult = await backupChat.sendMessage(userPrompt);
+        text = backupResult.response.text();
+        
+        if (deepLink && !text.includes("/topics/")) {
+          text = `${text.trim()}${deepLink}`;
+        }
+      } catch (backupError: any) {
+        console.error("[chat-api] All Gemini models failed, falling back to local database helper...", backupError.message || backupError);
+        
+        // Hata durumunda (429/404 gibi) arama sonucunu (bestMatch) kullan.
+        let matchedTip = fallbackText;
+        if (!matchedTip && bestMatch && bestMatch.score > 0) {
+          if (bestMatch.type === "Konu") {
+            const t = topics.find((item) => item.id === bestMatch.id);
+            if (t) {
+              const firstSummary = t.summary?.[0];
+              const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
+              matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
+            }
+          } else if (bestMatch.type === "Flashcard") {
+            const card = flashcards.find((item) => item.id === bestMatch.id);
+            if (card) {
+              matchedTip = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
+            }
+          } else if (bestMatch.type === "Kavram") {
+            const term = glossary.find((item) => item.id === bestMatch.id);
+            if (term) {
+              matchedTip = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+            }
           }
         }
+        
+        if (!matchedTip) {
+          matchedTip = "Sorduğun soruya dair doğrudan bir eşleşme bulamadım, ancak KPSS Tarih sınavında en sık sorulan başlıklardan biri olan **Osmanlı Kuruluş Dönemi** hakkında şunları bilmelisin:\n\nOsmanlı Devleti, 1299 yılında Osman Bey tarafından Söğüt ve Domaniç çevresinde kurulmuştur. Bizans sınırındaki jeopolitik konumu (uç beyliği) ve gaza ideolojisi sayesinde kısa sürede büyümüştür.\n\n📌 Sınavda dikkat: Osmanlı'nın büyümesinde iskan ve istimalet (hoşgörü) politikaları en belirleyici unsurlardır.";
+        }
+        
+        text = matchedTip;
       }
-      
-      if (!matchedTip) {
-        matchedTip = "Sorduğun soruya dair doğrudan bir eşleşme bulamadım, ancak KPSS Tarih sınavında en sık sorulan başlıklardan biri olan **Osmanlı Kuruluş Dönemi** hakkında şunları bilmelisin:\n\nOsmanlı Devleti, 1299 yılında Osman Bey tarafından Söğüt ve Domaniç çevresinde kurulmuştur. Bizans sınırındaki jeopolitik konumu (uç beyliği) ve gaza ideolojisi sayesinde kısa sürede büyümüştür.\n\n📌 Sınavda dikkat: Osmanlı'nın büyümesinde iskan ve istimalet (hoşgörü) politikaları en belirleyici unsurlardır.";
-      }
-      
-      text = matchedTip;
     }
 
     return NextResponse.json({ reply: text });
