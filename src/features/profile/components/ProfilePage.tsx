@@ -1,13 +1,31 @@
 "use client";
 
-import { RotateCcw, User } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { LogOut, RotateCcw, User } from "lucide-react";
 import { PageHeader } from "@/components/core/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { exams, flashcards, questions, topics } from "@/data/kpss-history";
 import { useStudyProgressStore } from "@/store/useStudyProgressStore";
+import { createClient } from "@/lib/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function ProfilePage() {
+  const supabase = useMemo(() => createClient(), []);
+  const [sessionUser, setSessionUser] = useState<SupabaseUser | null>(null);
+
+  useEffect(() => {
+    if (!supabase) return;
+    void supabase.auth.getUser().then(({ data }) => {
+      setSessionUser(data.user ?? null);
+    });
+  }, [supabase]);
+
+  async function handleSignOut() {
+    if (supabase) await supabase.auth.signOut();
+    window.location.href = "/";
+  }
+
   const completedTopicIds = useStudyProgressStore((state) => state.completedTopicIds);
   const attempts = useStudyProgressStore((state) => state.questionAttempts);
   const reviews = useStudyProgressStore((state) => state.flashcardReviews);
@@ -47,6 +65,17 @@ export function ProfilePage() {
             <RotateCcw size={18} />
             Tüm ilerlemeyi sıfırla
           </Button>
+
+          {sessionUser ? (
+            <Button variant="ghost" className="mt-3 w-full border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200" onClick={handleSignOut}>
+              <LogOut size={18} />
+              Çıkış yap
+            </Button>
+          ) : (
+            <Button variant="ghost" className="mt-3 w-full border border-slate-200 dark:border-slate-800 text-slate-850 dark:text-slate-200" onClick={() => window.location.href = "/login"}>
+              Hesaba giriş yap
+            </Button>
+          )}
         </Card>
 
         <Card>

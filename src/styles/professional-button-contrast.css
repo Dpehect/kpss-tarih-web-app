@@ -132,4 +132,19 @@ html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="t
   stroke: var(--sb-primary-2) !important;
 }
 
+/* KPSS Tarih - Force dark text on explicitly light containers, in both themes */
+.kpss-light-container,
+.kpss-light-container *,
+.kpss-light-container :where(span, p, h1, h2, h3, h4, strong, small, svg, path, i) {
+  color: #0e1117 !important;
+  stroke: #0e1117 !important;
+}
+
+/* Ensure custom colored passive sidebar icons maintain their colors */
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg.kpss-custom-icon,
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg.kpss-custom-icon * {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
 

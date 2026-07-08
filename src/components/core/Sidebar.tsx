@@ -32,20 +32,22 @@ export type ShellNavItem = {
   group: ShellNavGroup;
   description: string;
   mobile?: boolean;
+  iconColorClass?: string;
+  iconBgClass?: string;
 };
 
 export const shellNavItems: ShellNavItem[] = [
-  { label: "Dashboard", shortLabel: "Panel", href: "/dashboard", icon: Home, group: "Ana Akış", description: "Günlük plan ve genel durum", mobile: true },
-  { label: "Konu Akademisi", shortLabel: "Konu", href: "/topics", icon: BookOpen, group: "Öğrenme", description: "Derin konu anlatımı", mobile: true },
-  { label: "Flashcard", shortLabel: "Kart", href: "/flashcards", icon: Layers3, group: "Öğrenme", description: "Aktif hatırlama ve tekrar", mobile: true },
-  { label: "Kronoloji", shortLabel: "Zaman", href: "/timeline", icon: CalendarClock, group: "Öğrenme", description: "Olayları akışta gör" },
-  { label: "Soru Bankası", shortLabel: "Test", href: "/question-bank", icon: ClipboardList, group: "Pratik", description: "Konu testleri", mobile: true },
-  { label: "Deneme Merkezi", shortLabel: "Deneme", href: "/exams", icon: Target, group: "Pratik", description: "KPSS prova oturumları" },
-  { label: "Yanlış Defteri", shortLabel: "Yanlış", href: "/mistakes", icon: ShieldCheck, group: "Analiz", description: "Eksiklerini kapat" },
-  { label: "Analiz", shortLabel: "Analiz", href: "/analytics", icon: BarChart3, group: "Analiz", description: "Performans raporu", mobile: true },
-  { label: "Notlar", shortLabel: "Not", href: "/notes", icon: NotebookPen, group: "Öğrenme", description: "Kişisel çalışma notları" },
-  { label: "Rozetler", shortLabel: "Rozet", href: "/achievements", icon: Trophy, group: "Analiz", description: "Başarı koleksiyonu" },
-  { label: "Profil", shortLabel: "Profil", href: "/profile", icon: UserRound, group: "Ana Akış", description: "Hesap ve tercihlerin" },
+  { label: "Dashboard", shortLabel: "Panel", href: "/dashboard", icon: Home, group: "Ana Akış", description: "Günlük plan ve genel durum", mobile: true, iconColorClass: "text-blue-600 dark:text-blue-400", iconBgClass: "bg-blue-500/10 dark:bg-blue-500/15" },
+  { label: "Konu Akademisi", shortLabel: "Konu", href: "/topics", icon: BookOpen, group: "Öğrenme", description: "Derin konu anlatımı", mobile: true, iconColorClass: "text-emerald-600 dark:text-emerald-400", iconBgClass: "bg-emerald-500/10 dark:bg-emerald-500/15" },
+  { label: "Flashcard", shortLabel: "Kart", href: "/flashcards", icon: Layers3, group: "Öğrenme", description: "Aktif hatırlama ve tekrar", mobile: true, iconColorClass: "text-indigo-600 dark:text-indigo-400", iconBgClass: "bg-indigo-500/10 dark:bg-indigo-500/15" },
+  { label: "Kronoloji", shortLabel: "Zaman", href: "/timeline", icon: CalendarClock, group: "Öğrenme", description: "Olayları akışta gör", iconColorClass: "text-amber-600 dark:text-amber-400", iconBgClass: "bg-amber-500/10 dark:bg-amber-500/15" },
+  { label: "Soru Bankası", shortLabel: "Test", href: "/question-bank", icon: ClipboardList, group: "Pratik", description: "Konu testleri", mobile: true, iconColorClass: "text-violet-600 dark:text-violet-400", iconBgClass: "bg-violet-500/10 dark:bg-violet-500/15" },
+  { label: "Deneme Merkezi", shortLabel: "Deneme", href: "/exams", icon: Target, group: "Pratik", description: "KPSS prova oturumları", iconColorClass: "text-rose-600 dark:text-rose-400", iconBgClass: "bg-rose-500/10 dark:bg-rose-500/15" },
+  { label: "Yanlış Defteri", shortLabel: "Yanlış", href: "/mistakes", icon: ShieldCheck, group: "Analiz", description: "Eksiklerini kapat", iconColorClass: "text-red-600 dark:text-red-400", iconBgClass: "bg-red-500/10 dark:bg-red-500/15" },
+  { label: "Analiz", shortLabel: "Analiz", href: "/analytics", icon: BarChart3, group: "Analiz", description: "Performans raporu", mobile: true, iconColorClass: "text-cyan-600 dark:text-cyan-400", iconBgClass: "bg-cyan-500/10 dark:bg-cyan-500/15" },
+  { label: "Notlar", shortLabel: "Not", href: "/notes", icon: NotebookPen, group: "Öğrenme", description: "Kişisel çalışma notları", iconColorClass: "text-orange-600 dark:text-orange-400", iconBgClass: "bg-orange-500/10 dark:bg-orange-500/15" },
+  { label: "Rozetler", shortLabel: "Rozet", href: "/achievements", icon: Trophy, group: "Analiz", description: "Başarı koleksiyonu", iconColorClass: "text-yellow-600 dark:text-yellow-400", iconBgClass: "bg-yellow-500/10 dark:bg-yellow-500/15" },
+  { label: "Profil", shortLabel: "Profil", href: "/profile", icon: UserRound, group: "Ana Akış", description: "Hesap ve tercihlerin", iconColorClass: "text-pink-600 dark:text-pink-400", iconBgClass: "bg-pink-500/10 dark:bg-pink-500/15" },
 ];
 
 const groupOrder: ShellNavGroup[] = ["Ana Akış", "Öğrenme", "Pratik", "Analiz"];
@@ -123,8 +125,13 @@ export function Sidebar({
                         active && "bg-[var(--sb-primary)]",
                       )}
                     />
-                    <span className={cn("grid size-9 shrink-0 place-items-center rounded-xl bg-slate-900/[.04] text-current transition dark:bg-white/[.06]", active && "bg-blue-700/10")}>
-                      <Icon size={18} />
+                    <span className={cn(
+                      "grid size-9 shrink-0 place-items-center rounded-xl transition",
+                      active 
+                        ? "bg-blue-700/10 text-[var(--sb-primary)]" 
+                        : `${item.iconBgClass} ${item.iconColorClass}`
+                    )}>
+                      <Icon size={18} className="kpss-custom-icon" />
                     </span>
                     {!collapsed || mobile ? (
                       <span className="min-w-0 flex-1">

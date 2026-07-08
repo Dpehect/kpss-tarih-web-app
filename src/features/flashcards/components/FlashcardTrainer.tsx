@@ -145,7 +145,7 @@ export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
                 "relative z-10 flex min-h-[430px] w-full flex-col justify-between rounded-[2rem] border p-6 text-left shadow-[0_38px_120px_rgba(14,17,23,.16)] md:min-h-[500px] md:p-8",
                 flipped
                   ? "border-[rgba(255,250,242,.16)] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)]"
-                  : "border-[var(--bureau-line)] bg-[linear-gradient(145deg,rgba(255,250,242,.98),rgba(246,239,227,.88))] text-[var(--bureau-ink)]",
+                  : "kpss-light-container border-[var(--bureau-line)] bg-[linear-gradient(145deg,rgba(255,250,242,.98),rgba(246,239,227,.88))] text-[var(--bureau-ink)]",
               )}
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -254,7 +254,7 @@ function TopicFilterButton({ active, label, count, onClick }: { active: boolean;
         "flex w-full items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left transition",
         active
           ? "border-[var(--bureau-ink)] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] shadow-[var(--shadow-paper)]"
-          : "border-[var(--bureau-line)] bg-[rgba(255,250,242,.76)] text-[var(--bureau-copy)] hover:bg-[var(--bureau-bone-2)] hover:text-[var(--bureau-ink)]",
+          : "kpss-light-container border-[var(--bureau-line)] bg-[rgba(255,250,242,.76)] text-[var(--bureau-copy)] hover:bg-[var(--bureau-bone-2)] hover:text-[var(--bureau-ink)]",
       )}
     >
       <span className="truncate text-sm font-black">{label}</span>
@@ -265,7 +265,7 @@ function TopicFilterButton({ active, label, count, onClick }: { active: boolean;
 
 function StatBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4 shadow-[var(--shadow-paper)]">
+    <div className="kpss-light-container rounded-2xl border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-4 shadow-[var(--shadow-paper)]">
       <p className="text-[10px] font-black uppercase tracking-[.16em] text-[var(--bureau-muted)]">{label}</p>
       <p className="mt-1 text-2xl font-black tracking-[-.06em] text-[var(--bureau-ink)]">{value}</p>
     </div>
@@ -274,7 +274,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
 
 function ReviewRow({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl border border-[var(--bureau-line)] bg-[rgba(255,250,242,.68)] px-4 py-3">
+    <div className="kpss-light-container flex items-center justify-between gap-3 rounded-2xl border border-[var(--bureau-line)] bg-[rgba(255,250,242,.68)] px-4 py-3">
       <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-copy)]">{icon}{label}</span>
       <span className="text-sm font-black text-[var(--bureau-ink)]">{value}</span>
     </div>
