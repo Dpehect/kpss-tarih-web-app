@@ -98,3 +98,29 @@ html[data-theme="dark"] {
 :is(button, a, [role="button"]):where([data-state="active"], [aria-selected="true"], [aria-current="page"]) {
   font-weight: 820;
 }
+
+/* Sidebar links and icons bypass global button contrast overrides */
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) {
+  color: var(--sb-text-soft) !important;
+}
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) :where(span, strong, small, svg, path, i) {
+  color: inherit !important;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
+  color: var(--sb-primary) !important;
+  background-color: rgba(30, 58, 138, 0.09) !important;
+}
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i) {
+  color: inherit !important;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
+  color: var(--sb-primary-2) !important;
+  background-color: rgba(37, 99, 235, 0.15) !important;
+}
+
