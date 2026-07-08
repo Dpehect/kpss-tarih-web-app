@@ -54,30 +54,57 @@ export async function POST(req: NextRequest) {
     let deepLink = "";
     let fallbackText = "";
 
-    if (bestMatch && bestMatch.score >= 12) {
-      console.log(`[chat-api] Strong local search match found for context: ${bestMatch.title} (${bestMatch.type})`);
-      if (bestMatch.type === "Konu") {
-        const t = topics.find((item) => item.id === bestMatch.id);
-        if (t) {
-          const firstSummary = t.summary?.[0];
-          const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-          localContext = `Konu Başlığı: ${t.title}\nAçıklama: ${t.shortDescription}\nDetay: ${firstSummary?.body ?? ""}\nÖnemli Noktalar:\n${bulletList}\nSık Yapılan Hatalar: ${t.commonMistakes?.join(", ") ?? ""}`;
-          deepLink = `\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
-          fallbackText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}${deepLink}`;
-        }
-      } else if (bestMatch.type === "Flashcard") {
-        const card = flashcards.find((item) => item.id === bestMatch.id);
-        if (card) {
-          localContext = `Kavram: ${card.front}\nAçıklama/Tanım: ${card.back}\nSınav İpucu: ${card.hint}`;
-          fallbackText = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
-        }
-      } else if (bestMatch.type === "Kavram") {
-        const term = glossary.find((item) => item.id === bestMatch.id);
-        if (term) {
-          localContext = `Kavram: ${term.term}\nTanım: ${term.definition}\nNeden Önemli: ${term.whyImportant}`;
-          fallbackText = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+    // En iyi 3 eşleşmeyi toplayarak zengin bir yerel bağlam (localContext) oluşturalım
+    const validMatches = searchResults.filter(match => match.score >= 10).slice(0, 3);
+
+    if (validMatches.length > 0) {
+      console.log(`[chat-api] Found ${validMatches.length} valid matches for context (threshold >= 10)`);
+      const contextBlocks: string[] = [];
+
+      // İlk/en iyi eşleşmeye göre deepLink ve fallbackText hazırlayalım
+      const primaryMatch = validMatches[0];
+      
+      for (const match of validMatches) {
+        if (match.type === "Konu") {
+          const t = topics.find((item) => item.id === match.id);
+          if (t) {
+            // Konunun tüm summary başlıklarını ve maddelerini birleştirelim!
+            const fullSummaryText = t.summary?.map(s => {
+              const bulletsText = s.bullets?.map(b => `• ${b}`).join("\n") ?? "";
+              return `Başlık: ${s.heading}\nAçıklama: ${s.body}\nDetaylar:\n${bulletsText}`;
+            }).join("\n\n") ?? "";
+
+            contextBlocks.push(`[KONU REHBERİ: ${t.title}]\nKazanım Açıklaması: ${t.shortDescription}\n\n${fullSummaryText}\n\n📌 Mutlaka Bilinmeli: ${t.mustKnow?.join(", ") ?? ""}\nSık Yapılan Hatalar: ${t.commonMistakes?.join(", ") ?? ""}`);
+            
+            if (match.id === primaryMatch.id) {
+              deepLink = `\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
+              const firstSummary = t.summary?.[0];
+              const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
+              fallbackText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}${deepLink}`;
+            }
+          }
+        } else if (match.type === "Flashcard") {
+          const card = flashcards.find((item) => item.id === match.id);
+          if (card) {
+            contextBlocks.push(`[FLASHCARD KAVRAMI: ${card.front}]\nTanım/Açıklama: ${card.back}\nSınav İpucu: ${card.hint}`);
+            
+            if (match.id === primaryMatch.id) {
+              fallbackText = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
+            }
+          }
+        } else if (match.type === "Kavram") {
+          const term = glossary.find((item) => item.id === match.id);
+          if (term) {
+            contextBlocks.push(`[SÖZLÜK TERİMİ: ${term.term}]\nTanım: ${term.definition}\nNeden Önemli: ${term.whyImportant}`);
+            
+            if (match.id === primaryMatch.id) {
+              fallbackText = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+            }
+          }
         }
       }
+
+      localContext = contextBlocks.join("\n\n" + "=".repeat(40) + "\n\n");
     }
 
     // ─── 2. YAPAY ZEKA DEVREYE GİRİYOR ───
