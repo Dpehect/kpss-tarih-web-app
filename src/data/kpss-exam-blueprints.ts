@@ -54,8 +54,10 @@ const historyTopicPlan = [
   { topicId: "t12", count: 1 }
 ];
 
+const examQuestionPool = expandedQuestions as Question[];
+
 function getQuestionPool(topicId: string) {
-  return expandedQuestions.filter((question) => question.topicId === topicId);
+  return examQuestionPool.filter((question) => question.topicId === topicId);
 }
 
 function pickQuestion(topicId: string, order: number, examNo: number) {
@@ -83,7 +85,7 @@ function buildHistoryExamQuestionIds(examNo: number) {
   }
 
   if (questionIds.length < kpssExamReference.historyQuestions) {
-    for (const question of expandedQuestions) {
+    for (const question of examQuestionPool) {
       if (questionIds.length >= kpssExamReference.historyQuestions) break;
       if (!used.has(question.id)) {
         used.add(question.id);
@@ -125,7 +127,7 @@ export function getKpssHistoryExamQuestions(examId: string): Question[] {
 
   if (!exam) return [];
 
-  const questionMap = new Map(expandedQuestions.map((question) => [question.id, question]));
+  const questionMap = new Map(examQuestionPool.map((question) => [question.id, question]));
 
   return exam.questionIds
     .map((questionId) => questionMap.get(questionId))

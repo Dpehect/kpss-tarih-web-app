@@ -10,24 +10,24 @@ export function FlashcardsPage() {
 
   return (
     <div className="space-y-8">
-      <section className="relative overflow-hidden rounded-[2.35rem] border border-[rgba(255,250,242,.16)] bg-[var(--bureau-ink)] p-6 text-[var(--bureau-inverse)] shadow-[var(--shadow-stage)] md:p-8 lg:p-10">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[rgba(4,126,137,.34)] blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-28 left-8 h-80 w-80 rounded-full bg-[rgba(37,63,116,.36)] blur-3xl" />
+      <section className="relative overflow-hidden rounded-[2.35rem] border border-white/10 bg-slate-900 p-6 text-white shadow-2xl md:p-8 lg:p-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-28 left-8 h-80 w-80 rounded-full bg-indigo-600/20 blur-3xl" />
 
         <div className="relative z-10 grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
           <div>
-            <p className="kicker text-[var(--bureau-inverse)]">Aktif hatırlama laboratuvarı</p>
-            <h1 className="bureau-display mt-4 max-w-4xl text-[clamp(2.4rem,7vw,5.7rem)] text-[var(--bureau-inverse)]">
+            <p className="text-[11px] font-black uppercase tracking-[.16em] text-amber-400">Aktif hatırlama laboratuvarı</p>
+            <h1 className="mt-4 max-w-4xl text-[clamp(2.2rem,6vw,4.8rem)] font-black leading-[1.05] tracking-tight text-white">
               Flashcard tekrarını sınav hafızasına dönüştür.
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-[var(--bureau-inverse-copy)] md:text-lg">
+            <p className="mt-5 max-w-2xl text-base font-medium leading-8 text-white/80 md:text-lg">
               Kartlar sadece ezber listesi değil; dönem, kavram, ipucu ve tekrar kararını birlikte veren profesyonel bir çalışma oturumu olarak tasarlandı.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/topics" className="btn-ghost bg-[var(--bureau-inverse)] text-[var(--bureau-ink)]">
+              <Link href="/topics" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 text-sm font-black text-white transition hover:bg-white/20">
                 Konu anlatımına dön <ArrowRight size={16} />
               </Link>
-              <Link href="/question-bank" className="btn-accent" data-dark-button="true">
+              <Link href="/question-bank" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-amber-500 px-5 text-sm font-black text-slate-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-amber-400">
                 Testle pekiştir <ArrowRight size={16} />
               </Link>
             </div>

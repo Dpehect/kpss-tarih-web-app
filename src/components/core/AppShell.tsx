@@ -8,6 +8,7 @@ import { Bell, Menu, Search, X } from "lucide-react";
 import { AuthStatusButton } from "@/features/auth/components/AuthStatusButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { StreakCounter } from "@/components/ui/StreakCounter";
+import { ChatbotWidget } from "@/features/chatbot/components/ChatbotWidget";
 import { cn } from "@/lib/cn";
 import { isActive, shellNavItems, Sidebar } from "./Sidebar";
 
@@ -90,6 +91,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           })}
         </div>
       </nav>
+
+      <ChatbotWidget />
     </div>
   );
 }

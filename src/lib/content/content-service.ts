@@ -1,4 +1,4 @@
-import type { Flashcard, Question, QuestionChoice, TimelineEvent, Topic } from "@/types/study";
+import type { Exam, Flashcard, Question, QuestionChoice, TimelineEvent, Topic } from "@/types/study";
 import { createClient } from "@/lib/supabase/client";
 
 type ContentQuestionRow = {
@@ -49,6 +49,16 @@ type ContentTimelineRow = {
   title: string;
   description: string;
   tone: TimelineEvent["tone"];
+};
+
+type ContentExamRow = {
+  id: string;
+  title: string;
+  description: string;
+  duration_minutes: number;
+  question_count: number;
+  difficulty: string;
+  sort_order: number;
 };
 
 export async function fetchTopicsFromSupabase(): Promise<Topic[]> {
@@ -187,6 +197,69 @@ export async function fetchTimelineEventsFromSupabase(topicId?: string): Promise
   if (error) throw error;
 
   return ((data ?? []) as ContentTimelineRow[]).map(mapTimelineEvent);
+}
+
+export async function fetchExamsFromSupabase(): Promise<Exam[]> {
+  const supabase = createClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from("content_exams")
+    .select("id, title, description, duration_minutes, question_count, difficulty, sort_order")
+    .eq("is_published", true)
+    .order("sort_order", { ascending: true });
+
+  if (error) throw error;
+
+  return ((data ?? []) as ContentExamRow[]).map((row) => ({
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    durationMinutes: row.duration_minutes,
+    questionIds: [],
+  }));
+}
+
+export async function fetchQuestionsForExamFromSupabase(examId: string): Promise<Question[]> {
+  const supabase = createClient();
+  if (!supabase) return [];
+
+  const { data: linkData, error: linkError } = await supabase
+    .from("content_exam_questions")
+    .select("question_id, sort_order")
+    .eq("exam_id", examId)
+    .order("sort_order", { ascending: true });
+
+  if (linkError) throw linkError;
+  if (!linkData || linkData.length === 0) return [];
+
+  const questionIds = linkData.map((row) => row.question_id);
+
+  const { data, error } = await supabase
+    .from("content_questions")
+    .select(`
+      id,
+      topic_id,
+      type,
+      difficulty,
+      stem,
+      correct_choice_id,
+      explanation,
+      exam_tip,
+      tags,
+      content_question_choices (
+        choice_id,
+        text,
+        sort_order
+      )
+    `)
+    .in("id", questionIds)
+    .eq("is_published", true);
+
+  if (error) throw error;
+
+  const questionsById = new Map(((data ?? []) as ContentQuestionRow[]).map((q) => [q.id, mapQuestion(q)]));
+  return questionIds.map((id) => questionsById.get(id)).filter((q): q is Question => Boolean(q));
 }
 
 function mapTopic(row: ContentTopicRow): Topic {
