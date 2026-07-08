@@ -7,6 +7,7 @@ import type {
   Topic,
 } from "@/types/study";
 import { staticQuestions } from "./static-questions";
+import { staticFlashcards } from "./static-flashcards";
 
 function topic(
   id: string,
@@ -243,16 +244,10 @@ export const topics: Topic[] = [
 
 export const questions: Question[] = staticQuestions;
 
-export const flashcards: Flashcard[] = topics.flatMap((topicItem) =>
-  topicItem.keywords.slice(0, 4).map((keyword, index) => ({
-    id: `${topicItem.id}-card-${index + 1}`,
-    topicId: topicItem.id,
-    front: keyword,
-    back: `${keyword}, ${topicItem.title} başlığı içinde KPSS'de kavram, dönem ve sonuç ilişkisiyle birlikte düşünülmesi gereken anahtar bir bilgidir.`,
-    hint: `${topicItem.title} konusundaki kullanım bağlamını hatırla.`,
-    tags: [topicItem.title, keyword],
-  }))
-);
+export const flashcards: Flashcard[] = staticFlashcards.map((card, index) => ({
+  id: `${card.topicId}-card-${index + 1}`,
+  ...card
+}));
 
 export const timelineEvents: TimelineEvent[] = topics.flatMap((topicItem, topicIndex) =>
   topicItem.quickTimeline.map((item, index) => ({
