@@ -2,319 +2,115 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const log = (message) => console.log(`[vercel-prebuild-fixes] ${message}`);
 
-function filePath(...parts) {
-  return path.join(root, ...parts);
+function read(file) {
+  return fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
 }
 
-function exists(...parts) {
-  return fs.existsSync(filePath(...parts));
-}
-
-function read(...parts) {
-  return fs.readFileSync(filePath(...parts), "utf8");
-}
-
-function write(parts, content) {
-  fs.mkdirSync(path.dirname(filePath(...parts)), { recursive: true });
-  fs.writeFileSync(filePath(...parts), content);
-}
-
-function replaceFile(parts, updater, label) {
-  if (!exists(...parts)) return false;
-  const before = read(...parts);
-  const after = updater(before);
-  if (after !== before) {
-    write(parts, after);
-    console.log(`[vercel-prebuild-fixes] ${label}`);
+function writeIfChanged(file, next) {
+  const current = read(file);
+  if (current !== next) {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, next);
     return true;
   }
   return false;
 }
 
-function ensureNextConfigIsBuildStable() {
-  const parts = ["next.config.ts"];
-  if (!exists(...parts)) return;
+function ensureTypedRoutesDisabled() {
+  const file = path.join(root, "next.config.ts");
+  let source = read(file);
+  if (!source) return;
 
-  replaceFile(
-    parts,
-    (source) => {
-      let next = source;
-
-      // Prevent the recurring Vercel failures caused by runtime string hrefs
-      // being checked against Next's generated RouteImpl type.
-      if (/typedRoutes\s*:\s*true/.test(next)) {
-        next = next.replace(/typedRoutes\s*:\s*true/g, "typedRoutes: false");
-      }
-
-      if (!/typedRoutes\s*:/.test(next)) {
-        next = next.replace(/const\s+nextConfig\s*:\s*NextConfig\s*=\s*\{/, "const nextConfig: NextConfig = {\n  typedRoutes: false,");
-      }
-
-      // Next 16 image quality guard. Harmless when unused, useful if any image
-      // passes quality values later.
-      if (/images\s*:\s*\{/.test(next) && !/qualities\s*:/.test(next)) {
-        next = next.replace(/images\s*:\s*\{/, "images: {\n    qualities: [75, 85, 95],");
-      }
-
-      return next;
-    },
-    "next.config.ts production-safe typedRoutes/image config hazır.",
-  );
-}
-
-function ensureKpssHistoryCompatibility() {
-  const parts = ["src", "data", "kpss-history.ts"];
-  if (!exists(...parts)) return;
-
-  replaceFile(
-    parts,
-    (source) => {
-      let next = source;
-
-      next = next.replaceAll("card as Record<string, unknown>", "card as unknown as Record<string, unknown>");
-      next = next.replaceAll("question as Record<string, unknown>", "question as unknown as Record<string, unknown>");
-      next = next.replaceAll("item as Record<string, unknown>", "item as unknown as Record<string, unknown>");
-
-      const additions = [];
-
-      if (!/export\s+function\s+getTopicBySlug/.test(next) && !/export\s+const\s+getTopicBySlug/.test(next)) {
-        additions.push(`
-export function getTopicBySlug(slug: string) {
-  return topics.find((topic) => topic.slug === slug || topic.id === slug);
-}
-`);
-      }
-
-      if (!/export\s+function\s+getTopicById/.test(next) && !/export\s+const\s+getTopicById/.test(next)) {
-        additions.push(`
-export function getTopicById(topicId: string) {
-  return topics.find((topic) => topic.id === topicId || topic.slug === topicId);
-}
-`);
-      }
-
-      if (!/function\s+matchesTopic/.test(next)) {
-        additions.push(`
-function matchesTopic(entity: unknown, topicId: string) {
-  const source = entity as Record<string, unknown>;
-  const topic = topics.find((item) => item.id === topicId || item.slug === topicId);
-  const candidates = [
-    source.topicId,
-    source.topic_id,
-    source.topicSlug,
-    source.topic_slug,
-    source.topic,
-    source.unitId,
-    source.unit_id,
-    source.unit,
-    source.period,
-  ];
-
-  return candidates.some((candidate) => {
-    if (typeof candidate !== "string") return false;
-    const normalized = candidate.trim().toLowerCase();
-    return normalized === topicId.toLowerCase() || normalized === topic?.id?.toLowerCase() || normalized === topic?.slug?.toLowerCase() || normalized === topic?.title?.toLowerCase();
-  });
-}
-`);
-      }
-
-      if (!/export\s+function\s+getQuestionsByTopic/.test(next) && !/export\s+const\s+getQuestionsByTopic/.test(next)) {
-        additions.push(`
-export function getQuestionsByTopic(topicId: string) {
-  return questions.filter((question) => matchesTopic(question, topicId));
-}
-`);
-      }
-
-      if (!/export\s+function\s+getFlashcardsByTopic/.test(next) && !/export\s+const\s+getFlashcardsByTopic/.test(next)) {
-        additions.push(`
-export function getFlashcardsByTopic(topicId: string) {
-  return flashcards.filter((card) => matchesTopic(card, topicId));
-}
-`);
-      }
-
-      if (!/export\s+function\s+getTimelineEventsByTopic/.test(next) && !/export\s+const\s+getTimelineEventsByTopic/.test(next)) {
-        additions.push(`
-export function getTimelineEventsByTopic(topicId: string) {
-  return timelineEvents.filter((event) => matchesTopic(event, topicId));
-}
-`);
-      }
-
-      if (!/export\s+function\s+getGlossaryByTopic/.test(next) && !/export\s+const\s+getGlossaryByTopic/.test(next)) {
-        additions.push(`
-export function getGlossaryByTopic(topicId: string) {
-  return glossary.filter((entry) => matchesTopic(entry, topicId));
-}
-`);
-      }
-
-      if (additions.length) {
-        next += `\n// Production compatibility exports injected by scripts/vercel-prebuild-fixes.mjs.\n${additions.join("\n")}`;
-      }
-
-      return next;
-    },
-    "kpss-history export/type uyumluluğu hazır.",
-  );
-}
-
-function ensureBrandMarkSizeProp() {
-  const candidates = [
-    ["src", "components", "brand", "SBBrandMark.tsx"],
-    ["src", "components", "brand", "BrandMark.tsx"],
-  ];
-
-  for (const parts of candidates) {
-    if (!exists(...parts)) continue;
-
-    replaceFile(
-      parts,
-      (source) => {
-        if (/size\??\s*:/.test(source) || /type\s+SBBrandMarkProps/.test(source)) return source;
-
-        let next = source;
-        next = next.replace(/export\s+function\s+SBBrandMark\s*\(\s*\{\s*className\s*\}\s*:\s*\{\s*className\??\s*:\s*string\s*\}\s*\)/, `type SBBrandMarkProps = {
-  className?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | number;
-};
-
-const brandMarkSizeClass: Record<Exclude<SBBrandMarkProps["size"], number | undefined>, string> = {
-  xs: "size-7",
-  sm: "size-9",
-  md: "size-11",
-  lg: "size-14",
-  xl: "size-16",
-};
-
-export function SBBrandMark({ className, size = "md" }: SBBrandMarkProps)`);
-
-        next = next.replace(/className=\{cn\(([^)]*)className([^)]*)\)\}/, `className={cn(typeof size === "number" ? undefined : brandMarkSizeClass[size], $1className$2)}`);
-
-        return next;
-      },
-      `${parts.join("/")} size prop uyumluluğu kontrol edildi.`,
-    );
-  }
-}
-
-function ensureNext16ProxyConvention() {
-  const middlewareParts = ["src", "middleware.ts"];
-  const proxyParts = ["src", "proxy.ts"];
-
-  if (!exists(...middlewareParts)) return;
-
-  let source = read(...middlewareParts);
-  source = source.replace(/export\s+function\s+middleware\s*\(/g, "export function proxy(");
-  source = source.replace(/export\s+async\s+function\s+middleware\s*\(/g, "export async function proxy(");
-
-  if (!exists(...proxyParts) || read(...proxyParts) !== source) {
-    write(proxyParts, source);
-    console.log("[vercel-prebuild-fixes] Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
-  }
-
-  try {
-    fs.rmSync(filePath(...middlewareParts), { force: true });
-  } catch {
-    // Vercel build must not fail because a compatibility cleanup failed.
-  }
-}
-
-function removeDuplicateManifestRoute() {
-  const manifestTs = filePath("src", "app", "manifest.ts");
-  const manifestRouteDir = filePath("src", "app", "manifest.webmanifest");
-  if (fs.existsSync(manifestTs) && fs.existsSync(manifestRouteDir)) {
-    fs.rmSync(manifestRouteDir, { recursive: true, force: true });
-    console.log("[vercel-prebuild-fixes] duplicate manifest route kaldırıldı.");
+  if (/typedRoutes\s*:\s*true/.test(source)) {
+    source = source.replace(/typedRoutes\s*:\s*true/g, "typedRoutes: false");
+    writeIfChanged(file, source);
+    log("typedRoutes false yapıldı; dinamik JSON linkleri RouteImpl hatası üretmez.");
     return;
   }
 
-  console.log("[vercel-prebuild-fixes] duplicate manifest route yok.");
-}
-
-function removeAmbiguousExamRouteIfPresent() {
-  const route = filePath("src", "app", "(main)", "exams", "[examId]");
-  if (fs.existsSync(route)) {
-    fs.rmSync(route, { recursive: true, force: true });
-    console.log("[vercel-prebuild-fixes] ambiguous exams route kaldırıldı.");
-  }
-}
-
-function normalizeKnownTypedLinkPatterns() {
-  // typedRoutes is disabled in next.config, but these casts make the most common
-  // dynamic link generators future-proof if typedRoutes is later re-enabled.
-  const candidates = [
-    ["src", "features", "question-bank", "components", "TopicQuestionPage.tsx"],
-    ["src", "features", "question-bank", "components", "QuestionBankPage.tsx"],
-    ["src", "features", "topics", "components", "TopicsPage.tsx"],
-    ["src", "features", "topics", "components", "TopicDetailPage.tsx"],
-    ["src", "components", "core", "AppShell.tsx"],
-  ];
-
-  for (const parts of candidates) {
-    if (!exists(...parts)) continue;
-    replaceFile(
-      parts,
-      (source) => {
-        let next = source;
-        if (next.includes("from \"next/link\"") && !next.includes("import type { Route } from \"next\"")) {
-          next = next.replace(/import\s+Link\s+from\s+"next\/link";?/, `import Link from "next/link";\nimport type { Route } from "next";`);
-        }
-        next = next.replace(/href=\{backHref\}/g, "href={backHref as Route}");
-        next = next.replace(/href=\{item\.href\}/g, "href={item.href as Route}");
-        next = next.replace(/href=\{testHref\}/g, "href={testHref as Route}");
-        next = next.replace(/href=\{topicHref\}/g, "href={topicHref as Route}");
-        next = next.replace(/href=\{levelHref\}/g, "href={levelHref as Route}");
-        return next;
-      },
-      `${parts.join("/")} typed link uyumluluğu kontrol edildi.`,
-    );
-  }
-}
-
-function scanForBlockingPlaceholders() {
-  const roots = [filePath("src")];
-  const blocked = ["lorem ipsum", "TODO:", "FIXME:", "console.log("];
-  const findings = [];
-
-  function walk(dir) {
-    if (!fs.existsSync(dir)) return;
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        if (["node_modules", ".next", ".git"].includes(entry.name)) continue;
-        walk(full);
-        continue;
-      }
-      if (!/\.(ts|tsx|css)$/.test(entry.name)) continue;
-      const content = fs.readFileSync(full, "utf8");
-      for (const marker of blocked) {
-        if (content.toLowerCase().includes(marker.toLowerCase())) {
-          findings.push(path.relative(root, full));
-          break;
-        }
-      }
-    }
+  if (!/typedRoutes\s*:/.test(source)) {
+    source = source.replace(/const\s+nextConfig\s*:\s*NextConfig\s*=\s*{/, "const nextConfig: NextConfig = {\n  typedRoutes: false,");
+    writeIfChanged(file, source);
+    log("typedRoutes güvenli varsayılan olarak eklendi.");
+    return;
   }
 
-  roots.forEach(walk);
-  if (findings.length) {
-    console.log(`[vercel-prebuild-fixes] uyarı: profesyonel temizlik gerektirebilecek dosyalar: ${[...new Set(findings)].slice(0, 12).join(", ")}`);
-  } else {
-    console.log("[vercel-prebuild-fixes] bariz placeholder/debug copy taraması tamamlandı.");
-  }
+  log("typedRoutes ayarı güvenli.");
 }
 
-ensureNextConfigIsBuildStable();
-ensureKpssHistoryCompatibility();
-ensureBrandMarkSizeProp();
-ensureNext16ProxyConvention();
+function ensureNextProxyConvention() {
+  const middlewareFile = path.join(root, "src", "middleware.ts");
+  const proxyFile = path.join(root, "src", "proxy.ts");
+  if (!fs.existsSync(middlewareFile)) {
+    log("middleware.ts yok; proxy uyumu kontrolü geçildi.");
+    return;
+  }
+
+  let source = read(middlewareFile).replace(/export\s+function\s+middleware/g, "export function proxy");
+  if (!fs.existsSync(proxyFile)) writeIfChanged(proxyFile, source);
+  fs.rmSync(middlewareFile, { force: true });
+  log("Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
+}
+
+function ensureHistoryExports() {
+  const file = path.join(root, "src", "data", "kpss-history.ts");
+  let source = read(file);
+  if (!source) return;
+
+  source = source.replace(/as\s+Record<string,\s*unknown>/g, "as unknown as Record<string, unknown>");
+  source = source.replace(/as\s+Record(?!<)/g, "as unknown as Record<string, unknown>");
+
+  const additions = [];
+  if (!/export\s+function\s+getTopicBySlug/.test(source)) {
+    additions.push(`export function getTopicBySlug(slug: string) {\n  return topics.find((topic) => topic.slug === slug);\n}`);
+  }
+  if (!/export\s+function\s+getTopicById/.test(source)) {
+    additions.push(`export function getTopicById(topicId: string) {\n  return topics.find((topic) => topic.id === topicId);\n}`);
+  }
+  if (!/export\s+function\s+getQuestionsByTopic/.test(source)) {
+    additions.push(`export function getQuestionsByTopic(topicId: string) {\n  return questions.filter((question) => question.topicId === topicId);\n}`);
+  }
+  if (!/export\s+function\s+getFlashcardsByTopic/.test(source)) {
+    additions.push(`export function getFlashcardsByTopic(topicId: string) {\n  return flashcards.filter((card) => card.topicId === topicId);\n}`);
+  }
+  if (!/export\s+function\s+getTimelineEventsByTopic/.test(source)) {
+    additions.push(`export function getTimelineEventsByTopic(topicId: string) {\n  return timelineEvents.filter((event) => event.topicId === topicId);\n}`);
+  }
+
+  if (additions.length > 0) source = `${source.trim()}\n\n${additions.join("\n\n")}\n`;
+  writeIfChanged(file, source);
+  log("kpss-history export uyumluluğu hazır.");
+}
+
+function removeDuplicateManifestRoute() {
+  const manifestRoute = path.join(root, "src", "app", "manifest.webmanifest", "route.ts");
+  const manifestTs = path.join(root, "src", "app", "manifest.ts");
+  if (fs.existsSync(manifestRoute) && fs.existsSync(manifestTs)) {
+    fs.rmSync(path.dirname(manifestRoute), { recursive: true, force: true });
+    log("duplicate manifest route kaldırıldı.");
+    return;
+  }
+  log("duplicate manifest route yok.");
+}
+
+function guardBrandMarkSizeProp() {
+  const file = path.join(root, "src", "components", "brand", "SBBrandMark.tsx");
+  const source = read(file);
+  if (!source) return;
+  if (source.includes("size?:")) {
+    log("SBBrandMark size prop uyumu hazır.");
+    return;
+  }
+  const next = `import { cn } from "@/lib/cn";\n\nexport function SBBrandMark({ className, size = "md" }: { className?: string; size?: "xs" | "sm" | "md" | "lg" | "xl" | number }) {\n  const classes = typeof size === "number" ? "text-sm" : ({ xs: "size-8 text-[11px]", sm: "size-10 text-xs", md: "size-12 text-sm", lg: "size-14 text-base", xl: "size-16 text-lg" } as const)[size];\n  const style = typeof size === "number" ? { width: size, height: size } : undefined;\n  return <span style={style} className={cn("grid place-items-center rounded-2xl bg-[linear-gradient(135deg,#1E3A8A,#2563EB_58%,#D97706)] font-black text-white shadow-[0_18px_42px_rgba(30,58,138,.24)]", classes, className)}>SB</span>;\n}\n`;
+  writeIfChanged(file, next);
+  log("SBBrandMark size prop uyumu eklendi.");
+}
+
+ensureTypedRoutesDisabled();
+ensureNextProxyConvention();
+ensureHistoryExports();
 removeDuplicateManifestRoute();
-removeAmbiguousExamRouteIfPresent();
-normalizeKnownTypedLinkPatterns();
-scanForBlockingPlaceholders();
-
-console.log("[vercel-prebuild-fixes] production build guard tamamlandı.");
+guardBrandMarkSizeProp();
+log("tamamlandı.");

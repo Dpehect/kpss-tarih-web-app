@@ -1,26 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { LogIn, LogOut, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/cn";
 
-type AuthStatusButtonProps = {
-  variant?: "header" | "sidebar" | "compact";
-  className?: string;
-};
-
-export function AuthStatusButton({ variant = "header", className }: AuthStatusButtonProps) {
-  const pathname = usePathname();
+export function AuthStatusButton({ compact = false, className }: { compact?: boolean; className?: string }) {
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
 
-  const nextPath = pathname && pathname !== "/login" ? pathname : "/dashboard";
   const displayName = user?.user_metadata?.full_name ?? user?.email ?? "Profil";
+  const initials = getInitials(displayName);
 
   useEffect(() => {
     if (!supabase) {
@@ -29,7 +22,6 @@ export function AuthStatusButton({ variant = "header", className }: AuthStatusBu
     }
 
     let mounted = true;
-
     void supabase.auth.getUser().then(({ data }) => {
       if (!mounted) return;
       setUser(data.user ?? null);
@@ -48,70 +40,63 @@ export function AuthStatusButton({ variant = "header", className }: AuthStatusBu
   }, [supabase]);
 
   async function signOut() {
-    if (supabase) {
-      await supabase.auth.signOut();
-    }
-    window.location.href = "/login";
+    if (supabase) await supabase.auth.signOut();
+    window.location.href = "/";
   }
-
-  const baseClass = cn(
-    "inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl px-4 text-sm font-black transition duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(4,126,137,.25)]",
-    variant === "sidebar" && "w-full",
-    variant === "compact" && "min-h-10 rounded-xl px-3 text-xs",
-    className,
-  );
 
   if (!ready) {
     return (
-      <span
-        className={cn(
-          baseClass,
-          "border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] text-[var(--bureau-ink)] shadow-[var(--shadow-paper)]",
-        )}
-      >
-        <UserRound size={16} /> Hesap
-      </span>
+      <div className={cn("flex min-h-11 items-center gap-3 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] px-3 shadow-[var(--sb-shadow-sm)]", compact && "justify-center px-0", className)}>
+        <span className="size-8 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
+        {!compact ? <span className="h-3 w-24 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" /> : null}
+      </div>
     );
   }
 
   if (!user) {
     return (
       <Link
-        href={`/login?next=${encodeURIComponent(nextPath)}`}
+        href="/login"
         className={cn(
-          baseClass,
-          "border border-[var(--bureau-ink)] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] shadow-[0_18px_54px_rgba(14,17,23,.16)] hover:-translate-y-0.5 hover:bg-[var(--bureau-ink-2)]",
+          "inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-blue-700/20 bg-blue-700/10 px-4 text-sm font-black text-[var(--sb-primary)] shadow-[var(--sb-shadow-sm)] transition hover:-translate-y-0.5 hover:bg-blue-700/15 hover:shadow-[var(--sb-shadow-md)]",
+          compact && "size-11 px-0",
+          className,
         )}
-        data-dark-button="true"
+        aria-label="Giriş yap"
       >
-        <LogIn size={16} /> Giriş Yap
+        <LogIn size={18} />
+        {!compact ? <span>Giriş Yap</span> : null}
       </Link>
     );
   }
 
   return (
-    <div className={cn("flex items-center gap-2", variant === "sidebar" && "w-full flex-col items-stretch")}>
-      <Link
-        href="/profile"
-        className={cn(
-          baseClass,
-          "min-w-0 border border-[var(--bureau-line)] bg-[rgba(255,250,242,.82)] text-[var(--bureau-ink)] shadow-[var(--shadow-paper)] hover:-translate-y-0.5 hover:bg-[var(--bureau-bone-2)]",
-        )}
-      >
-        <UserRound size={16} />
-        <span className="max-w-[12rem] truncate">{displayName}</span>
+    <div className={cn("flex items-center gap-2 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] p-1.5 shadow-[var(--sb-shadow-sm)]", compact && "justify-center p-1", className)}>
+      <Link href="/profile" className={cn("flex min-w-0 items-center gap-2 rounded-xl px-2 py-1.5 text-sm font-black text-[var(--sb-text)] transition hover:bg-slate-900/[.04] dark:hover:bg-white/[.06]", compact && "px-1")}>
+        <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-[var(--sb-primary)] text-xs font-black text-white">
+          {initials || <UserRound size={16} />}
+        </span>
+        {!compact ? <span className="max-w-[128px] truncate">{displayName}</span> : null}
       </Link>
-      <button
-        type="button"
-        onClick={signOut}
-        className={cn(
-          "inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-[rgba(158,63,63,.22)] bg-[rgba(158,63,63,.10)] px-4 text-sm font-black text-[var(--bureau-rust)] transition hover:bg-[rgba(158,63,63,.16)]",
-          variant === "compact" && "min-h-10 rounded-xl px-3 text-xs",
-          variant === "sidebar" && "w-full",
-        )}
-      >
-        <LogOut size={16} /> Çıkış
-      </button>
+      {!compact ? (
+        <button
+          type="button"
+          onClick={signOut}
+          className="grid size-9 place-items-center rounded-xl text-[var(--sb-text-muted)] transition hover:bg-red-500/10 hover:text-red-600"
+          aria-label="Çıkış yap"
+        >
+          <LogOut size={16} />
+        </button>
+      ) : null}
     </div>
   );
+}
+
+function getInitials(value: string) {
+  return value
+    .split(/[\s@._-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toLocaleUpperCase("tr-TR"))
+    .join("");
 }
