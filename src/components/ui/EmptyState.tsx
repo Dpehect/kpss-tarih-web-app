@@ -21,7 +21,7 @@ export function EmptyState({ icon: Icon = Sparkles, title, description, href, ac
       <h3 className="mt-4 text-lg font-black tracking-tight text-[var(--sb-text)]">{title}</h3>
       <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[var(--sb-text-soft)]">{description}</p>
       {href ? (
-        <Link href={href} className="btn-primary mt-5">
+        <Link href={href as any} className="btn-primary mt-5">
           {actionLabel} <ArrowRight size={16} />
         </Link>
       ) : null}
