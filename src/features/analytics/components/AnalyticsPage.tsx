@@ -1,6 +1,5 @@
-"use client";
-
-import { BarChart3, BookOpen, CreditCard, FileQuestion, Target, Trophy } from "lucide-react";
+import { useMemo } from "react";
+import { BarChart3, BookOpen, CreditCard, FileQuestion, Sparkles, Target, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
 import { PageHeader } from "@/components/core/PageHeader";
 import { Card } from "@/components/ui/card";
@@ -39,6 +38,42 @@ export function AnalyticsPage() {
     .filter((item) => item.attempts > 0)
     .sort((a, b) => b.wrong - a.wrong)
     .slice(0, 5);
+
+  // Akıllı geri bildirim oluşturma
+  const feedbackData = useMemo(() => {
+    if (!mounted) return { title: "Yükleniyor...", body: "Veriler analiz ediliyor.", tip: "" };
+    
+    if (answered === 0) {
+      return {
+        title: "İlk Adımı Atın",
+        body: "Henüz hiçbir soru çözmediniz. Analiz raporunun ve kişiselleştirilmiş geri bildirimlerin aktifleşmesi için Konu Akademisi'nden çalışma yapıp testleri çözmeye başlayabilirsiniz.",
+        tip: "Öneri: İslamiyet Öncesi Türk Tarihi kolay testini çözerek başlayın."
+      };
+    }
+
+    if (accuracy >= 85) {
+      return {
+        title: "Mükemmel Hakimiyet",
+        body: `Tarih sorularında %${accuracy} doğruluk oranına sahipsiniz. Bu oran sınav standartlarının oldukça üzerinde! Bilgilerinizi taze tutmak için karma testlere ve süre sınırına dayalı deneme sınavlarına ağırlık verebilirsiniz.`,
+        tip: "Öneri: Deneme Merkezi'nde 40 soruluk ÖSYM formatı denemelerini çözün."
+      };
+    }
+
+    if (accuracy >= 65) {
+      const weakest = weakestTopics[0]?.topic?.title ?? "bazı konular";
+      return {
+        title: "Güçlü Temel ve İnce Ayar",
+        body: `Genel doğruluk oranınız %${accuracy}. Temeliniz sağlam ancak ${weakest} gibi zayıf kaldığınız alanlar bulunuyor. Yanlış analizlerine odaklanarak netlerinizi daha da yukarı çekebilirsiniz.`,
+        tip: `Öneri: ${weakest} konusuna ait flashcard kartlarını tekrar gözden geçirin.`
+      };
+    }
+
+    return {
+      title: "Çalışma Temposunu Artırın",
+      body: `Mevcut doğruluk oranınız %${accuracy}. KPSS Tarih'te netlerinizi yükseltmek için öncelikle konuların detaylı özetlerini okuyup, ardından kolay ve orta düzey testlerle soru pratiklerinizi pekiştirmeniz faydalı olacaktır.`,
+      tip: "Öneri: Yanlış yaptığınız soruları 'Yanlış Defteri' üzerinden düzenli tekrar edin."
+    };
+  }, [mounted, answered, accuracy, weakestTopics]);
 
   return (
     <div className="space-y-6">
@@ -88,7 +123,7 @@ export function AnalyticsPage() {
                 <a
                   key={item.topic.id}
                   href={`/topics/${item.topic.slug}`}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
+                  className="kpss-light-container flex items-center justify-between gap-4 rounded-xl border border-[var(--border-soft)] bg-white/74 p-4 transition hover:bg-white"
                 >
                   <span className="flex min-w-0 items-center gap-3">
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--ink)] text-sm font-semibold text-[white]">
@@ -102,13 +137,32 @@ export function AnalyticsPage() {
                 </a>
               ))
             ) : (
-              <p className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-5 text-sm font-semibold leading-7 text-[var(--graphite)]">
+              <p className="kpss-light-container rounded-xl border border-[var(--border-soft)] bg-white/74 p-5 text-sm font-semibold leading-7 text-[var(--graphite)]">
                 Henüz yeterli soru verisi yok. Birkaç konu testi çözdükten sonra odak alanları burada görünür.
               </p>
             )}
           </div>
         </Card>
       </section>
+
+      {/* Akıllı Geri Bildirim Kartı */}
+      <Card className="kpss-light-container border-amber-200/40 bg-amber-50/76 p-6">
+        <div className="flex items-center gap-3">
+          <span className="grid size-12 place-items-center rounded-2xl bg-amber-500 text-slate-900 shadow-md">
+            <Sparkles size={20} />
+          </span>
+          <div>
+            <p className="kicker text-amber-800">Analiz Geri Bildirimi</p>
+            <h3 className="mt-1 text-2xl font-black text-slate-900">{feedbackData.title}</h3>
+          </div>
+        </div>
+        <p className="mt-4 text-sm leading-8 text-slate-800">{feedbackData.body}</p>
+        {feedbackData.tip && (
+          <div className="mt-4 rounded-xl border border-amber-200/20 bg-white/60 p-3 text-xs font-black text-amber-900">
+            {feedbackData.tip}
+          </div>
+        )}
+      </Card>
 
       <section className="grid gap-4 md:grid-cols-3">
         <MiniInsight label="Doğru" value={correct} tone="mint" />
