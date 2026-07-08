@@ -499,7 +499,17 @@ INSERT INTO public.content_exams (id, title, description, duration_minutes, ques
 ('deneme-37','Kavram Analizi Denemesi 2','İleri düzey kavram analizi.',55,40,'zor',37),
 ('deneme-38','Sınav Öncesi Son Tekrar 1','En kritik konuları kapsayan son tekrar.',50,40,'karma',38),
 ('deneme-39','Sınav Öncesi Son Tekrar 2','En sık sorulan konu ve kavramlar.',50,40,'karma',39),
-('deneme-40','KPSS Tarih Final Denemesi','Tüm kazanımları final düzeyinde ölçen kapsamlı deneme.',55,40,'karma',40)
+('deneme-40','KPSS Tarih Final Denemesi','Tüm kazanımları final düzeyinde ölçen kapsamlı deneme.',55,40,'karma',40),
+('deneme-41','Ultra Hız Denemesi 1','Zaman yönetimi odaklı ileri düzey pratik.',40,40,'zor',41),
+('deneme-42','Ultra Hız Denemesi 2','Soru çözüm tekniklerini geliştiren deneme.',40,40,'karma',42),
+('deneme-43','Kavram Odaklı Sınav 1','Kültür, medeniyet ve terimler üzerine.',50,40,'orta',43),
+('deneme-44','Kavram Odaklı Sınav 2','Yenileşme ve demokratikleşme terimleri.',50,40,'zor',44),
+('deneme-45','Milli Mücadele Özel 1','Kurtuluş Savaşı cepheler ve antlaşmalar.',50,40,'orta',45),
+('deneme-46','Milli Mücadele Özel 2','Kongreler ve hazırlık dönemi detayları.',50,40,'zor',46),
+('deneme-47','Atatürk Dönemi Sınavı','İlke ve inkılaplar ile dış politika.',50,40,'karma',47),
+('deneme-48','Yakın Dönem Simülasyonu','Çağdaş Türk ve dünya tarihi ağırlıklı.',50,40,'orta',48),
+('deneme-49','Genel Sınav Provası 1','ÖSYM standartlarında son provalar.',55,40,'karma',49),
+('deneme-50','Genel Sınav Provası 2','Sınav öncesi son ölçme ve değerlendirme.',55,40,'karma',50)
 ON CONFLICT DO NOTHING;
 
 -- ─── 5. DENEME-SORU BAĞLANTILARI ────────────────────────────

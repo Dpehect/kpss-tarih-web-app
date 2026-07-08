@@ -13,7 +13,7 @@ export type GeneratedQuestionTest = {
   questionIds: string[];
 };
 
-export const TESTS_PER_LEVEL = 20;
+export const TESTS_PER_LEVEL = 10;
 export const QUESTIONS_PER_TEST = 20;
 
 const levelLabels: Record<TestLevel, string> = {
@@ -22,10 +22,20 @@ const levelLabels: Record<TestLevel, string> = {
   zor: "Zor",
 };
 
-function cycleQuestionIds(pool: Question[], count = QUESTIONS_PER_TEST) {
+function cycleQuestionIds(pool: Question[], count = QUESTIONS_PER_TEST, seed = 0) {
   const safePool = pool.length ? pool : questions;
   if (!safePool.length) return [];
-  return Array.from({ length: count }, (_, index) => safePool[index % safePool.length].id);
+  
+  // Deterministik karıştırma
+  const shuffled = [...safePool];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.abs(Math.sin(seed + i) * 1000) % (i + 1) | 0;
+    const temp = shuffled[i];
+    shuffled[i] = shuffled[j];
+    shuffled[j] = temp;
+  }
+  
+  return Array.from({ length: count }, (_, index) => shuffled[index % shuffled.length].id);
 }
 
 export const expandedQuestions: Question[] = questions;
@@ -42,7 +52,7 @@ export const topicQuestionTests: GeneratedQuestionTest[] = topics.flatMap((topic
         levelLabel: levelLabels[level],
         testNo: index + 1,
         questionCount: QUESTIONS_PER_TEST,
-        questionIds: cycleQuestionIds(pool),
+        questionIds: cycleQuestionIds(pool, QUESTIONS_PER_TEST, index + 1),
       };
     })
   )
@@ -58,7 +68,7 @@ export const mixedQuestionTests: GeneratedQuestionTest[] = (["kolay", "orta", "z
       levelLabel: levelLabels[level],
       testNo: index + 1,
       questionCount: QUESTIONS_PER_TEST,
-      questionIds: cycleQuestionIds(questions),
+      questionIds: cycleQuestionIds(questions, QUESTIONS_PER_TEST, index + 1),
     }))
 );
 
