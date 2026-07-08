@@ -1,64 +1,105 @@
 import type { Exam, Flashcard, Question, StudyRecommendation, TimelineEvent, Topic } from "@/types/study";
 
+/**
+ * Özgün KPSS Tarih veri havuzu.
+ * Not: Bu dosya yayıncı ders notlarından doğrudan kopyalama içermez; konu kapsamı genel KPSS müfredatı ve tarihsel olgular temel alınarak özgün biçimde yazılmıştır.
+ */
 export const topics: Topic[] = [
   {
     "id": "islamiyet-oncesi",
     "slug": "islamiyet-oncesi-turk-tarihi",
     "title": "İslamiyet Öncesi Türk Tarihi",
     "era": "islamiyet-oncesi",
-    "shortDescription": "İlk Türk devletleri, bozkır kültürü, kut anlayışı, töre, kurultay ve Orhun Yazıtları.",
-    "examImportance": 86,
-    "estimatedMinutes": 45,
+    "shortDescription": "Bozkır kültürü, Türk adının kullanımı, ilk Türk devletleri, töre, kut, kurultay, ikili teşkilat ve Orhun Yazıtları.",
+    "examImportance": 95,
+    "estimatedMinutes": 90,
     "keywords": [
+      "Türk adı",
+      "Orta Asya",
       "kut",
       "töre",
       "kurultay",
       "ikili teşkilat",
+      "onlu sistem",
       "Orhun Yazıtları",
-      "Uygurlar"
+      "Uygurlar",
+      "Kavimler Göçü"
     ],
     "quickTimeline": [
       {
         "date": "MÖ 220",
-        "event": "Asya Hun Devleti'nin güçlenmesi"
+        "event": "Asya Hun Devleti Orta Asya’da siyasi güç haline geldi."
+      },
+      {
+        "date": "MÖ 209",
+        "event": "Mete Han onlu askeri sistemi güçlendirdi."
+      },
+      {
+        "date": "375",
+        "event": "Kavimler Göçü Avrupa’nın siyasi yapısını değiştirdi."
       },
       {
         "date": "552",
-        "event": "I. Göktürk Devleti'nin kurulması"
+        "event": "I. Göktürk Devleti kuruldu."
+      },
+      {
+        "date": "681",
+        "event": "II. Göktürk / Kutluk Devleti kuruldu."
       },
       {
         "date": "744",
-        "event": "Uygur Devleti'nin kurulması"
+        "event": "Uygur Devleti kuruldu ve yerleşik kültür hızlandı."
       }
     ],
     "mustKnow": [
-      "Kut anlayışı siyasi meşruiyetle ilgilidir.",
-      "Töre yazısız hukuk kurallarıdır.",
-      "Kurultay danışma meclisidir.",
-      "Orhun Yazıtları Göktürk dönemine aittir."
+      "Türk tarihinin ilk bilgileri Çin kaynaklarında görülür; Türk adının geçtiği ilk millî yazılı kaynak Orhun Yazıtlarıdır.",
+      "Devlet adı olarak Türk adını kullanan ilk siyasi yapı Göktürklerdir.",
+      "Kut hükümdarlık yetkisinin Tanrı tarafından verildiği inancıdır; demokratik seçim değildir.",
+      "Töre yazısız hukuk düzenidir ve hükümdarın keyfî davranmasını sınırlar.",
+      "Kurultay danışma meclisidir; son söz çoğu zaman kağanındır.",
+      "Uygurlar yerleşik yaşama geçiş, matbaa, kâğıt, ticaret ve hukuk belgeleriyle kültür tarihinde öne çıkar."
     ],
     "commonMistakes": [
-      "Kut anlayışını doğrudan demokrasi saymak.",
-      "Kurultayın hükümdarı tamamen bağladığını sanmak.",
-      "Uygurların yerleşik kültür vurgusunu kaçırmak."
+      "Kut anlayışını halk egemenliği sanmak.",
+      "Kurultayı modern meclis gibi bağlayıcı düşünmek.",
+      "Göktürk ve Uygur katkılarını karıştırmak.",
+      "Kavimler Göçü sonuçlarını yalnızca askerî sonuç gibi görmek."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "İslamiyet Öncesi Türk Tarihi KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "İslamiyet öncesi dönem KPSS’de tek tek devlet isimlerinden çok kavramların kurumlarla ilişkisi üzerinden ölçülür. Bozkır coğrafyası siyasi teşkilatı, ekonomik hayatı, sanat anlayışını ve hukuk düzenini biçimlendirmiştir. Hayvancılık ve hareketli yaşam, taşınabilir sanat eserlerini öne çıkarırken uzun süreli hapishane, devasa mimari ve kalıcı şehir kültürünün sınırlı kalmasına yol açmıştır. Buna karşılık ordu-millet anlayışı, bağımsızlık tutkusu ve töreye bağlı devlet düzeni Türk siyasi kültürünün çekirdeğini oluşturur. Sınavda “hangisi göçebe yaşamın sonucudur?” veya “hangi kurum hükümdarın yetkisini sınırlar?” tipinde sorular gelir.",
         "bullets": [
-          "Kut anlayışı siyasi meşruiyetle ilgilidir.",
-          "Töre yazısız hukuk kurallarıdır.",
-          "Kurultay danışma meclisidir."
+          "Bozkır yaşamı kurumları belirler.",
+          "Töre ve kut siyasi meşruiyetin merkezindedir.",
+          "Ordu-millet anlayışı askerî gücü açıklar."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Devletler ve ayırt edici özellikler",
+        "body": "Asya Hunları bilinen ilk Türk devleti ve Mete Han ile onlu sistem; Avrupa Hunları Balamir ve Attila; Göktürkler Türk adını devlet adı olarak kullanmaları ve Orhun Yazıtları; Uygurlar yerleşik hayat ve kültür-medeniyet katkılarıyla ayırt edilir. İskit/Sakalar bozkırın kuyumcuları, Tomris ve Alper Tunga ile; Avarlar İstanbul kuşatmalarıyla; Hazarlar Musevilik ve ticari hoşgörüyle; Kırgızlar Manas Destanı ve Uygurları yıkmalarıyla; Peçenek-Kuman-Oğuz gibi topluluklar ise Bizans ve Anadolu tarihindeki rolleriyle sorulur.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Asya Hun = ilk Türk devleti.",
+          "Göktürk = Türk adını devlet adı yapan ilk yapı.",
+          "Uygur = yerleşik hayat ve kültür medeniyeti."
+        ]
+      },
+      {
+        "heading": "Kavram haritası",
+        "body": "Kut, siyasi iktidarın kaynağını; töre, hukuk düzenini; kurultay, danışma ve devlet işlerinin görüşüldüğü meclisi; ikili teşkilat, ülkenin doğu-batı olarak yönetilmesini; toy/şölen, sosyal dayanışmayı; yuğ, cenaze törenini; balbal, öldürülen düşmanı temsil eden mezar taşı figürlerini anlatır. KPSS çeldiricileri genellikle bu kavramları yanlış dönem veya yanlış anlamla eşleştirir. Mesela kut anlayışı hükümdara yetki verir fakat “sınırsız mutlakiyet” anlamına gelmez; töre, hükümdarın da uyması beklenen geleneksel hukuk çerçevesidir.",
+        "bullets": [
+          "Kut = meşruiyet.",
+          "Töre = yazısız hukuk.",
+          "Balbal = mezar kültürü."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konuyu çalışırken önce devletleri kronolojik sıraya diz, sonra her devlet için “ilk/tek/en belirgin” özelliği yaz. Son aşamada kavramları tabloya çevir: kavram, anlam, hangi soru köküyle gelir, karıştırıldığı seçenek. İslamiyet öncesi sorularında tarih aralığından çok kavram-özellik eşleşmesi belirleyicidir. Bu yüzden soru çözerken seçenekleri tek tek dönem ve kurum açısından elemek gerekir.",
+        "bullets": [
+          "Önce kronoloji, sonra kavram.",
+          "Her devlet için ayırt edici özellik çıkar.",
+          "Yanlışlarını kavram sözlüğüne ekle."
         ]
       }
     ]
@@ -68,64 +109,90 @@ export const topics: Topic[] = [
     "slug": "turk-islam-tarihi",
     "title": "Türk-İslam Tarihi",
     "era": "turk-islam",
-    "shortDescription": "Karahanlılar, Gazneliler, Büyük Selçuklular, ikta, Nizamiye ve Türk-İslam kültür eserleri.",
-    "examImportance": 84,
-    "estimatedMinutes": 48,
+    "shortDescription": "Karahanlı, Gazneli, Büyük Selçuklu ve ilk Türk-İslam eserleri; ikta, Nizamiye, atabeylik ve kültür kurumları.",
+    "examImportance": 94,
+    "estimatedMinutes": 95,
     "keywords": [
+      "Talas",
       "Karahanlılar",
       "Gazneli Mahmut",
       "Put kırıcı",
       "Dandanakan",
-      "İkta",
+      "Büyük Selçuklu",
       "Nizamiye",
-      "Kutadgu Bilig"
+      "İkta",
+      "Kutadgu Bilig",
+      "Divanü Lügati’t-Türk"
     ],
     "quickTimeline": [
       {
         "date": "751",
-        "event": "Talas Savaşı"
+        "event": "Talas Savaşı Türklerin İslam dünyasıyla yakınlaşmasını hızlandırdı."
       },
       {
         "date": "840",
-        "event": "Karahanlı Devleti'nin kurulması"
+        "event": "Karahanlılar ilk Müslüman Türk devleti olarak öne çıktı."
+      },
+      {
+        "date": "963",
+        "event": "Gazneliler Hindistan seferleriyle tanındı."
       },
       {
         "date": "1040",
-        "event": "Dandanakan Savaşı"
+        "event": "Dandanakan Savaşı Büyük Selçuklu Devleti’nin kuruluşunu kesinleştirdi."
       },
       {
         "date": "1071",
-        "event": "Malazgirt Savaşı"
+        "event": "Malazgirt Zaferi Anadolu’nun kapılarını Türklere açtı."
       }
     ],
     "mustKnow": [
       "İlk Müslüman Türk devleti Karahanlılardır.",
-      "Put kırıcı unvanı Gazneli Mahmut ile ilişkilidir.",
-      "Dandanakan Selçuklu-Gazneli mücadelesinde dönüm noktasıdır.",
-      "Nizamiye Medreseleri Büyük Selçuklu kurumudur."
+      "Put Kırıcı unvanı Hindistan seferleriyle tanınan Gazneli Mahmut’a aittir.",
+      "Dandanakan Savaşı Selçukluların Gaznelilere karşı siyasi üstünlük kazandığı dönüm noktasıdır.",
+      "Nizamiye Medreseleri Büyük Selçuklu döneminde örgütlü eğitim kurumudur.",
+      "Kutadgu Bilig siyasetname niteliğindedir; Divanü Lügati’t-Türk Türkçenin Araplara öğretilmesi amacıyla yazılmıştır."
     ],
     "commonMistakes": [
-      "Put kırıcıyı Artuklu veya Selçuklu beyi sanmak.",
-      "Dandanakan ile Malazgirt'in sonucunu karıştırmak.",
-      "İkta ile tımarı aynı dönem kurumu sanmak."
+      "Put Kırıcıyı Artuklu, Karahanlı veya Anadolu Selçuklu kişisi sanmak.",
+      "Karahanlı eserleri ile Selçuklu kurumlarını karıştırmak.",
+      "Dandanakan ile Malazgirt’in sonucunu aynılaştırmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Türk-İslam Tarihi KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Türk-İslam tarihi, Türk siyasi kültürünün İslam medeniyet dairesiyle birleştiği dönemdir. KPSS’de bu alan “ilk Müslüman Türk devleti”, “ilk Türk-İslam eserleri”, “eğitim ve devlet kurumları”, “savaşların sonucu” ve “unvan-kişi eşleştirmesi” üzerinden ölçülür. Karahanlılar Türkçeyi ve İslamiyet’i birlikte taşıyan eserleriyle, Gazneliler Hindistan seferleri ve Gazneli Mahmut’un Put Kırıcı unvanıyla, Büyük Selçuklular ise ikta, Nizamiye, atabeylik ve İslam dünyasının siyasi koruyuculuğu ile ayırt edilir.",
         "bullets": [
-          "İlk Müslüman Türk devleti Karahanlılardır.",
-          "Put kırıcı unvanı Gazneli Mahmut ile ilişkilidir.",
-          "Dandanakan Selçuklu-Gazneli mücadelesinde dönüm noktasıdır."
+          "Karahanlı = ilk Müslüman Türk devleti.",
+          "Gazneli Mahmut = Put Kırıcı.",
+          "Büyük Selçuklu = Nizamiye ve ikta."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Eser ve kurum mantığı",
+        "body": "Kutadgu Bilig devlet yönetimi ve ideal hükümdar anlayışını işler; Divanü Lügati’t-Türk Türk dilini tanıtma amacı taşır; Atabetü’l-Hakayık ahlaki öğütler verir; Divan-ı Hikmet tasavvufi halk söyleyişinin güçlü örneklerindendir. Bu eserleri ezberlerken yazar-eser-amaç şeklinde üçlü tablo kurulmalıdır. Kurumlarda ise ikta askerî ve mali düzen, Nizamiye eğitim, atabeylik şehzade yetiştirme, gulam sistemi merkezî ordu ve saray hizmetleriyle ilişkilidir.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Eserleri yazar ve amaçla öğren.",
+          "İkta = mali/askerî düzen.",
+          "Nizamiye = örgütlü eğitim."
+        ]
+      },
+      {
+        "heading": "Savaşların sonucu",
+        "body": "Dandanakan, Selçukluların Gaznelilere karşı devletleşme eşiğini geçmesidir; Malazgirt, Anadolu’ya Türk yerleşimini hızlandırır. Talas Savaşı ise yalnızca askerî değil, kültürel sonuçlarıyla önemlidir: Türk-İslam yakınlaşması ve kâğıt üretiminin yayılması bağlamında sorulabilir. KPSS çeldiricisi genellikle savaşı yanlış sonuçla eşleştirir; bu yüzden “savaş-kim kiminle-sonuç” formülüyle tekrar yapılmalıdır.",
+        "bullets": [
+          "Talas = Türk-İslam yakınlaşması.",
+          "Dandanakan = Selçuklu kuruluşu.",
+          "Malazgirt = Anadolu kapıları."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konuyu kalıcı öğrenmek için üç liste çıkar: devletler, eserler ve kurumlar. Her maddenin karşısına yalnızca bir ayırt edici cümle yaz. Örneğin “Gazneli Mahmut: Hindistan seferleri ve Put Kırıcı”, “Nizamiye: Büyük Selçuklu eğitim kurumu”. Ardından soru çözerken yanlış seçenekleri neden yanlış olduğunu belirterek ele. Bu yöntem, benzer kavramların birbirine karışmasını azaltır.",
+        "bullets": [
+          "Devlet-eser-kurum tablosu kur.",
+          "Her maddenin tek ayırt edici cümlesi olsun.",
+          "Yanlış seçeneği gerekçesiyle ele."
         ]
       }
     ]
@@ -135,14 +202,16 @@ export const topics: Topic[] = [
     "slug": "anadolu-selcuklu-ve-beylikler",
     "title": "Anadolu Selçuklu ve Beylikler",
     "era": "turk-islam",
-    "shortDescription": "Anadolu'nun Türkleşmesi, Miryokefalon, Kösedağ, kervansaray, ahilik ve beylikler.",
-    "examImportance": 78,
-    "estimatedMinutes": 40,
+    "shortDescription": "Anadolu’nun Türkleşmesi, Türkiye Selçukluları, Haçlılar, Miryokefalon, Kösedağ, ticaret, ahilik ve beylikler.",
+    "examImportance": 88,
+    "estimatedMinutes": 90,
     "keywords": [
+      "Malazgirt",
       "Miryokefalon",
       "Kösedağ",
-      "kervansaray",
-      "ahilik",
+      "Haçlı Seferleri",
+      "Kervansaray",
+      "Ahilik",
       "Artuklular",
       "Malabadi Köprüsü",
       "El-Cezeri"
@@ -150,45 +219,68 @@ export const topics: Topic[] = [
     "quickTimeline": [
       {
         "date": "1075",
-        "event": "Türkiye Selçuklu Devleti'nin kuruluş süreci"
+        "event": "Türkiye Selçuklu Devleti’nin kuruluş süreci başladı."
+      },
+      {
+        "date": "1096-1270",
+        "event": "Haçlı Seferleri Anadolu ve Akdeniz dünyasını etkiledi."
       },
       {
         "date": "1176",
-        "event": "Miryokefalon Savaşı"
+        "event": "Miryokefalon Savaşı Anadolu’nun Türk yurdu oluşunu kesinleştirdi."
       },
       {
         "date": "1243",
-        "event": "Kösedağ Savaşı"
+        "event": "Kösedağ Savaşı Moğol baskısını ve beyliklerin güçlenmesini getirdi."
       }
     ],
     "mustKnow": [
-      "Miryokefalon Anadolu'nun Türk yurdu olduğunun kesinleşmesiyle ilişkilidir.",
-      "Kösedağ merkezi otoriteyi zayıflatıp beylikleri güçlendirmiştir.",
-      "Kervansaraylar ticareti ve yol güvenliğini destekler.",
-      "Artuklular Mardin, Diyarbakır, Harput çevresinde etkilidir."
+      "Miryokefalon, Anadolu’nun Türk yurdu olduğunun kesinleşmesiyle ilişkilidir.",
+      "Kösedağ, Türkiye Selçuklu merkezi otoritesini zayıflatıp beylikler dönemini güçlendirmiştir.",
+      "Kervansaraylar ticaret yollarında güvenlik ve konaklama sağlar.",
+      "Ahilik esnaf dayanışması, meslek ahlakı ve şehir ekonomisiyle ilgilidir.",
+      "Artuklular Mardin, Diyarbakır, Harput çevresinde; Malabadi Köprüsü ve El-Cezeri ile anılır."
     ],
     "commonMistakes": [
-      "Miryokefalon ile Malazgirt'in sonuçlarını karıştırmak.",
-      "Kösedağ'ı beyliklerin zayıflaması sanmak.",
-      "Ahiliği yalnızca dini bir yapı gibi görmek."
+      "Miryokefalon’u Anadolu’nun kapılarının açılması saymak; bu Malazgirt’tir.",
+      "Kösedağ’ı Selçukluların güçlenmesi sanmak.",
+      "Ahiliği yalnızca dinî tarikat gibi görmek."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Anadolu Selçuklu ve Beylikler KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Anadolu Selçuklu ve Beylikler konusu, Anadolu’nun askeri fetih alanı olmaktan kalıcı Türk-İslam yurdu haline gelme sürecini anlatır. Malazgirt kapıyı açarken, Miryokefalon Bizans’ın Anadolu’yu geri alma umudunu kırar. Kösedağ ise merkezi otoritenin zayıflaması ve ikinci beylikler döneminin güçlenmesi açısından dönüm noktasıdır. KPSS’de bu üç olayın sonucu mutlaka ayırt edilmelidir.",
         "bullets": [
-          "Miryokefalon Anadolu'nun Türk yurdu olduğunun kesinleşmesiyle ilişkilidir.",
-          "Kösedağ merkezi otoriteyi zayıflatıp beylikleri güçlendirmiştir.",
-          "Kervansaraylar ticareti ve yol güvenliğini destekler."
+          "Malazgirt = giriş.",
+          "Miryokefalon = kesinleşme.",
+          "Kösedağ = Moğol baskısı ve beylikler."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Kurum ve ekonomi",
+        "body": "Türkiye Selçukluları ticaret yollarını canlı tutmak için kervansaraylar, sigorta uygulamaları, liman şehirleri ve yol güvenliği politikalarını kullandı. Ahilik, yalnızca esnaf örgütlenmesi değil; meslek ahlakı, üretim standardı ve şehir toplumsal düzenini kapsayan bir yapıdır. Bu nedenle “ekonomik-sosyal düzen” sorularında güçlü bir ipucudur. Kervansaray soruları ise genellikle ticaret ve güvenlik kavramlarıyla birlikte gelir.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kervansaray = ticaret güvenliği.",
+          "Ahilik = esnaf ahlakı ve örgütlenme.",
+          "Limanlar ve yollar ekonomik canlılık sağlar."
+        ]
+      },
+      {
+        "heading": "Beylikleri ayırma tekniği",
+        "body": "Artuklular Malabadi Köprüsü ve El-Cezeri; Saltuklular Erzurum çevresi; Mengücekler Divriği Ulu Camii ve Darüşşifası; Danişmentliler Anadolu’daki ilk medrese örnekleri; Karamanoğulları Türkçeyi resmi dil ilan etmeleri; Osmanoğulları ise kalıcı siyasi birlik kurmalarıyla ayırt edilir. Soru kökünde eser, şehir veya kişi verilirse doğrudan beylik eşleştirmesi yapılır.",
+        "bullets": [
+          "Artuklu = Malabadi, El-Cezeri.",
+          "Mengücek = Divriği.",
+          "Karamanoğlu = Türkçe resmi dil."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konuyu öğrenirken bir harita üzerinde şehir-beylik eşleştirmesi yap. Sonra savaşların sonuçlarını tek cümlelik kartlara dönüştür. En sonda “eser-kurum-beylik” testleri çöz. Anadolu Selçuklu sorularında yorum yapılabilse de doğru cevabı belirleyen genellikle tarihsel sonuç veya ayırt edici eserdir.",
+        "bullets": [
+          "Harita ile çalış.",
+          "Savaş-sonuç kartları hazırla.",
+          "Eser-beylik tablosu kullan."
         ]
       }
     ]
@@ -198,58 +290,83 @@ export const topics: Topic[] = [
     "slug": "osmanli-kurulus-ve-yukselis",
     "title": "Osmanlı Kuruluş ve Yükseliş",
     "era": "osmanli",
-    "shortDescription": "Beylikten devlete geçiş, Rumeli'ye geçiş, iskan, İstanbul'un fethi ve merkeziyetçilik.",
-    "examImportance": 88,
-    "estimatedMinutes": 52,
+    "shortDescription": "Beylikten devlete geçiş, Rumeli politikası, iskan, merkezileşme, İstanbul’un fethi ve klasik düzenin kurulması.",
+    "examImportance": 93,
+    "estimatedMinutes": 90,
     "keywords": [
+      "Kayı",
+      "Bilecik",
       "Çimpe",
-      "iskan",
-      "devşirme",
-      "İstanbul'un fethi",
+      "İskan",
+      "Devşirme",
+      "Kapıkulu",
+      "İstanbul’un Fethi",
       "Fatih Kanunnamesi"
     ],
     "quickTimeline": [
       {
         "date": "1299",
-        "event": "Osmanlı Beyliği'nin kuruluş süreci"
+        "event": "Osmanlı Beyliği’nin kuruluş süreci."
       },
       {
         "date": "1353",
-        "event": "Çimpe Kalesi'nin alınması"
+        "event": "Çimpe Kalesi ile Rumeli’ye geçiş."
       },
       {
         "date": "1453",
-        "event": "İstanbul'un fethi"
+        "event": "İstanbul’un fethi."
+      },
+      {
+        "date": "1517",
+        "event": "Mısır seferiyle hilafet ve kutsal emanetler meselesi."
       }
     ],
     "mustKnow": [
-      "Çimpe Kalesi Rumeli'ye geçişte üs olmuştur.",
-      "İskan politikası fetihlerin kalıcı olmasını sağlar.",
-      "İstanbul'un fethi Osmanlı'nın imparatorluk karakterini güçlendirmiştir.",
-      "Devşirme sistemi kapıkulu ordusu ve merkez teşkilatıyla ilgilidir."
+      "Osmanlı’nın kısa sürede büyümesinde Bizans’ın zayıflığı, uç beyliği konumu ve iskan politikası etkilidir.",
+      "Çimpe Rumeli’ye geçişte üs niteliğindedir.",
+      "İstanbul’un fethi Osmanlı’ya imparatorluk karakteri kazandırmıştır.",
+      "Devşirme sistemi kapıkulu ordusu ve merkezî bürokrasiyle ilgilidir."
     ],
     "commonMistakes": [
-      "Çimpe'yi başkent sanmak.",
+      "Çimpe’yi başkent sanmak.",
       "İskanı yalnızca nüfus artırma politikası görmek.",
       "Devşirmeyi tımar sistemiyle karıştırmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Osmanlı Kuruluş ve Yükseliş KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Osmanlı Kuruluş ve Yükseliş konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Çimpe Kalesi Rumeli'ye geçişte üs olmuştur.",
-          "İskan politikası fetihlerin kalıcı olmasını sağlar.",
-          "İstanbul'un fethi Osmanlı'nın imparatorluk karakterini güçlendirmiştir."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Osmanlı Kuruluş ve Yükseliş sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -259,56 +376,157 @@ export const topics: Topic[] = [
     "slug": "osmanli-kultur-ve-medeniyet",
     "title": "Osmanlı Kültür ve Medeniyet",
     "era": "osmanli",
-    "shortDescription": "Merkez-taşra teşkilatı, Divan, ilmiye, kalemiye, seyfiye, tımar, vakıf ve toplum yapısı.",
-    "examImportance": 92,
-    "estimatedMinutes": 58,
+    "shortDescription": "Merkez-taşra teşkilatı, Divan, seyfiye-ilmiye-kalemiye, tımar, vakıf, millet sistemi ve klasik toplum yapısı.",
+    "examImportance": 96,
+    "estimatedMinutes": 100,
     "keywords": [
       "Divan-ı Hümayun",
-      "tımar",
-      "ilmiye",
-      "kalemiye",
-      "seyfiye",
-      "vakıf",
-      "defterdar"
+      "Sadrazam",
+      "Şeyhülislam",
+      "Defterdar",
+      "Nişancı",
+      "Tımar",
+      "Vakıf",
+      "Millet sistemi",
+      "Enderun"
     ],
     "quickTimeline": [
       {
         "date": "Klasik dönem",
-        "event": "Merkez-taşra düzeninin olgunlaşması"
+        "event": "Merkez ve taşra düzeni olgunlaştı."
       },
       {
         "date": "XVII. yy",
-        "event": "Kurumlarda bozulma ve ıslahat ihtiyacı"
+        "event": "Tımar ve merkezî kurumlarda bozulma belirtileri arttı."
       }
     ],
     "mustKnow": [
-      "Tımar sistemi dirlik gelirleriyle asker yetiştirme düzenidir.",
-      "İlmiye eğitim, hukuk ve din işleriyle ilgilenir.",
-      "Kalemiye yazışma ve maliye bürokrasisidir.",
-      "Vakıflar sosyal hizmetleri destekler."
+      "Divan-ı Hümayun merkez yönetimin danışma ve karar organıdır.",
+      "Seyfiye yönetim ve askerlik, ilmiye eğitim-hukuk-din, kalemiye yazışma-maliye bürokrasisidir.",
+      "Tımar dirlik gelirleriyle asker yetiştirme ve taşrada güvenliği sağlama düzenidir.",
+      "Vakıflar sosyal hizmetleri finanse eder."
     ],
     "commonMistakes": [
       "Tımarı özel mülkiyet sanmak.",
-      "İlmiye-kalemiye-seyfiye ayrımını karıştırmak.",
+      "İlmiye ve kalemiye görevlerini karıştırmak.",
       "Vakıfları doğrudan devlet hazinesi gibi düşünmek."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Osmanlı Kültür ve Medeniyet KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Osmanlı Kültür ve Medeniyet konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Tımar sistemi dirlik gelirleriyle asker yetiştirme düzenidir.",
-          "İlmiye eğitim, hukuk ve din işleriyle ilgilenir.",
-          "Kalemiye yazışma ve maliye bürokrasisidir."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Osmanlı Kültür ve Medeniyet sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
+        ]
+      }
+    ]
+  },
+  {
+    "id": "osmanli-duraklama-gerileme",
+    "slug": "osmanli-duraklama-gerileme",
+    "title": "Osmanlı Duraklama ve Gerileme",
+    "era": "osmanli",
+    "shortDescription": "XVII ve XVIII. yüzyıl sorunları, ıslahat anlayışları, Karlofça, Pasarofça, Lale Devri ve askerî yenilikler.",
+    "examImportance": 89,
+    "estimatedMinutes": 95,
+    "keywords": [
+      "Karlofça",
+      "Pasarofça",
+      "Lale Devri",
+      "Koçi Bey",
+      "III. Selim",
+      "Nizam-ı Cedid",
+      "Askerî ıslahat"
+    ],
+    "quickTimeline": [
+      {
+        "date": "1699",
+        "event": "Karlofça ile batıda ilk büyük toprak kaybı."
+      },
+      {
+        "date": "1718",
+        "event": "Pasarofça ve Lale Devri."
+      },
+      {
+        "date": "1793",
+        "event": "Nizam-ı Cedid düzenlemeleri."
+      }
+    ],
+    "mustKnow": [
+      "Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır.",
+      "Lale Devri’nde Batı tarzı yeniliklere ilgi artmıştır.",
+      "XVII. yüzyıl ıslahatları çoğunlukla kişilere bağlı, baskıcı ve sınırlı kalmıştır.",
+      "III. Selim’in Nizam-ı Cedid’i askeri ve mali yenilikleri içerir."
+    ],
+    "commonMistakes": [
+      "Karlofça ile Pasarofça sonucunu karıştırmak.",
+      "Lale Devri’ni tamamen askerî dönem sanmak.",
+      "XVII. yüzyıl ıslahatlarını köklü anayasal hareket gibi görmek."
+    ],
+    "summary": [
+      {
+        "heading": "Büyük resim",
+        "body": "Osmanlı Duraklama ve Gerileme konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
+        "bullets": [
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
+        ]
+      },
+      {
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Osmanlı Duraklama ve Gerileme sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
+        "bullets": [
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -318,66 +536,86 @@ export const topics: Topic[] = [
     "slug": "osmanli-yenilesme",
     "title": "Osmanlı Yenileşme ve Demokratikleşme",
     "era": "yenilesme",
-    "shortDescription": "Karlofça'dan Meşrutiyet'e uzanan ıslahatlar, anayasal gelişmeler ve modernleşme.",
-    "examImportance": 90,
-    "estimatedMinutes": 56,
+    "shortDescription": "Sened-i İttifak, Tanzimat, Islahat, Kanun-i Esasi, Meşrutiyetler ve anayasal dönüşüm.",
+    "examImportance": 96,
+    "estimatedMinutes": 100,
     "keywords": [
-      "Karlofça",
-      "Pasarofça",
-      "Lale Devri",
-      "Nizam-ı Cedid",
       "Sened-i İttifak",
       "Tanzimat",
       "Islahat",
       "Kanun-i Esasi",
-      "Meşrutiyet"
+      "I. Meşrutiyet",
+      "II. Meşrutiyet",
+      "Jön Türkler"
     ],
     "quickTimeline": [
       {
-        "date": "1699",
-        "event": "Karlofça Antlaşması"
-      },
-      {
         "date": "1808",
-        "event": "Sened-i İttifak"
+        "event": "Sened-i İttifak."
       },
       {
         "date": "1839",
-        "event": "Tanzimat Fermanı"
+        "event": "Tanzimat Fermanı."
+      },
+      {
+        "date": "1856",
+        "event": "Islahat Fermanı."
       },
       {
         "date": "1876",
-        "event": "Kanun-i Esasi ve I. Meşrutiyet"
+        "event": "Kanun-i Esasi ve I. Meşrutiyet."
+      },
+      {
+        "date": "1908",
+        "event": "II. Meşrutiyet."
       }
     ],
     "mustKnow": [
-      "Karlofça batıda ilk büyük toprak kaybıdır.",
       "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir.",
-      "Tanzimat 1839, Islahat 1856, Kanun-i Esasi 1876'dır.",
-      "Meşrutiyet meclisli ve anayasal yönetimle ilgilidir."
+      "Tanzimat can, mal, namus güvenliği ve hukuki eşitlik vurgusuyla öne çıkar.",
+      "Islahat gayrimüslim hakları ve Avrupa baskısı bağlamında sorulur.",
+      "Kanun-i Esasi ilk Osmanlı anayasasıdır."
     ],
     "commonMistakes": [
-      "Sened-i İttifak ile Tanzimat'ı tarih sırası bakımından karıştırmak.",
-      "Islahat Fermanı'nı Kanun-i Esasi sanmak.",
-      "Karlofça-Pasarofça sırasını ters kurmak."
+      "Sened-i İttifak’ı Tanzimat’tan sonra sanmak.",
+      "Islahat ile Kanun-i Esasi’yi karıştırmak.",
+      "Meşrutiyeti cumhuriyet yönetimi sanmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Osmanlı Yenileşme ve Demokratikleşme KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Osmanlı Yenileşme ve Demokratikleşme konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Karlofça batıda ilk büyük toprak kaybıdır.",
-          "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir.",
-          "Tanzimat 1839, Islahat 1856, Kanun-i Esasi 1876'dır."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Osmanlı Yenileşme ve Demokratikleşme sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -387,12 +625,12 @@ export const topics: Topic[] = [
     "slug": "milli-mucadele-hazirlik-donemi",
     "title": "Milli Mücadele Hazırlık Dönemi",
     "era": "milli-mucadele",
-    "shortDescription": "Mondros sonrası işgaller, genelgeler, kongreler, cemiyetler, Misak-ı Milli ve TBMM.",
-    "examImportance": 94,
-    "estimatedMinutes": 55,
+    "shortDescription": "Mondros, işgaller, cemiyetler, genelgeler, kongreler, Misak-ı Milli ve TBMM’nin açılması.",
+    "examImportance": 98,
+    "estimatedMinutes": 105,
     "keywords": [
       "Mondros",
-      "Havza",
+      "Havza Genelgesi",
       "Amasya Genelgesi",
       "Erzurum Kongresi",
       "Sivas Kongresi",
@@ -402,49 +640,75 @@ export const topics: Topic[] = [
     "quickTimeline": [
       {
         "date": "1918",
-        "event": "Mondros Ateşkes Antlaşması"
+        "event": "Mondros Ateşkes Antlaşması."
+      },
+      {
+        "date": "19 Mayıs 1919",
+        "event": "Mustafa Kemal Samsun’a çıktı."
       },
       {
         "date": "22 Haziran 1919",
-        "event": "Amasya Genelgesi"
+        "event": "Amasya Genelgesi."
+      },
+      {
+        "date": "23 Temmuz 1919",
+        "event": "Erzurum Kongresi."
       },
       {
         "date": "4 Eylül 1919",
-        "event": "Sivas Kongresi"
+        "event": "Sivas Kongresi."
       },
       {
         "date": "23 Nisan 1920",
-        "event": "TBMM'nin açılması"
+        "event": "TBMM açıldı."
       }
     ],
     "mustKnow": [
-      "Amasya Genelgesi Milli Mücadele'nin gerekçe, amaç ve yöntemini açıklar.",
-      "Erzurum bölgesel toplanıp ulusal karar almıştır.",
-      "Sivas Kongresi cemiyetleri birleştirmiştir.",
-      "Misak-ı Milli Son Osmanlı Mebusan Meclisi'nde kabul edilmiştir."
+      "Amasya Genelgesi Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklar.",
+      "Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır.",
+      "Sivas Kongresi cemiyetleri Anadolu ve Rumeli Müdafaa-i Hukuk çatısında birleştirmiştir.",
+      "Misak-ı Milli Son Osmanlı Mebusan Meclisi’nde kabul edilmiştir."
     ],
     "commonMistakes": [
-      "Havza ile Amasya'nın işlevini karıştırmak.",
-      "Erzurum ve Sivas'ın karar kapsamını karıştırmak.",
-      "Misak-ı Milli'yi TBMM kararı sanmak."
+      "Havza ile Amasya’nın rolünü karıştırmak.",
+      "Erzurum’u tamamen ulusal toplanan kongre sanmak.",
+      "Misak-ı Milli’yi TBMM kararı sanmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Milli Mücadele Hazırlık Dönemi KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Milli Mücadele Hazırlık Dönemi konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Amasya Genelgesi Milli Mücadele'nin gerekçe, amaç ve yöntemini açıklar.",
-          "Erzurum bölgesel toplanıp ulusal karar almıştır.",
-          "Sivas Kongresi cemiyetleri birleştirmiştir."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Milli Mücadele Hazırlık Dönemi sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -454,64 +718,83 @@ export const topics: Topic[] = [
     "slug": "kurtulus-savasi-ve-antlasmalar",
     "title": "Kurtuluş Savaşı ve Antlaşmalar",
     "era": "milli-mucadele",
-    "shortDescription": "Doğu, Güney, Batı cepheleri; İnönü, Sakarya, Büyük Taarruz, Mudanya ve Lozan.",
-    "examImportance": 93,
-    "estimatedMinutes": 52,
+    "shortDescription": "Doğu, Güney ve Batı cepheleri; İnönü, Sakarya, Büyük Taarruz, Mudanya ve Lozan.",
+    "examImportance": 98,
+    "estimatedMinutes": 100,
     "keywords": [
       "Gümrü",
       "Ankara Antlaşması",
       "İnönü",
       "Sakarya",
       "Tekalif-i Milliye",
+      "Büyük Taarruz",
       "Mudanya",
       "Lozan"
     ],
     "quickTimeline": [
       {
         "date": "1920",
-        "event": "Gümrü Antlaşması"
+        "event": "Gümrü Antlaşması."
       },
       {
         "date": "1921",
-        "event": "Sakarya Meydan Muharebesi"
+        "event": "I. ve II. İnönü; Sakarya."
       },
       {
         "date": "1922",
-        "event": "Mudanya Ateşkesi"
+        "event": "Büyük Taarruz ve Mudanya."
       },
       {
         "date": "1923",
-        "event": "Lozan Barış Antlaşması"
+        "event": "Lozan Barış Antlaşması."
       }
     ],
     "mustKnow": [
       "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır.",
-      "Güney Cephesi Ankara Antlaşması ile kapanmıştır.",
+      "Güney Cephesi Ankara Antlaşması ile büyük ölçüde kapanmıştır.",
       "Sakarya savunmadan taarruza geçişin dönüm noktasıdır.",
       "Mudanya ateşkes, Lozan barış antlaşmasıdır."
     ],
     "commonMistakes": [
-      "Mudanya'yı barış antlaşması sanmak.",
-      "Gümrü ile Kars'ın işlevini karıştırmak.",
+      "Mudanya’yı barış antlaşması sanmak.",
+      "Gümrü ve Kars antlaşmalarını karıştırmak.",
       "Sakarya ile Büyük Taarruz sonuçlarını karıştırmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Kurtuluş Savaşı ve Antlaşmalar KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Kurtuluş Savaşı ve Antlaşmalar konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır.",
-          "Güney Cephesi Ankara Antlaşması ile kapanmıştır.",
-          "Sakarya savunmadan taarruza geçişin dönüm noktasıdır."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Kurtuluş Savaşı ve Antlaşmalar sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -521,65 +804,88 @@ export const topics: Topic[] = [
     "slug": "ataturk-ilke-ve-inkilaplari",
     "title": "Atatürk İlke ve İnkılapları",
     "era": "cumhuriyet",
-    "shortDescription": "Siyasi, hukuk, eğitim, ekonomi ve toplumsal inkılapların ilke bağlantıları.",
-    "examImportance": 96,
-    "estimatedMinutes": 60,
+    "shortDescription": "Siyasi, hukuk, eğitim, ekonomi ve toplum alanındaki inkılaplar ile altı ilkenin yorumlanması.",
+    "examImportance": 99,
+    "estimatedMinutes": 110,
     "keywords": [
-      "cumhuriyetçilik",
-      "laiklik",
-      "halkçılık",
-      "devletçilik",
-      "inkılapçılık",
+      "Cumhuriyetçilik",
+      "Milliyetçilik",
+      "Halkçılık",
+      "Devletçilik",
+      "Laiklik",
+      "İnkılapçılık",
       "Tevhid-i Tedrisat",
-      "Saltanat",
-      "Halifelik"
+      "Halifelik",
+      "Medeni Kanun"
     ],
     "quickTimeline": [
       {
         "date": "1922",
-        "event": "Saltanatın kaldırılması"
+        "event": "Saltanat kaldırıldı."
       },
       {
         "date": "1923",
-        "event": "Cumhuriyetin ilanı"
+        "event": "Cumhuriyet ilan edildi."
       },
       {
         "date": "1924",
-        "event": "Halifeliğin kaldırılması ve Tevhid-i Tedrisat"
+        "event": "Halifelik kaldırıldı; Tevhid-i Tedrisat kabul edildi."
+      },
+      {
+        "date": "1926",
+        "event": "Türk Medeni Kanunu kabul edildi."
       },
       {
         "date": "1928",
-        "event": "Harf İnkılabı"
+        "event": "Harf İnkılabı."
       }
     ],
     "mustKnow": [
-      "Saltanatın kaldırılması milli egemenlik ve cumhuriyetçilikle ilgilidir.",
-      "Tevhid-i Tedrisat eğitim birliği ve laikleşmeyle ilgilidir.",
-      "Devletçilik ekonomik kalkınmada devletin düzenleyici rolünü anlatır.",
-      "İnkılapçılık çağdaşlaşma ve yeniliklere açıklıktır."
+      "Cumhuriyetçilik milli egemenlik ve seçimle gelen yönetimle ilgilidir.",
+      "Laiklik din ve devlet işlerinin ayrılması, hukuk ve eğitimde akılcı düzenle ilgilidir.",
+      "Halkçılık ayrıcalıkların reddi ve kanun önünde eşitliktir.",
+      "Devletçilik özel girişimi yok saymadan devletin kalkınmada düzenleyici rolünü vurgular."
     ],
     "commonMistakes": [
-      "Laiklik ile halkçılığı her inkılapta otomatik eşleştirmek.",
       "Devletçiliği sosyalizm sanmak.",
-      "Cumhuriyetçilik ile milliyetçiliği karıştırmak."
+      "Halkçılık ile milliyetçiliği her soruda karıştırmak.",
+      "Laikliği yalnızca din özgürlüğü olarak dar yorumlamak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Atatürk İlke ve İnkılapları KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Atatürk İlke ve İnkılapları konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Saltanatın kaldırılması milli egemenlik ve cumhuriyetçilikle ilgilidir.",
-          "Tevhid-i Tedrisat eğitim birliği ve laikleşmeyle ilgilidir.",
-          "Devletçilik ekonomik kalkınmada devletin düzenleyici rolünü anlatır."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Atatürk İlke ve İnkılapları sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -589,63 +895,86 @@ export const topics: Topic[] = [
     "slug": "cumhuriyet-donemi-dis-politika",
     "title": "Cumhuriyet Dönemi Dış Politika",
     "era": "cumhuriyet",
-    "shortDescription": "Lozan sonrası sorunlar, Musul, Montrö, Hatay ve barışçı dış politika.",
-    "examImportance": 82,
-    "estimatedMinutes": 44,
+    "shortDescription": "Lozan sonrası dış politika sorunları, Musul, Hatay, Montrö, Balkan ve Sadabat paktları.",
+    "examImportance": 91,
+    "estimatedMinutes": 85,
     "keywords": [
+      "Lozan",
       "Musul",
+      "Yabancı okullar",
       "Montrö",
       "Hatay",
       "Balkan Antantı",
-      "Sadabat Paktı",
-      "Yurtta sulh"
+      "Sadabat Paktı"
     ],
     "quickTimeline": [
       {
         "date": "1926",
-        "event": "Ankara Antlaşması ile Musul sorunu çözüldü"
+        "event": "Musul sorunu Ankara Antlaşması ile çözüldü."
       },
       {
         "date": "1934",
-        "event": "Balkan Antantı"
+        "event": "Balkan Antantı."
       },
       {
         "date": "1936",
-        "event": "Montrö Boğazlar Sözleşmesi"
+        "event": "Montrö Boğazlar Sözleşmesi."
+      },
+      {
+        "date": "1937",
+        "event": "Sadabat Paktı."
       },
       {
         "date": "1939",
-        "event": "Hatay'ın Türkiye'ye katılması"
+        "event": "Hatay Türkiye’ye katıldı."
       }
     ],
     "mustKnow": [
-      "Musul sorunu 1926 Ankara Antlaşması ile sonuçlanmıştır.",
-      "Montrö Boğazlarda Türkiye'nin egemenliğini güçlendirmiştir.",
-      "Hatay 1939'da Türkiye'ye katılmıştır.",
-      "Balkan Antantı ve Sadabat Paktı bölgesel güvenlik politikalarıdır."
+      "Montrö Boğazlar üzerindeki Türk egemenliğini güçlendirmiştir.",
+      "Hatay sorunu Atatürk döneminde gündeme gelmiş, 1939’da Türkiye’ye katılmıştır.",
+      "Musul sorunu İngiltere ile yaşanmış ve 1926 Ankara Antlaşması ile sonuçlanmıştır.",
+      "Balkan Antantı batı sınırı güvenliği, Sadabat Paktı doğu sınırı güvenliği ile ilgilidir."
     ],
     "commonMistakes": [
-      "Montrö'yü Lozan'la aynı tarih sanmak.",
-      "Musul'u Montrö ile çözülmüş gibi düşünmek.",
-      "Hatay'ın katılımını Atatürk sonrası değil, 1939 olarak bilmemek."
+      "Montrö’yü Lozan’ın yerine geçmiş genel barış antlaşması sanmak.",
+      "Hatay’ın katılım tarihini Cumhuriyetin ilanıyla karıştırmak.",
+      "Balkan Antantı ve Sadabat Paktı yönlerini karıştırmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Cumhuriyet Dönemi Dış Politika KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Cumhuriyet Dönemi Dış Politika konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Musul sorunu 1926 Ankara Antlaşması ile sonuçlanmıştır.",
-          "Montrö Boğazlarda Türkiye'nin egemenliğini güçlendirmiştir.",
-          "Hatay 1939'da Türkiye'ye katılmıştır."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Cumhuriyet Dönemi Dış Politika sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -655,117 +984,153 @@ export const topics: Topic[] = [
     "slug": "cagdas-turk-ve-dunya-tarihi",
     "title": "Çağdaş Türk ve Dünya Tarihi",
     "era": "cagdas",
-    "shortDescription": "II. Dünya Savaşı sonrası düzen, Soğuk Savaş, uluslararası örgütler ve Türkiye'nin yakın dönemi.",
-    "examImportance": 76,
-    "estimatedMinutes": 42,
+    "shortDescription": "XX. yüzyıl dünya düzeni, savaşlar, Soğuk Savaş, Türkiye’nin uluslararası örgütlerle ilişkileri ve bölgesel gelişmeler.",
+    "examImportance": 86,
+    "estimatedMinutes": 90,
     "keywords": [
-      "BM",
-      "NATO",
+      "I. Dünya Savaşı",
+      "II. Dünya Savaşı",
       "Soğuk Savaş",
-      "Truman Doktrini",
-      "Marshall Planı",
+      "NATO",
+      "BM",
       "Kıbrıs",
       "Küreselleşme"
     ],
     "quickTimeline": [
       {
-        "date": "1945",
-        "event": "Birleşmiş Milletler'in kurulması"
+        "date": "1914-1918",
+        "event": "I. Dünya Savaşı."
       },
       {
-        "date": "1947",
-        "event": "Truman Doktrini"
+        "date": "1939-1945",
+        "event": "II. Dünya Savaşı."
+      },
+      {
+        "date": "1945 sonrası",
+        "event": "Soğuk Savaş iki kutuplu düzeni şekillendirdi."
       },
       {
         "date": "1952",
-        "event": "Türkiye'nin NATO'ya katılması"
-      },
-      {
-        "date": "1974",
-        "event": "Kıbrıs Barış Harekâtı"
+        "event": "Türkiye NATO’ya üye oldu."
       }
     ],
     "mustKnow": [
-      "BM 1945'te kurulmuştur.",
-      "Türkiye NATO'ya 1952'de katılmıştır.",
-      "Soğuk Savaş ABD ve SSCB merkezli bloklaşmadır.",
-      "Kıbrıs Barış Harekâtı 1974'tedir."
+      "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu düzeni ifade eder.",
+      "Türkiye 1952’de NATO’ya üye olmuştur.",
+      "Birleşmiş Milletler II. Dünya Savaşı sonrasında kurulmuştur.",
+      "Kıbrıs meselesi Türkiye’nin yakın dönem dış politikasında belirleyicidir."
     ],
     "commonMistakes": [
-      "Türkiye'nin NATO üyeliğini 1949 sanmak.",
-      "Truman Doktrini ile Marshall Planı'nı aynı şey saymak.",
-      "Soğuk Savaşı doğrudan sıcak savaş olarak düşünmek."
+      "NATO ve BM kuruluş amaçlarını karıştırmak.",
+      "Soğuk Savaşı doğrudan sıcak savaş sanmak.",
+      "Türkiye’nin NATO üyeliğini 1945 sanmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Çağdaş Türk ve Dünya Tarihi KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Çağdaş Türk ve Dünya Tarihi konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "BM 1945'te kurulmuştur.",
-          "Türkiye NATO'ya 1952'de katılmıştır.",
-          "Soğuk Savaş ABD ve SSCB merkezli bloklaşmadır."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Çağdaş Türk ve Dünya Tarihi sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
   },
   {
-    "id": "genel-kronoloji",
-    "slug": "tarih-genel-kronoloji",
-    "title": "Tarih Genel Kronoloji ve Karma Tekrar",
+    "id": "tarih-metodu-kronoloji",
+    "slug": "tarih-metodu-ve-kronoloji",
+    "title": "Tarih Metodu ve Kronoloji Becerisi",
     "era": "cagdas",
-    "shortDescription": "KPSS Tarih genel tekrarında dönemler arası bağlantı, sıralama ve karma soru pratiği.",
+    "shortDescription": "KPSS Tarih sorularında kronoloji, kavram okuma, neden-sonuç, belge-olay eşleştirme ve çeldirici ayıklama metodu.",
     "examImportance": 80,
-    "estimatedMinutes": 36,
+    "estimatedMinutes": 60,
     "keywords": [
       "kronoloji",
-      "karma tekrar",
-      "eşleştirme",
       "neden-sonuç",
-      "sıralama"
+      "belge-olay",
+      "soru kökü",
+      "çeldirici",
+      "öncül analizi"
     ],
     "quickTimeline": [
       {
-        "date": "Genel",
-        "event": "Dönemler arası bağlantılı tekrar"
+        "date": "Çalışma yöntemi",
+        "event": "Kavram, dönem ve sonuç üçlüsüyle analiz."
       }
     ],
     "mustKnow": [
-      "Kronoloji sorularında önce dönem filtresi kurulur.",
-      "Aynı yüzyıldaki belge ve antlaşmalar tarih sırasıyla ayrılmalıdır.",
-      "Milli Mücadele genelge-kongre sırası çok sık sorulur.",
-      "İnkılapların tarih sırası ilke bağlantısıyla birlikte öğrenilmelidir."
+      "Tarih sorularında doğru cevap çoğu zaman dönem-sonuç uyumuyla bulunur.",
+      "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir.",
+      "Öncül sorularında her öncülü ayrı doğru/yanlış olarak işaretlemek gerekir."
     ],
     "commonMistakes": [
-      "Tanzimat-Islahat-Meşrutiyet sırasını karıştırmak.",
-      "Amasya-Erzurum-Sivas sırasını ters kurmak.",
-      "Mudanya-Lozan ayrımını karıştırmak."
+      "Bütün doğru bilgileri doğru cevap sanmak; soru kökü dönem sınırı koyabilir.",
+      "Kronolojide aynı yüzyıldaki olayların sırasını önemsememek.",
+      "Belge ile sonucu karıştırmak."
     ],
     "summary": [
       {
-        "heading": "Sınav omurgası",
-        "body": "Tarih Genel Kronoloji ve Karma Tekrar KPSS Tarih içinde kavram, kronoloji ve neden-sonuç ilişkisiyle birlikte sorulur. Ezber yerine olayın dönemini, aktörünü ve sonucunu birlikte kurmak gerekir.",
+        "heading": "Büyük resim",
+        "body": "Tarih Metodu ve Kronoloji Becerisi konusu KPSS Tarih içinde yalnızca ezber bilgiyle değil; kavram, dönem, neden-sonuç ve belge/olay eşleştirmesiyle ölçülür. Bu başlıkta önce ana kronolojiyi kurmak, sonra ayırt edici kurum ve kavramları doğru döneme yerleştirmek gerekir. Soru köklerinde genellikle “hangisi doğrudur?”, “hangisi bu döneme aittir?”, “hangisi sonuçlarından biridir?” gibi ifadeler bulunur. Doğru cevap, çoğu zaman doğru bilginin doğru zaman ve doğru sonuçla eşleşmesidir.",
         "bullets": [
-          "Kronoloji sorularında önce dönem filtresi kurulur.",
-          "Aynı yüzyıldaki belge ve antlaşmalar tarih sırasıyla ayrılmalıdır.",
-          "Milli Mücadele genelge-kongre sırası çok sık sorulur."
+          "Kronoloji + kavram birlikte çalışılmalı.",
+          "Soru kökünün dönem sınırı dikkatle okunmalı.",
+          "Doğru bilgi yanlış dönemde verilirse çeldiricidir."
         ]
       },
       {
-        "heading": "Nasıl çalışılmalı?",
-        "body": "Önce ana kavramları öğren, sonra tarih sıralamasını kur, en son açıklamalı testle çeldiricileri ayıkla.",
+        "heading": "Derinlemesine sınav mantığı",
+        "body": "Tarih Metodu ve Kronoloji Becerisi sorularında çeldiriciler genellikle benzer belge, savaş, kurum veya ilkeyi birbirine karıştırır. Bu yüzden her bilgi “kim, ne zaman, ne amaçla, hangi sonuçla?” sorularıyla öğrenilmelidir. Özellikle KPSS’de kısa cümleli öncüller çok kullanıldığı için yalnızca tanım bilmek yetmez; tanımın hangi tarihsel bağlamda ortaya çıktığını da görmek gerekir. Bu çalışma yaklaşımı chatbot yanıtlarında da daha tutarlı açıklama sağlar.",
         "bullets": [
-          "Kavramı doğru dönemle eşleştir.",
-          "Benzer belge ve antlaşmaları tablo mantığıyla ayır.",
-          "Yanlış yaptığın soruyu kısa notla tekrar planına ekle."
+          "Kim? Ne zaman? Ne amaçla? Sonuç ne?",
+          "Benzer kavramları karşılaştır.",
+          "Öncülleri tek tek ele."
+        ]
+      },
+      {
+        "heading": "Sık karışan ayrımlar",
+        "body": "Bu başlıkta en çok yapılan hata, olayların sonuçlarını birbirine aktarmaktır. Örneğin bir belge sınırlı bir alanda düzenleme yaparken başka bir belge rejim değişikliği doğurabilir; bir savaş cepheyi kapatırken başka bir savaş diplomatik tanınırlığı artırabilir. Çalışırken “birincil sonuç” ile “dolaylı sonuç” ayrımı kurulmalıdır. Soruda en doğrudan sonucu arayan ifadeler varsa geniş yorum değil, en yakın tarihsel sonuç seçilmelidir.",
+        "bullets": [
+          "Birincil sonuç ile dolaylı sonucu ayır.",
+          "Belge ve savaşları sonuç tablosuyla öğren.",
+          "Genel yorum yerine soru köküne en yakın sonucu seç."
+        ]
+      },
+      {
+        "heading": "Çalışma metodu",
+        "body": "Bu konu için etkili yöntem üç aşamalıdır: önce 10 maddelik iskelet kronoloji çıkar, sonra her madde için tek cümlelik ayırt edici not yaz, en son açıklamalı soru çözerek yanlışlarını “neden yanlış?” şeklinde not al. Her tekrar seansında aynı konuyu yeniden okumak yerine, önce kendini test et; hatırlayamadığın kavramı kısa konu anlatımından geri çağır. Bu aktif hatırlama yöntemi uzun süreli kalıcılığı artırır.",
+        "bullets": [
+          "İskelet kronoloji çıkar.",
+          "Ayırt edici tek cümle not tut.",
+          "Önce test et, sonra konuya dön."
         ]
       }
     ]
@@ -774,55 +1139,91 @@ export const topics: Topic[] = [
 
 export const questions: Question[] = [
   {
-    "id": "islamiyet-oncesi-q-1",
+    "id": "q-001",
     "topicId": "islamiyet-oncesi",
     "type": "single",
     "difficulty": "temel",
-    "stem": "İslamiyet Öncesi Türk devletlerinde hükümdara yönetme yetkisinin Tanrı tarafından verildiği inancını ifade eden kavram hangisidir?",
+    "stem": "Türk adını devlet adı olarak kullanan ilk Türk devleti hangisidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Töre"
+        "text": "Asya Hunları"
       },
       {
         "id": "B",
-        "text": "Kut"
+        "text": "Uygurlar"
       },
       {
         "id": "C",
-        "text": "Kurultay"
+        "text": "Avarlar"
       },
       {
         "id": "D",
-        "text": "İkili teşkilat"
+        "text": "Hazarlar"
       },
       {
         "id": "E",
-        "text": "Yuğ"
+        "text": "Göktürkler"
       }
     ],
-    "correctChoiceId": "B",
-    "explanation": "Kut anlayışı, hükümdarlık yetkisinin Tanrı tarafından verildiğine inanılmasıdır. Bu anlayış hanedan üyelerinin yönetimde hak iddia etmesine de zemin hazırlamıştır.",
-    "examTip": "Egemenliğin ilahi kaynağı soruluyorsa cevap çoğunlukla kut anlayışıdır.",
+    "correctChoiceId": "E",
+    "explanation": "Göktürkler, Türk adını devlet adı olarak kullanan ilk Türk siyasi teşkilatıdır.",
+    "examTip": "Türk adı sorularında Göktürk vurgusu aranır.",
     "tags": [
-      "kut",
-      "egemenlik"
+      "islamiyet-oncesi",
+      "temel"
     ]
   },
   {
-    "id": "islamiyet-oncesi-q-2",
+    "id": "q-002",
     "topicId": "islamiyet-oncesi",
     "type": "single",
-    "difficulty": "temel",
+    "difficulty": "orta",
+    "stem": "Bilinen ilk Türk devleti aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Uygurlar"
+      },
+      {
+        "id": "B",
+        "text": "Avrupa Hunları"
+      },
+      {
+        "id": "C",
+        "text": "Kırgızlar"
+      },
+      {
+        "id": "D",
+        "text": "Asya Hunları"
+      },
+      {
+        "id": "E",
+        "text": "Göktürkler"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Asya Hunları, bilinen ilk Türk devleti olarak kabul edilir.",
+    "examTip": "İlk Türk devleti ile Türk adını kullanan ilk devlet karıştırılmamalıdır.",
+    "tags": [
+      "islamiyet-oncesi",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-003",
+    "topicId": "islamiyet-oncesi",
+    "type": "single",
+    "difficulty": "ileri",
     "stem": "Orhun Yazıtları hangi Türk devleti dönemine aittir?",
     "choices": [
       {
         "id": "A",
-        "text": "Asya Hun Devleti"
+        "text": "Hazarlar"
       },
       {
         "id": "B",
-        "text": "Avrupa Hun Devleti"
+        "text": "Karahanlılar"
       },
       {
         "id": "C",
@@ -830,169 +1231,279 @@ export const questions: Question[] = [
       },
       {
         "id": "D",
-        "text": "Uygur Devleti"
+        "text": "Uygurlar"
       },
       {
         "id": "E",
-        "text": "Hazar Devleti"
+        "text": "Asya Hunları"
       }
     ],
     "correctChoiceId": "C",
-    "explanation": "Orhun Yazıtları II. Göktürk Devleti döneminde Bilge Kağan, Kültigin ve Tonyukuk adına dikilen temel yazılı kaynaklardır.",
-    "examTip": "Orhun Yazıtları = Göktürk dönemi + ilk yazılı Türkçe kaynak vurgusu.",
+    "explanation": "Orhun Yazıtları II. Göktürk döneminde Bilge Kağan, Kül Tigin ve Tonyukuk adına dikilmiştir.",
+    "examTip": "Yazıtlar Göktürk dönemiyle ilişkilidir.",
     "tags": [
-      "Orhun",
-      "Göktürk"
+      "islamiyet-oncesi",
+      "ileri"
     ]
   },
   {
-    "id": "islamiyet-oncesi-q-3",
+    "id": "q-004",
     "topicId": "islamiyet-oncesi",
-    "type": "case",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Yerleşik yaşama geçiş ve Maniheizm etkisiyle kültürel faaliyetleri öne çıkan Türk topluluğu hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Avrupa Hunları"
+      },
+      {
+        "id": "B",
+        "text": "Uygurlar"
+      },
+      {
+        "id": "C",
+        "text": "Avarlar"
+      },
+      {
+        "id": "D",
+        "text": "İskitler"
+      },
+      {
+        "id": "E",
+        "text": "Peçenekler"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Uygurlar yerleşik hayat, ticaret, hukuk belgeleri ve kültürel üretimle öne çıkar.",
+    "examTip": "Yerleşik hayat sorularında Uygurlar güçlü ipucudur.",
+    "tags": [
+      "islamiyet-oncesi",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-005",
+    "topicId": "islamiyet-oncesi",
+    "type": "single",
     "difficulty": "orta",
-    "stem": "Uygurların yerleşik yaşama geçmesi aşağıdaki sonuçlardan hangisini daha doğrudan güçlendirmiştir?",
+    "stem": "Kut anlayışı aşağıdakilerden hangisiyle ilgilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Atlı göçebe savaşçılığın artmasını"
+        "text": "Hükümdarlık yetkisinin Tanrı tarafından verildiği inancı"
       },
       {
         "id": "B",
-        "text": "Şehir kültürü, tarım ve mimari faaliyetlerin gelişmesini"
+        "text": "Toprakların özel mülkiyete açılması"
       },
       {
         "id": "C",
-        "text": "Boylar birliğinin tamamen ortadan kalkmasını"
+        "text": "Modern seçim sistemi"
       },
       {
         "id": "D",
-        "text": "Kut anlayışının sona ermesini"
+        "text": "Yazılı anayasa"
       },
       {
         "id": "E",
-        "text": "Kurultayın kaldırılmasını"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Uygurlar yerleşik yaşama geçerek şehir kültürü, tarım, mimari, matbaa ve kültürel üretim açısından öne çıkmıştır.",
-    "examTip": "Yerleşik yaşam vurgusu Uygurlar ve kültürel üretimle birlikte düşünülmelidir.",
-    "tags": [
-      "Uygurlar",
-      "yerleşik yaşam"
-    ]
-  },
-  {
-    "id": "islamiyet-oncesi-q-4",
-    "topicId": "islamiyet-oncesi",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Kurultay için aşağıdaki ifadelerden hangisi doğrudur?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Hükümdarın yanında devlet işlerinin görüşüldüğü danışma meclisidir."
-      },
-      {
-        "id": "B",
-        "text": "Yalnızca dini törenlerin yapıldığı tapınaktır."
-      },
-      {
-        "id": "C",
-        "text": "Toprağın özel mülkiyete dönüştürüldüğü sistemdir."
-      },
-      {
-        "id": "D",
-        "text": "İlk yazılı anayasa niteliğindedir."
-      },
-      {
-        "id": "E",
-        "text": "Ordunun maaş sistemiyle ilgilidir."
+        "text": "Deniz ticareti hukuku"
       }
     ],
     "correctChoiceId": "A",
-    "explanation": "Kurultay, hakanın yanında devlet meselelerinin görüşüldüğü danışma meclisidir; ancak modern anlamda demokratik parlamento değildir.",
-    "examTip": "Kurultay sorularında 'danışma' vurgusu önemlidir.",
+    "explanation": "Kut, iktidarın ilahi kaynaklı meşruiyetini ifade eder.",
+    "examTip": "Kut demokrasi veya anayasa değildir.",
     "tags": [
-      "kurultay"
+      "islamiyet-oncesi",
+      "orta"
     ]
   },
   {
-    "id": "islamiyet-oncesi-q-5",
+    "id": "q-006",
     "topicId": "islamiyet-oncesi",
-    "type": "chronology",
+    "type": "single",
     "difficulty": "ileri",
-    "stem": "Aşağıdakilerden hangisi kronolojik olarak doğru sıralanmıştır?",
+    "stem": "Göçebe yaşamın sonuçlarından biri aşağıdakilerden hangisidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Uygur Devleti → Asya Hun Devleti → Göktürk Devleti"
+        "text": "Büyük taş mimarinin yaygınlaşması"
       },
       {
         "id": "B",
-        "text": "Asya Hun Devleti → Göktürk Devleti → Uygur Devleti"
+        "text": "Uzun süreli hapishanelerin gelişmesi"
       },
       {
         "id": "C",
-        "text": "Göktürk Devleti → Uygur Devleti → Asya Hun Devleti"
+        "text": "Sınıflı toplumun kesinleşmesi"
       },
       {
         "id": "D",
-        "text": "Uygur Devleti → Göktürk Devleti → Asya Hun Devleti"
+        "text": "Deniz aşırı kolonilerin kurulması"
       },
       {
         "id": "E",
-        "text": "Asya Hun Devleti → Uygur Devleti → Göktürk Devleti"
+        "text": "Taşınabilir sanat eserlerinin gelişmesi"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Göçebe yaşam taşınabilir sanat eserlerini öne çıkarır; kalıcı mimari sınırlı kalır.",
+    "examTip": "Yaşam tarzı ile sanat ve hukuk sonuçlarını bağla.",
+    "tags": [
+      "islamiyet-oncesi",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-007",
+    "topicId": "islamiyet-oncesi",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Kavimler Göçü’nün Avrupa’daki sonuçlarından biri hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Göktürklerin kurulması"
+      },
+      {
+        "id": "B",
+        "text": "Osmanlı Devleti’nin yıkılması"
+      },
+      {
+        "id": "C",
+        "text": "Karlofça Antlaşması’nın imzalanması"
+      },
+      {
+        "id": "D",
+        "text": "Feodalitenin güçlenmesi"
+      },
+      {
+        "id": "E",
+        "text": "İslamiyet’in doğması"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Kavimler Göçü Avrupa’nın siyasi ve sosyal yapısını değiştirerek feodaliteyi güçlendirmiştir.",
+    "examTip": "Kavimler Göçü Avrupa Orta Çağ düzeniyle ilişkilidir.",
+    "tags": [
+      "islamiyet-oncesi",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-008",
+    "topicId": "islamiyet-oncesi",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Mete Han ile özdeşleşen askeri düzen aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "İkta sistemi"
+      },
+      {
+        "id": "B",
+        "text": "Nizam-ı Cedid"
+      },
+      {
+        "id": "C",
+        "text": "Onlu sistem"
+      },
+      {
+        "id": "D",
+        "text": "Tımar sistemi"
+      },
+      {
+        "id": "E",
+        "text": "Devşirme sistemi"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Mete Han orduda onlu teşkilatlanmayı güçlendirmiştir.",
+    "examTip": "Askeri teşkilat sorularında Mete Han-onlu sistem eşleşmesi yapılır.",
+    "tags": [
+      "islamiyet-oncesi",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-009",
+    "topicId": "islamiyet-oncesi",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Türklerde yazısız hukuk kurallarına verilen ad hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Toy"
+      },
+      {
+        "id": "B",
+        "text": "Töre"
+      },
+      {
+        "id": "C",
+        "text": "Kut"
+      },
+      {
+        "id": "D",
+        "text": "Yuğ"
+      },
+      {
+        "id": "E",
+        "text": "Balbal"
       }
     ],
     "correctChoiceId": "B",
-    "explanation": "Genel sıralama Asya Hun Devleti, Göktürk Devleti ve Uygur Devleti şeklindedir.",
-    "examTip": "Kronoloji sorularında önce yüzyıl/dönem filtresi kur.",
+    "explanation": "Töre, toplum ve devlet düzenini belirleyen yazısız hukuk kurallarıdır.",
+    "examTip": "Töre hukuk; kut meşruiyettir.",
     "tags": [
-      "kronoloji"
+      "islamiyet-oncesi",
+      "ileri"
     ]
   },
   {
-    "id": "turk-islam-q-1",
-    "topicId": "turk-islam",
+    "id": "q-010",
+    "topicId": "islamiyet-oncesi",
     "type": "single",
     "difficulty": "temel",
-    "stem": "'Put kırıcı' unvanı KPSS Tarih bağlamında aşağıdaki hükümdarlardan hangisiyle ilişkilidir?",
+    "stem": "İlk Türk kadın hükümdar olarak bilinen Tomris hangi toplulukla ilişkilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Gazneli Mahmut"
+        "text": "İskitler/Sakalar"
       },
       {
         "id": "B",
-        "text": "Alparslan"
+        "text": "Uygurlar"
       },
       {
         "id": "C",
-        "text": "Melikşah"
+        "text": "Hazarlar"
       },
       {
         "id": "D",
-        "text": "Kılıç Arslan"
+        "text": "Göktürkler"
       },
       {
         "id": "E",
-        "text": "Timur"
+        "text": "Avarlar"
       }
     ],
     "correctChoiceId": "A",
-    "explanation": "Put kırıcı unvanı, Hindistan seferleri ve Hindu tapınaklarındaki putları kırması nedeniyle Gazneli Mahmut için kullanılır.",
-    "examTip": "Bu kavram Artuklularla değil Gazneliler ve Gazneli Mahmut ile ilişkilidir.",
+    "explanation": "Tomris, İskit/Saka geleneğinde öne çıkan kadın hükümdardır.",
+    "examTip": "Tomris ve Alper Tunga İskit/Saka ipuçlarıdır.",
     "tags": [
-      "put kırıcı",
-      "Gazneli Mahmut"
+      "islamiyet-oncesi",
+      "temel"
     ]
   },
   {
-    "id": "turk-islam-q-2",
+    "id": "q-011",
     "topicId": "turk-islam",
     "type": "single",
     "difficulty": "temel",
-    "stem": "İlk Müslüman Türk devleti olarak kabul edilen devlet aşağıdakilerden hangisidir?",
+    "stem": "İlk Müslüman Türk devleti hangisidir?",
     "choices": [
       {
         "id": "A",
@@ -1000,117 +1511,119 @@ export const questions: Question[] = [
       },
       {
         "id": "B",
-        "text": "Karahanlılar"
-      },
-      {
-        "id": "C",
         "text": "Büyük Selçuklular"
       },
       {
-        "id": "D",
+        "id": "C",
         "text": "Harzemşahlar"
       },
       {
-        "id": "E",
-        "text": "Tolunoğulları"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Karahanlılar, İslamiyet'i kabul eden ilk Müslüman Türk devleti olarak kabul edilir.",
-    "examTip": "İlk Müslüman Türk devleti = Karahanlılar; Hindistan seferleri = Gazneliler.",
-    "tags": [
-      "Karahanlılar"
-    ]
-  },
-  {
-    "id": "turk-islam-q-3",
-    "topicId": "turk-islam",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "1040 Dandanakan Savaşı'nın temel sonucu aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Büyük Selçukluların Gaznelilere üstünlük sağlayarak bağımsız güç haline gelmesi"
-      },
-      {
-        "id": "B",
-        "text": "Anadolu'nun Türk yurdu olduğunun kesinleşmesi"
-      },
-      {
-        "id": "C",
-        "text": "Osmanlıların Rumeli'ye geçmesi"
-      },
-      {
         "id": "D",
-        "text": "Moğol baskısının sona ermesi"
+        "text": "Eyyubiler"
       },
       {
         "id": "E",
-        "text": "Türkiye'nin NATO'ya katılması"
+        "text": "Karahanlılar"
       }
     ],
-    "correctChoiceId": "A",
-    "explanation": "Dandanakan Savaşı, Büyük Selçukluların Gaznelilere karşı üstünlük kurduğu ve bağımsız devlet olarak güçlendiği savaştır.",
-    "examTip": "Dandanakan Selçuklu-Gazneli; Malazgirt Anadolu kapıları; Miryokefalon kalıcılık.",
+    "correctChoiceId": "E",
+    "explanation": "Karahanlılar ilk Müslüman Türk devleti olarak kabul edilir.",
+    "examTip": "İlk Müslüman Türk devleti sorusunda Karahanlılar aranır.",
     "tags": [
-      "Dandanakan"
+      "turk-islam",
+      "temel"
     ]
   },
   {
-    "id": "turk-islam-q-4",
+    "id": "q-012",
     "topicId": "turk-islam",
     "type": "single",
-    "difficulty": "temel",
-    "stem": "Nizamiye Medreseleri hangi Türk-İslam devleti döneminde kurulmuştur?",
+    "difficulty": "orta",
+    "stem": "“Put Kırıcı” unvanı hangi hükümdarla ilişkilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Karahanlılar"
+        "text": "Melikşah"
       },
       {
         "id": "B",
-        "text": "Gazneliler"
+        "text": "Satuk Buğra Han"
       },
       {
         "id": "C",
-        "text": "Büyük Selçuklular"
+        "text": "Tuğrul Bey"
       },
       {
         "id": "D",
-        "text": "Artuklular"
+        "text": "Gazneli Mahmut"
       },
       {
         "id": "E",
-        "text": "Osmanlılar"
+        "text": "Alp Arslan"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Gazneli Mahmut Hindistan seferleri nedeniyle Put Kırıcı unvanıyla anılır.",
+    "examTip": "Bu bilgi Artuklularla karıştırılmamalıdır.",
+    "tags": [
+      "turk-islam",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-013",
+    "topicId": "turk-islam",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Dandanakan Savaşı’nın temel sonucu hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Haçlı Seferlerinin başlaması"
+      },
+      {
+        "id": "B",
+        "text": "Halifeliğin Osmanlı’ya geçmesi"
+      },
+      {
+        "id": "C",
+        "text": "Büyük Selçuklu Devleti’nin kuruluşunun kesinleşmesi"
+      },
+      {
+        "id": "D",
+        "text": "Anadolu’nun Türk yurdu olduğunun kesinleşmesi"
+      },
+      {
+        "id": "E",
+        "text": "Osmanlı’nın Rumeli’ye geçmesi"
       }
     ],
     "correctChoiceId": "C",
-    "explanation": "Nizamiye Medreseleri Büyük Selçuklu döneminde, özellikle Nizamülmülk ile ilişkilendirilen eğitim kurumlarıdır.",
-    "examTip": "Nizamiye sorularında Büyük Selçuklu ve Nizamülmülk bağlantısını kur.",
+    "explanation": "1040 Dandanakan, Selçukluların Gaznelilere karşı üstünlüğünü ve devletleşmesini kesinleştirmiştir.",
+    "examTip": "Dandanakan ile Malazgirt sonuçlarını ayır.",
     "tags": [
-      "Nizamiye",
-      "Büyük Selçuklu"
+      "turk-islam",
+      "ileri"
     ]
   },
   {
-    "id": "turk-islam-q-5",
+    "id": "q-014",
     "topicId": "turk-islam",
     "type": "single",
     "difficulty": "temel",
-    "stem": "Kutadgu Bilig adlı eser aşağıdaki kişilerden hangisine aittir?",
+    "stem": "Kutadgu Bilig’in yazarı kimdir?",
     "choices": [
       {
         "id": "A",
-        "text": "Kaşgarlı Mahmut"
+        "text": "Nizamülmülk"
       },
       {
         "id": "B",
-        "text": "Yusuf Has Hacip"
+        "text": "Yusuf Has Hacib"
       },
       {
         "id": "C",
-        "text": "Ahmet Yesevi"
+        "text": "Kaşgarlı Mahmut"
       },
       {
         "id": "D",
@@ -1118,1232 +1631,283 @@ export const questions: Question[] = [
       },
       {
         "id": "E",
-        "text": "Nizamülmülk"
+        "text": "Ahmet Yesevi"
       }
     ],
     "correctChoiceId": "B",
-    "explanation": "Kutadgu Bilig, Yusuf Has Hacip tarafından Karahanlılar döneminde yazılmış bir siyasetname niteliğindedir.",
-    "examTip": "Eser-yazar eşleştirmelerinde Kutadgu Bilig = Yusuf Has Hacip.",
+    "explanation": "Kutadgu Bilig, Yusuf Has Hacib tarafından yazılmış siyasetname niteliğinde bir eserdir.",
+    "examTip": "Eser-yazar eşleştirmesi sık sorulur.",
     "tags": [
-      "Kutadgu Bilig"
+      "turk-islam",
+      "temel"
     ]
   },
   {
-    "id": "anadolu-selcuklu-q-1",
-    "topicId": "anadolu-selcuklu",
+    "id": "q-015",
+    "topicId": "turk-islam",
     "type": "single",
     "difficulty": "orta",
-    "stem": "1176 Miryokefalon Savaşı'nın KPSS'de en çok vurgulanan sonucu hangisidir?",
+    "stem": "Divanü Lügati’t-Türk hangi amaçla yazılmıştır?",
     "choices": [
       {
         "id": "A",
-        "text": "Anadolu'nun Türk yurdu olduğunun kesinleşmesi"
+        "text": "Türkçeyi ve Türk kültürünü Araplara tanıtmak"
       },
       {
         "id": "B",
-        "text": "Doğu Cephesi'nin kapanması"
+        "text": "Osmanlı hukukunu düzenlemek"
       },
       {
         "id": "C",
-        "text": "Boğazlarda Türk egemenliğinin kesinleşmesi"
+        "text": "Tımar sistemini açıklamak"
       },
       {
         "id": "D",
-        "text": "Osmanlı'nın batıda ilk büyük toprak kaybı"
+        "text": "Medrese vakıflarını kaydetmek"
       },
       {
         "id": "E",
-        "text": "TBMM'nin uluslararası alanda tanınması"
+        "text": "Meşrutiyeti ilan etmek"
       }
     ],
     "correctChoiceId": "A",
-    "explanation": "Miryokefalon Savaşı, Anadolu'nun Türk yurdu olduğunun kesinleşmesi şeklinde yorumlanır.",
-    "examTip": "Malazgirt kapıları açar; Miryokefalon kalıcılığı kesinleştirir.",
+    "explanation": "Kaşgarlı Mahmut eseriyle Türkçeyi Araplara öğretmeyi ve Türk kültürünü tanıtmayı amaçlamıştır.",
+    "examTip": "Divanü Lügati’t-Türk dil-kültür eseridir.",
     "tags": [
-      "Miryokefalon"
+      "turk-islam",
+      "orta"
     ]
   },
   {
-    "id": "anadolu-selcuklu-q-2",
-    "topicId": "anadolu-selcuklu",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "1243 Kösedağ Savaşı'nın temel sonucu aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Türkiye Selçuklu otoritesinin zayıflaması ve beyliklerin güçlenmesi"
-      },
-      {
-        "id": "B",
-        "text": "İstanbul'un fethedilmesi"
-      },
-      {
-        "id": "C",
-        "text": "Karahanlıların kurulması"
-      },
-      {
-        "id": "D",
-        "text": "Sened-i İttifak'ın imzalanması"
-      },
-      {
-        "id": "E",
-        "text": "Montrö Sözleşmesi'nin yapılması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Kösedağ yenilgisi, Türkiye Selçuklu merkezi otoritesini zayıflatmış ve Anadolu beyliklerinin güçlenmesine zemin hazırlamıştır.",
-    "examTip": "Kösedağ sorularında Moğol baskısı ve beyliklerin güçlenmesi birlikte düşünülür.",
-    "tags": [
-      "Kösedağ"
-    ]
-  },
-  {
-    "id": "anadolu-selcuklu-q-3",
-    "topicId": "anadolu-selcuklu",
+    "id": "q-016",
+    "topicId": "turk-islam",
     "type": "single",
-    "difficulty": "temel",
-    "stem": "Türkiye Selçuklularında kervansarayların yapılmasının temel amacı nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Deniz savaşlarını yönetmek"
-      },
-      {
-        "id": "B",
-        "text": "Ticaret yollarında güvenlik ve konaklama sağlamak"
-      },
-      {
-        "id": "C",
-        "text": "Devşirme sistemini uygulamak"
-      },
-      {
-        "id": "D",
-        "text": "Meclisli yönetime geçmek"
-      },
-      {
-        "id": "E",
-        "text": "Azınlıklara siyasi hak vermek"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Kervansaraylar ticaret yolları üzerinde tüccarlara güvenli konaklama, barınma ve ticari destek sağlayan yapılardır.",
-    "examTip": "Kervansaray = ticaret + yol güvenliği + devlet desteği.",
-    "tags": [
-      "kervansaray"
-    ]
-  },
-  {
-    "id": "anadolu-selcuklu-q-4",
-    "topicId": "anadolu-selcuklu",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Ahilik teşkilatı aşağıdakilerden hangisiyle daha doğrudan ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Esnaf dayanışması ve meslek ahlakı"
-      },
-      {
-        "id": "B",
-        "text": "Saltanatın kaldırılması"
-      },
-      {
-        "id": "C",
-        "text": "Boğazların statüsü"
-      },
-      {
-        "id": "D",
-        "text": "Sömürge yolları"
-      },
-      {
-        "id": "E",
-        "text": "Hanedan veraset sistemi"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Ahilik, esnaf örgütlenmesi, üretim düzeni, dayanışma ve meslek ahlakıyla ilgilidir.",
-    "examTip": "Ahilik sorularında dini-sosyal yön kadar ekonomik/esnaf yönü de aranır.",
-    "tags": [
-      "ahilik"
-    ]
-  },
-  {
-    "id": "anadolu-selcuklu-q-5",
-    "topicId": "anadolu-selcuklu",
-    "type": "single",
-    "difficulty": "orta",
-    "stem": "Artuklularla ilgili aşağıdaki bilgilerden hangisi doğrudur?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Mardin, Diyarbakır ve Harput çevresinde etkili olmuş; Malabadi Köprüsü ve El-Cezeri ile anılmışlardır."
-      },
-      {
-        "id": "B",
-        "text": "Hindistan seferleriyle put kırıcı unvanını almışlardır."
-      },
-      {
-        "id": "C",
-        "text": "Osmanlı'da ilk anayasal belgeyi ilan etmişlerdir."
-      },
-      {
-        "id": "D",
-        "text": "Türkiye'nin NATO'ya katılmasını sağlamışlardır."
-      },
-      {
-        "id": "E",
-        "text": "Sivas Kongresi'nde cemiyetleri birleştirmişlerdir."
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Artuklular Mardin, Diyarbakır ve Harput çevresinde hüküm sürmüş; Malabadi Köprüsü ve El-Cezeri gibi kültür-teknik mirasla öne çıkmıştır.",
-    "examTip": "Artuklular ile Gazneli Mahmut/put kırıcı kavramını karıştırma.",
-    "tags": [
-      "Artuklular",
-      "Malabadi",
-      "El-Cezeri"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-q-1",
-    "topicId": "osmanli-kurulus-yukselis",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Çimpe Kalesi'nin Osmanlı tarihindeki önemi nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Osmanlı'nın Rumeli'ye geçişinde askeri üs olması"
-      },
-      {
-        "id": "B",
-        "text": "İlk Osmanlı anayasasının ilan edildiği yer olması"
-      },
-      {
-        "id": "C",
-        "text": "Boğazların uluslararası komisyona bırakılması"
-      },
-      {
-        "id": "D",
-        "text": "Doğu Cephesi'ni kapatması"
-      },
-      {
-        "id": "E",
-        "text": "İlk matbaanın kurulduğu yer olması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Çimpe Kalesi, Osmanlıların Rumeli'ye geçişinde önemli bir askeri üs olarak kullanılmıştır.",
-    "examTip": "Çimpe = Rumeli'ye geçiş; Edirne = Balkanlara yönelişin stratejik merkezi.",
-    "tags": [
-      "Çimpe"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-q-2",
-    "topicId": "osmanli-kurulus-yukselis",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Osmanlı iskan politikasının temel amacı aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Fethedilen bölgelerde kalıcı hâkimiyet sağlamak"
-      },
-      {
-        "id": "B",
-        "text": "Boğazları uluslararasılaştırmak"
-      },
-      {
-        "id": "C",
-        "text": "Azınlıklara kapitülasyon vermek"
-      },
-      {
-        "id": "D",
-        "text": "Kadıları kaldırmak"
-      },
-      {
-        "id": "E",
-        "text": "Ayanların yetkilerini artırmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "İskan politikası, fethedilen yerlere Türk-Müslüman nüfus yerleştirerek güvenlik ve kalıcılığı sağlamayı amaçlamıştır.",
-    "examTip": "İskan sorularında kalıcılık, güvenlik ve Türkleştirme-İslamlaştırma vurgusunu ara.",
-    "tags": [
-      "iskan"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-q-3",
-    "topicId": "osmanli-kurulus-yukselis",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "İstanbul'un Fethi'nin sonuçlarından biri aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Bizans İmparatorluğu'nun sona ermesi"
-      },
-      {
-        "id": "B",
-        "text": "Karlofça Antlaşması'nın imzalanması"
-      },
-      {
-        "id": "C",
-        "text": "Karahanlıların İslamiyet'i kabul etmesi"
-      },
-      {
-        "id": "D",
-        "text": "TBMM'nin açılması"
-      },
-      {
-        "id": "E",
-        "text": "Türkiye'nin NATO'ya girmesi"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "1453 İstanbul'un Fethi ile Bizans İmparatorluğu sona ermiş, Osmanlı'nın imparatorluk karakteri güçlenmiştir.",
-    "examTip": "İstanbul'un Fethi = 1453 + Bizans'ın sona ermesi + Boğaz kontrolü.",
-    "tags": [
-      "İstanbul'un fethi"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-q-4",
-    "topicId": "osmanli-kurulus-yukselis",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Devşirme sistemi aşağıdaki yapılardan hangisine insan kaynağı sağlamıştır?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Kapıkulu ordusu ve merkez teşkilatı"
-      },
-      {
-        "id": "B",
-        "text": "Tımarlı sipahi ve dirlik sistemi"
-      },
-      {
-        "id": "C",
-        "text": "Ayan meclisi"
-      },
-      {
-        "id": "D",
-        "text": "Kervansaray teşkilatı"
-      },
-      {
-        "id": "E",
-        "text": "Sadabat Paktı"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Devşirme sistemi, gayrimüslim çocukların yetiştirilerek kapıkulu ordusu ve merkez bürokrasisinde değerlendirilmesiyle ilgilidir.",
-    "examTip": "Devşirme = kapıkulu/Enderun; tımar = dirlik geliri ve taşra sipahisi.",
-    "tags": [
-      "devşirme"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-q-5",
-    "topicId": "osmanli-kurulus-yukselis",
-    "type": "chronology",
     "difficulty": "ileri",
-    "stem": "Aşağıdakilerden hangisi kronolojik olarak doğru sıralanmıştır?",
+    "stem": "Nizamiye Medreseleri hangi devlet döneminde kurumsallaşmıştır?",
     "choices": [
       {
         "id": "A",
-        "text": "İstanbul'un Fethi → Çimpe Kalesi → Bursa'nın alınması"
+        "text": "Karahanlı"
       },
       {
         "id": "B",
-        "text": "Bursa'nın alınması → Çimpe Kalesi → İstanbul'un Fethi"
+        "text": "Gazneli"
       },
       {
         "id": "C",
-        "text": "Çimpe Kalesi → İstanbul'un Fethi → Bursa'nın alınması"
+        "text": "Uygur"
       },
       {
         "id": "D",
-        "text": "Bursa'nın alınması → İstanbul'un Fethi → Çimpe Kalesi"
+        "text": "Türkiye Selçuklu"
       },
       {
         "id": "E",
-        "text": "İstanbul'un Fethi → Bursa'nın alınması → Çimpe Kalesi"
+        "text": "Büyük Selçuklu"
       }
     ],
-    "correctChoiceId": "B",
-    "explanation": "Genel sıralama Bursa'nın alınması (1326), Çimpe Kalesi (1353), İstanbul'un Fethi (1453) şeklindedir.",
-    "examTip": "Kronolojide önce beylikten devlete, sonra Rumeli'ye geçiş, en son fetih zirvesi düşün.",
+    "correctChoiceId": "E",
+    "explanation": "Nizamiye Medreseleri Büyük Selçuklu veziri Nizamülmülk ile ilişkilidir.",
+    "examTip": "Nizamiye = Büyük Selçuklu.",
     "tags": [
-      "kronoloji",
-      "Osmanlı"
+      "turk-islam",
+      "ileri"
     ]
   },
   {
-    "id": "osmanli-kultur-medeniyet-q-1",
-    "topicId": "osmanli-kultur-medeniyet",
+    "id": "q-017",
+    "topicId": "turk-islam",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Talas Savaşı’nın kültürel sonuçlarından biri nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Anadolu Selçuklu’nun yıkılması"
+      },
+      {
+        "id": "B",
+        "text": "Cumhuriyetin ilanı"
+      },
+      {
+        "id": "C",
+        "text": "Karlofça’nın imzalanması"
+      },
+      {
+        "id": "D",
+        "text": "Türklerin İslam dünyasıyla yakınlaşması"
+      },
+      {
+        "id": "E",
+        "text": "Osmanlı’nın kurulması"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "751 Talas, Türk-Arap ilişkileri ve İslamiyet’e geçiş süreci bakımından önemlidir.",
+    "examTip": "Talas savaşını kültürel sonuçlarıyla öğren.",
+    "tags": [
+      "turk-islam",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-018",
+    "topicId": "turk-islam",
     "type": "single",
     "difficulty": "orta",
-    "stem": "Tımar sisteminin temel işlevi aşağıdakilerden hangisidir?",
+    "stem": "İkta sistemi en çok hangi alanlarla ilişkilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Dirlik gelirleri karşılığında asker yetiştirmek ve üretim-güvenliği desteklemek"
+        "text": "Matbaa tekniği"
       },
       {
         "id": "B",
-        "text": "Padişah yetkilerini anayasa ile sınırlamak"
+        "text": "Sanayi devrimi"
       },
       {
         "id": "C",
-        "text": "Azınlıklara geniş siyasi haklar vermek"
+        "text": "Mali ve askeri düzen"
       },
       {
         "id": "D",
-        "text": "Boğazları uluslararası komisyona bırakmak"
+        "text": "Deniz ticareti"
       },
       {
         "id": "E",
-        "text": "Matbaayı kurmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Tımar sistemi, devlet arazisinden elde edilen gelirlerin hizmet karşılığı görevlilere bırakılması ve tımarlı sipahi yetiştirilmesi düzenidir.",
-    "examTip": "Tımar özel mülkiyet değildir; asker, üretim ve taşra güvenliğiyle birlikte sorulur.",
-    "tags": [
-      "tımar"
-    ]
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-q-2",
-    "topicId": "osmanli-kultur-medeniyet",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Divan-ı Hümayun için aşağıdakilerden hangisi söylenebilir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Devlet işlerinin görüşüldüğü en önemli merkezî karar kuruludur."
-      },
-      {
-        "id": "B",
-        "text": "Yalnızca esnaf dayanışması kurumudur."
-      },
-      {
-        "id": "C",
-        "text": "İlk Türkçe sözlüktür."
-      },
-      {
-        "id": "D",
-        "text": "Sömürge yollarını kesme planıdır."
-      },
-      {
-        "id": "E",
-        "text": "Uluslararası barış örgütüdür."
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Divan-ı Hümayun, Osmanlı merkez teşkilatında devlet meselelerinin görüşüldüğü temel karar organıdır.",
-    "examTip": "Divan sorularında merkez teşkilatı ve karar alma işlevi aranır.",
-    "tags": [
-      "Divan"
-    ]
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-q-3",
-    "topicId": "osmanli-kultur-medeniyet",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "İlmiye sınıfı aşağıdaki alanlardan hangisiyle ilgilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Eğitim, hukuk ve din işleri"
-      },
-      {
-        "id": "B",
-        "text": "Maliye defterleri ve yazışma"
-      },
-      {
-        "id": "C",
-        "text": "Sadece denizcilik"
-      },
-      {
-        "id": "D",
-        "text": "Gümrü Antlaşması'nın uygulanması"
-      },
-      {
-        "id": "E",
-        "text": "Balkan Antantı'nın kurulması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "İlmiye sınıfı kadı, müderris ve kazasker gibi görevlilerle eğitim, hukuk ve din işleriyle ilgilenir.",
-    "examTip": "İlmiye = hukuk/eğitim/din; kalemiye = yazışma/maliye; seyfiye = askerî-idari.",
-    "tags": [
-      "ilmiye"
-    ]
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-q-4",
-    "topicId": "osmanli-kultur-medeniyet",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Osmanlı'da maliye işlerinden sorumlu Divan üyesi kimdir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Nişancı"
-      },
-      {
-        "id": "B",
-        "text": "Defterdar"
-      },
-      {
-        "id": "C",
-        "text": "Kazasker"
-      },
-      {
-        "id": "D",
-        "text": "Şeyhülislam"
-      },
-      {
-        "id": "E",
-        "text": "Reisülküttap"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Defterdar, Osmanlı maliyesinden sorumlu Divan üyesidir.",
-    "examTip": "Defterdar = maliye; Nişancı = tuğra/kayıt; Kazasker = hukuk-eğitim.",
-    "tags": [
-      "defterdar"
-    ]
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-q-5",
-    "topicId": "osmanli-kultur-medeniyet",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Vakıfların Osmanlı toplumundaki temel işlevi aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Eğitim, sağlık, imar ve sosyal yardım hizmetlerini desteklemek"
-      },
-      {
-        "id": "B",
-        "text": "Hanedan üyelerine taht hakkı vermek"
-      },
-      {
-        "id": "C",
-        "text": "Devşirme çocukları toplamak"
-      },
-      {
-        "id": "D",
-        "text": "Boğazlarda askeri kontrol kurmak"
-      },
-      {
-        "id": "E",
-        "text": "Ayanlarla padişahı uzlaştırmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Vakıflar eğitim, sağlık, imar, yoksul yardımı ve benzeri sosyal hizmetlerin yürütülmesinde önemli rol oynamıştır.",
-    "examTip": "Vakıf sorularında sosyal devlet benzeri hizmet ve toplum yararı vurgusu aranır.",
-    "tags": [
-      "vakıf"
-    ]
-  },
-  {
-    "id": "osmanli-yenilesme-q-1",
-    "topicId": "osmanli-yenilesme",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "1699 Karlofça Antlaşması'nın Osmanlı tarihi açısından önemi nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Osmanlı'nın batıda ilk büyük toprak kaybını yaşaması"
-      },
-      {
-        "id": "B",
-        "text": "İlk anayasanın ilan edilmesi"
-      },
-      {
-        "id": "C",
-        "text": "TBMM'nin tanınması"
-      },
-      {
-        "id": "D",
-        "text": "Türkiye'nin NATO'ya katılması"
-      },
-      {
-        "id": "E",
-        "text": "Boğazların Türkiye'ye bırakılması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Karlofça Antlaşması, Osmanlı'nın batıda ilk büyük toprak kaybını yaşadığı antlaşmadır.",
-    "examTip": "Karlofça = 1699 + batıda ilk büyük toprak kaybı.",
-    "tags": [
-      "Karlofça"
-    ]
-  },
-  {
-    "id": "osmanli-yenilesme-q-2",
-    "topicId": "osmanli-yenilesme",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Lale Devri'nde matbaanın kurulması hangi alanla daha doğrudan ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Kültür ve yayın hayatı"
-      },
-      {
-        "id": "B",
-        "text": "Doğu sınırının kesinleşmesi"
-      },
-      {
-        "id": "C",
-        "text": "Boğazların silahlandırılması"
-      },
-      {
-        "id": "D",
-        "text": "Saltanatın kaldırılması"
-      },
-      {
-        "id": "E",
-        "text": "Sömürge yolları"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Lale Devri'nde matbaanın kurulması kültür, düşünce ve yayın hayatıyla ilgilidir.",
-    "examTip": "Lale Devri'ni yalnızca eğlence dönemi gibi görme; kültürel yenilikler de önemlidir.",
-    "tags": [
-      "Lale Devri",
-      "matbaa"
-    ]
-  },
-  {
-    "id": "osmanli-yenilesme-q-3",
-    "topicId": "osmanli-yenilesme",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Nizam-ı Cedid düzeni hangi padişah dönemiyle ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "III. Selim"
-      },
-      {
-        "id": "B",
-        "text": "II. Mahmut"
-      },
-      {
-        "id": "C",
-        "text": "Abdülmecit"
-      },
-      {
-        "id": "D",
-        "text": "II. Abdülhamit"
-      },
-      {
-        "id": "E",
-        "text": "Vahdettin"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Nizam-ı Cedid, III. Selim dönemindeki yeni ordu ve yenileşme düzenidir.",
-    "examTip": "Nizam-ı Cedid = III. Selim; Sekban-ı Cedid/Eşkinci = II. Mahmut bağlamı.",
-    "tags": [
-      "Nizam-ı Cedid"
-    ]
-  },
-  {
-    "id": "osmanli-yenilesme-q-4",
-    "topicId": "osmanli-yenilesme",
-    "type": "single",
-    "difficulty": "orta",
-    "stem": "Sened-i İttifak'ın tarihsel önemi aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Padişah yetkilerini ayanlar karşısında sınırlayan ilk belge kabul edilmesi"
-      },
-      {
-        "id": "B",
-        "text": "Osmanlı'nın ilk anayasası olması"
-      },
-      {
-        "id": "C",
-        "text": "Azınlıklara geniş haklar vermesi"
-      },
-      {
-        "id": "D",
-        "text": "Boğazları Türkiye'ye bırakması"
-      },
-      {
-        "id": "E",
-        "text": "Doğu Cephesi'ni kapatması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Sened-i İttifak 1808'de ayanlarla padişah arasında yapılmış ve padişah otoritesini sınırlayan ilk belge kabul edilmiştir.",
-    "examTip": "Sened-i İttifak ilk anayasa değildir; ilk anayasa Kanun-i Esasi'dir.",
-    "tags": [
-      "Sened-i İttifak"
-    ]
-  },
-  {
-    "id": "osmanli-yenilesme-q-5",
-    "topicId": "osmanli-yenilesme",
-    "type": "chronology",
-    "difficulty": "ileri",
-    "stem": "Aşağıdaki olayların kronolojik olarak eskiden yeniye doğru sıralanışı hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Tanzimat Fermanı → Sened-i İttifak → I. Meşrutiyet"
-      },
-      {
-        "id": "B",
-        "text": "Sened-i İttifak → Tanzimat Fermanı → I. Meşrutiyet"
-      },
-      {
-        "id": "C",
-        "text": "I. Meşrutiyet → Tanzimat Fermanı → Sened-i İttifak"
-      },
-      {
-        "id": "D",
-        "text": "Tanzimat Fermanı → I. Meşrutiyet → Sened-i İttifak"
-      },
-      {
-        "id": "E",
-        "text": "Sened-i İttifak → I. Meşrutiyet → Tanzimat Fermanı"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Doğru sıralama Sened-i İttifak (1808), Tanzimat Fermanı (1839), I. Meşrutiyet/Kanun-i Esasi (1876) şeklindedir.",
-    "examTip": "Bu soru türünde tarihleri zihinde sabitle: 1808, 1839, 1876.",
-    "tags": [
-      "kronoloji",
-      "Sened-i İttifak",
-      "Tanzimat",
-      "Meşrutiyet"
-    ]
-  },
-  {
-    "id": "milli-mucadele-hazirlik-q-1",
-    "topicId": "milli-mucadele-hazirlik",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Havza Genelgesi'nin temel amacı aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "İşgallere karşı protesto mitingleriyle milli bilinci uyandırmak"
-      },
-      {
-        "id": "B",
-        "text": "Doğu Cephesi'ni kapatmak"
-      },
-      {
-        "id": "C",
-        "text": "Saltanatı kaldırmak"
-      },
-      {
-        "id": "D",
-        "text": "Boğazları silahlandırmak"
-      },
-      {
-        "id": "E",
-        "text": "NATO'ya üye olmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Havza Genelgesi, işgallere karşı halkın bilinçli tepki göstermesini ve protesto mitingleri yapılmasını istemiştir.",
-    "examTip": "Havza = protesto/miting; Amasya = gerekçe-amaç-yöntem.",
-    "tags": [
-      "Havza Genelgesi"
-    ]
-  },
-  {
-    "id": "milli-mucadele-hazirlik-q-2",
-    "topicId": "milli-mucadele-hazirlik",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Milli Mücadele'nin gerekçe, amaç ve yöntemini açıklayan belge hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Havza Genelgesi"
-      },
-      {
-        "id": "B",
-        "text": "Amasya Genelgesi"
-      },
-      {
-        "id": "C",
-        "text": "Misak-ı Milli"
-      },
-      {
-        "id": "D",
-        "text": "Lozan Antlaşması"
-      },
-      {
-        "id": "E",
-        "text": "Montrö Sözleşmesi"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Amasya Genelgesi, 'milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' vurgusuyla Milli Mücadele'nin gerekçe, amaç ve yöntemini ortaya koymuştur.",
-    "examTip": "Gerekçe-amaç-yöntem üçlüsü soruluyorsa Amasya Genelgesi aranır.",
-    "tags": [
-      "Amasya Genelgesi"
-    ]
-  },
-  {
-    "id": "milli-mucadele-hazirlik-q-3",
-    "topicId": "milli-mucadele-hazirlik",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Erzurum Kongresi için aşağıdakilerden hangisi doğrudur?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Bölgesel toplanmasına rağmen ulusal kararlar almıştır."
-      },
-      {
-        "id": "B",
-        "text": "Tüm cemiyetleri kesin olarak tek çatı altında birleştirmiştir."
-      },
-      {
-        "id": "C",
-        "text": "İlk Osmanlı anayasasını ilan etmiştir."
-      },
-      {
-        "id": "D",
-        "text": "Doğu Cephesi'ni Gümrü ile kapatmıştır."
-      },
-      {
-        "id": "E",
-        "text": "Boğazları Türkiye'ye bırakmıştır."
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Erzurum Kongresi bölgesel amaçla toplanmış, fakat aldığı kararlar tüm yurdu ilgilendirdiği için ulusal nitelik kazanmıştır.",
-    "examTip": "Erzurum = bölgesel toplanma, ulusal karar; Sivas = cemiyetlerin birleşmesi.",
-    "tags": [
-      "Erzurum Kongresi"
-    ]
-  },
-  {
-    "id": "milli-mucadele-hazirlik-q-4",
-    "topicId": "milli-mucadele-hazirlik",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Milli cemiyetlerin Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti adıyla birleştirildiği kongre hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Alaşehir Kongresi"
-      },
-      {
-        "id": "B",
-        "text": "Erzurum Kongresi"
-      },
-      {
-        "id": "C",
-        "text": "Sivas Kongresi"
-      },
-      {
-        "id": "D",
-        "text": "Lüleburgaz Kongresi"
-      },
-      {
-        "id": "E",
-        "text": "Balıkesir Kongresi"
+        "text": "Anayasal demokrasi"
       }
     ],
     "correctChoiceId": "C",
-    "explanation": "Sivas Kongresi'nde milli cemiyetler Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti adı altında birleştirilmiştir.",
-    "examTip": "Cemiyetlerin birleşmesi = Sivas Kongresi.",
+    "explanation": "İkta, gelir kaynaklarının hizmet karşılığı tahsisi ve asker yetiştirme düzeniyle ilgilidir.",
+    "examTip": "İkta ile tımar benzer mantıkta ama farklı dönemdir.",
     "tags": [
-      "Sivas Kongresi"
+      "turk-islam",
+      "orta"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-q-5",
-    "topicId": "milli-mucadele-hazirlik",
+    "id": "q-019",
+    "topicId": "turk-islam",
     "type": "single",
-    "difficulty": "orta",
-    "stem": "Misak-ı Milli kararları nerede kabul edilmiştir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "TBMM'de"
-      },
-      {
-        "id": "B",
-        "text": "Son Osmanlı Mebusan Meclisi'nde"
-      },
-      {
-        "id": "C",
-        "text": "Sivas Kongresi'nde"
-      },
-      {
-        "id": "D",
-        "text": "Erzurum Kongresi'nde"
-      },
-      {
-        "id": "E",
-        "text": "Amasya Görüşmeleri'nde"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Misak-ı Milli, Son Osmanlı Mebusan Meclisi'nde kabul edilmiştir ve milli sınırlar/bağımsızlık hedefini belirlemiştir.",
-    "examTip": "Misak-ı Milli'yi TBMM'nin açılışından önceki son Osmanlı Meclisi bağlamında düşün.",
-    "tags": [
-      "Misak-ı Milli"
-    ]
-  },
-  {
-    "id": "kurtulus-savasi-q-1",
-    "topicId": "kurtulus-savasi",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Doğu Cephesi hangi antlaşma ile kapanmıştır?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Gümrü Antlaşması"
-      },
-      {
-        "id": "B",
-        "text": "Mudanya Ateşkesi"
-      },
-      {
-        "id": "C",
-        "text": "Lozan Antlaşması"
-      },
-      {
-        "id": "D",
-        "text": "Ankara Antlaşması"
-      },
-      {
-        "id": "E",
-        "text": "Moskova Antlaşması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Doğu Cephesi Ermenilere karşı kazanılan başarı sonrası 1920 Gümrü Antlaşması ile kapanmıştır.",
-    "examTip": "Gümrü Doğu Cephesi'ni kapatır; Kars doğu sınırını kesinleştirir.",
-    "tags": [
-      "Gümrü"
-    ]
-  },
-  {
-    "id": "kurtulus-savasi-q-2",
-    "topicId": "kurtulus-savasi",
-    "type": "single",
-    "difficulty": "orta",
-    "stem": "Güney Cephesi hangi antlaşma ile kapanmıştır?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Kars Antlaşması"
-      },
-      {
-        "id": "B",
-        "text": "Ankara Antlaşması"
-      },
-      {
-        "id": "C",
-        "text": "Lozan Antlaşması"
-      },
-      {
-        "id": "D",
-        "text": "Uşi Antlaşması"
-      },
-      {
-        "id": "E",
-        "text": "Mondros Ateşkesi"
-      }
-    ],
-    "correctChoiceId": "B",
-    "explanation": "Güney Cephesi, Fransa ile yapılan 1921 Ankara Antlaşması sonucunda kapanmıştır.",
-    "examTip": "Ankara Antlaşması sorularında Fransa ve Güney Cephesi bağlantısını kur.",
-    "tags": [
-      "Ankara Antlaşması",
-      "Güney Cephesi"
-    ]
-  },
-  {
-    "id": "kurtulus-savasi-q-3",
-    "topicId": "kurtulus-savasi",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "I. İnönü Savaşı'nın diplomatik sonuçlarından biri aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Londra Konferansı'nın toplanması"
-      },
-      {
-        "id": "B",
-        "text": "Hatay'ın Türkiye'ye katılması"
-      },
-      {
-        "id": "C",
-        "text": "NATO üyeliğinin gerçekleşmesi"
-      },
-      {
-        "id": "D",
-        "text": "Karlofça'nın imzalanması"
-      },
-      {
-        "id": "E",
-        "text": "Montrö'nün yapılması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "I. İnönü Savaşı sonrası TBMM'nin Londra Konferansı'na çağrılması diplomatik tanınırlık açısından önemlidir.",
-    "examTip": "İnönü zaferleri içte güven, dışta diplomasi etkisiyle sorulur.",
-    "tags": [
-      "I. İnönü",
-      "Londra Konferansı"
-    ]
-  },
-  {
-    "id": "kurtulus-savasi-q-4",
-    "topicId": "kurtulus-savasi",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Sakarya Meydan Muharebesi için aşağıdakilerden hangisi doğrudur?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Türk ordusunun savunmadan taarruza geçiş sürecini başlatan dönüm noktasıdır."
-      },
-      {
-        "id": "B",
-        "text": "Doğu Cephesi'ni kapatan antlaşmadır."
-      },
-      {
-        "id": "C",
-        "text": "İlk Osmanlı anayasasıdır."
-      },
-      {
-        "id": "D",
-        "text": "Boğazları silahlandıran sözleşmedir."
-      },
-      {
-        "id": "E",
-        "text": "İlk Türk yazılı kaynağıdır."
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Sakarya Savaşı, Türk ordusunun savunmadan taarruza geçişinde dönüm noktasıdır. Mustafa Kemal'e gazilik ve mareşallik unvanı verilmiştir.",
-    "examTip": "Sakarya = dönüm noktası; Büyük Taarruz = kesin askeri sonuç.",
-    "tags": [
-      "Sakarya"
-    ]
-  },
-  {
-    "id": "kurtulus-savasi-q-5",
-    "topicId": "kurtulus-savasi",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Mudanya Ateşkesi ile Lozan Antlaşması arasındaki temel fark nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Mudanya silahlı mücadeleyi fiilen bitiren ateşkestir; Lozan kesin barış antlaşmasıdır."
-      },
-      {
-        "id": "B",
-        "text": "Mudanya ilk anayasa, Lozan ilk kongredir."
-      },
-      {
-        "id": "C",
-        "text": "Mudanya NATO üyeliği, Lozan BM üyeliğidir."
-      },
-      {
-        "id": "D",
-        "text": "Mudanya kültür inkılabı, Lozan eğitim inkılabıdır."
-      },
-      {
-        "id": "E",
-        "text": "Mudanya İslamiyet öncesi, Lozan Türk-İslam dönemidir."
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Mudanya Ateşkesi savaş durumunu fiilen sona erdiren ateşkestir; Lozan Barış Antlaşması ise yeni Türk devletinin uluslararası statüsünü belirleyen kesin barıştır.",
-    "examTip": "Ateşkes ve barış antlaşmasını ayır: Mondros/Mudanya ateşkes; Lozan barıştır.",
-    "tags": [
-      "Mudanya",
-      "Lozan"
-    ]
-  },
-  {
-    "id": "ataturk-ilke-inkilap-q-1",
-    "topicId": "ataturk-ilke-inkilap",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Saltanatın kaldırılması en doğrudan hangi ilkeyle ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Cumhuriyetçilik ve milli egemenlik"
-      },
-      {
-        "id": "B",
-        "text": "Devletçilik"
-      },
-      {
-        "id": "C",
-        "text": "Laiklik"
-      },
-      {
-        "id": "D",
-        "text": "İnkılapçılık"
-      },
-      {
-        "id": "E",
-        "text": "Halkçılık"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Saltanatın kaldırılması egemenliğin hanedandan millete geçişini güçlendirdiği için cumhuriyetçilik ve milli egemenlik ile ilişkilidir.",
-    "examTip": "Siyasi inkılaplarda milli egemenlik vurgusunu yakala.",
-    "tags": [
-      "saltanat",
-      "cumhuriyetçilik"
-    ]
-  },
-  {
-    "id": "ataturk-ilke-inkilap-q-2",
-    "topicId": "ataturk-ilke-inkilap",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Tevhid-i Tedrisat Kanunu'nun temel amacı nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Eğitim ve öğretimde birliği sağlamak"
-      },
-      {
-        "id": "B",
-        "text": "Boğazların statüsünü belirlemek"
-      },
-      {
-        "id": "C",
-        "text": "Devşirme sistemini kurmak"
-      },
-      {
-        "id": "D",
-        "text": "Ayanlarla anlaşma yapmak"
-      },
-      {
-        "id": "E",
-        "text": "Dış borçları kapatmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Tevhid-i Tedrisat Kanunu, eğitim kurumlarını tek çatı altında toplayarak eğitim birliğini sağlamayı amaçlamıştır.",
-    "examTip": "Tevhid-i Tedrisat = eğitim birliği + laikleşme süreci.",
-    "tags": [
-      "Tevhid-i Tedrisat"
-    ]
-  },
-  {
-    "id": "ataturk-ilke-inkilap-q-3",
-    "topicId": "ataturk-ilke-inkilap",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Tekke, zaviye ve türbelerin kapatılması en çok hangi ilkeyle ilişkilendirilir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Laiklik"
-      },
-      {
-        "id": "B",
-        "text": "Devletçilik"
-      },
-      {
-        "id": "C",
-        "text": "Milliyetçilik"
-      },
-      {
-        "id": "D",
-        "text": "Cumhuriyetçilik"
-      },
-      {
-        "id": "E",
-        "text": "Dış politika"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Tekke, zaviye ve türbelerin kapatılması dinî kurumların toplumsal-siyasal alandaki etkisini sınırladığı için laiklik ilkesiyle ilişkilidir.",
-    "examTip": "Kurumların din-devlet/toplum düzenindeki rolü soruluyorsa laiklik bağlantısı kur.",
-    "tags": [
-      "laiklik",
-      "tekke"
-    ]
-  },
-  {
-    "id": "ataturk-ilke-inkilap-q-4",
-    "topicId": "ataturk-ilke-inkilap",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Devletçilik ilkesi aşağıdakilerden hangisini ifade eder?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Ekonomik kalkınmada devletin düzenleyici ve yatırımcı rol üstlenmesi"
-      },
-      {
-        "id": "B",
-        "text": "Egemenliğin hanedana ait olması"
-      },
-      {
-        "id": "C",
-        "text": "Meclisli yönetime son verilmesi"
-      },
-      {
-        "id": "D",
-        "text": "Din kurallarının devlet yönetimine temel alınması"
-      },
-      {
-        "id": "E",
-        "text": "Sömürgecilik politikası"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Devletçilik, özellikle ekonomik kalkınma için devletin düzenleyici, planlayıcı ve yatırımcı rol üstlenmesini anlatır.",
-    "examTip": "Devletçilik sosyalizm değildir; karma ekonomi ve kalkınma ihtiyacıyla düşünülür.",
-    "tags": [
-      "devletçilik"
-    ]
-  },
-  {
-    "id": "ataturk-ilke-inkilap-q-5",
-    "topicId": "ataturk-ilke-inkilap",
-    "type": "chronology",
     "difficulty": "ileri",
-    "stem": "Aşağıdaki inkılaplardan hangisi tarih olarak diğerlerinden daha önce gerçekleşmiştir?",
+    "stem": "Büyük Selçuklu Devleti’nin en parlak dönemi hangi hükümdar zamanıdır?",
     "choices": [
       {
         "id": "A",
-        "text": "Harf İnkılabı"
+        "text": "I. Murat"
       },
       {
         "id": "B",
-        "text": "Soyadı Kanunu"
+        "text": "Melikşah"
+      },
+      {
+        "id": "C",
+        "text": "Gazneli Mahmut"
+      },
+      {
+        "id": "D",
+        "text": "Satuk Buğra Han"
+      },
+      {
+        "id": "E",
+        "text": "Osman Bey"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Melikşah dönemi Büyük Selçuklu Devleti’nin en parlak dönemidir.",
+    "examTip": "Melikşah-Nizamülmülk ikilisini birlikte hatırla.",
+    "tags": [
+      "turk-islam",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-020",
+    "topicId": "turk-islam",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Atabetü’l-Hakayık hangi tür içeriğiyle öne çıkar?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ahlaki öğütler"
+      },
+      {
+        "id": "B",
+        "text": "Askeri talimname"
+      },
+      {
+        "id": "C",
+        "text": "Denizcilik haritası"
+      },
+      {
+        "id": "D",
+        "text": "Anayasa metni"
+      },
+      {
+        "id": "E",
+        "text": "Diplomatik antlaşma"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Atabetü’l-Hakayık ahlaki ve didaktik öğütler içeren bir Türk-İslam eseridir.",
+    "examTip": "Eserin amacını yazarla birlikte öğren.",
+    "tags": [
+      "turk-islam",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-021",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Anadolu’nun Türk yurdu olduğunun kesinleştiği savaş hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Malazgirt"
+      },
+      {
+        "id": "B",
+        "text": "Kösedağ"
+      },
+      {
+        "id": "C",
+        "text": "Dandanakan"
+      },
+      {
+        "id": "D",
+        "text": "Pasinler"
+      },
+      {
+        "id": "E",
+        "text": "Miryokefalon"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "1176 Miryokefalon, Bizans’ın Anadolu’yu geri alma umudunu kırmıştır.",
+    "examTip": "Malazgirt kapı açar, Miryokefalon kesinleştirir.",
+    "tags": [
+      "anadolu-selcuklu",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-022",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Kösedağ Savaşı’nın sonucu aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "İstanbul’un fethi"
+      },
+      {
+        "id": "B",
+        "text": "Talas Savaşı’nın kazanılması"
       },
       {
         "id": "C",
@@ -2351,236 +1915,2835 @@ export const questions: Question[] = [
       },
       {
         "id": "D",
-        "text": "Türk Tarih Kurumu'nun kurulması"
+        "text": "Anadolu Selçuklu Devleti’nin Moğol etkisine girmesi"
       },
       {
         "id": "E",
-        "text": "Kadınlara milletvekili seçme-seçilme hakkı"
+        "text": "Osmanlı’nın kurulması"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "1243 Kösedağ, Türkiye Selçuklularının Moğol baskısına girmesine ve beyliklerin güçlenmesine yol açmıştır.",
+    "examTip": "Kösedağ = merkezi otorite zayıflaması.",
+    "tags": [
+      "anadolu-selcuklu",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-023",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Kervansarayların temel işlevi nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Şer’i hukuk üretmek"
+      },
+      {
+        "id": "B",
+        "text": "Avrupa’ya elçi göndermek"
+      },
+      {
+        "id": "C",
+        "text": "Ticaret yollarında güvenlik ve konaklama sağlamak"
+      },
+      {
+        "id": "D",
+        "text": "Meşrutiyeti ilan etmek"
+      },
+      {
+        "id": "E",
+        "text": "Deniz donanması kurmak"
       }
     ],
     "correctChoiceId": "C",
-    "explanation": "Halifeliğin kaldırılması 1924'tedir. Harf İnkılabı 1928, Türk Tarih Kurumu 1931, Soyadı Kanunu 1934 ve kadınlara milletvekili seçme-seçilme hakkı 1934'tür.",
-    "examTip": "İnkılap kronolojisinde 1924 laikleşme/eğitim düzenlemelerini erken sıraya yerleştir.",
+    "explanation": "Kervansaraylar ticareti, yol güvenliğini ve konaklamayı desteklemiştir.",
+    "examTip": "Kervansaray soruları ekonomi ve ticaretle ilgilidir.",
     "tags": [
-      "inkılap kronolojisi"
+      "anadolu-selcuklu",
+      "ileri"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-q-1",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "q-024",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Ahilik aşağıdakilerden hangisiyle en doğrudan ilgilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Hanedan evlilikleri"
+      },
+      {
+        "id": "B",
+        "text": "Esnaf dayanışması ve meslek ahlakı"
+      },
+      {
+        "id": "C",
+        "text": "Saltanat veraseti"
+      },
+      {
+        "id": "D",
+        "text": "Kapitülasyonlar"
+      },
+      {
+        "id": "E",
+        "text": "Denizcilik"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Ahilik şehir esnaf örgütlenmesi, meslek ahlakı ve sosyal dayanışma kurumudur.",
+    "examTip": "Ahilik sadece dini yapı değildir.",
+    "tags": [
+      "anadolu-selcuklu",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-025",
+    "topicId": "anadolu-selcuklu",
     "type": "single",
     "difficulty": "orta",
-    "stem": "Musul sorunu hangi antlaşma ile Türkiye aleyhine sonuçlanarak çözülmüştür?",
+    "stem": "Malabadi Köprüsü ve El-Cezeri hangi beylikle ilişkilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "1926 Ankara Antlaşması"
+        "text": "Artuklular"
       },
       {
         "id": "B",
-        "text": "Montrö Boğazlar Sözleşmesi"
+        "text": "Mengücekler"
       },
       {
         "id": "C",
-        "text": "Lozan Antlaşması"
+        "text": "Saltuklular"
       },
       {
         "id": "D",
-        "text": "Balkan Antantı"
+        "text": "Karamanoğulları"
       },
       {
         "id": "E",
-        "text": "Sadabat Paktı"
+        "text": "Danişmentliler"
       }
     ],
     "correctChoiceId": "A",
-    "explanation": "Musul sorunu 1926 Ankara Antlaşması ile çözüldü ve Musul Irak'a bırakıldı.",
-    "examTip": "Musul = 1926 Ankara Antlaşması; Boğazlar = Montrö.",
+    "explanation": "Artuklular Mardin, Diyarbakır, Harput çevresi; Malabadi Köprüsü ve El-Cezeri ile anılır.",
+    "examTip": "Artuklu ipuçları Malabadi ve El-Cezeri’dir.",
     "tags": [
-      "Musul"
+      "anadolu-selcuklu",
+      "orta"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-q-2",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "q-026",
+    "topicId": "anadolu-selcuklu",
     "type": "single",
-    "difficulty": "temel",
-    "stem": "Montrö Boğazlar Sözleşmesi'nin Türkiye açısından önemi nedir?",
+    "difficulty": "ileri",
+    "stem": "Divriği Ulu Camii ve Darüşşifası hangi beylikle ilişkilidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Boğazlar üzerinde Türkiye'nin egemenliğini güçlendirmesi"
+        "text": "Artuklular"
       },
       {
         "id": "B",
-        "text": "Doğu Cephesi'ni kapatması"
+        "text": "Saltuklular"
       },
       {
         "id": "C",
-        "text": "İlk Müslüman Türk devletini kurması"
+        "text": "Osmanoğulları"
       },
       {
         "id": "D",
-        "text": "Saltanatı kaldırması"
+        "text": "Karamanoğulları"
       },
       {
         "id": "E",
-        "text": "Dandanakan'ı sonuçlandırması"
+        "text": "Mengücekler"
       }
     ],
-    "correctChoiceId": "A",
-    "explanation": "1936 Montrö Boğazlar Sözleşmesi, Boğazlar Komisyonu'nun kaldırılması ve Türkiye'nin Boğazlar üzerindeki egemenliğinin güçlenmesi bakımından önemlidir.",
-    "examTip": "Montrö = 1936 + Boğaz egemenliği.",
+    "correctChoiceId": "E",
+    "explanation": "Divriği Ulu Camii ve Darüşşifası Mengücekli eseridir.",
+    "examTip": "Divriği = Mengücek.",
     "tags": [
-      "Montrö"
+      "anadolu-selcuklu",
+      "ileri"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-q-3",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "q-027",
+    "topicId": "anadolu-selcuklu",
     "type": "single",
     "difficulty": "temel",
-    "stem": "Hatay Türkiye'ye hangi yıl katılmıştır?",
+    "stem": "Türkçeyi resmi dil ilan etmeleriyle bilinen beylik hangisidir?",
     "choices": [
       {
         "id": "A",
+        "text": "Saltuklular"
+      },
+      {
+        "id": "B",
+        "text": "Danişmentliler"
+      },
+      {
+        "id": "C",
+        "text": "Aydınoğulları"
+      },
+      {
+        "id": "D",
+        "text": "Karamanoğulları"
+      },
+      {
+        "id": "E",
+        "text": "Artuklular"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Karamanoğulları Türkçeyi resmi dil ilan etmeleriyle ayırt edilir.",
+    "examTip": "Türkçe resmi dil sorusu Karamanoğullarıdır.",
+    "tags": [
+      "anadolu-selcuklu",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-028",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Türkiye Selçuklularında ticareti canlandıran uygulamalardan biri hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Takrir-i Sükun"
+      },
+      {
+        "id": "B",
+        "text": "Müsadere sisteminin kaldırılması"
+      },
+      {
+        "id": "C",
+        "text": "Tüccar mallarını güvence altına alan uygulamalar"
+      },
+      {
+        "id": "D",
+        "text": "Kapitülasyonların kaldırılması"
+      },
+      {
+        "id": "E",
+        "text": "Saltanatın kaldırılması"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Selçuklular ticareti teşvik etmek için yol güvenliği, kervansaray ve bazı güvence uygulamalarına önem verdi.",
+    "examTip": "Ticaret sorusunda kervansaray ve güvenlik birlikte düşünülür.",
+    "tags": [
+      "anadolu-selcuklu",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-029",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "I. Haçlı Seferi’nin Anadolu Selçukluları açısından sonuçlarından biri nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "NATO’ya girildi"
+      },
+      {
+        "id": "B",
+        "text": "Başkent İznik’ten Konya’ya taşındı"
+      },
+      {
+        "id": "C",
+        "text": "Lozan imzalandı"
+      },
+      {
+        "id": "D",
+        "text": "Halifelik kaldırıldı"
+      },
+      {
+        "id": "E",
+        "text": "Karlofça imzalandı"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "I. Haçlı Seferi sonrasında Türkiye Selçukluları başkentlerini Konya’ya taşımıştır.",
+    "examTip": "Haçlı Seferleri Anadolu siyasi dengesini etkiler.",
+    "tags": [
+      "anadolu-selcuklu",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-030",
+    "topicId": "anadolu-selcuklu",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Pasinler Savaşı’nın önemi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bizans ile Büyük Selçuklu arasındaki ilk önemli savaşlardan olması"
+      },
+      {
+        "id": "B",
+        "text": "Osmanlı’nın yıkılması"
+      },
+      {
+        "id": "C",
+        "text": "Kösedağ’ın kazanılması"
+      },
+      {
+        "id": "D",
+        "text": "Montrö’nün imzalanması"
+      },
+      {
+        "id": "E",
+        "text": "Tanzimat’ın ilanı"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Pasinler, Selçuklu-Bizans mücadelelerinin erken ve önemli örneklerindendir.",
+    "examTip": "Pasinler, Malazgirt öncesi Bizans-Selçuklu ilişkisinde önemlidir.",
+    "tags": [
+      "anadolu-selcuklu",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-031",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Osmanlı’nın kısa sürede büyümesinde Bizans’ın zayıflığı, uç beyliği konumu ve iskan politikası etkilidir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Osmanlı’nın kısa sürede büyümesinde Bizans’ın zayıflığı, uç beyliği konumu ve iskan politikası etkilidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-032",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Çimpe Rumeli’ye geçişte üs niteliğindedir."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Çimpe Rumeli’ye geçişte üs niteliğindedir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-033",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "İstanbul’un fethi Osmanlı’ya imparatorluk karakteri kazandırmıştır."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "İstanbul’un fethi Osmanlı’ya imparatorluk karakteri kazandırmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-034",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Devşirme sistemi kapıkulu ordusu ve merkezî bürokrasiyle ilgilidir."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Devşirme sistemi kapıkulu ordusu ve merkezî bürokrasiyle ilgilidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-035",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlıların Rumeli’ye geçişinde üs olarak kullanılan yer neresidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Çimpe Kalesi"
+      },
+      {
+        "id": "B",
+        "text": "İznik"
+      },
+      {
+        "id": "C",
+        "text": "Konya"
+      },
+      {
+        "id": "D",
+        "text": "Kars"
+      },
+      {
+        "id": "E",
+        "text": "Ankara"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Çimpe Kalesi Rumeli’ye geçişte üs olarak kullanılmıştır.",
+    "examTip": "Çimpe = Rumeli’ye geçiş.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-036",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "İstanbul’un fethi hangi padişah döneminde gerçekleşmiştir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "I. Murat"
+      },
+      {
+        "id": "B",
+        "text": "Yıldırım Bayezid"
+      },
+      {
+        "id": "C",
+        "text": "Kanuni Sultan Süleyman"
+      },
+      {
+        "id": "D",
+        "text": "II. Abdülhamit"
+      },
+      {
+        "id": "E",
+        "text": "II. Mehmet / Fatih Sultan Mehmet"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "İstanbul 1453’te II. Mehmet tarafından fethedilmiştir.",
+    "examTip": "1453 ve Fatih eşleştirmesini unutma.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-037",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Devşirme sistemi en çok hangi yapı ile ilişkilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Ayan meclisi"
+      },
+      {
+        "id": "B",
+        "text": "Köy imecesi"
+      },
+      {
+        "id": "C",
+        "text": "Kapitülasyonlar"
+      },
+      {
+        "id": "D",
+        "text": "Kapıkulu ordusu ve merkez teşkilatı"
+      },
+      {
+        "id": "E",
+        "text": "Tımar toprağının özel mülkiyeti"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Devşirme, kapıkulu askerleri ve merkezî bürokrasiyle bağlantılıdır.",
+    "examTip": "Devşirme ile tımarı karıştırma.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-038",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "İskan politikasının temel amaçlarından biri nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "NATO’ya girmek"
+      },
+      {
+        "id": "B",
+        "text": "Montrö’yü imzalamak"
+      },
+      {
+        "id": "C",
+        "text": "Fetihleri kalıcı hale getirmek"
+      },
+      {
+        "id": "D",
+        "text": "Halifeliği kaldırmak"
+      },
+      {
+        "id": "E",
+        "text": "Anayasayı ilan etmek"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "İskan politikası fethedilen bölgelerin Türkleşmesi ve İslamlaşmasına katkı sağlayarak kalıcılık oluşturur.",
+    "examTip": "İskan = kalıcılık ve güvenlik.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-039",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Divan-ı Hümayun merkez yönetimin danışma ve karar organıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Divan-ı Hümayun merkez yönetimin danışma ve karar organıdır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-040",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Seyfiye yönetim ve askerlik, ilmiye eğitim-hukuk-din, kalemiye yazışma-maliye bürokrasisidir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Seyfiye yönetim ve askerlik, ilmiye eğitim-hukuk-din, kalemiye yazışma-maliye bürokrasisidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-041",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Tımar dirlik gelirleriyle asker yetiştirme ve taşrada güvenliği sağlama düzenidir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Tımar dirlik gelirleriyle asker yetiştirme ve taşrada güvenliği sağlama düzenidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-042",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Vakıflar sosyal hizmetleri finanse eder."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Vakıflar sosyal hizmetleri finanse eder.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-043",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı’da ilmiye sınıfı hangi alanlarla ilgilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Tımar sipahilerinin sefer emri"
+      },
+      {
+        "id": "B",
+        "text": "Kapitülasyon pazarlığı"
+      },
+      {
+        "id": "C",
+        "text": "Eğitim, hukuk ve din işleri"
+      },
+      {
+        "id": "D",
+        "text": "Deniz ticareti"
+      },
+      {
+        "id": "E",
+        "text": "Kapıkulu maaşı"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "İlmiye; medrese, kadılık, müftülük ve dinî-hukukî işler ile ilgilidir.",
+    "examTip": "İlmiye = eğitim/hukuk/din.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-044",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Tımar sisteminin amaçlarından biri nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Lozan’ı imzalamak"
+      },
+      {
+        "id": "B",
+        "text": "Taşrada asker yetiştirmek ve üretimi denetlemek"
+      },
+      {
+        "id": "C",
+        "text": "Halifeliği kaldırmak"
+      },
+      {
+        "id": "D",
+        "text": "Boğazların statüsünü belirlemek"
+      },
+      {
+        "id": "E",
+        "text": "Cumhuriyeti ilan etmek"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Tımar sistemi dirlik gelirleri karşılığında atlı asker yetiştirilmesini ve taşra düzenini sağlar.",
+    "examTip": "Tımar = asker + taşra + üretim.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-045",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı’da defterdar hangi alanla ilgilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Maliye"
+      },
+      {
+        "id": "B",
+        "text": "Adalet"
+      },
+      {
+        "id": "C",
+        "text": "Denizcilik"
+      },
+      {
+        "id": "D",
+        "text": "Dışişleri"
+      },
+      {
+        "id": "E",
+        "text": "Eğitim"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Defterdar maliye işlerinden sorumludur.",
+    "examTip": "Defterdar = maliye.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-046",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Vakıfların Osmanlı toplumundaki işlevi nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Saltanatı kaldırmak"
+      },
+      {
+        "id": "B",
+        "text": "Anayasa yapmak"
+      },
+      {
+        "id": "C",
+        "text": "Cephe komutanı atamak"
+      },
+      {
+        "id": "D",
+        "text": "Kapitülasyon vermek"
+      },
+      {
+        "id": "E",
+        "text": "Sosyal hizmetleri desteklemek"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Vakıflar eğitim, sağlık, imar ve sosyal yardım hizmetlerini desteklemiştir.",
+    "examTip": "Vakıf = sosyal hizmet.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-047",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-048",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "Lale Devri’nde Batı tarzı yeniliklere ilgi artmıştır."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Lale Devri’nde Batı tarzı yeniliklere ilgi artmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-049",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "XVII. yüzyıl ıslahatları çoğunlukla kişilere bağlı, baskıcı ve sınırlı kalmıştır."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "XVII. yüzyıl ıslahatları çoğunlukla kişilere bağlı, baskıcı ve sınırlı kalmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-050",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "III. Selim’in Nizam-ı Cedid’i askeri ve mali yenilikleri içerir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "III. Selim’in Nizam-ı Cedid’i askeri ve mali yenilikleri içerir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-051",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı’nın batıda ilk büyük toprak kaybı hangi antlaşmayla olmuştur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Pasarofça"
+      },
+      {
+        "id": "B",
+        "text": "Yaş"
+      },
+      {
+        "id": "C",
+        "text": "Küçük Kaynarca"
+      },
+      {
+        "id": "D",
+        "text": "Bucaş"
+      },
+      {
+        "id": "E",
+        "text": "Karlofça Antlaşması"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "1699 Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır.",
+    "examTip": "Karlofça = batıda büyük toprak kaybı.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-052",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Lale Devri hangi antlaşmadan sonra başlamıştır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Lozan"
+      },
+      {
+        "id": "B",
+        "text": "Mudanya"
+      },
+      {
+        "id": "C",
+        "text": "Gümrü"
+      },
+      {
+        "id": "D",
+        "text": "Pasarofça Antlaşması"
+      },
+      {
+        "id": "E",
+        "text": "Karlofça"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "1718 Pasarofça sonrası Lale Devri başlamıştır.",
+    "examTip": "Pasarofça-Lale Devri eşleşir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-053",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Nizam-ı Cedid hangi padişah döneminin yeniliklerindendir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Fatih"
+      },
+      {
+        "id": "B",
+        "text": "Kanuni"
+      },
+      {
+        "id": "C",
+        "text": "III. Selim"
+      },
+      {
+        "id": "D",
+        "text": "II. Mahmut"
+      },
+      {
+        "id": "E",
+        "text": "Abdülmecit"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Nizam-ı Cedid III. Selim döneminin askerî ve mali yenilikleriyle ilişkilidir.",
+    "examTip": "Nizam-ı Cedid = III. Selim.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-054",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "XVII. yüzyıl ıslahatlarının genel özelliği nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Tamamen demokratikleşme sağlamaları"
+      },
+      {
+        "id": "B",
+        "text": "Kişilere bağlı ve sınırlı kalmaları"
+      },
+      {
+        "id": "C",
+        "text": "Halk egemenliğine dayalı olmaları"
+      },
+      {
+        "id": "D",
+        "text": "Sanayi devrimiyle başlamaları"
+      },
+      {
+        "id": "E",
+        "text": "Cumhuriyet ilanıyla bitmeleri"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "XVII. yüzyıl ıslahatları çoğu zaman kişilere bağlı, baskıcı ve yüzeysel kalmıştır.",
+    "examTip": "Dönem ıslahatlarının niteliğini ayır.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-055",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-056",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Tanzimat can, mal, namus güvenliği ve hukuki eşitlik vurgusuyla öne çıkar."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Tanzimat can, mal, namus güvenliği ve hukuki eşitlik vurgusuyla öne çıkar.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-057",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Islahat gayrimüslim hakları ve Avrupa baskısı bağlamında sorulur."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Islahat gayrimüslim hakları ve Avrupa baskısı bağlamında sorulur.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-058",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "Kanun-i Esasi ilk Osmanlı anayasasıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Kanun-i Esasi ilk Osmanlı anayasasıdır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-059",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Padişah yetkilerini sınırlayan ilk belge olarak kabul edilen gelişme hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Halifeliğin kaldırılması"
+      },
+      {
+        "id": "B",
+        "text": "Sened-i İttifak"
+      },
+      {
+        "id": "C",
+        "text": "Tanzimat Fermanı"
+      },
+      {
+        "id": "D",
+        "text": "Islahat Fermanı"
+      },
+      {
+        "id": "E",
+        "text": "Kanun-i Esasi"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "1808 Sened-i İttifak padişahın yetkilerini sınırlayan ilk belge kabul edilir.",
+    "examTip": "Sened-i İttifak kronolojide Tanzimat’tan önce gelir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-060",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "İlk Osmanlı anayasası hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kanun-i Esasi"
+      },
+      {
+        "id": "B",
+        "text": "Tanzimat Fermanı"
+      },
+      {
+        "id": "C",
+        "text": "Sened-i İttifak"
+      },
+      {
+        "id": "D",
+        "text": "Islahat Fermanı"
+      },
+      {
+        "id": "E",
+        "text": "Takrir-i Sükun"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "1876 Kanun-i Esasi ilk Osmanlı anayasasıdır.",
+    "examTip": "Anayasa sorusunda Kanun-i Esasi.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-061",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Tanzimat Fermanı hangi yıl ilan edilmiştir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "1808"
+      },
+      {
+        "id": "B",
+        "text": "1856"
+      },
+      {
+        "id": "C",
+        "text": "1876"
+      },
+      {
+        "id": "D",
+        "text": "1908"
+      },
+      {
+        "id": "E",
+        "text": "1839"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Tanzimat Fermanı 1839’da ilan edilmiştir.",
+    "examTip": "Tanzimat 1839, Islahat 1856, Kanun-i Esasi 1876.",
+    "tags": [
+      "osmanli-yenilesme",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-062",
+    "topicId": "osmanli-yenilesme",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "II. Meşrutiyet hangi yıl ilan edilmiştir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "1839"
+      },
+      {
+        "id": "B",
         "text": "1923"
       },
       {
-        "id": "B",
-        "text": "1926"
-      },
-      {
         "id": "C",
-        "text": "1936"
+        "text": "1699"
       },
       {
         "id": "D",
-        "text": "1939"
+        "text": "1908"
       },
       {
         "id": "E",
-        "text": "1952"
+        "text": "1876"
       }
     ],
     "correctChoiceId": "D",
-    "explanation": "Hatay, 1939 yılında Türkiye'ye katılmıştır.",
-    "examTip": "Hatay sorularında 1938 bağımsız Hatay Devleti, 1939 Türkiye'ye katılma ayrımını bil.",
+    "explanation": "II. Meşrutiyet 1908’de ilan edilmiştir.",
+    "examTip": "Meşrutiyet yıllarını karıştırma: I. 1876, II. 1908.",
     "tags": [
-      "Hatay"
+      "osmanli-yenilesme",
+      "orta"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-q-4",
-    "topicId": "cumhuriyet-dis-politika",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Balkan Antantı'nın temel amacı aşağıdakilerden hangisidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Balkanlarda barış ve sınır güvenliğini korumak"
-      },
-      {
-        "id": "B",
-        "text": "Hindistan'da İslamiyet'i yaymak"
-      },
-      {
-        "id": "C",
-        "text": "Ayanları güçlendirmek"
-      },
-      {
-        "id": "D",
-        "text": "Osmanlı'da ilk anayasa ilan etmek"
-      },
-      {
-        "id": "E",
-        "text": "Kervansaray ticaretini artırmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "1934 Balkan Antantı Türkiye, Yunanistan, Yugoslavya ve Romanya arasında bölgesel güvenlik amacıyla kurulmuştur.",
-    "examTip": "Bölgesel ittifak sorularında Balkan Antantı batı sınırı, Sadabat Paktı doğu sınırı gibi düşün.",
-    "tags": [
-      "Balkan Antantı"
-    ]
-  },
-  {
-    "id": "cumhuriyet-dis-politika-q-5",
-    "topicId": "cumhuriyet-dis-politika",
-    "type": "single",
-    "difficulty": "orta",
-    "stem": "Sadabat Paktı hangi politika anlayışıyla daha doğrudan ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Doğu sınırlarında bölgesel barış ve güvenliği sağlama"
-      },
-      {
-        "id": "B",
-        "text": "Saltanatı geri getirme"
-      },
-      {
-        "id": "C",
-        "text": "İlk Türkçe yazıtları dikme"
-      },
-      {
-        "id": "D",
-        "text": "Tanzimat'ı ilan etme"
-      },
-      {
-        "id": "E",
-        "text": "Boğazları uluslararası komisyona bırakma"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "1937 Sadabat Paktı, Türkiye'nin doğu komşularıyla bölgesel barış ve güvenlik arayışının sonucudur.",
-    "examTip": "Sadabat Paktı = Türkiye, İran, Irak, Afganistan ve doğu güvenliği.",
-    "tags": [
-      "Sadabat Paktı"
-    ]
-  },
-  {
-    "id": "cagdas-turk-dunya-q-1",
-    "topicId": "cagdas-turk-dunya",
+    "id": "q-063",
+    "topicId": "milli-mucadele-hazirlik",
     "type": "single",
     "difficulty": "temel",
-    "stem": "Birleşmiş Milletler hangi yıl kurulmuştur?",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
     "choices": [
       {
         "id": "A",
-        "text": "1919"
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
       },
       {
         "id": "B",
-        "text": "1939"
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
       },
       {
         "id": "C",
-        "text": "1945"
+        "text": "Amasya Genelgesi Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklar."
       },
       {
         "id": "D",
-        "text": "1949"
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
       },
       {
         "id": "E",
-        "text": "1952"
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
       }
     ],
     "correctChoiceId": "C",
-    "explanation": "Birleşmiş Milletler, II. Dünya Savaşı sonrasında 1945'te kurulmuştur.",
-    "examTip": "BM = 1945; NATO = 1949; Türkiye NATO = 1952.",
+    "explanation": "Amasya Genelgesi Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklar.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
     "tags": [
-      "BM"
+      "milli-mucadele-hazirlik",
+      "temel"
     ]
   },
   {
-    "id": "cagdas-turk-dunya-q-2",
+    "id": "q-064",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-065",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Sivas Kongresi cemiyetleri Anadolu ve Rumeli Müdafaa-i Hukuk çatısında birleştirmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Sivas Kongresi cemiyetleri Anadolu ve Rumeli Müdafaa-i Hukuk çatısında birleştirmiştir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-066",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Misak-ı Milli Son Osmanlı Mebusan Meclisi’nde kabul edilmiştir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Misak-ı Milli Son Osmanlı Mebusan Meclisi’nde kabul edilmiştir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-067",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklayan belge hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Misak-ı Milli"
+      },
+      {
+        "id": "B",
+        "text": "Lozan Antlaşması"
+      },
+      {
+        "id": "C",
+        "text": "Tevhid-i Tedrisat"
+      },
+      {
+        "id": "D",
+        "text": "Amasya Genelgesi"
+      },
+      {
+        "id": "E",
+        "text": "Havza Genelgesi"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Amasya Genelgesi, Milli Mücadele’nin gerekçe, amaç ve yöntemini ortaya koyar.",
+    "examTip": "Amasya = gerekçe, amaç, yöntem.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-068",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Cemiyetlerin tek çatı altında birleştirildiği kongre hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Balıkesir Kongresi"
+      },
+      {
+        "id": "B",
+        "text": "Londra Konferansı"
+      },
+      {
+        "id": "C",
+        "text": "Sivas Kongresi"
+      },
+      {
+        "id": "D",
+        "text": "Erzurum Kongresi"
+      },
+      {
+        "id": "E",
+        "text": "Alaşehir Kongresi"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Sivas Kongresi’nde cemiyetler Anadolu ve Rumeli Müdafaa-i Hukuk adı altında birleştirilmiştir.",
+    "examTip": "Birleştirme = Sivas.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-069",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Misak-ı Milli nerede kabul edilmiştir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Amasya Görüşmeleri"
+      },
+      {
+        "id": "B",
+        "text": "Son Osmanlı Mebusan Meclisi"
+      },
+      {
+        "id": "C",
+        "text": "TBMM"
+      },
+      {
+        "id": "D",
+        "text": "Sivas Kongresi"
+      },
+      {
+        "id": "E",
+        "text": "Erzurum Kongresi"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Misak-ı Milli Son Osmanlı Mebusan Meclisi’nde kabul edilmiştir.",
+    "examTip": "Misak-ı Milli TBMM kararı değildir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-070",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "TBMM hangi tarihte açılmıştır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "23 Nisan 1920"
+      },
+      {
+        "id": "B",
+        "text": "19 Mayıs 1919"
+      },
+      {
+        "id": "C",
+        "text": "29 Ekim 1923"
+      },
+      {
+        "id": "D",
+        "text": "24 Temmuz 1923"
+      },
+      {
+        "id": "E",
+        "text": "30 Ağustos 1922"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "TBMM 23 Nisan 1920’de açılmıştır.",
+    "examTip": "TBMM tarihi temel kronoloji bilgisidir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-071",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "kurtulus-savasi",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-072",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Güney Cephesi Ankara Antlaşması ile büyük ölçüde kapanmıştır."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Güney Cephesi Ankara Antlaşması ile büyük ölçüde kapanmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "kurtulus-savasi",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-073",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "Sakarya savunmadan taarruza geçişin dönüm noktasıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Sakarya savunmadan taarruza geçişin dönüm noktasıdır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "kurtulus-savasi",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-074",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Mudanya ateşkes, Lozan barış antlaşmasıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Mudanya ateşkes, Lozan barış antlaşmasıdır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "kurtulus-savasi",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-075",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Doğu Cephesi hangi antlaşmayla kapanmıştır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Gümrü Antlaşması"
+      },
+      {
+        "id": "B",
+        "text": "Ankara Antlaşması"
+      },
+      {
+        "id": "C",
+        "text": "Mudanya Ateşkesi"
+      },
+      {
+        "id": "D",
+        "text": "Lozan Antlaşması"
+      },
+      {
+        "id": "E",
+        "text": "Karlofça Antlaşması"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Doğu Cephesi Ermenistan ile yapılan Gümrü Antlaşması ile kapanmıştır.",
+    "examTip": "Doğu = Gümrü.",
+    "tags": [
+      "kurtulus-savasi",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-076",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Güney Cephesi hangi antlaşmayla büyük ölçüde kapanmıştır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Gümrü"
+      },
+      {
+        "id": "B",
+        "text": "Lozan"
+      },
+      {
+        "id": "C",
+        "text": "Mudanya"
+      },
+      {
+        "id": "D",
+        "text": "Montrö"
+      },
+      {
+        "id": "E",
+        "text": "Ankara Antlaşması"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "1921 Ankara Antlaşması ile Fransa ile anlaşma sağlanmış ve Güney Cephesi büyük ölçüde kapanmıştır.",
+    "examTip": "Güney = Ankara Antlaşması.",
+    "tags": [
+      "kurtulus-savasi",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-077",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Mudanya’nın niteliği nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Anayasa"
+      },
+      {
+        "id": "B",
+        "text": "Kongre kararı"
+      },
+      {
+        "id": "C",
+        "text": "İnkılap kanunu"
+      },
+      {
+        "id": "D",
+        "text": "Ateşkes antlaşması"
+      },
+      {
+        "id": "E",
+        "text": "Barış antlaşması"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Mudanya bir ateşkes antlaşmasıdır; Lozan ise barış antlaşmasıdır.",
+    "examTip": "Mudanya-Lozan ayrımını net tut.",
+    "tags": [
+      "kurtulus-savasi",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-078",
+    "topicId": "kurtulus-savasi",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Sakarya Savaşı’nın önemi nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "NATO’ya giriş"
+      },
+      {
+        "id": "B",
+        "text": "Karlofça’nın imzalanması"
+      },
+      {
+        "id": "C",
+        "text": "Savunmadan taarruza geçişin dönüm noktası olması"
+      },
+      {
+        "id": "D",
+        "text": "İstanbul’un fethi"
+      },
+      {
+        "id": "E",
+        "text": "Halifeliğin kaldırılması"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Sakarya zaferi Türk ordusunun savunmadan taarruza geçiş sürecinde dönüm noktasıdır.",
+    "examTip": "Sakarya sonrası üstünlük psikolojisi değişir.",
+    "tags": [
+      "kurtulus-savasi",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-079",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Atatürk İlke ve İnkılapları konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Cumhuriyetçilik milli egemenlik ve seçimle gelen yönetimle ilgilidir."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Cumhuriyetçilik milli egemenlik ve seçimle gelen yönetimle ilgilidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-080",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Atatürk İlke ve İnkılapları konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Laiklik din ve devlet işlerinin ayrılması, hukuk ve eğitimde akılcı düzenle ilgilidir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Laiklik din ve devlet işlerinin ayrılması, hukuk ve eğitimde akılcı düzenle ilgilidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-081",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Atatürk İlke ve İnkılapları konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Halkçılık ayrıcalıkların reddi ve kanun önünde eşitliktir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Halkçılık ayrıcalıkların reddi ve kanun önünde eşitliktir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-082",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Atatürk İlke ve İnkılapları konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Devletçilik özel girişimi yok saymadan devletin kalkınmada düzenleyici rolünü vurgular."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Devletçilik özel girişimi yok saymadan devletin kalkınmada düzenleyici rolünü vurgular.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-083",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Saltanatın kaldırılması en doğrudan hangi ilkeyle ilişkilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "İnkılapçılık"
+      },
+      {
+        "id": "B",
+        "text": "Halkçılık"
+      },
+      {
+        "id": "C",
+        "text": "Cumhuriyetçilik"
+      },
+      {
+        "id": "D",
+        "text": "Devletçilik"
+      },
+      {
+        "id": "E",
+        "text": "Laiklik"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Saltanatın kaldırılması milli egemenlik ve cumhuriyetçilikle ilgilidir.",
+    "examTip": "Egemenlik kaynağı sorusunda cumhuriyetçilik düşünülür.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-084",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Tevhid-i Tedrisat Kanunu hangi alanla ilgilidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Boğazlar"
+      },
+      {
+        "id": "B",
+        "text": "Eğitim birliği"
+      },
+      {
+        "id": "C",
+        "text": "Dış politika"
+      },
+      {
+        "id": "D",
+        "text": "Askeri rütbeler"
+      },
+      {
+        "id": "E",
+        "text": "Toprak reformu"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Tevhid-i Tedrisat eğitim ve öğretimde birliği sağlamaya yöneliktir.",
+    "examTip": "Tevhid-i Tedrisat = eğitim birliği.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-085",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Türk Medeni Kanunu’nun kabulü hangi alanda yeniliktir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Hukuk ve toplumsal yaşam"
+      },
+      {
+        "id": "B",
+        "text": "Dış politika"
+      },
+      {
+        "id": "C",
+        "text": "Askeri cephe"
+      },
+      {
+        "id": "D",
+        "text": "Kongreler"
+      },
+      {
+        "id": "E",
+        "text": "Boğazlar rejimi"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Türk Medeni Kanunu hukuk, aile ve toplumsal yaşam alanında laikleşme ve eşitlik getirmiştir.",
+    "examTip": "Medeni Kanun hukuk ve toplumla ilgilidir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-086",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Devletçilik ilkesi neyi ifade eder?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Din ve devlet işlerinin ayrılmasını"
+      },
+      {
+        "id": "B",
+        "text": "Milli egemenliği"
+      },
+      {
+        "id": "C",
+        "text": "Ayrıcalıksız toplum düzenini"
+      },
+      {
+        "id": "D",
+        "text": "Sınır güvenliği paktlarını"
+      },
+      {
+        "id": "E",
+        "text": "Kalkınmada devletin düzenleyici ve öncü rolünü"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Devletçilik, özel girişimi tamamen reddetmeden devletin ekonomik kalkınmadaki rolünü vurgular.",
+    "examTip": "Devletçilik sosyalizm değildir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-087",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Montrö Boğazlar üzerindeki Türk egemenliğini güçlendirmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Montrö Boğazlar üzerindeki Türk egemenliğini güçlendirmiştir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-088",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "Hatay sorunu Atatürk döneminde gündeme gelmiş, 1939’da Türkiye’ye katılmıştır."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Hatay sorunu Atatürk döneminde gündeme gelmiş, 1939’da Türkiye’ye katılmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-089",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Musul sorunu İngiltere ile yaşanmış ve 1926 Ankara Antlaşması ile sonuçlanmıştır."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Musul sorunu İngiltere ile yaşanmış ve 1926 Ankara Antlaşması ile sonuçlanmıştır.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-090",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Balkan Antantı batı sınırı güvenliği, Sadabat Paktı doğu sınırı güvenliği ile ilgilidir."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Balkan Antantı batı sınırı güvenliği, Sadabat Paktı doğu sınırı güvenliği ile ilgilidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-091",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Montrö Boğazlar Sözleşmesi’nin önemi nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Musul’u Türkiye’ye katması"
+      },
+      {
+        "id": "B",
+        "text": "Hatay’ı bağımsız yapması"
+      },
+      {
+        "id": "C",
+        "text": "Saltanatı kaldırması"
+      },
+      {
+        "id": "D",
+        "text": "Cumhuriyeti ilan etmesi"
+      },
+      {
+        "id": "E",
+        "text": "Boğazlar üzerindeki Türk egemenliğini güçlendirmesi"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "1936 Montrö, Boğazlar rejiminde Türkiye’nin egemenliğini güçlendirmiştir.",
+    "examTip": "Montrö = Boğazlar.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-092",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Hatay Türkiye’ye hangi yıl katılmıştır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "1926"
+      },
+      {
+        "id": "B",
+        "text": "1936"
+      },
+      {
+        "id": "C",
+        "text": "1952"
+      },
+      {
+        "id": "D",
+        "text": "1939"
+      },
+      {
+        "id": "E",
+        "text": "1923"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Hatay 1939’da Türkiye’ye katılmıştır.",
+    "examTip": "Hatay tarihi 1939’dur.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-093",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Türkiye’nin NATO’ya üyelik yılı hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "1960"
+      },
+      {
+        "id": "B",
+        "text": "1923"
+      },
+      {
+        "id": "C",
+        "text": "1952"
+      },
+      {
+        "id": "D",
+        "text": "1945"
+      },
+      {
+        "id": "E",
+        "text": "1939"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Türkiye 1952’de NATO’ya üye olmuştur.",
+    "examTip": "NATO üyeliği 1952.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-094",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Balkan Antantı’nın temel amacı nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Halifeliği kaldırmak"
+      },
+      {
+        "id": "B",
+        "text": "Batı sınırlarının güvenliğini desteklemek"
+      },
+      {
+        "id": "C",
+        "text": "Doğu sınırında İran-Irak ile iş birliği"
+      },
+      {
+        "id": "D",
+        "text": "Boğazları düzenlemek"
+      },
+      {
+        "id": "E",
+        "text": "Musul’u almak"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Balkan Antantı Balkan devletleriyle batı sınırı güvenliği bağlamında kuruldu.",
+    "examTip": "Balkan = batı, Sadabat = doğu.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-095",
     "topicId": "cagdas-turk-dunya",
     "type": "single",
     "difficulty": "temel",
-    "stem": "Türkiye NATO'ya hangi yıl katılmıştır?",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu düzeni ifade eder."
+      },
+      {
+        "id": "B",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "E",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu düzeni ifade eder.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-096",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "E",
+        "text": "Türkiye 1952’de NATO’ya üye olmuştur."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Türkiye 1952’de NATO’ya üye olmuştur.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-097",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "B",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "C",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "D",
+        "text": "Birleşmiş Milletler II. Dünya Savaşı sonrasında kurulmuştur."
+      },
+      {
+        "id": "E",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Birleşmiş Milletler II. Dünya Savaşı sonrasında kurulmuştur.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-098",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
+      },
+      {
+        "id": "B",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "C",
+        "text": "Kıbrıs meselesi Türkiye’nin yakın dönem dış politikasında belirleyicidir."
+      },
+      {
+        "id": "D",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Kıbrıs meselesi Türkiye’nin yakın dönem dış politikasında belirleyicidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-099",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Birleşmiş Milletler hangi savaş sonrasında kurulmuştur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Trablusgarp Savaşı"
+      },
+      {
+        "id": "B",
+        "text": "II. Dünya Savaşı"
+      },
+      {
+        "id": "C",
+        "text": "I. Dünya Savaşı"
+      },
+      {
+        "id": "D",
+        "text": "Kurtuluş Savaşı"
+      },
+      {
+        "id": "E",
+        "text": "Kırım Savaşı"
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "BM, II. Dünya Savaşı sonrasında uluslararası barış ve güvenliği koruma amacıyla kurulmuştur.",
+    "examTip": "BM = II. Dünya Savaşı sonrası.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "orta"
+    ]
+  },
+  {
+    "id": "q-100",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "ileri",
+    "stem": "Soğuk Savaş hangi iki güç merkezli düzene dayanır?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "ABD ve SSCB"
+      },
+      {
+        "id": "B",
+        "text": "İngiltere ve Fransa"
+      },
+      {
+        "id": "C",
+        "text": "Osmanlı ve Bizans"
+      },
+      {
+        "id": "D",
+        "text": "Türkiye ve Yunanistan"
+      },
+      {
+        "id": "E",
+        "text": "Almanya ve İtalya"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu sistemdir.",
+    "examTip": "Soğuk Savaş = iki kutuplu düzen.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-101",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Türkiye NATO’ya hangi yıl üye olmuştur?",
     "choices": [
       {
         "id": "A",
@@ -2588,116 +4751,11 @@ export const questions: Question[] = [
       },
       {
         "id": "B",
-        "text": "1947"
+        "text": "1936"
       },
       {
         "id": "C",
-        "text": "1949"
-      },
-      {
-        "id": "D",
-        "text": "1952"
-      },
-      {
-        "id": "E",
-        "text": "1960"
-      }
-    ],
-    "correctChoiceId": "D",
-    "explanation": "Türkiye, Kore Savaşı sürecindeki katkılarının da etkisiyle 1952'de NATO'ya üye olmuştur.",
-    "examTip": "Türkiye'nin NATO üyeliği 1952'dir; NATO'nun kuruluşu 1949'dur.",
-    "tags": [
-      "NATO"
-    ]
-  },
-  {
-    "id": "cagdas-turk-dunya-q-3",
-    "topicId": "cagdas-turk-dunya",
-    "type": "case",
-    "difficulty": "orta",
-    "stem": "Soğuk Savaş döneminin temel özelliği nedir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "ABD ve SSCB öncülüğünde iki kutuplu bloklaşma"
-      },
-      {
-        "id": "B",
-        "text": "Osmanlı'nın batıda ilk büyük toprak kaybı"
-      },
-      {
-        "id": "C",
-        "text": "Anadolu'nun Türk yurdu olduğunun kesinleşmesi"
-      },
-      {
-        "id": "D",
-        "text": "İlk Osmanlı anayasasının ilanı"
-      },
-      {
-        "id": "E",
-        "text": "Kurultayın toplanması"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Soğuk Savaş, II. Dünya Savaşı sonrasında ABD ve SSCB öncülüğünde oluşan iki kutuplu bloklaşma ve ideolojik rekabet dönemidir.",
-    "examTip": "Soğuk Savaş sorularında NATO-Varşova, kapitalizm-sosyalizm, bloklaşma kavramlarını birlikte düşün.",
-    "tags": [
-      "Soğuk Savaş"
-    ]
-  },
-  {
-    "id": "cagdas-turk-dunya-q-4",
-    "topicId": "cagdas-turk-dunya",
-    "type": "single",
-    "difficulty": "orta",
-    "stem": "Truman Doktrini aşağıdaki amaçlardan hangisiyle ilişkilidir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "Sovyet yayılmacılığına karşı Türkiye ve Yunanistan'ı desteklemek"
-      },
-      {
-        "id": "B",
-        "text": "Boğazları uluslararası komisyona bırakmak"
-      },
-      {
-        "id": "C",
-        "text": "Gazneli Mahmut'un Hindistan seferlerini başlatmak"
-      },
-      {
-        "id": "D",
-        "text": "Tanzimat Fermanı'nı ilan etmek"
-      },
-      {
-        "id": "E",
-        "text": "İlk Türkçe sözlüğü yazmak"
-      }
-    ],
-    "correctChoiceId": "A",
-    "explanation": "Truman Doktrini, Sovyet yayılmacılığına karşı özellikle Türkiye ve Yunanistan'a destek verilmesiyle ilgilidir.",
-    "examTip": "Truman Doktrini askeri-siyasi destek; Marshall Planı ekonomik yardım vurgusuyla ayrılır.",
-    "tags": [
-      "Truman Doktrini"
-    ]
-  },
-  {
-    "id": "cagdas-turk-dunya-q-5",
-    "topicId": "cagdas-turk-dunya",
-    "type": "single",
-    "difficulty": "temel",
-    "stem": "Kıbrıs Barış Harekâtı hangi yıl gerçekleşmiştir?",
-    "choices": [
-      {
-        "id": "A",
-        "text": "1952"
-      },
-      {
-        "id": "B",
-        "text": "1960"
-      },
-      {
-        "id": "C",
-        "text": "1963"
+        "text": "1923"
       },
       {
         "id": "D",
@@ -2705,1317 +4763,3637 @@ export const questions: Question[] = [
       },
       {
         "id": "E",
-        "text": "1980"
+        "text": "1952"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Türkiye 1952’de NATO’ya üye olmuştur.",
+    "examTip": "Bu bilgi dış politika ve çağdaş tarih için kritiktir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-102",
+    "topicId": "cagdas-turk-dunya",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "II. Dünya Savaşı yılları aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "1919-1922"
+      },
+      {
+        "id": "B",
+        "text": "1929-1933"
+      },
+      {
+        "id": "C",
+        "text": "1947-1991"
+      },
+      {
+        "id": "D",
+        "text": "1939-1945"
+      },
+      {
+        "id": "E",
+        "text": "1914-1918"
       }
     ],
     "correctChoiceId": "D",
-    "explanation": "Kıbrıs Barış Harekâtı 1974 yılında gerçekleşmiştir.",
-    "examTip": "Kıbrıs sorularında 1960 Cumhuriyet, 1974 Barış Harekâtı ayrımını kur.",
+    "explanation": "II. Dünya Savaşı 1939-1945 yılları arasında gerçekleşmiştir.",
+    "examTip": "Savaş yılları kronoloji sorularında çıkar.",
     "tags": [
-      "Kıbrıs"
+      "cagdas-turk-dunya",
+      "orta"
     ]
   },
   {
-    "id": "genel-kronoloji-q-1",
-    "topicId": "genel-kronoloji",
+    "id": "q-103",
+    "topicId": "tarih-metodu-kronoloji",
     "type": "chronology",
-    "difficulty": "ileri",
-    "stem": "Aşağıdakilerden hangisi Osmanlı demokratikleşme sürecinde doğru kronolojik sıralamadır?",
+    "difficulty": "temel",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
     "choices": [
       {
         "id": "A",
-        "text": "Tanzimat → Sened-i İttifak → I. Meşrutiyet"
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
       },
       {
         "id": "B",
-        "text": "Sened-i İttifak → Tanzimat → I. Meşrutiyet"
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
       },
       {
         "id": "C",
-        "text": "I. Meşrutiyet → Sened-i İttifak → Tanzimat"
+        "text": "Tarih sorularında doğru cevap çoğu zaman dönem-sonuç uyumuyla bulunur."
       },
       {
         "id": "D",
-        "text": "Tanzimat → I. Meşrutiyet → Sened-i İttifak"
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
       },
       {
         "id": "E",
-        "text": "Sened-i İttifak → I. Meşrutiyet → Tanzimat"
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Tarih sorularında doğru cevap çoğu zaman dönem-sonuç uyumuyla bulunur.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-104",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "chronology",
+    "difficulty": "orta",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir."
+      },
+      {
+        "id": "C",
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
+      },
+      {
+        "id": "E",
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
       }
     ],
     "correctChoiceId": "B",
-    "explanation": "Doğru sıralama Sened-i İttifak (1808), Tanzimat Fermanı (1839), I. Meşrutiyet (1876) şeklindedir.",
-    "examTip": "Bu görseldeki gibi soru gelirse tarihleri sabitle: 1808 < 1839 < 1876.",
+    "explanation": "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
     "tags": [
-      "kronoloji"
+      "tarih-metodu-kronoloji",
+      "orta"
     ]
   },
   {
-    "id": "genel-kronoloji-q-2",
-    "topicId": "genel-kronoloji",
+    "id": "q-105",
+    "topicId": "tarih-metodu-kronoloji",
     "type": "chronology",
     "difficulty": "ileri",
-    "stem": "Aşağıdaki sıralamalardan hangisi doğrudur?",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi konusunda aşağıdaki bilgilerden hangisi doğrudur?",
     "choices": [
       {
         "id": "A",
-        "text": "Karlofça → Pasarofça → Lale Devri"
+        "text": "Öncül sorularında her öncülü ayrı doğru/yanlış olarak işaretlemek gerekir."
       },
       {
         "id": "B",
-        "text": "Pasarofça → Karlofça → Lale Devri"
+        "text": "Bu konu yalnızca İslamiyet öncesi kültürle sınırlıdır."
       },
       {
         "id": "C",
-        "text": "Lale Devri → Karlofça → Pasarofça"
+        "text": "Bu gelişme Cumhuriyet sonrası NATO üyeliğiyle aynıdır."
       },
       {
         "id": "D",
-        "text": "Karlofça → Lale Devri → Pasarofça"
+        "text": "Bu olay Osmanlı kuruluşundan önce gerçekleşmiştir."
       },
       {
         "id": "E",
-        "text": "Pasarofça → Lale Devri → Karlofça"
+        "text": "Bu bilgi kronolojiyle ilgisizdir."
       }
     ],
     "correctChoiceId": "A",
-    "explanation": "Karlofça 1699, Pasarofça 1718, Lale Devri 1718-1730 aralığıdır.",
-    "examTip": "Karlofça ilk büyük kayıp; Pasarofça Batı etkisi ve Lale Devri'ne zemin.",
+    "explanation": "Öncül sorularında her öncülü ayrı doğru/yanlış olarak işaretlemek gerekir.",
+    "examTip": "Doğru seçenek konuya ait temel ayırt edici bilgiyi verir.",
     "tags": [
-      "Karlofça",
-      "Pasarofça",
-      "Lale Devri"
+      "tarih-metodu-kronoloji",
+      "ileri"
     ]
   },
   {
-    "id": "genel-kronoloji-q-3",
-    "topicId": "genel-kronoloji",
+    "id": "q-106",
+    "topicId": "tarih-metodu-kronoloji",
     "type": "chronology",
-    "difficulty": "ileri",
-    "stem": "Milli Mücadele hazırlık döneminde doğru kronolojik sıralama hangisidir?",
+    "difficulty": "temel",
+    "stem": "Kronoloji sorularında en güvenli yöntem hangisidir?",
     "choices": [
       {
         "id": "A",
-        "text": "Sivas Kongresi → Amasya Genelgesi → Erzurum Kongresi"
+        "text": "Seçenekleri rastgele elemek"
       },
       {
         "id": "B",
-        "text": "Amasya Genelgesi → Erzurum Kongresi → Sivas Kongresi"
+        "text": "Yalnızca en uzun seçeneği seçmek"
       },
       {
         "id": "C",
-        "text": "Erzurum Kongresi → Sivas Kongresi → Amasya Genelgesi"
+        "text": "Kişi adlarını yok saymak"
       },
       {
         "id": "D",
-        "text": "Amasya Genelgesi → Sivas Kongresi → Erzurum Kongresi"
+        "text": "Tüm olayları aynı dönemde kabul etmek"
       },
       {
         "id": "E",
-        "text": "Sivas Kongresi → Erzurum Kongresi → Amasya Genelgesi"
+        "text": "Olayları neden-sonuç ilişkisiyle sıralamak"
       }
     ],
-    "correctChoiceId": "B",
-    "explanation": "Amasya Genelgesi 22 Haziran 1919, Erzurum Kongresi Temmuz-Ağustos 1919, Sivas Kongresi Eylül 1919'dur.",
-    "examTip": "Hazırlık dönemi sırası: Samsun, Havza, Amasya, Erzurum, Sivas.",
+    "correctChoiceId": "E",
+    "explanation": "Kronoloji sorularında olayların neden-sonuç sırası yıllardan daha güvenli ipucu sağlar.",
+    "examTip": "Sıralama sorusunda önce dönüm noktalarını bul.",
     "tags": [
-      "Amasya",
-      "Erzurum",
-      "Sivas"
+      "tarih-metodu-kronoloji",
+      "temel"
     ]
   },
   {
-    "id": "genel-kronoloji-q-4",
-    "topicId": "genel-kronoloji",
-    "type": "chronology",
-    "difficulty": "ileri",
-    "stem": "Kurtuluş Savaşı sürecinde doğru sıralama aşağıdakilerden hangisidir?",
+    "id": "q-107",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "single",
+    "difficulty": "orta",
+    "stem": "Öncül sorularında yapılması gereken ilk işlem nedir?",
     "choices": [
       {
         "id": "A",
-        "text": "Lozan → Gümrü → Sakarya → Mudanya"
+        "text": "Tüm öncülleri doğru kabul etmek"
       },
       {
         "id": "B",
-        "text": "Gümrü → Sakarya → Mudanya → Lozan"
+        "text": "Konu dışı bilgileri seçmek"
       },
       {
         "id": "C",
-        "text": "Sakarya → Gümrü → Lozan → Mudanya"
+        "text": "Aynı kelime geçen seçeneği işaretlemek"
       },
       {
         "id": "D",
-        "text": "Mudanya → Sakarya → Gümrü → Lozan"
+        "text": "Her öncülü ayrı ayrı doğru/yanlış değerlendirmek"
       },
       {
         "id": "E",
-        "text": "Gümrü → Mudanya → Sakarya → Lozan"
+        "text": "Sadece ilk öncüle bakmak"
       }
     ],
-    "correctChoiceId": "B",
-    "explanation": "Gümrü 1920, Sakarya 1921, Mudanya 1922 ve Lozan 1923'tür.",
-    "examTip": "Ateşkes/barış ayrımını kronolojiyle birlikte kur.",
+    "correctChoiceId": "D",
+    "explanation": "Öncül sorularında her madde bağımsız değerlendirilmelidir.",
+    "examTip": "Öncül analizi sabır ister.",
     "tags": [
-      "Gümrü",
-      "Sakarya",
-      "Mudanya",
-      "Lozan"
+      "tarih-metodu-kronoloji",
+      "orta"
     ]
   },
   {
-    "id": "genel-kronoloji-q-5",
-    "topicId": "genel-kronoloji",
-    "type": "chronology",
+    "id": "q-108",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "single",
     "difficulty": "ileri",
-    "stem": "Aşağıdaki inkılaplardan hangisi kronolojik olarak doğru sıralanmıştır?",
+    "stem": "Bir tarih bilgisinin doğru cevap olabilmesi için hangisi gerekir?",
     "choices": [
       {
         "id": "A",
-        "text": "Soyadı Kanunu → Halifeliğin kaldırılması → Harf İnkılabı"
+        "text": "Modern kavram içermesi"
       },
       {
         "id": "B",
-        "text": "Halifeliğin kaldırılması → Harf İnkılabı → Soyadı Kanunu"
+        "text": "Aynı kelimeyi tekrarlaması"
       },
       {
         "id": "C",
-        "text": "Harf İnkılabı → Soyadı Kanunu → Halifeliğin kaldırılması"
+        "text": "Soru kökündeki dönem ve sonuçla uyumlu olması"
       },
       {
         "id": "D",
-        "text": "Soyadı Kanunu → Harf İnkılabı → Halifeliğin kaldırılması"
+        "text": "Genel olarak doğru olması yeterlidir"
       },
       {
         "id": "E",
-        "text": "Harf İnkılabı → Halifeliğin kaldırılması → Soyadı Kanunu"
+        "text": "En uzun seçenek olması"
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Doğru bilgi yanlış döneme aitse çeldirici olabilir.",
+    "examTip": "Soru kökü sınır koyar.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-109",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "single",
+    "difficulty": "temel",
+    "stem": "Belge-olay eşleştirmelerinde en önemli kontrol nedir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Renk uyumu"
+      },
+      {
+        "id": "B",
+        "text": "Belgenin tarihsel bağlamı ve sonucu"
+      },
+      {
+        "id": "C",
+        "text": "Yazı puntosu"
+      },
+      {
+        "id": "D",
+        "text": "Seçenek uzunluğu"
+      },
+      {
+        "id": "E",
+        "text": "Alfabetik sıra"
       }
     ],
     "correctChoiceId": "B",
-    "explanation": "Halifeliğin kaldırılması 1924, Harf İnkılabı 1928, Soyadı Kanunu 1934'tür.",
-    "examTip": "İnkılap kronolojisinde 1924 laikleşme, 1928 harf, 1934 soyadı/siyasal haklar öne çıkar.",
+    "explanation": "Belgenin hangi olay veya dönemin sonucu olduğunu bilmek doğru eşleştirme sağlar.",
+    "examTip": "Belgeyi sonuçla birlikte öğren.",
     "tags": [
-      "inkılap kronolojisi"
+      "tarih-metodu-kronoloji",
+      "temel"
+    ]
+  },
+  {
+    "id": "q-110",
+    "topicId": "osmanli-yenilesme",
+    "type": "chronology",
+    "difficulty": "ileri",
+    "stem": "Aşağıdaki gelişmelerin kronolojik sıralaması hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Sened-i İttifak → Tanzimat Fermanı → Islahat Fermanı → Kanun-i Esasi"
+      },
+      {
+        "id": "B",
+        "text": "Tanzimat Fermanı → Sened-i İttifak → Kanun-i Esasi → Islahat Fermanı"
+      },
+      {
+        "id": "C",
+        "text": "Islahat Fermanı → Sened-i İttifak → Tanzimat Fermanı → Kanun-i Esasi"
+      },
+      {
+        "id": "D",
+        "text": "Kanun-i Esasi → Tanzimat Fermanı → Sened-i İttifak → Islahat Fermanı"
+      },
+      {
+        "id": "E",
+        "text": "Sened-i İttifak → Kanun-i Esasi → Tanzimat Fermanı → Islahat Fermanı"
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Doğru sıralama 1808 Sened-i İttifak, 1839 Tanzimat, 1856 Islahat, 1876 Kanun-i Esasi şeklindedir.",
+    "examTip": "Kronolojide ana yılları zihinsel çıpa olarak tut.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-111",
+    "topicId": "kurtulus-savasi",
+    "type": "chronology",
+    "difficulty": "ileri",
+    "stem": "Kurtuluş Savaşı diplomatik gelişmelerinin doğru sırası hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Lozan → Gümrü → Mudanya → Ankara"
+      },
+      {
+        "id": "B",
+        "text": "Ankara → Lozan → Gümrü → Mudanya"
+      },
+      {
+        "id": "C",
+        "text": "Mudanya → Gümrü → Lozan → Ankara"
+      },
+      {
+        "id": "D",
+        "text": "Gümrü → Lozan → Ankara → Mudanya"
+      },
+      {
+        "id": "E",
+        "text": "Gümrü → Ankara Antlaşması → Mudanya → Lozan"
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Doğru sıra 1920 Gümrü, 1921 Ankara, 1922 Mudanya, 1923 Lozan’dır.",
+    "examTip": "Antlaşma sıralarında yıl ve cephe bağlantısı kullan.",
+    "tags": [
+      "kurtulus-savasi",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-112",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "chronology",
+    "difficulty": "ileri",
+    "stem": "Cumhuriyet dönemi dış politika gelişmelerinin doğru sırası hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Hatay’ın katılması → Musul’un çözümü → Montrö → Sadabat → Balkan"
+      },
+      {
+        "id": "B",
+        "text": "Balkan Antantı → Musul’un çözümü → Sadabat → Montrö → Hatay"
+      },
+      {
+        "id": "C",
+        "text": "Musul’un çözümü → Montrö → Balkan Antantı → Hatay → Sadabat"
+      },
+      {
+        "id": "D",
+        "text": "Musul’un çözümü → Balkan Antantı → Montrö → Sadabat Paktı → Hatay’ın katılması"
+      },
+      {
+        "id": "E",
+        "text": "Montrö → Musul’un çözümü → Hatay’ın katılması → Balkan Antantı → Sadabat"
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Doğru sıra 1926 Musul, 1934 Balkan Antantı, 1936 Montrö, 1937 Sadabat, 1939 Hatay’dır.",
+    "examTip": "Dış politikada 1926-1939 çıpalarını kullan.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ileri"
+    ]
+  },
+  {
+    "id": "q-113",
+    "topicId": "islamiyet-oncesi",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "İslamiyet Öncesi Türk Tarihi için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Türk tarihinin ilk bilgileri Çin kaynaklarında görülür; Türk adının geçtiği ilk millî yazılı kaynak Orhun Yazıtlarıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "islamiyet-oncesi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-114",
+    "topicId": "islamiyet-oncesi",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "İslamiyet Öncesi Türk Tarihi çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Devlet adı olarak Türk adını kullanan ilk siyasi yapı Göktürklerdir."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "islamiyet-oncesi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-115",
+    "topicId": "islamiyet-oncesi",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "İslamiyet Öncesi Türk Tarihi konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Kut anlayışını halk egemenliği sanmak."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "islamiyet-oncesi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-116",
+    "topicId": "islamiyet-oncesi",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "İslamiyet Öncesi Türk Tarihi konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "islamiyet-oncesi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-117",
+    "topicId": "turk-islam",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Türk-İslam Tarihi için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "İlk Müslüman Türk devleti Karahanlılardır."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "turk-islam",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-118",
+    "topicId": "turk-islam",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Türk-İslam Tarihi çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Put Kırıcı unvanı Hindistan seferleriyle tanınan Gazneli Mahmut’a aittir."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "turk-islam",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-119",
+    "topicId": "turk-islam",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Türk-İslam Tarihi konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Put Kırıcıyı Artuklu, Karahanlı veya Anadolu Selçuklu kişisi sanmak."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "turk-islam",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-120",
+    "topicId": "turk-islam",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Türk-İslam Tarihi konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "turk-islam",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-121",
+    "topicId": "anadolu-selcuklu",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Anadolu Selçuklu ve Beylikler için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Miryokefalon, Anadolu’nun Türk yurdu olduğunun kesinleşmesiyle ilişkilidir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "anadolu-selcuklu",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-122",
+    "topicId": "anadolu-selcuklu",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Anadolu Selçuklu ve Beylikler çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Kösedağ, Türkiye Selçuklu merkezi otoritesini zayıflatıp beylikler dönemini güçlendirmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "anadolu-selcuklu",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-123",
+    "topicId": "anadolu-selcuklu",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Anadolu Selçuklu ve Beylikler konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Miryokefalon’u Anadolu’nun kapılarının açılması saymak; bu Malazgirt’tir."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "anadolu-selcuklu",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-124",
+    "topicId": "anadolu-selcuklu",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Anadolu Selçuklu ve Beylikler konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "anadolu-selcuklu",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-125",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kuruluş ve Yükseliş için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Osmanlı’nın kısa sürede büyümesinde Bizans’ın zayıflığı, uç beyliği konumu ve iskan politikası etkilidir."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-126",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kuruluş ve Yükseliş çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Çimpe Rumeli’ye geçişte üs niteliğindedir."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-127",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Çimpe’yi başkent sanmak."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-128",
+    "topicId": "osmanli-kurulus-yukselis",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kuruluş ve Yükseliş konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-129",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Osmanlı Kültür ve Medeniyet için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Divan-ı Hümayun merkez yönetimin danışma ve karar organıdır."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-130",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kültür ve Medeniyet çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Seyfiye yönetim ve askerlik, ilmiye eğitim-hukuk-din, kalemiye yazışma-maliye bürokrasisidir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-131",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Tımarı özel mülkiyet sanmak."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-132",
+    "topicId": "osmanli-kultur-medeniyet",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Kültür ve Medeniyet konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "osmanli-kultur-medeniyet",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-133",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Osmanlı Duraklama ve Gerileme için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-134",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Duraklama ve Gerileme çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Lale Devri’nde Batı tarzı yeniliklere ilgi artmıştır."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-135",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Karlofça ile Pasarofça sonucunu karıştırmak."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-136",
+    "topicId": "osmanli-duraklama-gerileme",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Duraklama ve Gerileme konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-137",
+    "topicId": "osmanli-yenilesme",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-138",
+    "topicId": "osmanli-yenilesme",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Tanzimat can, mal, namus güvenliği ve hukuki eşitlik vurgusuyla öne çıkar."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-139",
+    "topicId": "osmanli-yenilesme",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Sened-i İttifak’ı Tanzimat’tan sonra sanmak."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-140",
+    "topicId": "osmanli-yenilesme",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Osmanlı Yenileşme ve Demokratikleşme konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "osmanli-yenilesme",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-141",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Milli Mücadele Hazırlık Dönemi için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Amasya Genelgesi Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklar."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-142",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Milli Mücadele Hazırlık Dönemi çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-143",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Havza ile Amasya’nın rolünü karıştırmak."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-144",
+    "topicId": "milli-mucadele-hazirlik",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Milli Mücadele Hazırlık Dönemi konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "milli-mucadele-hazirlik",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-145",
+    "topicId": "kurtulus-savasi",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "kurtulus-savasi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-146",
+    "topicId": "kurtulus-savasi",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Güney Cephesi Ankara Antlaşması ile büyük ölçüde kapanmıştır."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "kurtulus-savasi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-147",
+    "topicId": "kurtulus-savasi",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Mudanya’yı barış antlaşması sanmak."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "kurtulus-savasi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-148",
+    "topicId": "kurtulus-savasi",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Kurtuluş Savaşı ve Antlaşmalar konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "kurtulus-savasi",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-149",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Atatürk İlke ve İnkılapları için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Cumhuriyetçilik milli egemenlik ve seçimle gelen yönetimle ilgilidir."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-150",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Atatürk İlke ve İnkılapları çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Laiklik din ve devlet işlerinin ayrılması, hukuk ve eğitimde akılcı düzenle ilgilidir."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-151",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Atatürk İlke ve İnkılapları konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Devletçiliği sosyalizm sanmak."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-152",
+    "topicId": "ataturk-ilke-inkilap",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Atatürk İlke ve İnkılapları konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "ataturk-ilke-inkilap",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-153",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Cumhuriyet Dönemi Dış Politika için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Montrö Boğazlar üzerindeki Türk egemenliğini güçlendirmiştir."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-154",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Cumhuriyet Dönemi Dış Politika çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Hatay sorunu Atatürk döneminde gündeme gelmiş, 1939’da Türkiye’ye katılmıştır."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-155",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Montrö’yü Lozan’ın yerine geçmiş genel barış antlaşması sanmak."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-156",
+    "topicId": "cumhuriyet-dis-politika",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Cumhuriyet Dönemi Dış Politika konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-157",
+    "topicId": "cagdas-turk-dunya",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Çağdaş Türk ve Dünya Tarihi için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu düzeni ifade eder."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-158",
+    "topicId": "cagdas-turk-dunya",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Çağdaş Türk ve Dünya Tarihi çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "B",
+        "text": "Türkiye 1952’de NATO’ya üye olmuştur."
+      },
+      {
+        "id": "C",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "D",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "E",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      }
+    ],
+    "correctChoiceId": "B",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-159",
+    "topicId": "cagdas-turk-dunya",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "NATO ve BM kuruluş amaçlarını karıştırmak."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-160",
+    "topicId": "cagdas-turk-dunya",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Çağdaş Türk ve Dünya Tarihi konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "cagdas-turk-dunya",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-161",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "case",
+    "difficulty": "temel",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi için aşağıdaki kavram-eşleştirmelerden hangisi doğrudur?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "B",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "D",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "E",
+        "text": "Tarih sorularında doğru cevap çoğu zaman dönem-sonuç uyumuyla bulunur."
+      }
+    ],
+    "correctChoiceId": "E",
+    "explanation": "Konuya ait temel bilgi doğru seçenekte verilmiştir.",
+    "examTip": "Kavram-eşleştirme sorularında dönem ve sonuç birlikte kontrol edilir.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-162",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi çalışırken aşağıdaki yargılardan hangisi KPSS açısından ayırt edicidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "B",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "C",
+        "text": "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir."
+      },
+      {
+        "id": "D",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "E",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      }
+    ],
+    "correctChoiceId": "C",
+    "explanation": "Bu yargı konunun KPSS’de en sık yoklanan ayırt edici bilgisidir.",
+    "examTip": "Ayırt edici bilgi genellikle doğru cevabı doğrudan verir.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-163",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "case",
+    "difficulty": "ileri",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi konusunda öğrencilerin kaçınması gereken hata hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Bütün doğru bilgileri doğru cevap sanmak; soru kökü dönem sınırı koyabilir."
+      },
+      {
+        "id": "B",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      },
+      {
+        "id": "C",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "D",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "E",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      }
+    ],
+    "correctChoiceId": "A",
+    "explanation": "Doğru seçenek, bu konuda sık yapılan kavram veya kronoloji hatasını ifade eder.",
+    "examTip": "Sık hata soruları çeldirici yakalama becerisini ölçer.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "ek-genisletme"
+    ]
+  },
+  {
+    "id": "q-164",
+    "topicId": "tarih-metodu-kronoloji",
+    "type": "case",
+    "difficulty": "orta",
+    "stem": "Tarih Metodu ve Kronoloji Becerisi konusunun doğru çalışma stratejisi aşağıdakilerden hangisidir?",
+    "choices": [
+      {
+        "id": "A",
+        "text": "Yalnızca seçenek uzunluğuna göre cevap vermek."
+      },
+      {
+        "id": "B",
+        "text": "Kronoloji ve sonuç ilişkisini tamamen yok saymak."
+      },
+      {
+        "id": "C",
+        "text": "Her doğru görünen bilgiyi soru kökünden bağımsız kabul etmek."
+      },
+      {
+        "id": "D",
+        "text": "Kavramı, dönemi, sonucu ve sık karıştırılan çeldiriciyi birlikte öğrenmek."
+      },
+      {
+        "id": "E",
+        "text": "Bütün bilgileri dönem ayrımı yapmadan aynı başlıkta toplamak."
+      }
+    ],
+    "correctChoiceId": "D",
+    "explanation": "KPSS Tarih için kalıcı öğrenme kavram-dönem-sonuç-çeldirici ilişkisi kurulduğunda güçlenir.",
+    "examTip": "Salt ezber yerine aktif hatırlama ve açıklamalı soru çözümü kullan.",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "ek-genisletme"
     ]
   }
 ];
 
 export const flashcards: Flashcard[] = [
   {
-    "id": "islamiyet-oncesi-card-1",
+    "id": "fc-001",
+    "topicId": "islamiyet-oncesi",
+    "front": "Türk adı",
+    "back": "Türk tarihinin ilk bilgileri Çin kaynaklarında görülür; Türk adının geçtiği ilk millî yazılı kaynak Orhun Yazıtlarıdır.",
+    "hint": "İslamiyet Öncesi Türk Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "islamiyet-oncesi",
+      "Türk adı"
+    ]
+  },
+  {
+    "id": "fc-002",
+    "topicId": "islamiyet-oncesi",
+    "front": "Orta Asya",
+    "back": "Orta Asya, İslamiyet Öncesi Türk Tarihi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "İslamiyet Öncesi Türk Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "islamiyet-oncesi",
+      "Orta Asya"
+    ]
+  },
+  {
+    "id": "fc-003",
     "topicId": "islamiyet-oncesi",
     "front": "kut",
-    "back": "kut, İslamiyet Öncesi Türk Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "İslamiyet Öncesi Türk Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Kut hükümdarlık yetkisinin Tanrı tarafından verildiği inancıdır; demokratik seçim değildir.",
+    "hint": "İslamiyet Öncesi Türk Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "İslamiyet Öncesi Türk Tarihi",
+      "islamiyet-oncesi",
       "kut"
     ]
   },
   {
-    "id": "islamiyet-oncesi-card-2",
+    "id": "fc-004",
     "topicId": "islamiyet-oncesi",
     "front": "töre",
-    "back": "töre, İslamiyet Öncesi Türk Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "İslamiyet Öncesi Türk Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Töre yazısız hukuk düzenidir ve hükümdarın keyfî davranmasını sınırlar.",
+    "hint": "İslamiyet Öncesi Türk Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "İslamiyet Öncesi Türk Tarihi",
+      "islamiyet-oncesi",
       "töre"
     ]
   },
   {
-    "id": "islamiyet-oncesi-card-3",
+    "id": "fc-005",
     "topicId": "islamiyet-oncesi",
     "front": "kurultay",
-    "back": "kurultay, İslamiyet Öncesi Türk Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "İslamiyet Öncesi Türk Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Kurultay danışma meclisidir; son söz çoğu zaman kağanındır.",
+    "hint": "İslamiyet Öncesi Türk Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "İslamiyet Öncesi Türk Tarihi",
+      "islamiyet-oncesi",
       "kurultay"
     ]
   },
   {
-    "id": "islamiyet-oncesi-card-4",
-    "topicId": "islamiyet-oncesi",
-    "front": "ikili teşkilat",
-    "back": "ikili teşkilat, İslamiyet Öncesi Türk Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "İslamiyet Öncesi Türk Tarihi içindeki sınav bağlamını hatırla.",
+    "id": "fc-006",
+    "topicId": "turk-islam",
+    "front": "Talas",
+    "back": "Talas, Türk-İslam Tarihi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Türk-İslam Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "İslamiyet Öncesi Türk Tarihi",
-      "ikili teşkilat"
+      "turk-islam",
+      "Talas"
     ]
   },
   {
-    "id": "islamiyet-oncesi-card-5",
-    "topicId": "islamiyet-oncesi",
-    "front": "Orhun Yazıtları",
-    "back": "Orhun Yazıtları, İslamiyet Öncesi Türk Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "İslamiyet Öncesi Türk Tarihi içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "İslamiyet Öncesi Türk Tarihi",
-      "Orhun Yazıtları"
-    ]
-  },
-  {
-    "id": "turk-islam-card-1",
+    "id": "fc-007",
     "topicId": "turk-islam",
     "front": "Karahanlılar",
-    "back": "Karahanlılar, Türk-İslam Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Türk-İslam Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "İlk Müslüman Türk devleti Karahanlılardır.",
+    "hint": "Türk-İslam Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Türk-İslam Tarihi",
+      "turk-islam",
       "Karahanlılar"
     ]
   },
   {
-    "id": "turk-islam-card-2",
+    "id": "fc-008",
     "topicId": "turk-islam",
     "front": "Gazneli Mahmut",
-    "back": "Gazneli Mahmut, Türk-İslam Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Türk-İslam Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Put Kırıcı unvanı Hindistan seferleriyle tanınan Gazneli Mahmut’a aittir.",
+    "hint": "Türk-İslam Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Türk-İslam Tarihi",
+      "turk-islam",
       "Gazneli Mahmut"
     ]
   },
   {
-    "id": "turk-islam-card-3",
+    "id": "fc-009",
     "topicId": "turk-islam",
     "front": "Put kırıcı",
-    "back": "Put kırıcı unvanı Gazneli Mahmut ile ilişkilidir; Hindistan seferlerinde putları kırması nedeniyle kullanılır.",
-    "hint": "Türk-İslam Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Put Kırıcı unvanı Hindistan seferleriyle tanınan Gazneli Mahmut’a aittir.",
+    "hint": "Türk-İslam Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Türk-İslam Tarihi",
+      "turk-islam",
       "Put kırıcı"
     ]
   },
   {
-    "id": "turk-islam-card-4",
+    "id": "fc-010",
     "topicId": "turk-islam",
     "front": "Dandanakan",
-    "back": "Dandanakan, Türk-İslam Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Türk-İslam Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Dandanakan Savaşı Selçukluların Gaznelilere karşı siyasi üstünlük kazandığı dönüm noktasıdır.",
+    "hint": "Türk-İslam Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Türk-İslam Tarihi",
+      "turk-islam",
       "Dandanakan"
     ]
   },
   {
-    "id": "turk-islam-card-5",
-    "topicId": "turk-islam",
-    "front": "İkta",
-    "back": "İkta, Türk-İslam Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Türk-İslam Tarihi içindeki sınav bağlamını hatırla.",
+    "id": "fc-011",
+    "topicId": "anadolu-selcuklu",
+    "front": "Malazgirt",
+    "back": "Malazgirt, Anadolu Selçuklu ve Beylikler konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Anadolu Selçuklu ve Beylikler başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Türk-İslam Tarihi",
-      "İkta"
+      "anadolu-selcuklu",
+      "Malazgirt"
     ]
   },
   {
-    "id": "anadolu-selcuklu-card-1",
+    "id": "fc-012",
     "topicId": "anadolu-selcuklu",
     "front": "Miryokefalon",
-    "back": "Miryokefalon, Anadolu Selçuklu ve Beylikler konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Anadolu Selçuklu ve Beylikler içindeki sınav bağlamını hatırla.",
+    "back": "Miryokefalon, Anadolu’nun Türk yurdu olduğunun kesinleşmesiyle ilişkilidir.",
+    "hint": "Anadolu Selçuklu ve Beylikler başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Anadolu Selçuklu ve Beylikler",
+      "anadolu-selcuklu",
       "Miryokefalon"
     ]
   },
   {
-    "id": "anadolu-selcuklu-card-2",
+    "id": "fc-013",
     "topicId": "anadolu-selcuklu",
     "front": "Kösedağ",
-    "back": "Kösedağ, Anadolu Selçuklu ve Beylikler konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Anadolu Selçuklu ve Beylikler içindeki sınav bağlamını hatırla.",
+    "back": "Kösedağ, Türkiye Selçuklu merkezi otoritesini zayıflatıp beylikler dönemini güçlendirmiştir.",
+    "hint": "Anadolu Selçuklu ve Beylikler başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Anadolu Selçuklu ve Beylikler",
+      "anadolu-selcuklu",
       "Kösedağ"
     ]
   },
   {
-    "id": "anadolu-selcuklu-card-3",
+    "id": "fc-014",
     "topicId": "anadolu-selcuklu",
-    "front": "kervansaray",
-    "back": "kervansaray, Anadolu Selçuklu ve Beylikler konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Anadolu Selçuklu ve Beylikler içindeki sınav bağlamını hatırla.",
+    "front": "Haçlı Seferleri",
+    "back": "Haçlı Seferleri, Anadolu Selçuklu ve Beylikler konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Anadolu Selçuklu ve Beylikler başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Anadolu Selçuklu ve Beylikler",
-      "kervansaray"
+      "anadolu-selcuklu",
+      "Haçlı Seferleri"
     ]
   },
   {
-    "id": "anadolu-selcuklu-card-4",
+    "id": "fc-015",
     "topicId": "anadolu-selcuklu",
-    "front": "ahilik",
-    "back": "ahilik, Anadolu Selçuklu ve Beylikler konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Anadolu Selçuklu ve Beylikler içindeki sınav bağlamını hatırla.",
+    "front": "Kervansaray",
+    "back": "Kervansaraylar ticaret yollarında güvenlik ve konaklama sağlar.",
+    "hint": "Anadolu Selçuklu ve Beylikler başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Anadolu Selçuklu ve Beylikler",
-      "ahilik"
+      "anadolu-selcuklu",
+      "Kervansaray"
     ]
   },
   {
-    "id": "anadolu-selcuklu-card-5",
-    "topicId": "anadolu-selcuklu",
-    "front": "Artuklular",
-    "back": "Artuklular Mardin, Diyarbakır ve Harput çevresinde etkili olmuş; Malabadi Köprüsü ve El-Cezeri ile öne çıkmıştır.",
-    "hint": "Anadolu Selçuklu ve Beylikler içindeki sınav bağlamını hatırla.",
+    "id": "fc-016",
+    "topicId": "osmanli-kurulus-yukselis",
+    "front": "Kayı",
+    "back": "Kayı, Osmanlı Kuruluş ve Yükseliş konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kuruluş ve Yükseliş başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Anadolu Selçuklu ve Beylikler",
-      "Artuklular"
+      "osmanli-kurulus-yukselis",
+      "Kayı"
     ]
   },
   {
-    "id": "osmanli-kurulus-yukselis-card-1",
+    "id": "fc-017",
+    "topicId": "osmanli-kurulus-yukselis",
+    "front": "Bilecik",
+    "back": "Bilecik, Osmanlı Kuruluş ve Yükseliş konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kuruluş ve Yükseliş başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-kurulus-yukselis",
+      "Bilecik"
+    ]
+  },
+  {
+    "id": "fc-018",
     "topicId": "osmanli-kurulus-yukselis",
     "front": "Çimpe",
-    "back": "Çimpe, Osmanlı Kuruluş ve Yükseliş konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kuruluş ve Yükseliş içindeki sınav bağlamını hatırla.",
+    "back": "Çimpe Rumeli’ye geçişte üs niteliğindedir.",
+    "hint": "Osmanlı Kuruluş ve Yükseliş başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kuruluş ve Yükseliş",
+      "osmanli-kurulus-yukselis",
       "Çimpe"
     ]
   },
   {
-    "id": "osmanli-kurulus-yukselis-card-2",
+    "id": "fc-019",
     "topicId": "osmanli-kurulus-yukselis",
-    "front": "iskan",
-    "back": "iskan, Osmanlı Kuruluş ve Yükseliş konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kuruluş ve Yükseliş içindeki sınav bağlamını hatırla.",
+    "front": "İskan",
+    "back": "İskan, Osmanlı Kuruluş ve Yükseliş konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kuruluş ve Yükseliş başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kuruluş ve Yükseliş",
-      "iskan"
+      "osmanli-kurulus-yukselis",
+      "İskan"
     ]
   },
   {
-    "id": "osmanli-kurulus-yukselis-card-3",
+    "id": "fc-020",
     "topicId": "osmanli-kurulus-yukselis",
-    "front": "devşirme",
-    "back": "devşirme, Osmanlı Kuruluş ve Yükseliş konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kuruluş ve Yükseliş içindeki sınav bağlamını hatırla.",
+    "front": "Devşirme",
+    "back": "Devşirme sistemi kapıkulu ordusu ve merkezî bürokrasiyle ilgilidir.",
+    "hint": "Osmanlı Kuruluş ve Yükseliş başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kuruluş ve Yükseliş",
-      "devşirme"
+      "osmanli-kurulus-yukselis",
+      "Devşirme"
     ]
   },
   {
-    "id": "osmanli-kurulus-yukselis-card-4",
-    "topicId": "osmanli-kurulus-yukselis",
-    "front": "İstanbul'un fethi",
-    "back": "İstanbul'un fethi, Osmanlı Kuruluş ve Yükseliş konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kuruluş ve Yükseliş içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Osmanlı Kuruluş ve Yükseliş",
-      "İstanbul'un fethi"
-    ]
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-card-5",
-    "topicId": "osmanli-kurulus-yukselis",
-    "front": "Fatih Kanunnamesi",
-    "back": "Fatih Kanunnamesi, Osmanlı Kuruluş ve Yükseliş konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kuruluş ve Yükseliş içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Osmanlı Kuruluş ve Yükseliş",
-      "Fatih Kanunnamesi"
-    ]
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-card-1",
+    "id": "fc-021",
     "topicId": "osmanli-kultur-medeniyet",
     "front": "Divan-ı Hümayun",
-    "back": "Divan-ı Hümayun, Osmanlı Kültür ve Medeniyet konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kültür ve Medeniyet içindeki sınav bağlamını hatırla.",
+    "back": "Divan-ı Hümayun merkez yönetimin danışma ve karar organıdır.",
+    "hint": "Osmanlı Kültür ve Medeniyet başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kültür ve Medeniyet",
+      "osmanli-kultur-medeniyet",
       "Divan-ı Hümayun"
     ]
   },
   {
-    "id": "osmanli-kultur-medeniyet-card-2",
+    "id": "fc-022",
     "topicId": "osmanli-kultur-medeniyet",
-    "front": "tımar",
-    "back": "tımar, Osmanlı Kültür ve Medeniyet konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kültür ve Medeniyet içindeki sınav bağlamını hatırla.",
+    "front": "Sadrazam",
+    "back": "Sadrazam, Osmanlı Kültür ve Medeniyet konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kültür ve Medeniyet başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kültür ve Medeniyet",
-      "tımar"
+      "osmanli-kultur-medeniyet",
+      "Sadrazam"
     ]
   },
   {
-    "id": "osmanli-kultur-medeniyet-card-3",
+    "id": "fc-023",
     "topicId": "osmanli-kultur-medeniyet",
-    "front": "ilmiye",
-    "back": "ilmiye, Osmanlı Kültür ve Medeniyet konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kültür ve Medeniyet içindeki sınav bağlamını hatırla.",
+    "front": "Şeyhülislam",
+    "back": "Şeyhülislam, Osmanlı Kültür ve Medeniyet konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kültür ve Medeniyet başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kültür ve Medeniyet",
-      "ilmiye"
+      "osmanli-kultur-medeniyet",
+      "Şeyhülislam"
     ]
   },
   {
-    "id": "osmanli-kultur-medeniyet-card-4",
+    "id": "fc-024",
     "topicId": "osmanli-kultur-medeniyet",
-    "front": "kalemiye",
-    "back": "kalemiye, Osmanlı Kültür ve Medeniyet konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kültür ve Medeniyet içindeki sınav bağlamını hatırla.",
+    "front": "Defterdar",
+    "back": "Defterdar, Osmanlı Kültür ve Medeniyet konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kültür ve Medeniyet başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kültür ve Medeniyet",
-      "kalemiye"
+      "osmanli-kultur-medeniyet",
+      "Defterdar"
     ]
   },
   {
-    "id": "osmanli-kultur-medeniyet-card-5",
+    "id": "fc-025",
     "topicId": "osmanli-kultur-medeniyet",
-    "front": "seyfiye",
-    "back": "seyfiye, Osmanlı Kültür ve Medeniyet konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Kültür ve Medeniyet içindeki sınav bağlamını hatırla.",
+    "front": "Nişancı",
+    "back": "Nişancı, Osmanlı Kültür ve Medeniyet konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Kültür ve Medeniyet başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Kültür ve Medeniyet",
-      "seyfiye"
+      "osmanli-kultur-medeniyet",
+      "Nişancı"
     ]
   },
   {
-    "id": "osmanli-yenilesme-card-1",
-    "topicId": "osmanli-yenilesme",
+    "id": "fc-026",
+    "topicId": "osmanli-duraklama-gerileme",
     "front": "Karlofça",
-    "back": "Karlofça, Osmanlı Yenileşme ve Demokratikleşme konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Yenileşme ve Demokratikleşme içindeki sınav bağlamını hatırla.",
+    "back": "Karlofça Osmanlı’nın batıda ilk büyük toprak kaybıdır.",
+    "hint": "Osmanlı Duraklama ve Gerileme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Yenileşme ve Demokratikleşme",
+      "osmanli-duraklama-gerileme",
       "Karlofça"
     ]
   },
   {
-    "id": "osmanli-yenilesme-card-2",
-    "topicId": "osmanli-yenilesme",
+    "id": "fc-027",
+    "topicId": "osmanli-duraklama-gerileme",
     "front": "Pasarofça",
-    "back": "Pasarofça, Osmanlı Yenileşme ve Demokratikleşme konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Yenileşme ve Demokratikleşme içindeki sınav bağlamını hatırla.",
+    "back": "Pasarofça, Osmanlı Duraklama ve Gerileme konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Duraklama ve Gerileme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Yenileşme ve Demokratikleşme",
+      "osmanli-duraklama-gerileme",
       "Pasarofça"
     ]
   },
   {
-    "id": "osmanli-yenilesme-card-3",
-    "topicId": "osmanli-yenilesme",
+    "id": "fc-028",
+    "topicId": "osmanli-duraklama-gerileme",
     "front": "Lale Devri",
-    "back": "Lale Devri, Osmanlı Yenileşme ve Demokratikleşme konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Yenileşme ve Demokratikleşme içindeki sınav bağlamını hatırla.",
+    "back": "Lale Devri’nde Batı tarzı yeniliklere ilgi artmıştır.",
+    "hint": "Osmanlı Duraklama ve Gerileme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Yenileşme ve Demokratikleşme",
+      "osmanli-duraklama-gerileme",
       "Lale Devri"
     ]
   },
   {
-    "id": "osmanli-yenilesme-card-4",
-    "topicId": "osmanli-yenilesme",
-    "front": "Nizam-ı Cedid",
-    "back": "Nizam-ı Cedid, Osmanlı Yenileşme ve Demokratikleşme konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Yenileşme ve Demokratikleşme içindeki sınav bağlamını hatırla.",
+    "id": "fc-029",
+    "topicId": "osmanli-duraklama-gerileme",
+    "front": "Koçi Bey",
+    "back": "Koçi Bey, Osmanlı Duraklama ve Gerileme konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Duraklama ve Gerileme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Yenileşme ve Demokratikleşme",
-      "Nizam-ı Cedid"
+      "osmanli-duraklama-gerileme",
+      "Koçi Bey"
     ]
   },
   {
-    "id": "osmanli-yenilesme-card-5",
+    "id": "fc-030",
+    "topicId": "osmanli-duraklama-gerileme",
+    "front": "III. Selim",
+    "back": "III. Selim’in Nizam-ı Cedid’i askeri ve mali yenilikleri içerir.",
+    "hint": "Osmanlı Duraklama ve Gerileme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-duraklama-gerileme",
+      "III. Selim"
+    ]
+  },
+  {
+    "id": "fc-031",
     "topicId": "osmanli-yenilesme",
     "front": "Sened-i İttifak",
-    "back": "Sened-i İttifak, Osmanlı Yenileşme ve Demokratikleşme konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Osmanlı Yenileşme ve Demokratikleşme içindeki sınav bağlamını hatırla.",
+    "back": "Sened-i İttifak padişah yetkilerini sınırlayan ilk belgedir.",
+    "hint": "Osmanlı Yenileşme ve Demokratikleşme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Osmanlı Yenileşme ve Demokratikleşme",
+      "osmanli-yenilesme",
       "Sened-i İttifak"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-card-1",
+    "id": "fc-032",
+    "topicId": "osmanli-yenilesme",
+    "front": "Tanzimat",
+    "back": "Tanzimat can, mal, namus güvenliği ve hukuki eşitlik vurgusuyla öne çıkar.",
+    "hint": "Osmanlı Yenileşme ve Demokratikleşme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-yenilesme",
+      "Tanzimat"
+    ]
+  },
+  {
+    "id": "fc-033",
+    "topicId": "osmanli-yenilesme",
+    "front": "Islahat",
+    "back": "Islahat gayrimüslim hakları ve Avrupa baskısı bağlamında sorulur.",
+    "hint": "Osmanlı Yenileşme ve Demokratikleşme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-yenilesme",
+      "Islahat"
+    ]
+  },
+  {
+    "id": "fc-034",
+    "topicId": "osmanli-yenilesme",
+    "front": "Kanun-i Esasi",
+    "back": "Kanun-i Esasi ilk Osmanlı anayasasıdır.",
+    "hint": "Osmanlı Yenileşme ve Demokratikleşme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-yenilesme",
+      "Kanun-i Esasi"
+    ]
+  },
+  {
+    "id": "fc-035",
+    "topicId": "osmanli-yenilesme",
+    "front": "I. Meşrutiyet",
+    "back": "I. Meşrutiyet, Osmanlı Yenileşme ve Demokratikleşme konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Osmanlı Yenileşme ve Demokratikleşme başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "osmanli-yenilesme",
+      "I. Meşrutiyet"
+    ]
+  },
+  {
+    "id": "fc-036",
     "topicId": "milli-mucadele-hazirlik",
     "front": "Mondros",
-    "back": "Mondros, Milli Mücadele Hazırlık Dönemi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Milli Mücadele Hazırlık Dönemi içindeki sınav bağlamını hatırla.",
+    "back": "Mondros, Milli Mücadele Hazırlık Dönemi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Milli Mücadele Hazırlık Dönemi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Milli Mücadele Hazırlık Dönemi",
+      "milli-mucadele-hazirlik",
       "Mondros"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-card-2",
+    "id": "fc-037",
     "topicId": "milli-mucadele-hazirlik",
-    "front": "Havza",
-    "back": "Havza, Milli Mücadele Hazırlık Dönemi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Milli Mücadele Hazırlık Dönemi içindeki sınav bağlamını hatırla.",
+    "front": "Havza Genelgesi",
+    "back": "Havza Genelgesi, Milli Mücadele Hazırlık Dönemi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Milli Mücadele Hazırlık Dönemi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Milli Mücadele Hazırlık Dönemi",
-      "Havza"
+      "milli-mucadele-hazirlik",
+      "Havza Genelgesi"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-card-3",
+    "id": "fc-038",
     "topicId": "milli-mucadele-hazirlik",
     "front": "Amasya Genelgesi",
-    "back": "Amasya Genelgesi, Milli Mücadele Hazırlık Dönemi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Milli Mücadele Hazırlık Dönemi içindeki sınav bağlamını hatırla.",
+    "back": "Amasya Genelgesi Milli Mücadele’nin gerekçe, amaç ve yöntemini açıklar.",
+    "hint": "Milli Mücadele Hazırlık Dönemi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Milli Mücadele Hazırlık Dönemi",
+      "milli-mucadele-hazirlik",
       "Amasya Genelgesi"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-card-4",
+    "id": "fc-039",
     "topicId": "milli-mucadele-hazirlik",
     "front": "Erzurum Kongresi",
-    "back": "Erzurum Kongresi, Milli Mücadele Hazırlık Dönemi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Milli Mücadele Hazırlık Dönemi içindeki sınav bağlamını hatırla.",
+    "back": "Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır.",
+    "hint": "Milli Mücadele Hazırlık Dönemi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Milli Mücadele Hazırlık Dönemi",
+      "milli-mucadele-hazirlik",
       "Erzurum Kongresi"
     ]
   },
   {
-    "id": "milli-mucadele-hazirlik-card-5",
+    "id": "fc-040",
     "topicId": "milli-mucadele-hazirlik",
     "front": "Sivas Kongresi",
-    "back": "Sivas Kongresi, Milli Mücadele Hazırlık Dönemi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Milli Mücadele Hazırlık Dönemi içindeki sınav bağlamını hatırla.",
+    "back": "Sivas Kongresi cemiyetleri Anadolu ve Rumeli Müdafaa-i Hukuk çatısında birleştirmiştir.",
+    "hint": "Milli Mücadele Hazırlık Dönemi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Milli Mücadele Hazırlık Dönemi",
+      "milli-mucadele-hazirlik",
       "Sivas Kongresi"
     ]
   },
   {
-    "id": "kurtulus-savasi-card-1",
+    "id": "fc-041",
     "topicId": "kurtulus-savasi",
     "front": "Gümrü",
-    "back": "Gümrü, Kurtuluş Savaşı ve Antlaşmalar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Kurtuluş Savaşı ve Antlaşmalar içindeki sınav bağlamını hatırla.",
+    "back": "Doğu Cephesi Gümrü Antlaşması ile kapanmıştır.",
+    "hint": "Kurtuluş Savaşı ve Antlaşmalar başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Kurtuluş Savaşı ve Antlaşmalar",
+      "kurtulus-savasi",
       "Gümrü"
     ]
   },
   {
-    "id": "kurtulus-savasi-card-2",
+    "id": "fc-042",
     "topicId": "kurtulus-savasi",
     "front": "Ankara Antlaşması",
-    "back": "Ankara Antlaşması, Kurtuluş Savaşı ve Antlaşmalar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Kurtuluş Savaşı ve Antlaşmalar içindeki sınav bağlamını hatırla.",
+    "back": "Güney Cephesi Ankara Antlaşması ile büyük ölçüde kapanmıştır.",
+    "hint": "Kurtuluş Savaşı ve Antlaşmalar başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Kurtuluş Savaşı ve Antlaşmalar",
+      "kurtulus-savasi",
       "Ankara Antlaşması"
     ]
   },
   {
-    "id": "kurtulus-savasi-card-3",
+    "id": "fc-043",
     "topicId": "kurtulus-savasi",
     "front": "İnönü",
-    "back": "İnönü, Kurtuluş Savaşı ve Antlaşmalar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Kurtuluş Savaşı ve Antlaşmalar içindeki sınav bağlamını hatırla.",
+    "back": "İnönü, Kurtuluş Savaşı ve Antlaşmalar konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Kurtuluş Savaşı ve Antlaşmalar başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Kurtuluş Savaşı ve Antlaşmalar",
+      "kurtulus-savasi",
       "İnönü"
     ]
   },
   {
-    "id": "kurtulus-savasi-card-4",
+    "id": "fc-044",
     "topicId": "kurtulus-savasi",
     "front": "Sakarya",
-    "back": "Sakarya, Kurtuluş Savaşı ve Antlaşmalar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Kurtuluş Savaşı ve Antlaşmalar içindeki sınav bağlamını hatırla.",
+    "back": "Sakarya savunmadan taarruza geçişin dönüm noktasıdır.",
+    "hint": "Kurtuluş Savaşı ve Antlaşmalar başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Kurtuluş Savaşı ve Antlaşmalar",
+      "kurtulus-savasi",
       "Sakarya"
     ]
   },
   {
-    "id": "kurtulus-savasi-card-5",
+    "id": "fc-045",
     "topicId": "kurtulus-savasi",
     "front": "Tekalif-i Milliye",
-    "back": "Tekalif-i Milliye, Kurtuluş Savaşı ve Antlaşmalar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Kurtuluş Savaşı ve Antlaşmalar içindeki sınav bağlamını hatırla.",
+    "back": "Tekalif-i Milliye, Kurtuluş Savaşı ve Antlaşmalar konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Kurtuluş Savaşı ve Antlaşmalar başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Kurtuluş Savaşı ve Antlaşmalar",
+      "kurtulus-savasi",
       "Tekalif-i Milliye"
     ]
   },
   {
-    "id": "ataturk-ilke-inkilap-card-1",
+    "id": "fc-046",
     "topicId": "ataturk-ilke-inkilap",
-    "front": "cumhuriyetçilik",
-    "back": "cumhuriyetçilik, Atatürk İlke ve İnkılapları konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Atatürk İlke ve İnkılapları içindeki sınav bağlamını hatırla.",
+    "front": "Cumhuriyetçilik",
+    "back": "Cumhuriyetçilik milli egemenlik ve seçimle gelen yönetimle ilgilidir.",
+    "hint": "Atatürk İlke ve İnkılapları başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Atatürk İlke ve İnkılapları",
-      "cumhuriyetçilik"
+      "ataturk-ilke-inkilap",
+      "Cumhuriyetçilik"
     ]
   },
   {
-    "id": "ataturk-ilke-inkilap-card-2",
+    "id": "fc-047",
     "topicId": "ataturk-ilke-inkilap",
-    "front": "laiklik",
-    "back": "laiklik, Atatürk İlke ve İnkılapları konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Atatürk İlke ve İnkılapları içindeki sınav bağlamını hatırla.",
+    "front": "Milliyetçilik",
+    "back": "Milliyetçilik, Atatürk İlke ve İnkılapları konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Atatürk İlke ve İnkılapları başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Atatürk İlke ve İnkılapları",
-      "laiklik"
+      "ataturk-ilke-inkilap",
+      "Milliyetçilik"
     ]
   },
   {
-    "id": "ataturk-ilke-inkilap-card-3",
+    "id": "fc-048",
     "topicId": "ataturk-ilke-inkilap",
-    "front": "halkçılık",
-    "back": "halkçılık, Atatürk İlke ve İnkılapları konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Atatürk İlke ve İnkılapları içindeki sınav bağlamını hatırla.",
+    "front": "Halkçılık",
+    "back": "Halkçılık ayrıcalıkların reddi ve kanun önünde eşitliktir.",
+    "hint": "Atatürk İlke ve İnkılapları başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Atatürk İlke ve İnkılapları",
-      "halkçılık"
+      "ataturk-ilke-inkilap",
+      "Halkçılık"
     ]
   },
   {
-    "id": "ataturk-ilke-inkilap-card-4",
+    "id": "fc-049",
     "topicId": "ataturk-ilke-inkilap",
-    "front": "devletçilik",
-    "back": "devletçilik, Atatürk İlke ve İnkılapları konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Atatürk İlke ve İnkılapları içindeki sınav bağlamını hatırla.",
+    "front": "Devletçilik",
+    "back": "Devletçilik özel girişimi yok saymadan devletin kalkınmada düzenleyici rolünü vurgular.",
+    "hint": "Atatürk İlke ve İnkılapları başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Atatürk İlke ve İnkılapları",
-      "devletçilik"
+      "ataturk-ilke-inkilap",
+      "Devletçilik"
     ]
   },
   {
-    "id": "ataturk-ilke-inkilap-card-5",
+    "id": "fc-050",
     "topicId": "ataturk-ilke-inkilap",
-    "front": "inkılapçılık",
-    "back": "inkılapçılık, Atatürk İlke ve İnkılapları konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Atatürk İlke ve İnkılapları içindeki sınav bağlamını hatırla.",
+    "front": "Laiklik",
+    "back": "Laiklik din ve devlet işlerinin ayrılması, hukuk ve eğitimde akılcı düzenle ilgilidir.",
+    "hint": "Atatürk İlke ve İnkılapları başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Atatürk İlke ve İnkılapları",
-      "inkılapçılık"
+      "ataturk-ilke-inkilap",
+      "Laiklik"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-card-1",
+    "id": "fc-051",
+    "topicId": "cumhuriyet-dis-politika",
+    "front": "Lozan",
+    "back": "Lozan, Cumhuriyet Dönemi Dış Politika konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Cumhuriyet Dönemi Dış Politika başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "Lozan"
+    ]
+  },
+  {
+    "id": "fc-052",
     "topicId": "cumhuriyet-dis-politika",
     "front": "Musul",
-    "back": "Musul, Cumhuriyet Dönemi Dış Politika konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Cumhuriyet Dönemi Dış Politika içindeki sınav bağlamını hatırla.",
+    "back": "Musul sorunu İngiltere ile yaşanmış ve 1926 Ankara Antlaşması ile sonuçlanmıştır.",
+    "hint": "Cumhuriyet Dönemi Dış Politika başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Cumhuriyet Dönemi Dış Politika",
+      "cumhuriyet-dis-politika",
       "Musul"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-card-2",
+    "id": "fc-053",
+    "topicId": "cumhuriyet-dis-politika",
+    "front": "Yabancı okullar",
+    "back": "Yabancı okullar, Cumhuriyet Dönemi Dış Politika konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Cumhuriyet Dönemi Dış Politika başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "cumhuriyet-dis-politika",
+      "Yabancı okullar"
+    ]
+  },
+  {
+    "id": "fc-054",
     "topicId": "cumhuriyet-dis-politika",
     "front": "Montrö",
-    "back": "Montrö, Cumhuriyet Dönemi Dış Politika konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Cumhuriyet Dönemi Dış Politika içindeki sınav bağlamını hatırla.",
+    "back": "Montrö Boğazlar üzerindeki Türk egemenliğini güçlendirmiştir.",
+    "hint": "Cumhuriyet Dönemi Dış Politika başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Cumhuriyet Dönemi Dış Politika",
+      "cumhuriyet-dis-politika",
       "Montrö"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-card-3",
+    "id": "fc-055",
     "topicId": "cumhuriyet-dis-politika",
     "front": "Hatay",
-    "back": "Hatay, Cumhuriyet Dönemi Dış Politika konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Cumhuriyet Dönemi Dış Politika içindeki sınav bağlamını hatırla.",
+    "back": "Hatay sorunu Atatürk döneminde gündeme gelmiş, 1939’da Türkiye’ye katılmıştır.",
+    "hint": "Cumhuriyet Dönemi Dış Politika başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Cumhuriyet Dönemi Dış Politika",
+      "cumhuriyet-dis-politika",
       "Hatay"
     ]
   },
   {
-    "id": "cumhuriyet-dis-politika-card-4",
-    "topicId": "cumhuriyet-dis-politika",
-    "front": "Balkan Antantı",
-    "back": "Balkan Antantı, Cumhuriyet Dönemi Dış Politika konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Cumhuriyet Dönemi Dış Politika içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Cumhuriyet Dönemi Dış Politika",
-      "Balkan Antantı"
-    ]
-  },
-  {
-    "id": "cumhuriyet-dis-politika-card-5",
-    "topicId": "cumhuriyet-dis-politika",
-    "front": "Sadabat Paktı",
-    "back": "Sadabat Paktı, Cumhuriyet Dönemi Dış Politika konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Cumhuriyet Dönemi Dış Politika içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Cumhuriyet Dönemi Dış Politika",
-      "Sadabat Paktı"
-    ]
-  },
-  {
-    "id": "cagdas-turk-dunya-card-1",
+    "id": "fc-056",
     "topicId": "cagdas-turk-dunya",
-    "front": "BM",
-    "back": "BM, Çağdaş Türk ve Dünya Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Çağdaş Türk ve Dünya Tarihi içindeki sınav bağlamını hatırla.",
+    "front": "I. Dünya Savaşı",
+    "back": "Birleşmiş Milletler II. Dünya Savaşı sonrasında kurulmuştur.",
+    "hint": "Çağdaş Türk ve Dünya Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Çağdaş Türk ve Dünya Tarihi",
-      "BM"
+      "cagdas-turk-dunya",
+      "I. Dünya Savaşı"
     ]
   },
   {
-    "id": "cagdas-turk-dunya-card-2",
+    "id": "fc-057",
     "topicId": "cagdas-turk-dunya",
-    "front": "NATO",
-    "back": "NATO, Çağdaş Türk ve Dünya Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Çağdaş Türk ve Dünya Tarihi içindeki sınav bağlamını hatırla.",
+    "front": "II. Dünya Savaşı",
+    "back": "Birleşmiş Milletler II. Dünya Savaşı sonrasında kurulmuştur.",
+    "hint": "Çağdaş Türk ve Dünya Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Çağdaş Türk ve Dünya Tarihi",
-      "NATO"
+      "cagdas-turk-dunya",
+      "II. Dünya Savaşı"
     ]
   },
   {
-    "id": "cagdas-turk-dunya-card-3",
+    "id": "fc-058",
     "topicId": "cagdas-turk-dunya",
     "front": "Soğuk Savaş",
-    "back": "Soğuk Savaş, Çağdaş Türk ve Dünya Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Çağdaş Türk ve Dünya Tarihi içindeki sınav bağlamını hatırla.",
+    "back": "Soğuk Savaş ABD ve SSCB merkezli iki kutuplu düzeni ifade eder.",
+    "hint": "Çağdaş Türk ve Dünya Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Çağdaş Türk ve Dünya Tarihi",
+      "cagdas-turk-dunya",
       "Soğuk Savaş"
     ]
   },
   {
-    "id": "cagdas-turk-dunya-card-4",
+    "id": "fc-059",
     "topicId": "cagdas-turk-dunya",
-    "front": "Truman Doktrini",
-    "back": "Truman Doktrini, Çağdaş Türk ve Dünya Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Çağdaş Türk ve Dünya Tarihi içindeki sınav bağlamını hatırla.",
+    "front": "NATO",
+    "back": "Türkiye 1952’de NATO’ya üye olmuştur.",
+    "hint": "Çağdaş Türk ve Dünya Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Çağdaş Türk ve Dünya Tarihi",
-      "Truman Doktrini"
+      "cagdas-turk-dunya",
+      "NATO"
     ]
   },
   {
-    "id": "cagdas-turk-dunya-card-5",
+    "id": "fc-060",
     "topicId": "cagdas-turk-dunya",
-    "front": "Marshall Planı",
-    "back": "Marshall Planı, Çağdaş Türk ve Dünya Tarihi konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Çağdaş Türk ve Dünya Tarihi içindeki sınav bağlamını hatırla.",
+    "front": "BM",
+    "back": "BM, Çağdaş Türk ve Dünya Tarihi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Çağdaş Türk ve Dünya Tarihi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Çağdaş Türk ve Dünya Tarihi",
-      "Marshall Planı"
+      "cagdas-turk-dunya",
+      "BM"
     ]
   },
   {
-    "id": "genel-kronoloji-card-1",
-    "topicId": "genel-kronoloji",
+    "id": "fc-061",
+    "topicId": "tarih-metodu-kronoloji",
     "front": "kronoloji",
-    "back": "kronoloji, Tarih Genel Kronoloji ve Karma Tekrar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Tarih Genel Kronoloji ve Karma Tekrar içindeki sınav bağlamını hatırla.",
+    "back": "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir.",
+    "hint": "Tarih Metodu ve Kronoloji Becerisi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Tarih Genel Kronoloji ve Karma Tekrar",
+      "tarih-metodu-kronoloji",
       "kronoloji"
     ]
   },
   {
-    "id": "genel-kronoloji-card-2",
-    "topicId": "genel-kronoloji",
-    "front": "karma tekrar",
-    "back": "karma tekrar, Tarih Genel Kronoloji ve Karma Tekrar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Tarih Genel Kronoloji ve Karma Tekrar içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Tarih Genel Kronoloji ve Karma Tekrar",
-      "karma tekrar"
-    ]
-  },
-  {
-    "id": "genel-kronoloji-card-3",
-    "topicId": "genel-kronoloji",
-    "front": "eşleştirme",
-    "back": "eşleştirme, Tarih Genel Kronoloji ve Karma Tekrar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Tarih Genel Kronoloji ve Karma Tekrar içindeki sınav bağlamını hatırla.",
-    "tags": [
-      "Tarih Genel Kronoloji ve Karma Tekrar",
-      "eşleştirme"
-    ]
-  },
-  {
-    "id": "genel-kronoloji-card-4",
-    "topicId": "genel-kronoloji",
+    "id": "fc-062",
+    "topicId": "tarih-metodu-kronoloji",
     "front": "neden-sonuç",
-    "back": "neden-sonuç, Tarih Genel Kronoloji ve Karma Tekrar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Tarih Genel Kronoloji ve Karma Tekrar içindeki sınav bağlamını hatırla.",
+    "back": "Kronoloji sorularında yılları ezberlemek kadar olayların neden-sonuç sırası önemlidir.",
+    "hint": "Tarih Metodu ve Kronoloji Becerisi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Tarih Genel Kronoloji ve Karma Tekrar",
+      "tarih-metodu-kronoloji",
       "neden-sonuç"
     ]
   },
   {
-    "id": "genel-kronoloji-card-5",
-    "topicId": "genel-kronoloji",
-    "front": "sıralama",
-    "back": "sıralama, Tarih Genel Kronoloji ve Karma Tekrar konusunda KPSS'de dönem, kavram ve sonuç ilişkisiyle birlikte sorulan anahtar bilgidir.",
-    "hint": "Tarih Genel Kronoloji ve Karma Tekrar içindeki sınav bağlamını hatırla.",
+    "id": "fc-063",
+    "topicId": "tarih-metodu-kronoloji",
+    "front": "belge-olay",
+    "back": "belge-olay, Tarih Metodu ve Kronoloji Becerisi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Tarih Metodu ve Kronoloji Becerisi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
     "tags": [
-      "Tarih Genel Kronoloji ve Karma Tekrar",
-      "sıralama"
+      "tarih-metodu-kronoloji",
+      "belge-olay"
+    ]
+  },
+  {
+    "id": "fc-064",
+    "topicId": "tarih-metodu-kronoloji",
+    "front": "soru kökü",
+    "back": "Tarih sorularında doğru cevap çoğu zaman dönem-sonuç uyumuyla bulunur.",
+    "hint": "Tarih Metodu ve Kronoloji Becerisi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "soru kökü"
+    ]
+  },
+  {
+    "id": "fc-065",
+    "topicId": "tarih-metodu-kronoloji",
+    "front": "çeldirici",
+    "back": "çeldirici, Tarih Metodu ve Kronoloji Becerisi konusunun KPSS’de ayırt edici kavramlarından biridir; dönem, kurum ve sonuç ilişkisiyle öğrenilmelidir.",
+    "hint": "Tarih Metodu ve Kronoloji Becerisi başlığında hangi dönem/kurum/sonuçla ilişkilidir?",
+    "tags": [
+      "tarih-metodu-kronoloji",
+      "çeldirici"
     ]
   }
 ];
 
 export const timelineEvents: TimelineEvent[] = [
   {
-    "id": "islamiyet-oncesi-event-1",
-    "topicId": "islamiyet-oncesi",
+    "id": "ev-001",
     "date": "MÖ 220",
-    "title": "Asya Hun Devleti'nin güçlenmesi",
-    "description": "Asya Hun Devleti'nin güçlenmesi, İslamiyet Öncesi Türk Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "Asya Hun Devleti Orta Asya’da siyasi güç haline geldi",
+    "description": "Asya Hun Devleti Orta Asya’da siyasi güç haline geldi.",
+    "topicId": "islamiyet-oncesi",
     "tone": "turquoise"
   },
   {
-    "id": "islamiyet-oncesi-event-2",
+    "id": "ev-002",
+    "date": "MÖ 209",
+    "title": "Mete Han onlu askeri sistemi güçlendirdi",
+    "description": "Mete Han onlu askeri sistemi güçlendirdi.",
     "topicId": "islamiyet-oncesi",
+    "tone": "parchment"
+  },
+  {
+    "id": "ev-003",
+    "date": "375",
+    "title": "Kavimler Göçü Avrupa’nın siyasi yapısını değiştirdi",
+    "description": "Kavimler Göçü Avrupa’nın siyasi yapısını değiştirdi.",
+    "topicId": "islamiyet-oncesi",
+    "tone": "turquoise"
+  },
+  {
+    "id": "ev-004",
     "date": "552",
-    "title": "I. Göktürk Devleti'nin kurulması",
-    "description": "I. Göktürk Devleti'nin kurulması, İslamiyet Öncesi Türk Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "crimson"
-  },
-  {
-    "id": "islamiyet-oncesi-event-3",
+    "title": "I",
+    "description": "I. Göktürk Devleti kuruldu.",
     "topicId": "islamiyet-oncesi",
+    "tone": "parchment"
+  },
+  {
+    "id": "ev-005",
+    "date": "681",
+    "title": "II",
+    "description": "II. Göktürk / Kutluk Devleti kuruldu.",
+    "topicId": "islamiyet-oncesi",
+    "tone": "turquoise"
+  },
+  {
+    "id": "ev-006",
     "date": "744",
-    "title": "Uygur Devleti'nin kurulması",
-    "description": "Uygur Devleti'nin kurulması, İslamiyet Öncesi Türk Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "Uygur Devleti kuruldu ve yerleşik kültür hızlandı",
+    "description": "Uygur Devleti kuruldu ve yerleşik kültür hızlandı.",
+    "topicId": "islamiyet-oncesi",
     "tone": "parchment"
   },
   {
-    "id": "turk-islam-event-1",
-    "topicId": "turk-islam",
+    "id": "ev-007",
     "date": "751",
-    "title": "Talas Savaşı",
-    "description": "Talas Savaşı, Türk-İslam Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "crimson"
+    "title": "Talas Savaşı Türklerin İslam dünyasıyla yakınlaşmasını hızlandırdı",
+    "description": "Talas Savaşı Türklerin İslam dünyasıyla yakınlaşmasını hızlandırdı.",
+    "topicId": "turk-islam",
+    "tone": "parchment"
   },
   {
-    "id": "turk-islam-event-2",
-    "topicId": "turk-islam",
+    "id": "ev-008",
     "date": "840",
-    "title": "Karahanlı Devleti'nin kurulması",
-    "description": "Karahanlı Devleti'nin kurulması, Türk-İslam Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "Karahanlılar ilk Müslüman Türk devleti olarak öne çıktı",
+    "description": "Karahanlılar ilk Müslüman Türk devleti olarak öne çıktı.",
+    "topicId": "turk-islam",
+    "tone": "turquoise"
+  },
+  {
+    "id": "ev-009",
+    "date": "963",
+    "title": "Gazneliler Hindistan seferleriyle tanındı",
+    "description": "Gazneliler Hindistan seferleriyle tanındı.",
+    "topicId": "turk-islam",
     "tone": "parchment"
   },
   {
-    "id": "turk-islam-event-3",
-    "topicId": "turk-islam",
+    "id": "ev-010",
     "date": "1040",
-    "title": "Dandanakan Savaşı",
-    "description": "Dandanakan Savaşı, Türk-İslam Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "gold"
-  },
-  {
-    "id": "turk-islam-event-4",
+    "title": "Dandanakan Savaşı Büyük Selçuklu Devleti’nin kuruluşunu kesinleştirdi",
+    "description": "Dandanakan Savaşı Büyük Selçuklu Devleti’nin kuruluşunu kesinleştirdi.",
     "topicId": "turk-islam",
-    "date": "1071",
-    "title": "Malazgirt Savaşı",
-    "description": "Malazgirt Savaşı, Türk-İslam Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "turquoise"
   },
   {
-    "id": "anadolu-selcuklu-event-1",
-    "topicId": "anadolu-selcuklu",
-    "date": "1075",
-    "title": "Türkiye Selçuklu Devleti'nin kuruluş süreci",
-    "description": "Türkiye Selçuklu Devleti'nin kuruluş süreci, Anadolu Selçuklu ve Beylikler başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "id": "ev-011",
+    "date": "1071",
+    "title": "Malazgirt Zaferi Anadolu’nun kapılarını Türklere açtı",
+    "description": "Malazgirt Zaferi Anadolu’nun kapılarını Türklere açtı.",
+    "topicId": "turk-islam",
     "tone": "parchment"
   },
   {
-    "id": "anadolu-selcuklu-event-2",
+    "id": "ev-012",
+    "date": "1075",
+    "title": "Türkiye Selçuklu Devleti’nin kuruluş süreci başladı",
+    "description": "Türkiye Selçuklu Devleti’nin kuruluş süreci başladı.",
     "topicId": "anadolu-selcuklu",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-013",
+    "date": "1096-1270",
+    "title": "Haçlı Seferleri Anadolu ve Akdeniz dünyasını etkiledi",
+    "description": "Haçlı Seferleri Anadolu ve Akdeniz dünyasını etkiledi.",
+    "topicId": "anadolu-selcuklu",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-014",
     "date": "1176",
-    "title": "Miryokefalon Savaşı",
-    "description": "Miryokefalon Savaşı, Anadolu Selçuklu ve Beylikler başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "gold"
-  },
-  {
-    "id": "anadolu-selcuklu-event-3",
+    "title": "Miryokefalon Savaşı Anadolu’nun Türk yurdu oluşunu kesinleştirdi",
+    "description": "Miryokefalon Savaşı Anadolu’nun Türk yurdu oluşunu kesinleştirdi.",
     "topicId": "anadolu-selcuklu",
-    "date": "1243",
-    "title": "Kösedağ Savaşı",
-    "description": "Kösedağ Savaşı, Anadolu Selçuklu ve Beylikler başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-event-1",
-    "topicId": "osmanli-kurulus-yukselis",
-    "date": "1299",
-    "title": "Osmanlı Beyliği'nin kuruluş süreci",
-    "description": "Osmanlı Beyliği'nin kuruluş süreci, Osmanlı Kuruluş ve Yükseliş başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "gold"
   },
   {
-    "id": "osmanli-kurulus-yukselis-event-2",
+    "id": "ev-015",
+    "date": "1243",
+    "title": "Kösedağ Savaşı Moğol baskısını ve beyliklerin güçlenmesini getirdi",
+    "description": "Kösedağ Savaşı Moğol baskısını ve beyliklerin güçlenmesini getirdi.",
+    "topicId": "anadolu-selcuklu",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-016",
+    "date": "1299",
+    "title": "Osmanlı Beyliği’nin kuruluş süreci",
+    "description": "Osmanlı Beyliği’nin kuruluş süreci.",
     "topicId": "osmanli-kurulus-yukselis",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-017",
     "date": "1353",
-    "title": "Çimpe Kalesi'nin alınması",
-    "description": "Çimpe Kalesi'nin alınması, Osmanlı Kuruluş ve Yükseliş başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "osmanli-kurulus-yukselis-event-3",
+    "title": "Çimpe Kalesi ile Rumeli’ye geçiş",
+    "description": "Çimpe Kalesi ile Rumeli’ye geçiş.",
     "topicId": "osmanli-kurulus-yukselis",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-018",
     "date": "1453",
-    "title": "İstanbul'un fethi",
-    "description": "İstanbul'un fethi, Osmanlı Kuruluş ve Yükseliş başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "İstanbul’un fethi",
+    "description": "İstanbul’un fethi.",
+    "topicId": "osmanli-kurulus-yukselis",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-019",
+    "date": "1517",
+    "title": "Mısır seferiyle hilafet ve kutsal emanetler meselesi",
+    "description": "Mısır seferiyle hilafet ve kutsal emanetler meselesi.",
+    "topicId": "osmanli-kurulus-yukselis",
     "tone": "crimson"
   },
   {
-    "id": "osmanli-kultur-medeniyet-event-1",
-    "topicId": "osmanli-kultur-medeniyet",
+    "id": "ev-020",
     "date": "Klasik dönem",
-    "title": "Merkez-taşra düzeninin olgunlaşması",
-    "description": "Merkez-taşra düzeninin olgunlaşması, Osmanlı Kültür ve Medeniyet başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "osmanli-kultur-medeniyet-event-2",
+    "title": "Merkez ve taşra düzeni olgunlaştı",
+    "description": "Merkez ve taşra düzeni olgunlaştı.",
     "topicId": "osmanli-kultur-medeniyet",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-021",
     "date": "XVII. yy",
-    "title": "Kurumlarda bozulma ve ıslahat ihtiyacı",
-    "description": "Kurumlarda bozulma ve ıslahat ihtiyacı, Osmanlı Kültür ve Medeniyet başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "Tımar ve merkezî kurumlarda bozulma belirtileri arttı",
+    "description": "Tımar ve merkezî kurumlarda bozulma belirtileri arttı.",
+    "topicId": "osmanli-kultur-medeniyet",
     "tone": "crimson"
   },
   {
-    "id": "osmanli-yenilesme-event-1",
-    "topicId": "osmanli-yenilesme",
+    "id": "ev-022",
     "date": "1699",
-    "title": "Karlofça Antlaşması",
-    "description": "Karlofça Antlaşması, Osmanlı Yenileşme ve Demokratikleşme başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "title": "Karlofça ile batıda ilk büyük toprak kaybı",
+    "description": "Karlofça ile batıda ilk büyük toprak kaybı.",
+    "topicId": "osmanli-duraklama-gerileme",
     "tone": "crimson"
   },
   {
-    "id": "osmanli-yenilesme-event-2",
-    "topicId": "osmanli-yenilesme",
+    "id": "ev-023",
+    "date": "1718",
+    "title": "Pasarofça ve Lale Devri",
+    "description": "Pasarofça ve Lale Devri.",
+    "topicId": "osmanli-duraklama-gerileme",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-024",
+    "date": "1793",
+    "title": "Nizam-ı Cedid düzenlemeleri",
+    "description": "Nizam-ı Cedid düzenlemeleri.",
+    "topicId": "osmanli-duraklama-gerileme",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-025",
     "date": "1808",
     "title": "Sened-i İttifak",
-    "description": "Sened-i İttifak, Osmanlı Yenileşme ve Demokratikleşme başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "parchment"
+    "description": "Sened-i İttifak.",
+    "topicId": "osmanli-yenilesme",
+    "tone": "turquoise"
   },
   {
-    "id": "osmanli-yenilesme-event-3",
-    "topicId": "osmanli-yenilesme",
+    "id": "ev-026",
     "date": "1839",
     "title": "Tanzimat Fermanı",
-    "description": "Tanzimat Fermanı, Osmanlı Yenileşme ve Demokratikleşme başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "gold"
+    "description": "Tanzimat Fermanı.",
+    "topicId": "osmanli-yenilesme",
+    "tone": "parchment"
   },
   {
-    "id": "osmanli-yenilesme-event-4",
+    "id": "ev-027",
+    "date": "1856",
+    "title": "Islahat Fermanı",
+    "description": "Islahat Fermanı.",
     "topicId": "osmanli-yenilesme",
-    "date": "1876",
-    "title": "Kanun-i Esasi ve I. Meşrutiyet",
-    "description": "Kanun-i Esasi ve I. Meşrutiyet, Osmanlı Yenileşme ve Demokratikleşme başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "turquoise"
   },
   {
-    "id": "milli-mucadele-hazirlik-event-1",
-    "topicId": "milli-mucadele-hazirlik",
+    "id": "ev-028",
+    "date": "1876",
+    "title": "Kanun-i Esasi ve I",
+    "description": "Kanun-i Esasi ve I. Meşrutiyet.",
+    "topicId": "osmanli-yenilesme",
+    "tone": "parchment"
+  },
+  {
+    "id": "ev-029",
+    "date": "1908",
+    "title": "II",
+    "description": "II. Meşrutiyet.",
+    "topicId": "osmanli-yenilesme",
+    "tone": "turquoise"
+  },
+  {
+    "id": "ev-030",
     "date": "1918",
     "title": "Mondros Ateşkes Antlaşması",
-    "description": "Mondros Ateşkes Antlaşması, Milli Mücadele Hazırlık Dönemi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "parchment"
+    "description": "Mondros Ateşkes Antlaşması.",
+    "topicId": "milli-mucadele-hazirlik",
+    "tone": "crimson"
   },
   {
-    "id": "milli-mucadele-hazirlik-event-2",
+    "id": "ev-031",
+    "date": "19 Mayıs 1919",
+    "title": "Mustafa Kemal Samsun’a çıktı",
+    "description": "Mustafa Kemal Samsun’a çıktı.",
     "topicId": "milli-mucadele-hazirlik",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-032",
     "date": "22 Haziran 1919",
     "title": "Amasya Genelgesi",
-    "description": "Amasya Genelgesi, Milli Mücadele Hazırlık Dönemi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "description": "Amasya Genelgesi.",
+    "topicId": "milli-mucadele-hazirlik",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-033",
+    "date": "23 Temmuz 1919",
+    "title": "Erzurum Kongresi",
+    "description": "Erzurum Kongresi.",
+    "topicId": "milli-mucadele-hazirlik",
     "tone": "gold"
   },
   {
-    "id": "milli-mucadele-hazirlik-event-3",
-    "topicId": "milli-mucadele-hazirlik",
+    "id": "ev-034",
     "date": "4 Eylül 1919",
     "title": "Sivas Kongresi",
-    "description": "Sivas Kongresi, Milli Mücadele Hazırlık Dönemi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "milli-mucadele-hazirlik-event-4",
+    "description": "Sivas Kongresi.",
     "topicId": "milli-mucadele-hazirlik",
-    "date": "23 Nisan 1920",
-    "title": "TBMM'nin açılması",
-    "description": "TBMM'nin açılması, Milli Mücadele Hazırlık Dönemi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "crimson"
   },
   {
-    "id": "kurtulus-savasi-event-1",
-    "topicId": "kurtulus-savasi",
+    "id": "ev-035",
+    "date": "23 Nisan 1920",
+    "title": "TBMM açıldı",
+    "description": "TBMM açıldı.",
+    "topicId": "milli-mucadele-hazirlik",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-036",
     "date": "1920",
     "title": "Gümrü Antlaşması",
-    "description": "Gümrü Antlaşması, Kurtuluş Savaşı ve Antlaşmalar başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "description": "Gümrü Antlaşması.",
+    "topicId": "kurtulus-savasi",
     "tone": "gold"
   },
   {
-    "id": "kurtulus-savasi-event-2",
-    "topicId": "kurtulus-savasi",
+    "id": "ev-037",
     "date": "1921",
-    "title": "Sakarya Meydan Muharebesi",
-    "description": "Sakarya Meydan Muharebesi, Kurtuluş Savaşı ve Antlaşmalar başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "kurtulus-savasi-event-3",
+    "title": "I",
+    "description": "I. ve II. İnönü; Sakarya.",
     "topicId": "kurtulus-savasi",
-    "date": "1922",
-    "title": "Mudanya Ateşkesi",
-    "description": "Mudanya Ateşkesi, Kurtuluş Savaşı ve Antlaşmalar başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "crimson"
   },
   {
-    "id": "kurtulus-savasi-event-4",
+    "id": "ev-038",
+    "date": "1922",
+    "title": "Büyük Taarruz ve Mudanya",
+    "description": "Büyük Taarruz ve Mudanya.",
     "topicId": "kurtulus-savasi",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-039",
     "date": "1923",
     "title": "Lozan Barış Antlaşması",
-    "description": "Lozan Barış Antlaşması, Kurtuluş Savaşı ve Antlaşmalar başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "parchment"
-  },
-  {
-    "id": "ataturk-ilke-inkilap-event-1",
-    "topicId": "ataturk-ilke-inkilap",
-    "date": "1922",
-    "title": "Saltanatın kaldırılması",
-    "description": "Saltanatın kaldırılması, Atatürk İlke ve İnkılapları başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "turquoise"
-  },
-  {
-    "id": "ataturk-ilke-inkilap-event-2",
-    "topicId": "ataturk-ilke-inkilap",
-    "date": "1923",
-    "title": "Cumhuriyetin ilanı",
-    "description": "Cumhuriyetin ilanı, Atatürk İlke ve İnkılapları başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "description": "Lozan Barış Antlaşması.",
+    "topicId": "kurtulus-savasi",
     "tone": "crimson"
   },
   {
-    "id": "ataturk-ilke-inkilap-event-3",
+    "id": "ev-040",
+    "date": "1922",
+    "title": "Saltanat kaldırıldı",
+    "description": "Saltanat kaldırıldı.",
     "topicId": "ataturk-ilke-inkilap",
-    "date": "1924",
-    "title": "Halifeliğin kaldırılması ve Tevhid-i Tedrisat",
-    "description": "Halifeliğin kaldırılması ve Tevhid-i Tedrisat, Atatürk İlke ve İnkılapları başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "parchment"
+    "tone": "gold"
   },
   {
-    "id": "ataturk-ilke-inkilap-event-4",
+    "id": "ev-041",
+    "date": "1923",
+    "title": "Cumhuriyet ilan edildi",
+    "description": "Cumhuriyet ilan edildi.",
     "topicId": "ataturk-ilke-inkilap",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-042",
+    "date": "1924",
+    "title": "Halifelik kaldırıldı; Tevhid-i Tedrisat kabul edildi",
+    "description": "Halifelik kaldırıldı; Tevhid-i Tedrisat kabul edildi.",
+    "topicId": "ataturk-ilke-inkilap",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-043",
+    "date": "1926",
+    "title": "Türk Medeni Kanunu kabul edildi",
+    "description": "Türk Medeni Kanunu kabul edildi.",
+    "topicId": "ataturk-ilke-inkilap",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-044",
     "date": "1928",
     "title": "Harf İnkılabı",
-    "description": "Harf İnkılabı, Atatürk İlke ve İnkılapları başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "description": "Harf İnkılabı.",
+    "topicId": "ataturk-ilke-inkilap",
     "tone": "gold"
   },
   {
-    "id": "cumhuriyet-dis-politika-event-1",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "ev-045",
     "date": "1926",
-    "title": "Ankara Antlaşması ile Musul sorunu çözüldü",
-    "description": "Ankara Antlaşması ile Musul sorunu çözüldü, Cumhuriyet Dönemi Dış Politika başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "crimson"
+    "title": "Musul sorunu Ankara Antlaşması ile çözüldü",
+    "description": "Musul sorunu Ankara Antlaşması ile çözüldü.",
+    "topicId": "cumhuriyet-dis-politika",
+    "tone": "turquoise"
   },
   {
-    "id": "cumhuriyet-dis-politika-event-2",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "ev-046",
     "date": "1934",
     "title": "Balkan Antantı",
-    "description": "Balkan Antantı, Cumhuriyet Dönemi Dış Politika başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "description": "Balkan Antantı.",
+    "topicId": "cumhuriyet-dis-politika",
     "tone": "parchment"
   },
   {
-    "id": "cumhuriyet-dis-politika-event-3",
-    "topicId": "cumhuriyet-dis-politika",
+    "id": "ev-047",
     "date": "1936",
     "title": "Montrö Boğazlar Sözleşmesi",
-    "description": "Montrö Boğazlar Sözleşmesi, Cumhuriyet Dönemi Dış Politika başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "gold"
-  },
-  {
-    "id": "cumhuriyet-dis-politika-event-4",
+    "description": "Montrö Boğazlar Sözleşmesi.",
     "topicId": "cumhuriyet-dis-politika",
-    "date": "1939",
-    "title": "Hatay'ın Türkiye'ye katılması",
-    "description": "Hatay'ın Türkiye'ye katılması, Cumhuriyet Dönemi Dış Politika başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "turquoise"
   },
   {
-    "id": "cagdas-turk-dunya-event-1",
-    "topicId": "cagdas-turk-dunya",
-    "date": "1945",
-    "title": "Birleşmiş Milletler'in kurulması",
-    "description": "Birleşmiş Milletler'in kurulması, Çağdaş Türk ve Dünya Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "id": "ev-048",
+    "date": "1937",
+    "title": "Sadabat Paktı",
+    "description": "Sadabat Paktı.",
+    "topicId": "cumhuriyet-dis-politika",
     "tone": "parchment"
   },
   {
-    "id": "cagdas-turk-dunya-event-2",
-    "topicId": "cagdas-turk-dunya",
-    "date": "1947",
-    "title": "Truman Doktrini",
-    "description": "Truman Doktrini, Çağdaş Türk ve Dünya Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
-    "tone": "gold"
-  },
-  {
-    "id": "cagdas-turk-dunya-event-3",
-    "topicId": "cagdas-turk-dunya",
-    "date": "1952",
-    "title": "Türkiye'nin NATO'ya katılması",
-    "description": "Türkiye'nin NATO'ya katılması, Çağdaş Türk ve Dünya Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "id": "ev-049",
+    "date": "1939",
+    "title": "Hatay Türkiye’ye katıldı",
+    "description": "Hatay Türkiye’ye katıldı.",
+    "topicId": "cumhuriyet-dis-politika",
     "tone": "turquoise"
   },
   {
-    "id": "cagdas-turk-dunya-event-4",
+    "id": "ev-050",
+    "date": "1914-1918",
+    "title": "I",
+    "description": "I. Dünya Savaşı.",
     "topicId": "cagdas-turk-dunya",
-    "date": "1974",
-    "title": "Kıbrıs Barış Harekâtı",
-    "description": "Kıbrıs Barış Harekâtı, Çağdaş Türk ve Dünya Tarihi başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
     "tone": "crimson"
   },
   {
-    "id": "genel-kronoloji-event-1",
-    "topicId": "genel-kronoloji",
-    "date": "Genel",
-    "title": "Dönemler arası bağlantılı tekrar",
-    "description": "Dönemler arası bağlantılı tekrar, Tarih Genel Kronoloji ve Karma Tekrar başlığında kronoloji ve neden-sonuç ilişkisi için kritik referanstır.",
+    "id": "ev-051",
+    "date": "1939-1945",
+    "title": "II",
+    "description": "II. Dünya Savaşı.",
+    "topicId": "cagdas-turk-dunya",
     "tone": "gold"
+  },
+  {
+    "id": "ev-052",
+    "date": "1945 sonrası",
+    "title": "Soğuk Savaş iki kutuplu düzeni şekillendirdi",
+    "description": "Soğuk Savaş iki kutuplu düzeni şekillendirdi.",
+    "topicId": "cagdas-turk-dunya",
+    "tone": "crimson"
+  },
+  {
+    "id": "ev-053",
+    "date": "1952",
+    "title": "Türkiye NATO’ya üye oldu",
+    "description": "Türkiye NATO’ya üye oldu.",
+    "topicId": "cagdas-turk-dunya",
+    "tone": "gold"
+  },
+  {
+    "id": "ev-054",
+    "date": "Çalışma yöntemi",
+    "title": "Kavram, dönem ve sonuç üçlüsüyle analiz",
+    "description": "Kavram, dönem ve sonuç üçlüsüyle analiz.",
+    "topicId": "tarih-metodu-kronoloji",
+    "tone": "crimson"
   }
 ];
 
 export const exams: Exam[] = [
   {
-    "id": "kpss-tarih-genel-deneme-1",
-    "title": "KPSS Tarih Genel Deneme 1",
-    "durationMinutes": 30,
+    "id": "genel-temel",
+    "title": "Genel KPSS Tarih Temel Denemesi",
+    "durationMinutes": 35,
     "questionIds": [
-      "islamiyet-oncesi-q-1",
-      "islamiyet-oncesi-q-2",
-      "islamiyet-oncesi-q-3",
-      "islamiyet-oncesi-q-4",
-      "islamiyet-oncesi-q-5",
-      "turk-islam-q-1",
-      "turk-islam-q-2",
-      "turk-islam-q-3",
-      "turk-islam-q-4",
-      "turk-islam-q-5",
-      "anadolu-selcuklu-q-1",
-      "anadolu-selcuklu-q-2",
-      "anadolu-selcuklu-q-3",
-      "anadolu-selcuklu-q-4",
-      "anadolu-selcuklu-q-5",
-      "osmanli-kurulus-yukselis-q-1",
-      "osmanli-kurulus-yukselis-q-2",
-      "osmanli-kurulus-yukselis-q-3",
-      "osmanli-kurulus-yukselis-q-4",
-      "osmanli-kurulus-yukselis-q-5",
-      "osmanli-kultur-medeniyet-q-1",
-      "osmanli-kultur-medeniyet-q-2",
-      "osmanli-kultur-medeniyet-q-3",
-      "osmanli-kultur-medeniyet-q-4",
-      "osmanli-kultur-medeniyet-q-5",
-      "osmanli-yenilesme-q-1",
-      "osmanli-yenilesme-q-2"
+      "q-001",
+      "q-004",
+      "q-007",
+      "q-010",
+      "q-011",
+      "q-014",
+      "q-017",
+      "q-020",
+      "q-021",
+      "q-024",
+      "q-027",
+      "q-030",
+      "q-031",
+      "q-034",
+      "q-037",
+      "q-039",
+      "q-042",
+      "q-045",
+      "q-047",
+      "q-050",
+      "q-053",
+      "q-055",
+      "q-058",
+      "q-061",
+      "q-063",
+      "q-066",
+      "q-069",
+      "q-071",
+      "q-074",
+      "q-077"
     ],
-    "description": "Ana KPSS Tarih başlıklarından seçilmiş 27 soruluk açıklamalı deneme."
+    "description": "Temel seviye açıklamalı KPSS Tarih denemesi."
+  },
+  {
+    "id": "genel-orta",
+    "title": "Genel KPSS Tarih Orta Denemesi",
+    "durationMinutes": 35,
+    "questionIds": [
+      "q-002",
+      "q-005",
+      "q-008",
+      "q-012",
+      "q-015",
+      "q-018",
+      "q-022",
+      "q-025",
+      "q-028",
+      "q-032",
+      "q-035",
+      "q-038",
+      "q-040",
+      "q-043",
+      "q-046",
+      "q-048",
+      "q-051",
+      "q-054",
+      "q-056",
+      "q-059",
+      "q-062",
+      "q-064",
+      "q-067",
+      "q-070",
+      "q-072",
+      "q-075",
+      "q-078",
+      "q-080",
+      "q-083",
+      "q-086"
+    ],
+    "description": "Orta seviye açıklamalı KPSS Tarih denemesi."
+  },
+  {
+    "id": "genel-ileri",
+    "title": "Genel KPSS Tarih Ileri Denemesi",
+    "durationMinutes": 35,
+    "questionIds": [
+      "q-003",
+      "q-006",
+      "q-009",
+      "q-013",
+      "q-016",
+      "q-019",
+      "q-023",
+      "q-026",
+      "q-029",
+      "q-033",
+      "q-036",
+      "q-041",
+      "q-044",
+      "q-049",
+      "q-052",
+      "q-057",
+      "q-060",
+      "q-065",
+      "q-068",
+      "q-073",
+      "q-076",
+      "q-081",
+      "q-084",
+      "q-089",
+      "q-092",
+      "q-097",
+      "q-100",
+      "q-105",
+      "q-108",
+      "q-110"
+    ],
+    "description": "Ileri seviye açıklamalı KPSS Tarih denemesi."
   }
 ];
 
-export const studyRecommendations: StudyRecommendation[] = [
+export const recommendations: StudyRecommendation[] = [
   {
-    "id": "daily-topic-review",
-    "title": "Günün konu tekrarı",
-    "description": "Önce yüksek ağırlıklı konuyu oku, ardından aynı başlıktan açıklamalı test çöz.",
-    "href": "/topics",
+    "id": "rec-1",
+    "title": "Bugünün 25 dakikalık kronoloji turu",
+    "description": "Sened-i İttifak, Tanzimat, Islahat, Kanun-i Esasi, Mudanya, Lozan ve Montrö sıralamalarını aktif hatırlama ile tekrar et.",
+    "href": "/timeline",
     "minutes": 25,
     "priority": "yüksek"
   },
   {
-    "id": "question-bank-focus",
-    "title": "Soru bankası odak oturumu",
-    "description": "Yanlış yaptığın başlıklarda 20 dakikalık hedefli test oturumu başlat.",
-    "href": "/question-bank",
-    "minutes": 20,
+    "id": "rec-2",
+    "title": "Yanlış yaptığın kavramları kartlaştır",
+    "description": "Put Kırıcı, kut, töre, tımar, ikta, ahilik ve meşrutiyet kavramlarını flashcard modunda tekrar et.",
+    "href": "/flashcards",
+    "minutes": 18,
     "priority": "orta"
+  },
+  {
+    "id": "rec-3",
+    "title": "Karma açıklamalı test çöz",
+    "description": "Her dönemden seçilmiş sorularla dönem-sonuç ve kavram eşleştirme gücünü ölç.",
+    "href": "/question-bank/all",
+    "minutes": 35,
+    "priority": "yüksek"
   }
 ];
 
-const normalize = (value: string) =>
-  value
-    .toLocaleLowerCase("tr-TR")
-    .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-
-function topicMatches(topicItem: Topic, value: string) {
-  const key = normalize(value);
-  return (
-    topicItem.id === value ||
-    topicItem.slug === value ||
-    normalize(topicItem.id) === key ||
-    normalize(topicItem.slug) === key ||
-    normalize(topicItem.title) === key
-  );
-}
-
-export function getTopicBySlug(slug: string): Topic | undefined {
-  return topics.find((topicItem) => topicMatches(topicItem, slug));
-}
-
-export function getTopicById(topicId: string): Topic | undefined {
-  return topics.find((topicItem) => topicMatches(topicItem, topicId));
-}
-
-export function getQuestionsByTopic(topicIdOrSlug: string): Question[] {
-  const topicItem = getTopicById(topicIdOrSlug) ?? getTopicBySlug(topicIdOrSlug);
-  if (!topicItem) return [];
-  return questions.filter((question) => question.topicId === topicItem.id);
-}
-
-export function getFlashcardsByTopic(topicIdOrSlug: string): Flashcard[] {
-  const topicItem = getTopicById(topicIdOrSlug) ?? getTopicBySlug(topicIdOrSlug);
-  if (!topicItem) return [];
-  return flashcards.filter((card) => card.topicId === topicItem.id);
-}
-
-export function getTimelineEventsByTopic(topicIdOrSlug: string): TimelineEvent[] {
-  const topicItem = getTopicById(topicIdOrSlug) ?? getTopicBySlug(topicIdOrSlug);
-  if (!topicItem) return [];
-  return timelineEvents.filter((event) => event.topicId === topicItem.id);
-}
-
-const readCompatText = (value: unknown, keys: string[], fallback = "") => {
-  const record = value as unknown as Record<string, unknown>;
-  for (const key of keys) {
-    const item = record[key];
-    if (typeof item === "string" && item.trim()) return item.trim();
-    if (typeof item === "number") return String(item);
-  }
-  return fallback;
-};
 
 export const glossary = flashcards.map((card, index) => ({
-  id: readCompatText(card, ["id"], `glossary-${index + 1}`),
-  term: readCompatText(card, ["term", "front", "question", "title"], `Kavram ${index + 1}`),
-  definition: readCompatText(card, ["definition", "back", "answer", "content"], ""),
-  topicId: readCompatText(card, ["topicId", "topic_id"], topics[0]?.id ?? "general"),
-  relatedTerms: card.tags ?? [],
-  tags: card.tags ?? [],
-  example: card.hint ?? "",
-  whyImportant: "KPSS'de kavramı doğru dönemle eşleştirmek soru eleme hızını artırır.",
+  id: `glossary-${index + 1}`,
+  topicId: card.topicId,
+  term: card.front,
+  definition: card.back,
+  tags: card.tags,
 }));
 
-export function getGlossaryByTopic(topicIdOrSlug: string) {
-  const topicItem = getTopicById(topicIdOrSlug) ?? getTopicBySlug(topicIdOrSlug);
-  if (!topicItem) return [];
-  return glossary.filter((item) => item.topicId === topicItem.id);
+export function getTopicBySlug(slug: string) {
+  return topics.find((topic) => topic.slug === slug);
 }
 
-export const recommendations = studyRecommendations;
+export function getTopicById(id: string) {
+  return topics.find((topic) => topic.id === id);
+}
+
+export function getQuestionsByTopic(topicId: string) {
+  return questions.filter((question) => question.topicId === topicId);
+}
+
+export function getFlashcardsByTopic(topicId: string) {
+  return flashcards.filter((card) => card.topicId === topicId);
+}
+
+export function getTimelineEventsByTopic(topicId: string) {
+  return timelineEvents.filter((event) => event.topicId === topicId);
+}
+
+export function getGlossaryByTopic(topicId: string) {
+  return glossary.filter((item) => item.topicId === topicId || item.tags?.includes(topicId));
+}
+
+export function searchKnowledgeBase(query: string) {
+  const normalized = query.toLocaleLowerCase("tr-TR").trim();
+  if (!normalized) return [];
+
+  const topicHits = topics
+    .filter((topic) => {
+      const haystack = [topic.title, topic.shortDescription, ...topic.keywords, ...topic.mustKnow, ...topic.commonMistakes, ...topic.summary.flatMap((block) => [block.heading, block.body, ...block.bullets])]
+        .join(" ")
+        .toLocaleLowerCase("tr-TR");
+      return haystack.includes(normalized) || normalized.split(/\s+/).some((token) => token.length > 3 && haystack.includes(token));
+    })
+    .map((topic) => ({ type: "topic" as const, id: topic.id, title: topic.title, body: topic.summary.map((block) => `${block.heading}: ${block.body}`).join("\n") }));
+
+  const questionHits = questions
+    .filter((question) => [question.stem, question.explanation, question.examTip, ...question.tags].join(" ").toLocaleLowerCase("tr-TR").includes(normalized))
+    .map((question) => ({ type: "question" as const, id: question.id, title: question.stem, body: question.explanation }));
+
+  const cardHits = flashcards
+    .filter((card) => [card.front, card.back, card.hint, ...card.tags].join(" ").toLocaleLowerCase("tr-TR").includes(normalized))
+    .map((card) => ({ type: "flashcard" as const, id: card.id, title: card.front, body: card.back }));
+
+  return [...topicHits, ...questionHits, ...cardHits].slice(0, 12);
+}

@@ -10,17 +10,14 @@ type ChatPayload = {
   history?: KpssTutorHistoryItem[];
 };
 
+export async function GET() {
+  return NextResponse.json({ ok: true, service: "softbridge-kpss-tarih-llm-tutor" });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const payload = (await request.json().catch(() => ({}))) as ChatPayload;
     const message = String(payload.message ?? payload.prompt ?? payload.question ?? "").trim();
-
-    if (!message) {
-      return NextResponse.json(
-        { error: "Mesaj boş olamaz. Lütfen KPSS Tarih ile ilgili bir soru yaz." },
-        { status: 400 }
-      );
-    }
 
     const answer = await answerKpssQuestion(message, {
       history: Array.isArray(payload.history) ? payload.history : [],
@@ -28,15 +25,23 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       reply: answer.reply,
+      answer: answer.answer,
       source: answer.source,
+      sourceMode: answer.sourceMode,
       confidence: answer.confidence,
       matchedTitle: answer.matchedTitle ?? null,
+      sources: answer.sources,
     });
   } catch (error) {
-    console.error("[kpss-tutor-api]", error);
-    return NextResponse.json(
-      { error: "Asistan cevabı hazırlanırken beklenmeyen bir hata oluştu." },
-      { status: 500 }
-    );
+    console.error("[softbridge-kpss-tutor]", error);
+
+    return NextResponse.json({
+      reply:
+        "Şu an kısa bir bağlantı gecikmesi var. Sorunu tekrar gönder; KPSS Tarih açısından net cevap, kısa açıklama ve sınav ipucuyla yanıtlayayım.",
+      source: "local-teacher",
+      sourceMode: "local-teacher",
+      confidence: 0.3,
+      sources: [],
+    });
   }
 }
