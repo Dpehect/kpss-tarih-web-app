@@ -92,18 +92,18 @@ export function AuthPanel() {
             </div>
           </div>
 
-          <p className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Güvenli giriş</p>
+          <p className="mt-8 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Sınav Yönetim Sistemi</p>
           <h1 className="mt-3 max-w-2xl text-5xl font-black leading-[0.94] tracking-[-0.08em] text-[#101828] md:text-6xl">
-            Çalışma paneline hızlı giriş yap.
+            Çalışma alanınıza giriş yapın.
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#475467]">
-            Giriş yaptıktan sonra direkt dashboard açılır. İçerik Supabase’den parça parça gelir; büyük veri dosyaları local bundle’a yüklenmez.
+            KPSS Tarih hazırlık sürecinizi tek bir merkezden yönetin. İlerlemenizi güvenle saklayın, eksiklerinizi analiz edin ve hedeflerinize odaklanın.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
-            <Info icon={<ShieldCheck size={18} />} title="Güvenli" body="Google OAuth" />
-            <Info icon={<Sparkles size={18} />} title="Hafif" body="Ultra-lite shell" />
-            <Info icon={<CheckCircle2 size={18} />} title="Hızlı" body="30 soru/test" />
+            <Info icon={<ShieldCheck size={18} />} title="Güvenli Altyapı" body="Google OAuth" />
+            <Info icon={<Sparkles size={18} />} title="Bulut Eş zamanlı" body="Veri kaybı yok" />
+            <Info icon={<CheckCircle2 size={18} />} title="Akıllı Pratik" body="20 soruluk testler" />
           </div>
         </div>
       </section>
