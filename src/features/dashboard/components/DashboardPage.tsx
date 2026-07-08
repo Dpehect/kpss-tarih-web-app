@@ -71,8 +71,8 @@ export function DashboardPage() {
     <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
       <motion.section variants={item} className="grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(340px,.8fr)]">
         <PremiumCard tone="dark" className="min-h-[320px] p-6 sm:p-8">
-          <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-blue-400/20 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 left-1/2 size-80 rounded-full bg-amber-400/20 blur-3xl" />
+          <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-blue-400/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 left-1/2 size-80 rounded-full bg-amber-400/10 blur-3xl" />
           <div className="relative z-10 flex h-full flex-col justify-between gap-8">
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-black text-white ring-1 ring-white/10">

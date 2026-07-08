@@ -13,8 +13,8 @@ type PremiumCardProps = Omit<HTMLMotionProps<"div">, "children"> & {
 const tones = {
   default: "border-[var(--sb-line)] bg-[var(--sb-surface)] text-[var(--sb-text)] shadow-[var(--sb-shadow-sm)]",
   elevated: "border-[var(--sb-line)] bg-[var(--sb-surface-strong)] text-[var(--sb-text)] shadow-[var(--sb-shadow-md)]",
-  dark: "border-white/10 bg-[linear-gradient(135deg,#0f172a,#111827_54%,#1e293b)] text-white shadow-[var(--sb-shadow-lg)]",
-  accent: "border-amber-500/20 bg-[linear-gradient(135deg,rgba(217,119,6,.12),rgba(255,255,255,.88))] text-[var(--sb-text)] shadow-[var(--sb-shadow-sm)]",
+  dark: "border-white/10 bg-[linear-gradient(135deg,#0f172a,#131c2e_54%,#1a2540)] text-white shadow-[var(--sb-shadow-md)]",
+  accent: "border-amber-500/20 bg-[linear-gradient(135deg,rgba(217,119,6,.08),rgba(255,255,255,.90))] text-[var(--sb-text)] shadow-[var(--sb-shadow-sm)]",
 };
 
 export function PremiumCard({ children, className, interactive = false, tone = "default", ...props }: PremiumCardProps) {

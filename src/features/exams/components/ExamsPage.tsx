@@ -1,102 +1,144 @@
+import Link from "next/link";
 import { ArrowRight, Clock, FileQuestion, Gauge, Medal, Target, Trophy } from "lucide-react";
-import { fetchContentTests, fetchContentTopics } from "@/lib/content/supabase-content-server";
+import { fetchExamsFromSupabase } from "@/lib/content/content-service";
 
-const examPresets = [
-  { id: "deneme-1", title: "Genel Tekrar Denemesi 1", focus: "Tüm dönemlerden dengeli karma ölçüm", minutes: 60, questionCount: 60, level: "Karma" },
-  { id: "deneme-2", title: "Siyasi Tarih Denemesi", focus: "Devletler, savaşlar, antlaşmalar", minutes: 60, questionCount: 60, level: "Orta" },
-  { id: "deneme-3", title: "Kronoloji Denemesi", focus: "Olay sıralaması ve dönem ilişkisi", minutes: 60, questionCount: 60, level: "Seçici" },
-  { id: "deneme-4", title: "Atatürk İlkeleri Denemesi", focus: "İnkılaplar ve temel kavramlar", minutes: 60, questionCount: 60, level: "Orta" },
-  { id: "deneme-5", title: "Zorlayıcı Final Denemesi", focus: "Karıştırılan bilgiler ve yorum gücü", minutes: 60, questionCount: 60, level: "Zor" },
-  { id: "deneme-6", title: "Hızlı Kontrol Denemesi", focus: "Sınav öncesi kısa net tarama", minutes: 45, questionCount: 50, level: "Hızlı" }
-];
+const DIFFICULTY_LABELS: Record<string, string> = {
+  kolay: "Kolay",
+  orta: "Orta",
+  zor: "Zor",
+  karma: "Karma",
+};
+
+const DIFFICULTY_COLORS: Record<string, string> = {
+  kolay: "bg-emerald-500/12 text-emerald-700",
+  orta: "bg-amber-500/12 text-amber-700",
+  zor: "bg-red-500/12 text-red-700",
+  karma: "bg-blue-700/10 text-blue-800",
+};
 
 export async function ExamsPage() {
-  const [topics, tests] = await Promise.all([
-    fetchContentTopics(),
-    fetchContentTests()
-  ]);
+  let exams: Awaited<ReturnType<typeof fetchExamsFromSupabase>> = [];
+
+  try {
+    exams = await fetchExamsFromSupabase();
+  } catch {
+    // Supabase bağlantısı yoksa boş göster
+  }
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-6">
-      <section className="relative overflow-hidden rounded-[2.75rem] border border-white/75 bg-white/78 p-6 shadow-[0_32px_105px_rgba(16,24,40,.12)] backdrop-blur-xl md:p-8">
-        <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[#bfdbfe]/70 blur-3xl" />
-        <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
+    <div className="space-y-8">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-[2rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-6 shadow-[var(--sb-shadow-md)] sm:p-8 lg:p-10">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-blue-600/8 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 left-10 size-72 rounded-full bg-amber-500/6 blur-3xl" />
+
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Deneme merkezi</p>
-            <h1 className="mt-3 max-w-4xl text-5xl font-black leading-[0.92] tracking-[-0.08em] text-[#101828] md:text-7xl">
+            <p className="text-[11px] font-black uppercase tracking-[.16em] text-[var(--sb-accent)]">Deneme Merkezi</p>
+            <h1 className="mt-3 max-w-3xl text-4xl font-black tracking-tight text-[var(--sb-text)] sm:text-5xl">
               Gerçek sınav temposuna geç.
             </h1>
-            <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#475467]">
-              Denemeler Supabase soru havuzundan çalışır. Her deneme açıldığında soru seti hazırlanır ve “bölüm bulunamadı” hatası oluşmaz.
+            <p className="mt-4 max-w-2xl text-sm font-medium leading-7 text-[var(--sb-text-soft)]">
+              Tüm denemeler Supabase soru havuzundan çalışır. Her deneme başlatıldığında sorular gerçek zamanlı olarak hazırlanır.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <Metric icon={<Target size={18} />} label="Deneme" value={examPresets.length} />
-            <Metric icon={<FileQuestion size={18} />} label="Soru havuzu" value={tests.length ? tests.length * 30 : "Aktif"} />
-            <Metric icon={<Gauge size={18} />} label="Konu" value={topics.length || 12} />
-            <Metric icon={<Clock size={18} />} label="Süre" value="45-60 dk" />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 lg:w-72">
+            <StatCard icon={<Target size={17} />} label="Deneme" value={exams.length || 40} />
+            <StatCard icon={<FileQuestion size={17} />} label="Soru/Deneme" value={40} />
+            <StatCard icon={<Gauge size={17} />} label="Seviye" value="3 tip" />
+            <StatCard icon={<Clock size={17} />} label="Süre" value="40-55 dk" />
           </div>
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {examPresets.map((exam, index) => (
-          <a
-            key={exam.id}
-            href={`/exams/${exam.id}`}
-            className="group relative min-h-[290px] overflow-hidden rounded-[2rem] border border-white/75 bg-white/80 p-5 shadow-[0_20px_65px_rgba(16,24,40,.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(16,24,40,.12)]"
-          >
-            <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute right-[-3rem] top-[-3rem] size-32 rounded-full bg-[#fff7ed] blur-2xl" />
-            <div className="relative z-10 flex h-full flex-col">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <span className="rounded-full bg-[#101828] px-3 py-1 text-xs font-black text-white">
-                  Deneme {index + 1}
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-[#fffaf3] px-3 py-1 text-xs font-black text-[#101828]">
-                  <Medal size={14} />
-                  {exam.level}
-                </span>
-              </div>
+      {/* Exam Cards */}
+      {exams.length > 0 ? (
+        <section className="space-y-4">
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[.16em] text-[var(--sb-text-muted)]">
+              {exams.length} Deneme Sınavı
+            </p>
+            <h2 className="mt-1 text-2xl font-black tracking-tight text-[var(--sb-text)]">Tüm denemeler</h2>
+          </div>
 
-              <h2 className="text-2xl font-black leading-tight tracking-[-0.045em] text-[#101828]">{exam.title}</h2>
-              <p className="mt-3 text-sm font-semibold leading-6 text-[#475467]">{exam.focus}</p>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {exams.map((exam, index) => (
+              <Link
+                key={exam.id}
+                href={`/exams/${exam.id}` as any}
+                className="group relative overflow-hidden rounded-[1.7rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-5 shadow-[var(--sb-shadow-sm)] transition hover:-translate-y-1 hover:border-blue-700/20 hover:shadow-[var(--sb-shadow-md)] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20"
+              >
+                <div className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full bg-blue-600/5 blur-2xl transition group-hover:bg-blue-600/10" />
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="grid size-10 place-items-center rounded-2xl bg-[var(--sb-primary)] text-sm font-black text-white">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`rounded-full px-3 py-1 text-[11px] font-black ${
+                        DIFFICULTY_COLORS[(exam as any).difficulty ?? "karma"] ?? DIFFICULTY_COLORS.karma
+                      }`}
+                    >
+                      {DIFFICULTY_LABELS[(exam as any).difficulty ?? "karma"] ?? "Karma"}
+                    </span>
+                  </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-2">
-                <SmallStat label="Soru" value={exam.questionCount} />
-                <SmallStat label="Süre" value={`${exam.minutes} dk`} />
-              </div>
+                  <h2 className="mt-4 text-lg font-black leading-snug tracking-tight text-[var(--sb-text)]">
+                    {exam.title}
+                  </h2>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--sb-text-soft)]">
+                    {exam.description}
+                  </p>
 
-              <div className="mt-auto flex items-center justify-between pt-5">
-                <span className="inline-flex items-center gap-2 text-sm font-black text-[#475467]">
-                  <Trophy size={16} />
-                  Başlat
-                </span>
-                <ArrowRight className="transition group-hover:translate-x-1" size={18} />
-              </div>
-            </div>
-          </a>
-        ))}
-      </section>
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    <div className="rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface-muted)] p-3 text-center">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-[var(--sb-text-muted)]">Soru</p>
+                      <p className="mt-1 text-lg font-black text-[var(--sb-text)]">40</p>
+                    </div>
+                    <div className="rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface-muted)] p-3 text-center">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-[var(--sb-text-muted)]">Süre</p>
+                      <p className="mt-1 text-lg font-black text-[var(--sb-text)]">{exam.durationMinutes} dk</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-black text-[var(--sb-primary)]">
+                      <Trophy size={15} /> Başlat
+                    </span>
+                    <ArrowRight size={17} className="text-[var(--sb-text-muted)] transition group-hover:translate-x-1 group-hover:text-[var(--sb-primary)]" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <section className="rounded-[1.8rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-10 text-center shadow-[var(--sb-shadow-sm)]">
+          <div className="mx-auto grid size-16 place-items-center rounded-3xl bg-blue-700/10 text-[var(--sb-primary)]">
+            <FileQuestion size={28} />
+          </div>
+          <h2 className="mt-5 text-xl font-black text-[var(--sb-text)]">Denemeler yükleniyor</h2>
+          <p className="mt-2 text-sm text-[var(--sb-text-soft)]">
+            Supabase bağlantısı kurulduğunda 40 deneme sınavı burada listelenecek.
+          </p>
+          <p className="mt-4 text-xs font-mono text-[var(--sb-text-muted)]">
+            Yüklemek için: supabase/seed-questions-and-exams.sql dosyasını Supabase SQL Editor&apos;de çalıştırın.
+          </p>
+        </section>
+      )}
     </div>
   );
 }
 
-function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
+function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
   return (
-    <div className="rounded-3xl border border-white/80 bg-white/84 p-4 shadow-[0_16px_44px_rgba(16,24,40,.08)]">
-      <div className="mb-3 inline-grid size-10 place-items-center rounded-2xl bg-[#101828] text-white">{icon}</div>
-      <p className="text-xs font-black uppercase tracking-[0.12em] text-[#667085]">{label}</p>
-      <p className="mt-1 text-2xl font-black text-[#101828]">{value}</p>
-    </div>
-  );
-}
-
-function SmallStat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="rounded-2xl border border-[#e4d8c8] bg-[#fffaf3] p-3">
-      <p className="text-[10px] font-black uppercase tracking-[0.12em] text-[#667085]">{label}</p>
-      <p className="mt-1 text-lg font-black text-[#101828]">{value}</p>
+    <div className="rounded-[1.25rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-4 shadow-[var(--sb-shadow-sm)]">
+      <div className="mb-2 grid size-9 place-items-center rounded-xl bg-[var(--sb-primary)]/10 text-[var(--sb-primary)]">
+        {icon}
+      </div>
+      <p className="text-[10px] font-black uppercase tracking-wider text-[var(--sb-text-muted)]">{label}</p>
+      <p className="mt-1 text-xl font-black text-[var(--sb-text)]">{value}</p>
     </div>
   );
 }

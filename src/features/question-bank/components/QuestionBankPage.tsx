@@ -37,25 +37,25 @@ export function QuestionBankPage() {
     <section className="space-y-8">
       <div className="relative overflow-hidden rounded-[2rem] border border-[var(--bureau-line)] bg-[var(--bureau-ink)] p-6 text-[var(--bureau-inverse)] shadow-[var(--shadow-stage)] sm:p-8 lg:p-10">
         <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-20 -top-24 h-80 w-80 rounded-full bg-[rgba(4,126,137,.26)] blur-3xl" />
-          <div className="absolute bottom-[-10rem] left-[15%] h-96 w-96 rounded-full bg-[rgba(37,63,116,.30)] blur-3xl" />
-          <div className="absolute inset-0 opacity-[.08] [background-image:linear-gradient(90deg,rgba(255,255,255,.28)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.24)_1px,transparent_1px)] [background-size:48px_48px]" />
+          <div className="absolute -right-20 -top-24 h-80 w-80 rounded-full bg-blue-500/12 blur-3xl" />
+          <div className="absolute bottom-[-10rem] left-[15%] h-96 w-96 rounded-full bg-indigo-600/10 blur-3xl" />
+          <div className="absolute inset-0 opacity-[.06] [background-image:linear-gradient(90deg,rgba(255,255,255,.28)_1px,transparent_1px),linear-gradient(rgba(255,255,255,.24)_1px,transparent_1px)] [background-size:48px_48px]" />
         </div>
 
         <div className="relative z-10 grid gap-8 xl:grid-cols-[1.05fr_.95fr] xl:items-end">
           <div>
-            <p className="kicker text-[var(--bureau-inverse)]">Soru Bankası</p>
-            <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-[-.055em] sm:text-5xl lg:text-6xl">
+            <p className="text-[11px] font-black uppercase tracking-[.16em] text-amber-400">Soru Bankası</p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-black tracking-[-.055em] text-white sm:text-5xl lg:text-6xl">
               Konu seç, seviyeyi belirle, açıklamalı teste gir.
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--bureau-inverse-copy)]">
-              Tüm kartlar tıklanabilir. Önce konu kartını açabilir, sonra kolay-orta-zor seviyelerden birini seçerek 30 soruluk testlere geçebilirsin.
+            <p className="mt-5 max-w-3xl text-base leading-8 text-white/75">
+              Tüm kartlar tıklanabilir. Önce konu kartını açabilir, sonra kolay-orta-zor seviyelerden birini seçerek testlere geçebilirsin.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/question-bank/all" className="btn-accent">
+              <Link href="/question-bank/all" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-amber-500 px-5 text-sm font-black text-slate-900 shadow transition hover:-translate-y-0.5 hover:bg-amber-400">
                 Karma testleri aç <ArrowRight size={17} />
               </Link>
-              <Link href="/topics" className="btn-ghost !bg-white/10 !text-[var(--bureau-inverse)] hover:!bg-white/15">
+              <Link href="/topics" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 text-sm font-black text-white transition hover:bg-white/20">
                 Konu anlatımlarına dön
               </Link>
             </div>
@@ -164,8 +164,8 @@ function TopicCard({ topic, index }: { topic: Topic; index: number }) {
         {levels.map((level) => (
           <Link
             key={level}
-            href={`/question-bank/${topic.id}?level=${level}`}
-            className="rounded-2xl border border-[var(--bureau-line)] bg-white px-3 py-3 text-center text-xs font-black text-[var(--bureau-ink)] transition hover:bg-[var(--bureau-ink)] hover:text-[var(--bureau-inverse)]"
+            href={`/question-bank/${topic.id}?level=${level}` as any}
+            className="rounded-2xl border border-[var(--bureau-line)] bg-white px-3 py-3 text-center text-xs font-black text-[var(--bureau-ink)] transition hover:bg-[var(--sb-primary)] hover:border-[var(--sb-primary)] hover:text-white"
           >
             {levelLabels[level]}
           </Link>
