@@ -1,0 +1,74 @@
+{
+  "topics": [
+    {
+      "id": "islamiyet-oncesi",
+      "slug": "islamiyet-oncesi-turk-tarihi",
+      "title": "İslamiyet Öncesi Türk Tarihi"
+    },
+    {
+      "id": "turk-islam",
+      "slug": "turk-islam-tarihi",
+      "title": "Türk-İslam Tarihi"
+    },
+    {
+      "id": "anadolu-selcuklu",
+      "slug": "anadolu-selcuklu-ve-beylikler",
+      "title": "Anadolu Selçuklu ve Beylikler"
+    },
+    {
+      "id": "osmanli-kurulus-yukselis",
+      "slug": "osmanli-kurulus-ve-yukselis",
+      "title": "Osmanlı Kuruluş ve Yükseliş"
+    },
+    {
+      "id": "osmanli-kultur-medeniyet",
+      "slug": "osmanli-kultur-ve-medeniyet",
+      "title": "Osmanlı Kültür ve Medeniyet"
+    },
+    {
+      "id": "osmanli-duraklama-gerileme",
+      "slug": "osmanli-duraklama-ve-gerileme",
+      "title": "Osmanlı Duraklama ve Gerileme"
+    },
+    {
+      "id": "osmanli-dagilma-islahat",
+      "slug": "osmanli-dagilma-ve-islahat",
+      "title": "Osmanlı Dağılma Dönemi ve Islahatlar"
+    },
+    {
+      "id": "trablusgarp-balkan-birinci-dunya",
+      "slug": "trablusgarp-balkan-ve-birinci-dunya-savasi",
+      "title": "Trablusgarp, Balkan ve I. Dünya Savaşı"
+    },
+    {
+      "id": "milli-mucadele-hazirlik",
+      "slug": "milli-mucadele-hazirlik-donemi",
+      "title": "Milli Mücadele Hazırlık Dönemi"
+    },
+    {
+      "id": "kurtulus-savasi-cepheler",
+      "slug": "kurtulus-savasi-cepheler",
+      "title": "Kurtuluş Savaşı Cepheleri"
+    },
+    {
+      "id": "lozan-cumhuriyet",
+      "slug": "lozan-ve-cumhuriyete-gecis",
+      "title": "Lozan ve Cumhuriyet’e Geçiş"
+    },
+    {
+      "id": "ataturk-ilke-inkilap",
+      "slug": "ataturk-ilkeleri-ve-inkilap-tarihi",
+      "title": "Atatürk İlkeleri ve İnkılap Tarihi"
+    },
+    {
+      "id": "cagdas-turk-dunya",
+      "slug": "cagdas-turk-ve-dunya-tarihi",
+      "title": "Çağdaş Türk ve Dünya Tarihi"
+    }
+  ],
+  "counts": {
+    "topics": 13,
+    "questions_minimum": 300,
+    "mode": "book-like-modular-original"
+  }
+}

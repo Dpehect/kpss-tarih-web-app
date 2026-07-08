@@ -1,0 +1,47 @@
+name: Modularize KPSS Data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/data/kpss-history.ts"
+      - "scripts/modularize-kpss-history.mjs"
+      - ".github/workflows/modularize-kpss-data.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  modularize:
+    if: ${{ !contains(github.event.head_commit.message, '[data-modularized]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Modularize monolithic KPSS history data
+        run: node scripts/modularize-kpss-history.mjs
+
+      - name: Audit modular data
+        run: node scripts/audit-modular-kpss-data.mjs
+
+      - name: Commit generated modular data
+        run: |
+          if git diff --quiet; then
+            echo "No modular data changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/kpss src/data/kpss-history.ts
+          git commit -m "Modularize KPSS history data [data-modularized]"
+          git push

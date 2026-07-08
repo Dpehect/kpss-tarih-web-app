@@ -1,220 +1,76 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import {
-  ArrowRight,
-  BookOpen,
-  FileQuestion,
-  Layers3,
-  Shuffle,
-  Sparkles,
-  Target,
-  TriangleAlert,
-} from "lucide-react";
-import {
-  QUESTIONS_PER_TEST,
-  TESTS_PER_LEVEL,
-  getTestCountsForTopic,
-  mixedQuestionTests,
-  topicQuestionTests,
-  type TestLevel,
-} from "@/data/generated-30-question-tests";
-import { topics } from "@/data/kpss-history";
+import { ArrowRight, BookOpen, FileQuestion, Layers3, Shuffle, Target } from "lucide-react";
+import { getQuestionBankPageData } from "@/lib/kpss/supabase-content-repository";
 import type { Topic } from "@/types/study";
 
-const levelLabels: Record<TestLevel, string> = {
-  kolay: "Kolay",
-  orta: "Orta",
-  zor: "Zor",
-};
-
-const levelDescriptions: Record<TestLevel, string> = {
+const levelLabels = { kolay: "Kolay", orta: "Orta", zor: "Zor" } as const;
+const levelDescriptions = {
   kolay: "Temel kavramları, doğrudan bilgi sorularını ve net tarih bilgisini hızlıca ölçer.",
   orta: "Olay, kurum, sonuç ve dönem ilişkisini birlikte yoklar; gerçek sınav temposuna yakındır.",
   zor: "Kronoloji, çeldirici, yorum ve sık karıştırılan ayrımları hedefler.",
-};
+} as const;
+const levels = ["kolay", "orta", "zor"] as const;
 
-const levels: TestLevel[] = ["kolay", "orta", "zor"];
-
-export function QuestionBankPage() {
-  const topicCount = topics.length;
-  const topicTestCount = topicQuestionTests.length;
+export async function QuestionBankPage() {
+  const { topics, topicQuestionTests, mixedQuestionTests } = await getQuestionBankPageData();
   const topicQuestionCount = topicQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
-  const mixedTestCount = mixedQuestionTests.length;
   const mixedQuestionCount = mixedQuestionTests.reduce((sum, test) => sum + test.questionCount, 0);
 
   return (
-    <main className="space-y-8 pb-24 text-[var(--sb-text)]">
-      <section
-        data-readable="light"
-        className="relative overflow-hidden rounded-[2rem] border border-[var(--sb-line)] bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_54%,#dbeafe_100%)] p-6 text-[var(--sb-text)] shadow-[var(--sb-shadow-md)] md:p-10"
-      >
-        <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-200/50 blur-3xl" />
-        <div className="pointer-events-none absolute bottom-0 left-1/3 h-52 w-52 rounded-full bg-amber-100/70 blur-3xl" />
-
-        <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,.75fr)] lg:items-end">
-          <div className="max-w-3xl">
-            <p className="kicker">Soru Bankası</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.055em] text-[var(--sb-text)] md:text-6xl">
-              Konu seç, seviyeyi belirle, açıklamalı teste gir.
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--sb-text-soft)] md:text-lg">
-              Tüm kartlar okunabilir ve tıklanabilir. Önce konu kartını açabilir, ardından kolay, orta veya zor seviyelerden biriyle sınav pratiğine geçebilirsin.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/question-bank/all" className="btn-accent">
-                Karma testleri aç <ArrowRight size={16} />
-              </Link>
-              <Link href="/topics" className="btn-light">
-                Konu anlatımlarına dön
-              </Link>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <SummaryCard icon={<BookOpen size={17} />} label="Konu" value={topicCount} />
-            <SummaryCard icon={<FileQuestion size={17} />} label="Konu testi" value={topicTestCount} />
-            <SummaryCard icon={<Layers3 size={17} />} label="Konu sorusu" value={topicQuestionCount} />
-            <SummaryCard icon={<Shuffle size={17} />} label="Karma test" value={`${mixedTestCount} / ${mixedQuestionCount}`} />
+    <main className="space-y-8">
+      <section className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-blue-50 to-amber-50 p-6 shadow-sm dark:border-slate-800 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 md:p-8">
+        <div className="relative z-10 max-w-4xl space-y-4">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-amber-700 dark:text-amber-300">Supabase hazır soru bankası</p>
+          <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">Konu seç, seviyeyi belirle, açıklamalı teste gir.</h1>
+          <p className="text-base leading-8 text-slate-700 dark:text-slate-300">Sorular deploy sırasında tekrar üretilmez. Supabase’de hazır bekleyen test manifestoları okunur; her testte tekrar kontrolü ve doğru cevap eşleşmesi audit edilir.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/question-bank/all" className="rounded-full bg-blue-900 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-800">Karma testleri aç</Link>
+            <Link href="/topics" className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-800 shadow-sm transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">Konu anlatımlarına dön</Link>
           </div>
         </div>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-4">
+        <SummaryCard icon={<BookOpen size={18} />} label="Konu" value={topics.length} />
+        <SummaryCard icon={<FileQuestion size={18} />} label="Konu testi" value={topicQuestionTests.length} />
+        <SummaryCard icon={<Target size={18} />} label="Konu sorusu" value={topicQuestionCount} />
+        <SummaryCard icon={<Shuffle size={18} />} label="Karma test" value={`${mixedQuestionTests.length} / ${mixedQuestionCount}`} />
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-3">
         {levels.map((level) => (
-          <MixedTestCard key={level} level={level} />
+          <MixedTestCard key={level} level={level} tests={mixedQuestionTests.filter((test) => test.level === level)} topics={topics} />
         ))}
       </section>
 
-      <SectionTitle
-        eyebrow="Konu Testleri"
-        title="Her konu için net, açıklamalı ve seviyeli test akışı"
-        description="Konu kartları KPSS kazanımı, kritik bilgi ve sık hata odağıyla düzenlendi. Karttan konuya, seviyeden teste tek tıkla geçebilirsin."
-      />
-
-      <section className="grid gap-5 xl:grid-cols-2">
-        {topics.map((topic, index) => (
-          <TopicCard key={topic.id} topic={topic} index={index} />
-        ))}
+      <section className="space-y-4">
+        <SectionTitle eyebrow="Konu testleri" title="Her konu kendi soru havuzundan çalışır." description="Kolay, orta ve zor testler konu dışına taşmadan ilgili havuzdan çekilir." />
+        <div className="grid gap-5 lg:grid-cols-2">
+          {topics.map((topic, index) => (
+            <TopicCard key={topic.id} topic={topic} index={index} tests={topicQuestionTests.filter((test) => test.topicId === topic.id)} />
+          ))}
+        </div>
       </section>
     </main>
   );
 }
 
-function MixedTestCard({ level }: { level: TestLevel }) {
-  const tests = mixedQuestionTests.filter((test) => test.level === level);
+function MixedTestCard({ level, tests, topics }: { level: keyof typeof levelLabels; tests: Array<{ questionCount: number }>; topics: Topic[] }) {
   const questionCount = tests.reduce((sum, test) => sum + test.questionCount, 0);
-
-  return (
-    <Link
-      href={`/question-bank/all/${level}`}
-      data-readable="light"
-      className="group rounded-[1.75rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-6 text-[var(--sb-text)] shadow-[var(--sb-shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/25 hover:shadow-[var(--sb-shadow-md)]"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <span className="rounded-full bg-amber-500/12 px-3 py-1 text-xs font-black text-amber-700">Karma</span>
-        <span className="text-xs font-black text-[var(--sb-text-muted)]">{tests.length} test</span>
-      </div>
-      <h2 className="mt-5 text-2xl font-black tracking-tight text-[var(--sb-text)]">{levelLabels[level]} karma testler</h2>
-      <p className="mt-3 min-h-16 text-sm leading-7 text-[var(--sb-text-soft)]">
-        {levelDescriptions[level]} Sorular farklı konulardan harmanlanır.
-      </p>
-      <div className="mt-5 rounded-2xl border border-[var(--sb-line)] bg-slate-50 p-4 text-[var(--sb-text)]">
-        <p className="text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">Kapsam</p>
-        <p className="mt-2 text-sm leading-7 text-[var(--sb-text-soft)]">
-          {topics.slice(0, 4).map((topic) => topic.title).join(", ")} ve {Math.max(0, topics.length - 4)} konu daha
-        </p>
-      </div>
-      <div className="mt-5 flex items-center justify-between rounded-full border border-[var(--sb-line)] bg-white px-4 py-3 text-sm font-black text-[var(--sb-text)]">
-        <span>{questionCount} soru</span>
-        <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
-      </div>
-    </Link>
-  );
+  return <Link href={`/question-bank/all/${level}`} className="group rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950"><p className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 dark:text-amber-300">Karma {tests.length} test</p><h2 className="mt-3 text-2xl font-black text-slate-950 dark:text-white">{levelLabels[level]} karma testler</h2><p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{levelDescriptions[level]} Sorular farklı konulardan harmanlanır.</p><p className="mt-5 text-xs font-black uppercase tracking-[0.18em] text-slate-500">Kapsam</p><p className="mt-2 text-sm font-semibold text-slate-700 dark:text-slate-300">{topics.slice(0, 4).map((topic) => topic.title).join(", ")} ve {Math.max(0, topics.length - 4)} konu daha</p><div className="mt-6 flex items-center justify-between"><span className="text-sm font-black text-slate-900 dark:text-white">{questionCount} soru</span><ArrowRight className="transition group-hover:translate-x-1" size={18} /></div></Link>;
 }
 
-function TopicCard({ topic, index }: { topic: Topic; index: number }) {
-  const counts = getTestCountsForTopic(topic.id);
+function TopicCard({ topic, index, tests }: { topic: Topic; index: number; tests: Array<{ level: string; questionCount: number }> }) {
+  const totalQuestions = tests.reduce((sum, test) => sum + test.questionCount, 0);
   const mustKnow = topic.mustKnow?.slice(0, 4) ?? [];
-  const mistake = topic.commonMistakes?.[0] ?? `${topic.title} sorularında dönem ve kavram ilişkisini karıştırmamaya dikkat et.`;
-
-  return (
-    <article
-      data-readable="light"
-      className="rounded-[1.75rem] border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] p-6 text-[var(--sb-text)] shadow-[var(--sb-shadow-sm)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/25 hover:shadow-[var(--sb-shadow-md)]"
-    >
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <span className="rounded-full bg-blue-600/10 px-3 py-1 text-xs font-black text-blue-700">{String(index + 1).padStart(2, "0")}</span>
-          <h2 className="mt-4 text-2xl font-black tracking-tight text-[var(--sb-text)]">{topic.title}</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--sb-text-soft)]">{topic.shortDescription}</p>
-        </div>
-        <div className="rounded-2xl border border-[var(--sb-line)] bg-slate-50 p-4 text-right text-[var(--sb-text)]">
-          <p className="text-2xl font-black text-[var(--sb-text)]">{counts.totalTests}</p>
-          <p className="text-xs font-bold text-[var(--sb-text-muted)]">test</p>
-          <p className="mt-2 text-sm font-black text-blue-700">{counts.totalQuestions} soru</p>
-        </div>
-      </div>
-
-      <div className="mt-5 grid gap-4 md:grid-cols-[1fr_.85fr]">
-        <div className="rounded-2xl border border-[var(--sb-line)] bg-slate-50 p-4 text-[var(--sb-text)]">
-          <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.16em] text-blue-700">
-            <Target size={14} /> Bilmen Gerekenler
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {mustKnow.length > 0 ? (
-              mustKnow.map((item) => (
-                <span key={item} className="rounded-full border border-blue-500/15 bg-white px-3 py-1.5 text-xs font-bold text-[var(--sb-text-soft)]">
-                  {item}
-                </span>
-              ))
-            ) : (
-              <span className="text-sm text-[var(--sb-text-soft)]">Bu konu için kritik kavramlar konu anlatımında listelenir.</span>
-            )}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-amber-500/20 bg-amber-50 p-4 text-[var(--sb-text)]">
-          <p className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.16em] text-amber-700">
-            <TriangleAlert size={14} /> Sık Hata
-          </p>
-          <p className="mt-3 text-sm leading-7 text-[var(--sb-text-soft)]">{mistake}</p>
-        </div>
-      </div>
-
-      <div className="mt-5 flex flex-wrap gap-3">
-        <Link href={`/topics/${topic.slug ?? topic.id}`} className="btn-light">
-          Konuyu aç <BookOpen size={16} />
-        </Link>
-        {levels.map((level) => (
-          <Link key={level} href={`/question-bank/${topic.id}/${level}`} className="btn-primary">
-            {levelLabels[level]}
-          </Link>
-        ))}
-      </div>
-    </article>
-  );
+  return <article className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">{String(index + 1).padStart(2, "0")}</p><h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white">{topic.title}</h2></div><span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-800 dark:bg-blue-950 dark:text-blue-200">{tests.length} test</span></div><p className="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">{topic.shortDescription}</p><div className="mt-5 rounded-2xl bg-slate-50 p-4 dark:bg-slate-900"><p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Bilmen gerekenler</p><ul className="mt-3 space-y-2">{mustKnow.map((item) => <li key={item} className="flex gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300"><Layers3 className="mt-0.5 shrink-0 text-amber-600" size={15} />{item}</li>)}</ul></div><div className="mt-5 flex flex-wrap items-center gap-2"><Link href={`/topics/${topic.slug}`} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-800 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100">Konuyu aç</Link>{levels.map((level) => <Link key={level} href={`/question-bank/${topic.id}/${level}`} className="rounded-full bg-blue-900 px-4 py-2 text-sm font-black text-white shadow-sm hover:bg-blue-800">{levelLabels[level]}</Link>)}</div><p className="mt-4 text-xs font-bold text-slate-500">{totalQuestions} hazır soru · Supabase’den okunur</p></article>;
 }
 
 function SummaryCard({ icon, label, value }: { icon: ReactNode; label: string; value: number | string }) {
-  return (
-    <div data-readable="light" className="rounded-2xl border border-[var(--sb-line)] bg-white/80 p-4 text-[var(--sb-text)] shadow-[var(--sb-shadow-xs)] backdrop-blur">
-      <p className="flex items-center gap-2 text-xs font-black text-[var(--sb-text-muted)]">{icon}{label}</p>
-      <p className="mt-3 text-3xl font-black tracking-tight text-[var(--sb-text)]">{value}</p>
-    </div>
-  );
+  return <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950"><div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-slate-500">{icon}{label}</div><p className="mt-3 text-3xl font-black tracking-tight text-slate-950 dark:text-white">{value}</p></div>;
 }
 
 function SectionTitle({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
-  return (
-    <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-      <div>
-        <p className="kicker">{eyebrow}</p>
-        <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--sb-text)] md:text-4xl">{title}</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--sb-text-soft)] md:text-base">{description}</p>
-      </div>
-      <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--sb-line)] bg-[var(--sb-surface-strong)] px-4 py-2 text-sm font-black text-[var(--sb-text)] shadow-[var(--sb-shadow-xs)]">
-        <Sparkles size={16} className="text-amber-600" /> Açıklamalı çözüm modu
-      </div>
-    </div>
-  );
+  return <div><p className="text-xs font-black uppercase tracking-[0.22em] text-amber-700 dark:text-amber-300">{eyebrow}</p><h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white">{title}</h2><p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">{description}</p></div>;
 }
