@@ -57,7 +57,7 @@ export function ProfilePage() {
             </div>
           </div>
 
-          <p className="mt-6 rounded-xl border border-[var(--border-soft)] bg-white/72 p-4 text-sm font-semibold leading-7 text-[var(--graphite)]">
+          <p className="kpss-light-container mt-6 rounded-xl border border-[var(--border-soft)] bg-white/72 p-4 text-sm font-semibold leading-7 text-[var(--graphite)]">
             Google ile giriş yaptıysan ilerleme Supabase tarafında senkronize edilir. Giriş yapmadan da localStorage üzerinden çalışmaya devam edebilirsin.
           </p>
 
@@ -98,7 +98,7 @@ export function ProfilePage() {
 
 function ProfileMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[var(--border-soft)] bg-white/74 p-4">
+    <div className="kpss-light-container rounded-xl border border-[var(--border-soft)] bg-white/74 p-4">
       <p className="text-xs font-semibold uppercase tracking-wider text-[var(--slate)]">{label}</p>
       <p className="mt-2 text-3xl font-semibold tracking-tight text-[var(--ink)]">{value}</p>
     </div>

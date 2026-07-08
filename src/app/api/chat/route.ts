@@ -38,8 +38,12 @@ export async function POST(req: NextRequest) {
   try {
     const { message, history } = await req.json();
 
-    if (!message?.trim()) {
-      return NextResponse.json({ error: "Mesaj boş olamaz" }, { status: 400 });
+    const lowerMsg = message.toLowerCase().trim();
+    
+    // ─── 0. GREETING (SELAMLAŞMA) KONTROLÜ ───
+    const isGreeting = ["selam", "merhaba", "slm", "günaydın", "merhabalar", "hey", "mrb", "iyi günler", "iyi çalışmalar"].some(greet => lowerMsg.startsWith(greet) || lowerMsg === greet);
+    if (isGreeting) {
+      return NextResponse.json({ reply: "Merhaba! Ben KPSS Tarih yapay zeka asistanın. KPSS Tarih müfredatına dair konuları, kavramları veya kronolojik bilgileri sorabilirsin. Sana nasıl yardımcı olabilirim? 🎯" });
     }
 
     // ─── 1. VERİTABANI / ARŞİV ARAMASI (ÖNCELİKLİ) ───
@@ -56,7 +60,7 @@ export async function POST(req: NextRequest) {
         if (t) {
           const firstSummary = t.summary?.[0];
           const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}`;
+          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 Konu Akademisi'nde Çalışmaya Başla](/topics)`;
         }
       } else if (bestMatch.type === "Flashcard") {
         const card = flashcards.find((item) => item.id === bestMatch.id);
@@ -112,7 +116,7 @@ export async function POST(req: NextRequest) {
           if (t) {
             const firstSummary = t.summary?.[0];
             const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}`;
+            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 Konu Akademisi'nde Çalışmaya Başla](/topics)`;
           }
         } else if (bestMatch.type === "Flashcard") {
           const card = flashcards.find((item) => item.id === bestMatch.id);

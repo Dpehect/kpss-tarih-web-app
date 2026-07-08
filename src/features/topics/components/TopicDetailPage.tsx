@@ -64,7 +64,7 @@ export function TopicDetailPage({ slug }: { slug: string }) {
           <DetailPanel icon={<BookOpen size={20} />} title="Konu anlatımı">
             <div className="space-y-5">
               {topic.summary.map((block, index) => (
-                <section key={`${block.heading}-${index}`} className="rounded-[1.4rem] border border-[var(--bureau-line)] bg-white/70 p-5">
+                <section key={`${block.heading}-${index}`} className="kpss-light-container rounded-[1.4rem] border border-[var(--bureau-line)] bg-white/70 p-5">
                   <div className="flex items-center gap-3">
                     <span className="grid size-10 place-items-center rounded-2xl bg-[var(--bureau-ink)] text-sm font-black text-[var(--bureau-inverse)]">{String(index + 1).padStart(2, "0")}</span>
                     <h2 className="text-xl font-black tracking-[-.03em] text-[var(--bureau-ink)]">{block.heading}</h2>
@@ -72,7 +72,7 @@ export function TopicDetailPage({ slug }: { slug: string }) {
                   <p className="mt-4 text-[15px] leading-8 text-[var(--bureau-copy)]">{block.body}</p>
                   <ul className="mt-4 grid gap-3">
                     {block.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-3 rounded-2xl bg-[rgba(4,126,137,.07)] p-3 text-sm leading-7 text-[var(--bureau-copy)]">
+                      <li key={bullet} className="kpss-light-container flex gap-3 rounded-2xl bg-[rgba(4,126,137,.07)] p-3 text-sm leading-7 text-[var(--bureau-copy)]">
                         <CheckCircle2 className="mt-1 shrink-0 text-[var(--bureau-teal)]" size={17} />
                         <span>{bullet}</span>
                       </li>
@@ -184,7 +184,7 @@ function Metric({ icon, label, value, helper }: { icon: ReactNode; label: string
 
 function DetailPanel({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
   return (
-    <section className="rounded-[1.8rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.88)] p-5 shadow-[var(--shadow-paper)] sm:p-6">
+    <section className="kpss-light-container rounded-[1.8rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.88)] p-5 shadow-[var(--shadow-paper)] sm:p-6">
       <div className="mb-5 flex items-center gap-3">
         <span className="grid size-11 place-items-center rounded-2xl bg-[rgba(4,126,137,.10)] text-[var(--bureau-teal)]">{icon}</span>
         <h2 className="text-2xl font-black tracking-[-.04em] text-[var(--bureau-ink)]">{title}</h2>
@@ -196,7 +196,7 @@ function DetailPanel({ icon, title, children }: { icon: ReactNode; title: string
 
 function SidePanel({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
   return (
-    <section className="rounded-[1.6rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.92)] p-5 shadow-[var(--shadow-paper)]">
+    <section className="kpss-light-container rounded-[1.6rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.92)] p-5 shadow-[var(--shadow-paper)]">
       <div className="mb-4 flex items-center gap-3">
         <span className="grid size-10 place-items-center rounded-2xl bg-[rgba(4,126,137,.10)] text-[var(--bureau-teal)]">{icon}</span>
         <h3 className="text-lg font-black tracking-[-.03em] text-[var(--bureau-ink)]">{title}</h3>
@@ -208,7 +208,7 @@ function SidePanel({ icon, title, children }: { icon: ReactNode; title: string; 
 
 function DeepNote({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[1.25rem] border border-[var(--bureau-line)] bg-white/70 p-4">
+    <div className="kpss-light-container rounded-[1.25rem] border border-[var(--bureau-line)] bg-white/70 p-4">
       <h3 className="text-sm font-black text-[var(--bureau-ink)]">{title}</h3>
       <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">{body}</p>
     </div>
@@ -217,7 +217,7 @@ function DeepNote({ title, body }: { title: string; body: string }) {
 
 function ExamTip({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[1.25rem] border border-[rgba(4,126,137,.18)] bg-[rgba(4,126,137,.07)] p-4">
+    <div className="kpss-light-container rounded-[1.25rem] border border-[rgba(4,126,137,.18)] bg-[rgba(4,126,137,.07)] p-4">
       <h3 className="text-sm font-black text-[var(--bureau-ink)]">{title}</h3>
       <p className="mt-2 text-sm leading-7 text-[var(--bureau-copy)]">{body}</p>
     </div>

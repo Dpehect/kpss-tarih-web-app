@@ -28,7 +28,7 @@ export function ChatbotWidget() {
     {
       id: "welcome",
       role: "bot",
-      text: "Merhaba! Ben KPSS Tarih asistanınım, Gemini AI ile çalışıyorum. Konu özetleri, kavramlar, tarihler veya sınav stratejisi hakkında her şeyi sorabilirsin. 🎯",
+      text: "Merhaba! Ben KPSS Tarih Yapay Zeka Rehberiniz. KPSS Tarih müfredatına dair konuları, kavramları veya kronolojik gelişmeleri sorabilirsiniz. Size nasıl yardımcı olabilirim? 🎯",
     },
   ]);
   const [input, setInput] = useState("");
@@ -162,8 +162,8 @@ export function ChatbotWidget() {
                 <Sparkles size={17} className="text-white" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-black text-white">KPSS Tarih AI</p>
-                <p className="text-[11px] text-white/65">Gemini ile güçlendirilmiş asistan</p>
+                <p className="text-[13px] font-black text-white">KPSS Tarih Yapay Zeka Rehberi</p>
+                <p className="text-[11px] text-white/65">Akademik Sınav Asistanı</p>
               </div>
               <button
                 type="button"
@@ -265,7 +265,7 @@ export function ChatbotWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKey}
-                  placeholder="Konu, kavram veya tarih sor..."
+                  placeholder="Örnek: Kut anlayışı nedir? veya Lozan Barış Antlaşması..."
                   disabled={loading}
                   className="min-w-0 flex-1 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-2.5 text-[13px] text-[var(--sb-text)] outline-none transition placeholder:text-[var(--sb-text-muted)] focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 disabled:opacity-60"
                 />
