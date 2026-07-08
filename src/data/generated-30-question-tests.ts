@@ -14,7 +14,7 @@ export type GeneratedQuestionTest = {
 };
 
 export const TESTS_PER_LEVEL = 20;
-export const QUESTIONS_PER_TEST = 30;
+export const QUESTIONS_PER_TEST = 20;
 
 const levelLabels: Record<TestLevel, string> = {
   kolay: "Kolay",
