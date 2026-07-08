@@ -129,7 +129,7 @@ function QuestionHeader({ eyebrow, title, description, backHref, backLabel, icon
       </div>
       <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-4xl">
-          <Link href={backHref} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.08] px-4 py-2 text-sm font-black text-[var(--bureau-inverse)] transition hover:bg-white/[.13]">
+          <Link href={backHref as any} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[.08] px-4 py-2 text-sm font-black text-[var(--bureau-inverse)] transition hover:bg-white/[.13]">
             <ArrowLeft size={16} /> {backLabel}
           </Link>
           <p className="kicker text-[var(--bureau-inverse)]">{eyebrow}</p>
