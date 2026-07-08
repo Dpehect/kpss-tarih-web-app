@@ -118,12 +118,9 @@ export async function ExamsPage() {
           <div className="mx-auto grid size-16 place-items-center rounded-3xl bg-blue-700/10 text-[var(--sb-primary)]">
             <FileQuestion size={28} />
           </div>
-          <h2 className="mt-5 text-xl font-black text-[var(--sb-text)]">Denemeler yükleniyor</h2>
+          <h2 className="mt-5 text-xl font-black text-[var(--sb-text)]">Denemeler Eş Zamanlanıyor</h2>
           <p className="mt-2 text-sm text-[var(--sb-text-soft)]">
-            Supabase bağlantısı kurulduğunda 40 deneme sınavı burada listelenecek.
-          </p>
-          <p className="mt-4 text-xs font-mono text-[var(--sb-text-muted)]">
-            Yüklemek için: supabase/seed-questions-and-exams.sql dosyasını Supabase SQL Editor&apos;de çalıştırın.
+            KPSS Tarih deneme sınavları bulut veritabanı ile senkronize ediliyor. Bağlantı tamamlandığında tüm deneme sınavları bu alanda listelenecektir.
           </p>
         </section>
       )}
