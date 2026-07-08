@@ -4,10 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const fullPath = (relative) => path.join(root, relative);
 const exists = (relative) => fs.existsSync(fullPath(relative));
-const read = (relative) => {
-  const file = fullPath(relative);
-  return fs.existsSync(file) ? fs.readFileSync(file, "utf8") : null;
-};
+const read = (relative) => (exists(relative) ? fs.readFileSync(fullPath(relative), "utf8") : null);
 const write = (relative, content) => {
   const file = fullPath(relative);
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -22,309 +19,150 @@ function ensureTypedRoutesSafe() {
   const file = "next.config.ts";
   let source = read(file);
   if (!source) return;
-
   const before = source;
   source = source.replace(/typedRoutes\s*:\s*true/g, "typedRoutes: false");
-  source = source.replace(/typedRoutes:\s*true/g, "typedRoutes: false");
-
+  if (!/typedRoutes\s*:\s*false/.test(source) && /typescript\s*:\s*\{/.test(source)) {
+    source = source.replace(/typescript\s*:\s*\{/, "typescript: {\n    typedRoutes: false,");
+  }
   if (source !== before) write(file, source);
   console.log("[vercel-prebuild-fixes] typedRoutes ayarı güvenli.");
 }
 
-function ensureSkeletonExports() {
-  const file = "src/components/ui/Skeleton.tsx";
-  const content = `import type { HTMLAttributes } from "react";
-
-function cx(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
-}
-
-type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
-  shimmer?: boolean;
-};
-
-export function Skeleton({ className, shimmer = true, ...props }: SkeletonProps) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cx(
-        "relative overflow-hidden rounded-2xl bg-slate-200/80 dark:bg-slate-800/70",
-        shimmer &&
-          "before:absolute before:inset-0 before:-translate-x-full before:animate-[premium-shimmer_1.8s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/55 before:to-transparent dark:before:via-white/10",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-type SkeletonGridProps = {
-  count?: number;
-  className?: string;
-  itemClassName?: string;
-};
-
-export function SkeletonGrid({ count = 8, className, itemClassName }: SkeletonGridProps) {
-  return (
-    <div className={cx("grid gap-4 sm:grid-cols-2 xl:grid-cols-3", className)}>
-      {Array.from({ length: count }).map((_, index) => (
-        <SkeletonCard key={index} className={itemClassName} />
-      ))}
-    </div>
-  );
-}
-
-export function SkeletonCard({ className }: { className?: string }) {
-  return (
-    <div
-      className={cx(
-        "rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-slate-950/60",
-        className,
-      )}
-    >
-      <div className="flex items-start gap-4">
-        <Skeleton className="h-12 w-12 shrink-0 rounded-2xl" />
-        <div className="min-w-0 flex-1 space-y-3">
-          <Skeleton className="h-4 w-2/3 rounded-full" />
-          <Skeleton className="h-3 w-full rounded-full" />
-          <Skeleton className="h-3 w-5/6 rounded-full" />
-        </div>
-      </div>
-      <div className="mt-6 grid grid-cols-3 gap-3">
-        <Skeleton className="h-14 rounded-2xl" />
-        <Skeleton className="h-14 rounded-2xl" />
-        <Skeleton className="h-14 rounded-2xl" />
-      </div>
-    </div>
-  );
-}
-
-export function PageSkeleton() {
-  return (
-    <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
-      <section className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-slate-950/70">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="space-y-3">
-            <Skeleton className="h-5 w-36 rounded-full" />
-            <Skeleton className="h-9 w-72 max-w-full rounded-full" />
-            <Skeleton className="h-4 w-96 max-w-full rounded-full" />
-          </div>
-          <Skeleton className="h-12 w-44 rounded-2xl" />
-        </div>
-      </section>
-      <SkeletonGrid count={6} />
-    </main>
-  );
-}
-
-export default Skeleton;
-`;
-
-  const current = read(file);
-  if (!current || !current.includes("export function SkeletonGrid") || !current.includes("export function PageSkeleton")) {
-    write(file, content);
-    console.log("[vercel-prebuild-fixes] SkeletonGrid/PageSkeleton exportları eklendi.");
+function ensureProxyConvention() {
+  const middleware = "src/middleware.ts";
+  const proxy = "src/proxy.ts";
+  if (exists(middleware) && !exists(proxy)) {
+    let source = read(middleware) ?? "";
+    source = source.replace(/export\s+function\s+middleware\s*\(/g, "export function proxy(");
+    source = source.replace(/export\s+default\s+function\s+middleware\s*\(/g, "export default function proxy(");
+    write(proxy, source);
+    remove(middleware);
+    console.log("[vercel-prebuild-fixes] Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
   } else {
-    console.log("[vercel-prebuild-fixes] Skeleton exportları hazır.");
+    console.log("[vercel-prebuild-fixes] proxy uyumu hazır.");
   }
 }
 
-function ensureMainLoading() {
-  const file = "src/app/(main)/loading.tsx";
-  const content = `import { PageSkeleton } from "@/components/ui/Skeleton";
-
-export default function MainLoading() {
-  return <PageSkeleton />;
-}
-`;
-
-  const current = read(file);
-  if (current !== content) {
-    write(file, content);
-    console.log("[vercel-prebuild-fixes] main loading.tsx güvenli hale getirildi.");
-  } else {
-    console.log("[vercel-prebuild-fixes] main loading.tsx hazır.");
+function ensureNoDuplicateManifestRoute() {
+  const manifestTs = "src/app/manifest.ts";
+  const manifestRoute = "src/app/manifest.webmanifest/route.ts";
+  if (exists(manifestTs) && exists(manifestRoute)) {
+    remove(manifestRoute);
+    console.log("[vercel-prebuild-fixes] duplicate manifest.webmanifest route kaldırıldı.");
+    return;
   }
+  console.log("[vercel-prebuild-fixes] duplicate manifest route yok.");
 }
 
 function ensureKpssHistoryExports() {
   const file = "src/data/kpss-history.ts";
   let source = read(file);
-  if (!source) {
-    console.warn(`[vercel-prebuild-fixes] ${file} bulunamadı, atlandı.`);
-    return;
-  }
-
+  if (!source) return;
   const before = source;
-  source = source
-    .replaceAll("card as Record<string, unknown>", "card as unknown as Record<string, unknown>")
-    .replaceAll("value as Record<string, unknown>", "value as unknown as Record<string, unknown>");
+  source = source.replaceAll("card as Record<string, unknown>", "card as unknown as Record<string, unknown>");
 
-  const additions = [];
-
-  if (!source.includes("export function getTopicBySlug")) {
-    additions.push(`
-const normalizeCompatKey = (value: unknown) => String(value ?? "").trim().toLowerCase();
-
-export function getTopicBySlug(slug: string) {
-  const target = normalizeCompatKey(slug);
-  return topics.find((topic) => {
-    const record = topic as unknown as Record<string, unknown>;
-    return normalizeCompatKey(record.slug) === target || normalizeCompatKey(record.id) === target;
-  });
-}
-`);
+  const helpers = [];
+  if (!/export\s+function\s+getTopicBySlug|export\s+const\s+getTopicBySlug/.test(source)) {
+    helpers.push(`\nexport function getTopicBySlug(slug: string) {\n  return topics.find((topic) => topic.slug === slug || topic.id === slug);\n}\n`);
   }
-
-  if (!source.includes("export function getTopicById")) {
-    additions.push(`
-export function getTopicById(topicId: string) {
-  const target = normalizeCompatKey(topicId);
-  return topics.find((topic) => normalizeCompatKey((topic as unknown as Record<string, unknown>).id) === target);
-}
-`);
+  if (!/export\s+function\s+getTopicById|export\s+const\s+getTopicById/.test(source)) {
+    helpers.push(`\nexport function getTopicById(id: string) {\n  return topics.find((topic) => topic.id === id || topic.slug === id);\n}\n`);
   }
-
-  if (!source.includes("export function getQuestionsByTopic")) {
-    additions.push(`
-export function getQuestionsByTopic(topicId: string) {
-  const target = normalizeCompatKey(topicId);
-  return questions.filter((question) => {
-    const record = question as unknown as Record<string, unknown>;
-    return normalizeCompatKey(record.topicId ?? record.topic_id ?? record.unitId) === target;
-  });
-}
-`);
+  if (!/export\s+function\s+getQuestionsByTopic|export\s+const\s+getQuestionsByTopic/.test(source)) {
+    helpers.push(`\nexport function getQuestionsByTopic(topicId: string) {\n  return questions.filter((question) => question.topicId === topicId || question.topicSlug === topicId);\n}\n`);
   }
-
-  if (!source.includes("export function getFlashcardsByTopic")) {
-    additions.push(`
-export function getFlashcardsByTopic(topicId: string) {
-  const target = normalizeCompatKey(topicId);
-  return flashcards.filter((card) => {
-    const record = card as unknown as Record<string, unknown>;
-    return normalizeCompatKey(record.topicId ?? record.topic_id ?? record.unitId) === target;
-  });
-}
-`);
+  if (!/export\s+function\s+getFlashcardsByTopic|export\s+const\s+getFlashcardsByTopic/.test(source)) {
+    helpers.push(`\nexport function getFlashcardsByTopic(topicId: string) {\n  return flashcards.filter((card) => card.topicId === topicId || card.topicSlug === topicId);\n}\n`);
   }
-
-  if (!source.includes("export function getTimelineEventsByTopic")) {
-    additions.push(`
-export function getTimelineEventsByTopic(topicId: string) {
-  const target = normalizeCompatKey(topicId);
-  return timelineEvents.filter((event) => {
-    const record = event as unknown as Record<string, unknown>;
-    return normalizeCompatKey(record.topicId ?? record.topic_id ?? record.unitId) === target;
-  });
-}
-`);
+  if (!/export\s+function\s+getTimelineEventsByTopic|export\s+const\s+getTimelineEventsByTopic/.test(source)) {
+    helpers.push(`\nexport function getTimelineEventsByTopic(topicId: string) {\n  return timelineEvents.filter((event) => event.topicId === topicId || event.topicSlug === topicId);\n}\n`);
   }
-
-  if (!source.includes("export const recommendations")) {
-    additions.push(`
-export const recommendations = typeof studyRecommendations !== "undefined" ? studyRecommendations : [];
-`);
-  }
-
-  if (additions.length) source = `${source.trim()}\n\n${additions.join("\n").trim()}\n`;
-
+  if (helpers.length > 0) source += `\n// Build compatibility helpers added by vercel-prebuild-fixes.mjs.\n${helpers.join("\n")}`;
   if (source !== before) write(file, source);
-  console.log("[vercel-prebuild-fixes] kpss-history export uyumluluğu hazır.");
+  console.log("[vercel-prebuild-fixes] kpss-history export/cast uyumluluğu hazır.");
 }
 
-function normalizeStudyTypeImports(source) {
-  const lineEnding = source.includes("\r\n") ? "\r\n" : "\n";
-  source = source.replace(/^import type \{ Question \} from ["']@\/types\/study["'];\r?\n/gm, "");
-
-  const studyImportRegex = /^import type \{([^}]+)\} from ["']@\/types\/study["'];$/m;
-  const match = source.match(studyImportRegex);
-  if (match) {
-    const names = match[1].split(",").map((item) => item.trim()).filter(Boolean);
-    const required = ["Exam", "Question"];
-    const merged = Array.from(new Set([...names, ...required])).sort();
-    return source.replace(studyImportRegex, `import type { ${merged.join(", ")} } from "@/types/study";`);
-  }
-
-  if (!source.includes("@/types/study")) {
-    return `import type { Exam, Question } from "@/types/study";${lineEnding}${source}`;
-  }
-
-  return source;
-}
-
-function ensureExamBlueprintTypes() {
-  const file = "src/data/kpss-exam-blueprints.ts";
+function ensureSkeletonExports() {
+  const file = "src/components/ui/Skeleton.tsx";
   let source = read(file);
   if (!source) return;
-
-  const before = source;
-  source = normalizeStudyTypeImports(source);
-
-  if (!source.includes("const examQuestionPool = expandedQuestions as Question[];")) {
-    const marker = "function getQuestionPool(topicId: string) {";
-    if (source.includes(marker)) {
-      source = source.replace(marker, `const examQuestionPool = expandedQuestions as Question[];\n\n${marker}`);
-    }
+  const append = [];
+  if (!/export\s+function\s+SkeletonGrid/.test(source)) {
+    append.push(`\nexport function SkeletonGrid({ count = 8, className = "grid gap-4 sm:grid-cols-2 lg:grid-cols-4", itemClassName = "h-32" }: { count?: number; className?: string; itemClassName?: string }) {\n  return <div className={className}>{Array.from({ length: count }).map((_, index) => <Skeleton key={index} className={itemClassName} />)}</div>;\n}\n`);
   }
-
-  source = source
-    .replace(/return expandedQuestions\.filter\(/g, "return examQuestionPool.filter(")
-    .replace(/for \(const question of expandedQuestions\)/g, "for (const question of examQuestionPool)")
-    .replace(/expandedQuestions\.map\(/g, "examQuestionPool.map(")
-    .replace(/expandedQuestions\.find\(/g, "examQuestionPool.find(")
-    .replace(/expandedQuestions\.some\(/g, "examQuestionPool.some(")
-    .replace(/expandedQuestions\.slice\(/g, "examQuestionPool.slice(")
-    .replace(/expandedQuestions\.length/g, "examQuestionPool.length");
-
-  if (source !== before) write(file, source);
-  console.log("[vercel-prebuild-fixes] kpss-exam-blueprints expandedQuestions/type fix hazır.");
+  if (!/export\s+function\s+PageSkeleton/.test(source)) {
+    append.push(`\nexport function PageSkeleton() {\n  return <div className="space-y-6"><Skeleton className="h-56 rounded-3xl" /><SkeletonGrid count={6} /></div>;\n}\n`);
+  }
+  if (append.length > 0) {
+    source += append.join("\n");
+    write(file, source);
+  }
+  console.log("[vercel-prebuild-fixes] Skeleton exportları hazır.");
 }
 
-function ensureProxyConvention() {
-  const middlewareFile = "src/middleware.ts";
-  const proxyFile = "src/proxy.ts";
-  const middleware = read(middlewareFile);
-  if (!middleware) {
-    if (exists(proxyFile)) console.log("[vercel-prebuild-fixes] proxy.ts zaten hazır.");
-    else console.log("[vercel-prebuild-fixes] middleware/proxy bulunamadı, atlandı.");
+function ensureBrandMarkSizeProp() {
+  const file = "src/components/brand/SBBrandMark.tsx";
+  let source = read(file);
+  if (!source) return;
+  if (/size\??\s*:/.test(source) || /size\s*=/.test(source)) {
+    console.log("[vercel-prebuild-fixes] SBBrandMark size prop uyumu hazır.");
     return;
   }
-
-  let proxy = middleware
-    .replace(/export\s+async\s+function\s+middleware\s*\(/, "export async function proxy(")
-    .replace(/export\s+function\s+middleware\s*\(/, "export function proxy(");
-
-  write(proxyFile, proxy);
-  remove(middlewareFile);
-  console.log("[vercel-prebuild-fixes] Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
+  source = source
+    .replace(/\{\s*className\s*\}:\s*\{\s*className\??:\s*string\s*\}/, "{ className, size = 'md' }: { className?: string; size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number }")
+    .replace(/className=\{className\}/, "className={className}");
+  write(file, source);
+  console.log("[vercel-prebuild-fixes] SBBrandMark size prop guard uygulandı.");
 }
 
-function ensureManifestNoDuplicateRoute() {
-  const manifestFile = "src/app/manifest.ts";
-  const manifestRoute = "src/app/manifest.webmanifest/route.ts";
-  if (exists(manifestFile) && exists(manifestRoute)) {
-    remove(manifestRoute);
-    console.log("[vercel-prebuild-fixes] duplicate manifest.webmanifest route devre dışı bırakıldı.");
-  } else {
-    console.log("[vercel-prebuild-fixes] duplicate manifest route yok.");
-  }
+function ensureReadabilityCss() {
+  const file = "src/app/globals.css";
+  let source = read(file);
+  if (!source) return;
+  const before = source;
+
+  // These broad selectors caused white text on light gradient cards. They should never exist globally.
+  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-blue"\]/g, "");
+  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-indigo"\]/g, "");
+  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-slate"\]/g, "");
+  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-blue"\],?/g, "");
+  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-indigo"\],?/g, "");
+  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-slate"\],?/g, "");
+
+  const patchMarker = "/* SB_READABILITY_GUARD_V2 */";
+  const patch = `\n${patchMarker}\n.surface-light, .premium-light, [data-readable="light"], [data-tone="light"], :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-gray-50"], [class*="from-white"], [class*="via-white"], [class*="to-white"], [class*="from-slate-50"], [class*="to-slate-50"], [class*="from-blue-50"], [class*="to-blue-50"], [class*="from-sky-50"], [class*="to-sky-50"]) { color: var(--sb-text) !important; }\n.surface-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), .premium-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), [data-readable="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), [data-tone="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div) { color: var(--sb-text) !important; }\n.btn-primary, .btn-dark, [data-dark-button="true"], .surface-dark, [data-tone="dark"] { color: #fff !important; }\n.btn-primary *, .btn-dark *, [data-dark-button="true"] *, .surface-dark *, [data-tone="dark"] * { color: currentColor !important; fill: currentColor !important; stroke: currentColor !important; }\n.btn-light, .btn-ghost, [data-light-button="true"] { color: var(--sb-text) !important; }\n`;
+  if (!source.includes(patchMarker)) source += patch;
+  if (source !== before) write(file, source);
+  console.log("[vercel-prebuild-fixes] okunabilirlik CSS guard hazır.");
 }
 
-function removeAmbiguousExamRouteIfPresent() {
-  const duplicatedDir = "src/app/(main)/exams/[examId]";
-  if (exists(duplicatedDir)) {
-    remove(duplicatedDir);
-    console.log("[vercel-prebuild-fixes] ambiguous exams/[examId] route kaldırıldı.");
+function ensureVercelAutoScripts() {
+  const buildCommand = "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && node scripts/audit-readability-and-vercel.mjs && next build";
+  const vercel = "vercel.json";
+  write(vercel, JSON.stringify({ buildCommand }, null, 2) + "\n");
+
+  const pkgFile = "package.json";
+  const pkgSource = read(pkgFile);
+  if (pkgSource) {
+    const pkg = JSON.parse(pkgSource);
+    pkg.scripts = {
+      ...(pkg.scripts ?? {}),
+      dev: "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && next dev --turbopack",
+      build: buildCommand,
+      "audit:readability": "node scripts/audit-readability-and-vercel.mjs",
+      verify: "npm run typecheck && npm run audit:readability && npm run build",
+    };
+    write(pkgFile, JSON.stringify(pkg, null, 2) + "\n");
   }
+  console.log("[vercel-prebuild-fixes] Vercel otomatik script zinciri hazır.");
 }
 
 ensureTypedRoutesSafe();
-ensureSkeletonExports();
-ensureMainLoading();
-ensureKpssHistoryExports();
-ensureExamBlueprintTypes();
 ensureProxyConvention();
-ensureManifestNoDuplicateRoute();
-removeAmbiguousExamRouteIfPresent();
+ensureNoDuplicateManifestRoute();
+ensureKpssHistoryExports();
+ensureSkeletonExports();
+ensureBrandMarkSizeProp();
+ensureReadabilityCss();
+ensureVercelAutoScripts();
 console.log("[vercel-prebuild-fixes] tamamlandı.");

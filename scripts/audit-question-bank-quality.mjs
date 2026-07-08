@@ -1,40 +1,27 @@
+#!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const historyPath = path.join(root, "src/data/kpss-history.ts");
-const testsPath = path.join(root, "src/data/generated-30-question-tests.ts");
+const staticQuestions = fs.readFileSync(path.join(root, "src/data/static-questions.ts"), "utf8");
+const tutor = fs.readFileSync(path.join(root, "src/lib/ai/kpss-tutor.ts"), "utf8");
+const widget = fs.readFileSync(path.join(root, "src/features/chatbot/components/ChatbotWidget.tsx"), "utf8");
 
-const history = fs.readFileSync(historyPath, "utf8");
-const tests = fs.readFileSync(testsPath, "utf8");
+const checks = [
+  ["Put Kırıcı sorusu Gazneli Mahmut'a bağlı", /Put Kırıcı[\s\S]*Gazneli Mahmut/.test(staticQuestions) && /put-kirici[\s\S]*Gazneli Mahmut/.test(tutor)],
+  ["Artuklular Put Kırıcı ile karıştırılmıyor", /Artuklular[\s\S]*Malabadi/.test(tutor) && /Put Kırıcı unvanı Artuklulara değil Gazneli Mahmut/.test(tutor)],
+  ["Kronoloji sorusunda doğru cevap A", /Sened-i İttifak → Tanzimat Fermanı → I\. Meşrutiyet[\s\S]*correctChoiceId: "A"/.test(staticQuestions)],
+  ["Chat input görünür ve yazılabilir", /ref=\{inputRef\}/.test(widget) && /onChange=\{\(event\) => setInput\(event\.target\.value\)\}/.test(widget) && /text-slate-950/.test(widget)],
+];
 
-const failures = [];
-
-function mustInclude(label, value) {
-  if (!history.includes(value) && !tests.includes(value)) failures.push(`${label}: ${value} bulunamadı`);
+const failed = checks.filter(([, ok]) => !ok);
+for (const [name, ok] of checks) {
+  console.log(`${ok ? "✓" : "✗"} ${name}`);
 }
 
-mustInclude("Put Kırıcı doğrusu", "Gazneli Mahmut");
-mustInclude("Artuklular ayrımı", "Malabadi Köprüsü");
-mustInclude("Kronoloji doğrusu", "Sened-i İttifak");
-mustInclude("Kronoloji doğrusu", "Tanzimat Fermanı");
-mustInclude("Kronoloji doğrusu", "I. Meşrutiyet");
-
-if (/Put Kırıcı[\s\S]{0,240}Artuklular/.test(history)) {
-  failures.push("Put Kırıcı bilgisi Artuklularla yanlış eşleşmiş görünüyor.");
-}
-
-const questionCount = (history.match(/stem:/g) ?? []).length + (history.match(/"stem"\s*:/g) ?? []).length;
-if (questionCount < 50) failures.push(`Soru sayısı düşük görünüyor: ${questionCount}`);
-
-if (!tests.includes("getQuestionBankQualityReport")) {
-  failures.push("Soru bankası kalite raporu fonksiyonu yok.");
-}
-
-if (failures.length) {
-  console.error("[audit-question-bank-quality] Hata:");
-  for (const failure of failures) console.error(`- ${failure}`);
+if (failed.length) {
+  console.error(`\n${failed.length} kritik kalite kontrolü başarısız.`);
   process.exit(1);
 }
 
-console.log(`[audit-question-bank-quality] OK · ${questionCount} soru tanımı ve kritik KPSS doğruları kontrol edildi.`);
+console.log("\nSoru bankası ve chatbot kritik kalite kontrolleri geçti.");

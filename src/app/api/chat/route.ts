@@ -1,26 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { answerKpssTutor } from "@/lib/ai/kpss-tutor";
+import { answerKpssQuestion, type KpssTutorHistoryItem } from "@/lib/ai/kpss-tutor";
 
 export const runtime = "nodejs";
 
-export async function GET() {
-  return NextResponse.json({ ok: true, service: "kpss-tarih-retrieval-first-tutor" });
-}
+type ChatPayload = {
+  message?: unknown;
+  prompt?: unknown;
+  question?: unknown;
+  history?: KpssTutorHistoryItem[];
+};
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json().catch(() => ({}));
-    const message = typeof body?.message === "string" ? body.message : "";
-    const result = answerKpssTutor(message);
+    const payload = (await request.json().catch(() => ({}))) as ChatPayload;
+    const message = String(payload.message ?? payload.prompt ?? payload.question ?? "").trim();
+
+    if (!message) {
+      return NextResponse.json(
+        { error: "Mesaj boş olamaz. Lütfen KPSS Tarih ile ilgili bir soru yaz." },
+        { status: 400 }
+      );
+    }
+
+    const answer = await answerKpssQuestion(message, {
+      history: Array.isArray(payload.history) ? payload.history : [],
+    });
 
     return NextResponse.json({
-      reply: result.reply,
-      answer: result.answer,
-      sourceMode: result.sourceMode,
-      sources: result.sources,
+      reply: answer.reply,
+      source: answer.source,
+      confidence: answer.confidence,
+      matchedTitle: answer.matchedTitle ?? null,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Bilinmeyen hata";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[kpss-tutor-api]", error);
+    return NextResponse.json(
+      { error: "Asistan cevabı hazırlanırken beklenmeyen bir hata oluştu." },
+      { status: 500 }
+    );
   }
 }

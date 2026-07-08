@@ -1,19 +1,19 @@
 {
   "name": "kpss-tarih-web-app",
-  "version": "1.0.1-production-fix",
+  "version": "1.0.2-readability-autofix",
   "private": true,
   "description": "KPSS Tarih Web App - profesyonel konu anlatımı, soru bankası, deneme, flashcard, analiz ve tekrar sistemi.",
   "scripts": {
     "dev": "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && next dev --turbopack",
-    "build": "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && node scripts/audit-question-bank-quality.mjs && next build",
+    "build": "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && node scripts/audit-readability-and-vercel.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run typecheck && npm run build",
+    "verify": "npm run typecheck && npm run audit:readability && npm run build",
     "fix:prebuild": "node scripts/vercel-prebuild-fixes.mjs",
     "fix:tests": "node scripts/force-question-bank-20-tests.mjs",
     "clean:exam-route": "node scripts/remove-ambiguous-exam-route.mjs",
-    "audit:questions": "node scripts/audit-question-bank-quality.mjs"
+    "audit:readability": "node scripts/audit-readability-and-vercel.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

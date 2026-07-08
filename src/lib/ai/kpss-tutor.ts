@@ -1,303 +1,345 @@
-import { flashcards, glossary, questions, timelineEvents, topics } from "@/data/kpss-history";
-import { searchKpssHistory, type SearchResult } from "@/lib/search/global-search";
+import { flashcards, glossary, topics } from "@/data/kpss-history";
 
-export type TutorSource = {
-  type: SearchResult["type"] | "Doğrudan Bilgi";
-  title: string;
-  href?: string;
-  score?: number;
+type ChatRole = "user" | "bot" | "assistant" | "model";
+
+export type KpssTutorHistoryItem = {
+  role: ChatRole;
+  text: string;
 };
 
-export type TutorAnswer = {
+export type KpssTutorAnswer = {
   reply: string;
-  answer: string;
-  sourceMode: "site-knowledge" | "direct-fact" | "safe-fallback";
-  sources: TutorSource[];
+  source: "curated-fact" | "site-pool" | "model" | "safe-fallback";
+  confidence: number;
+  matchedTitle?: string;
 };
 
-type DirectFact = {
-  aliases: string[];
+type KnowledgeEntry = {
+  id: string;
   title: string;
+  aliases: string[];
   answer: string;
   examTip: string;
-  relatedTopicId?: string;
 };
 
-function normalize(value: string) {
-  return value
+type SiteEntry = {
+  id: string;
+  title: string;
+  kind: "Konu" | "Kart" | "Kavram";
+  text: string;
+  href?: string;
+};
+
+const CURATED_FACTS: KnowledgeEntry[] = [
+  {
+    id: "put-kirici",
+    title: "Put Kırıcı",
+    aliases: ["put kırıcı", "putkirici", "put kirici", "put kıran", "putkırıcı", "but kırıcı", "put kırıcısı"],
+    answer:
+      "Put Kırıcı unvanı Gazneli Mahmut için kullanılır. Gazneli Mahmut, Hindistan’a düzenlediği seferlerde putperest tapınakları yıktığı ve İslamiyet’i yayma amacı taşıdığı için bu unvanla anılmıştır. KPSS’de bu bilgi genellikle Gazneliler, Hindistan seferleri ve Sultan unvanı ile birlikte sorulur.",
+    examTip:
+      "Gazneli Mahmut = Put Kırıcı + Hindistan seferleri + halifeden Sultan unvanını alan ilk Türk hükümdarı. Artuklularla karıştırma; Artuklular Malabadi Köprüsü ve El-Cezeri ile bilinir.",
+  },
+  {
+    id: "artuklular",
+    title: "Artuklular",
+    aliases: ["artuklular", "artuklu", "malabadi", "el cezeri", "el-cezeri", "diyarbakır artuklu", "mardin artuklu"],
+    answer:
+      "Artuklular, Malazgirt’ten sonra Anadolu’da kurulan I. Dönem Türk beyliklerindendir. Mardin, Diyarbakır ve Harput çevresinde etkili olmuşlardır. Malabadi Köprüsü ve sibernetik alanındaki çalışmalarıyla tanınan El-Cezeri bu beylikle ilişkilendirilir.",
+    examTip:
+      "Artuklular sorulunca Malabadi Köprüsü, El-Cezeri, Mardin-Diyarbakır-Harput hattı akla gelmeli. Put Kırıcı unvanı Artuklulara değil Gazneli Mahmut’a aittir.",
+  },
+  {
+    id: "demokratiklesme-sirasi",
+    title: "Osmanlı demokratikleşme kronolojisi",
+    aliases: ["sened-i ittifak tanzimat meşrutiyet", "senedi ittifak tanzimat", "tanzimat meşrutiyet sırası", "kronolojik sıralanışı", "eskisinden yenisine", "demokratikleşme sırası"],
+    answer:
+      "Osmanlı demokratikleşme hareketlerinin temel kronolojisi şöyledir: Sened-i İttifak (1808) → Tanzimat Fermanı (1839) → Islahat Fermanı (1856) → I. Meşrutiyet (1876) → II. Meşrutiyet (1908). Eğer seçeneklerde yalnızca Sened-i İttifak, Tanzimat Fermanı ve I. Meşrutiyet varsa doğru sıralama: Sened-i İttifak → Tanzimat Fermanı → I. Meşrutiyet’tir.",
+    examTip:
+      "KPSS’de tarih sorularında yıl ezberi kadar sıralama da önemlidir: 1808, 1839, 1856, 1876, 1908.",
+  },
+  {
+    id: "kut-anlayisi",
+    title: "Kut anlayışı",
+    aliases: ["kut", "kut anlayışı", "kut inancı", "ülke hanedanın ortak malıdır", "veraset"],
+    answer:
+      "Kut anlayışı, hükümdara devleti yönetme yetkisinin Tanrı tarafından verildiğine inanılmasıdır. Kutun hanedan üyelerine geçtiği kabul edildiği için hanedanın erkek üyeleri tahtta hak iddia edebilmiştir. Bu durum veraset belirsizliğine, taht kavgalarına ve devletlerin parçalanmasına yol açmıştır.",
+    examTip:
+      "Kut anlayışı merkezi otoriteyi meşrulaştırır ama veraset belirsizliği yüzünden siyasi istikrarsızlık doğurur.",
+  },
+  {
+    id: "malazgirt-miryokefalon",
+    title: "Malazgirt ve Miryokefalon farkı",
+    aliases: ["malazgirt miryokefalon", "malazgirt ile miryokefalon farkı", "anadolu türk yurdu", "anadolu kapıları"],
+    answer:
+      "Malazgirt Savaşı (1071), Anadolu’nun kapılarını Türklere açmıştır. Miryokefalon Savaşı (1176) ise Bizans’ın Anadolu’yu geri alma umudunu kırmış ve Anadolu’nun Türk yurdu olduğunu kesinleştirmiştir. Kısa formül: Malazgirt kapıyı açar, Miryokefalon tapuyu kesinleştirir.",
+    examTip:
+      "Malazgirt = giriş/kapı; Miryokefalon = kesin Türk yurdu. Bu iki sonucu karıştırma.",
+  },
+  {
+    id: "kosedag",
+    title: "Kösedağ Savaşı",
+    aliases: ["kösedağ", "kosedag", "moğol etkisi", "anadolu selçuklu yıkılış", "ikinci beylikler"],
+    answer:
+      "Kösedağ Savaşı 1243’te Anadolu Selçuklu Devleti ile Moğollar arasında yapılmıştır. Selçukluların yenilmesiyle devlet Moğol egemenliğine girmiş, merkezi otorite zayıflamış ve Anadolu’da II. Beylikler Dönemi’nin oluşmasına zemin hazırlanmıştır.",
+    examTip:
+      "Kösedağ = Anadolu Selçuklu’nun Moğol etkisine girmesi + II. Beylikler Dönemi’nin başlaması.",
+  },
+  {
+    id: "talas",
+    title: "Talas Savaşı",
+    aliases: ["talas", "talas savaşı", "751", "karluklar", "islamiyete geçiş"],
+    answer:
+      "Talas Savaşı 751’de Abbasiler ile Çinliler arasında yapılmıştır. Karluk Türkleri Abbasileri desteklemiştir. Bu savaş Türklerin İslamiyet’i tanımasını ve zamanla kitleler halinde Müslüman olmasını hızlandırmıştır. Ayrıca kağıt üretim tekniği Çin dışına yayılmıştır.",
+    examTip:
+      "Talas = Türklerin İslamiyet’e geçiş sürecinin hızlanması + Karluklar + kağıt üretiminin yayılması.",
+  },
+  {
+    id: "istiklal-antlasmalar",
+    title: "Milli Mücadele antlaşmaları sırası",
+    aliases: ["gümrü moskova kars ankara mudanya lozan", "milli mücadele antlaşmaları sırası", "antlaşmalar sırası", "lozan öncesi antlaşmalar"],
+    answer:
+      "Milli Mücadele antlaşmalarının temel sırası: Gümrü (1920) → Moskova (1921) → Kars (1921) → Ankara (1921) → Mudanya Ateşkesi (1922) → Lozan Barış Antlaşması (1923). Gümrü TBMM’nin ilk diplomatik zaferidir; Lozan ise yeni Türk devletinin uluslararası tanınmasıdır.",
+    examTip:
+      "Gümrü ilk diplomatik zafer, Kars doğu sınırını kesinleştirir, Ankara güney cephesini kapatır, Mudanya savaşı fiilen bitirir, Lozan nihai bağımsızlıktır.",
+  },
+  {
+    id: "ataturk-ilkeleri",
+    title: "Atatürk ilkeleri",
+    aliases: ["atatürk ilkeleri", "altı ok", "cumhuriyetçilik", "milliyetçilik", "halkçılık", "devletçilik", "laiklik", "inkılapçılık"],
+    answer:
+      "Atatürk ilkeleri; Cumhuriyetçilik, Milliyetçilik, Halkçılık, Devletçilik, Laiklik ve İnkılapçılıktır. Cumhuriyetçilik milli egemenliği, halkçılık sınıf ayrıcalığına karşı eşitliği, laiklik din ve devlet işlerinin ayrılmasını, devletçilik ekonomik kalkınmada devletin düzenleyici rolünü, inkılapçılık çağdaşlaşmayı ifade eder.",
+    examTip:
+      "İlke sorularında yapılan inkılabın amacı sorulur: saltanatın kaldırılması cumhuriyetçilik, tekke-zaviyelerin kapatılması laiklik, ölçü-tartı-saat değişiklikleri inkılapçılık/çağdaşlaşma ile ilişkilidir.",
+  },
+];
+
+function normalize(value: unknown) {
+  return String(value ?? "")
     .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ı/g, "i")
     .replace(/ğ/g, "g")
     .replace(/ü/g, "u")
     .replace(/ş/g, "s")
-    .replace(/ı/g, "i")
     .replace(/ö/g, "o")
     .replace(/ç/g, "c")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\s-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-const DIRECT_FACTS: DirectFact[] = [
-  {
-    aliases: ["put kirici", "putkiran", "put kırıcı", "sultan mahmut", "gazneli mahmut"],
-    title: "Put Kırıcı / Gazneli Mahmut",
-    answer:
-      "Put Kırıcı unvanı Gazneli Mahmut için kullanılır. Gazneli Mahmut Hindistan'a düzenlediği seferlerle İslamiyet'in Hindistan coğrafyasında yayılmasını sağlamış, Hindistan'daki bazı putperest merkezlere karşı mücadele ettiği için bu unvanla anılmıştır.",
-    examTip:
-      "KPSS'de bu bilgi Artuklularla değil Gaznelilerle ilişkilendirilir. Artuklular; Mardin, Diyarbakır, Harput çevresi, Malabadi Köprüsü ve El-Cezeri ile eşleştirilmelidir.",
-    relatedTopicId: "turk-islam",
-  },
-  {
-    aliases: ["artuklular", "malabadi", "el cezeri", "cezeri", "mardin harput diyarbakir"],
-    title: "Artuklular",
-    answer:
-      "Artuklular, Anadolu'da Mardin, Diyarbakır ve Harput çevresinde hüküm süren bir Türk beyliğidir. Malabadi Köprüsü ve El-Cezeri'nin çalışmaları bu beylikle birlikte hatırlanır.",
-    examTip:
-      "Artuklular sorularında 'Malabadi Köprüsü', 'El-Cezeri', 'Mardin-Diyarbakır-Harput' ipuçları belirleyicidir. 'Put Kırıcı' ise Gazneli Mahmut'tur.",
-    relatedTopicId: "anadolu-selcuklu",
-  },
-  {
-    aliases: ["senedi ittifak", "sened i ittifak", "tanzimat", "1 mesrutiyet", "i mesrutiyet", "kronolojik siralama"],
-    title: "Sened-i İttifak → Tanzimat → I. Meşrutiyet",
-    answer:
-      "Bu üç gelişmenin doğru kronolojik sırası Sened-i İttifak (1808), Tanzimat Fermanı (1839), I. Meşrutiyet (1876) şeklindedir.",
-    examTip:
-      "Sened-i İttifak II. Mahmut döneminde ayanlarla yapılır; Tanzimat Abdülmecit döneminde ilan edilir; I. Meşrutiyet II. Abdülhamit döneminde Kanun-i Esasi ile başlar.",
-    relatedTopicId: "osmanli-yenilesme",
-  },
-  {
-    aliases: ["ilk musluman turk devleti", "karahanlilar", "satuk bugra han"],
-    title: "İlk Müslüman Türk Devleti",
-    answer:
-      "Orta Asya'da kurulan ilk Müslüman Türk devleti Karahanlılardır. Satuk Buğra Han döneminde İslamiyet kabul edilmiştir.",
-    examTip:
-      "Karahanlılar halkı ve yöneticileri Türk olan, Türkçeyi koruyan ilk Türk-İslam devletidir.",
-    relatedTopicId: "turk-islam",
-  },
-  {
-    aliases: ["miriyokefalon", "miryokefalon", "anadolu turk yurdu kesinlesti"],
-    title: "Miryokefalon Savaşı",
-    answer:
-      "Miryokefalon Savaşı 1176'da Türkiye Selçuklu Devleti ile Bizans arasında yapılmış, Bizans'ın Anadolu'yu Türklerden geri alma umudu büyük ölçüde sona ermiştir.",
-    examTip:
-      "Malazgirt Anadolu'nun kapılarını açar; Miryokefalon Anadolu'nun Türk yurdu olduğunu kesinleştirir.",
-    relatedTopicId: "anadolu-selcuklu",
-  },
-  {
-    aliases: ["kosedag", "kösedağ", "mogol hakimiyeti"],
-    title: "Kösedağ Savaşı",
-    answer:
-      "Kösedağ Savaşı 1243'te Türkiye Selçuklu Devleti ile Moğollar arasında yapılmış, Selçuklular yenilerek Moğol etkisine girmiş ve Anadolu'da II. Beylikler Dönemi'nin zemini oluşmuştur.",
-    examTip:
-      "Kösedağ, Anadolu Selçuklu Devleti'nin zayıflama/yıkılış sürecinin ana kırılma noktasıdır.",
-    relatedTopicId: "anadolu-selcuklu",
-  },
-  {
-    aliases: ["amasya genelgesi", "milletin istiklalini yine milletin azim ve karari kurtaracaktir"],
-    title: "Amasya Genelgesi",
-    answer:
-      "Amasya Genelgesi'nde Milli Mücadele'nin gerekçesi, amacı ve yöntemi açıklanmıştır. 'Milletin istiklalini yine milletin azim ve kararı kurtaracaktır' sözü milli egemenlik vurgusudur.",
-    examTip:
-      "Havza bilinçlendirme, Amasya program niteliği, Erzurum bölgesel toplanıp ulusal karar alma, Sivas ulusal kongre olarak ayrılır.",
-    relatedTopicId: "milli-mucadele-hazirlik",
-  },
-  {
-    aliases: ["lozan", "lozan baris antlasmasi", "sevrin gecersizligi"],
-    title: "Lozan Barış Antlaşması",
-    answer:
-      "Lozan Barış Antlaşması 24 Temmuz 1923'te imzalanmış, Türkiye'nin bağımsızlığı uluslararası alanda tanınmış ve Sevr hukuken geçersiz hale gelmiştir.",
-    examTip:
-      "Lozan'da kapitülasyonlar kaldırılmış, dış borçlar ve azınlıklar gibi başlıklar çözümlenmiştir; Boğazlar konusu ise 1936 Montrö ile Türkiye lehine tamamlanmıştır.",
-    relatedTopicId: "cumhuriyet-dis-politika",
-  },
-];
-
-function findDirectFact(message: string) {
-  const normalized = normalize(message);
-  return DIRECT_FACTS.find((fact) => fact.aliases.some((alias) => normalized.includes(normalize(alias))));
+function tokenize(value: string) {
+  return normalize(value)
+    .split(" ")
+    .filter((token) => token.length >= 3 && !["nedir", "hangisi", "kpss", "tarih", "acikla", "sirasi"].includes(token));
 }
 
-function extractUsefulMatches(message: string) {
-  return searchKpssHistory(message)
-    .filter((result) => result.score >= 18)
-    .slice(0, 5);
-}
+function scoreText(query: string, target: string) {
+  const normalizedQuery = normalize(query);
+  const normalizedTarget = normalize(target);
+  if (!normalizedQuery || !normalizedTarget) return 0;
 
-function topicLink(topicId?: string) {
-  const topic = topics.find((item) => item.id === topicId);
-  return topic ? `/topics/${topic.slug}` : undefined;
-}
+  let score = 0;
+  if (normalizedTarget.includes(normalizedQuery)) score += 18;
+  if (normalizedQuery.includes(normalizedTarget)) score += 18;
 
-function fromDirectFact(fact: DirectFact): TutorAnswer {
-  const href = topicLink(fact.relatedTopicId);
-  const reply = [
-    `**${fact.title}**`,
-    "",
-    fact.answer,
-    "",
-    `**Sınavda dikkat:** ${fact.examTip}`,
-    href ? `\nBu başlığı çalışmak için ilgili konuya geçebilirsin: ${href}` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "direct-fact",
-    sources: [{ type: "Doğrudan Bilgi", title: fact.title, href }],
-  };
-}
-
-function fromFlashcard(id: string): TutorAnswer | null {
-  const card = flashcards.find((item) => item.id === id);
-  if (!card) return null;
-  const topic = topics.find((item) => item.id === card.topicId);
-  const reply = [
-    `**${card.front}**`,
-    "",
-    card.back,
-    "",
-    `**Sınavda dikkat:** ${card.hint}`,
-    topic ? `\nİlgili konu: /topics/${topic.slug}` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "site-knowledge",
-    sources: [{ type: "Flashcard", title: card.front, href: "/flashcards" }],
-  };
-}
-
-function fromGlossary(id: string): TutorAnswer | null {
-  const item = glossary.find((entry) => entry.id === id);
-  if (!item) return null;
-  const reply = [`**${item.term}**`, "", item.definition, "", `**Neden önemli?** ${item.whyImportant}`].join("\n");
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "site-knowledge",
-    sources: [{ type: "Kavram", title: item.term, href: "/glossary" }],
-  };
-}
-
-function fromQuestion(id: string): TutorAnswer | null {
-  const question = questions.find((item) => item.id === id);
-  if (!question) return null;
-  const correct = question.choices.find((choice) => choice.id === question.correctChoiceId);
-  const topic = topics.find((item) => item.id === question.topicId);
-  const reply = [
-    `Bu soru **${topic?.title ?? "KPSS Tarih"}** başlığıyla ilgilidir.`,
-    "",
-    question.stem,
-    "",
-    `**Doğru cevap:** ${correct ? `${correct.id}) ${correct.text}` : question.correctChoiceId}`,
-    "",
-    `**Açıklama:** ${question.explanation}`,
-    `**Sınavda dikkat:** ${question.examTip}`,
-  ].join("\n");
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "site-knowledge",
-    sources: [{ type: "Soru", title: question.stem, href: topic ? `/question-bank/${topic.id}` : "/question-bank" }],
-  };
-}
-
-function fromTopic(id: string): TutorAnswer | null {
-  const topic = topics.find((item) => item.id === id);
-  if (!topic) return null;
-  const first = topic.summary[0];
-  const bullets = first?.bullets?.slice(0, 4).map((item) => `- ${item}`).join("\n");
-  const reply = [
-    `**${topic.title}**`,
-    "",
-    topic.shortDescription,
-    "",
-    first?.body ?? "",
-    bullets ? `\n${bullets}` : "",
-    "",
-    `**Sınavda dikkat:** ${topic.commonMistakes[0] ?? "Kavramları doğru dönemle eşleştir."}`,
-    `\nDetaylı çalışma: /topics/${topic.slug}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "site-knowledge",
-    sources: [{ type: "Konu", title: topic.title, href: `/topics/${topic.slug}` }],
-  };
-}
-
-function fromTimeline(id: string): TutorAnswer | null {
-  const event = timelineEvents.find((item) => item.id === id);
-  if (!event) return null;
-  const reply = [`**${event.date} · ${event.title}**`, "", event.description, "", "**Sınavda dikkat:** Kronoloji sorularında bu olayın önce/sonra ilişkisini mutlaka kontrol et."].join("\n");
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "site-knowledge",
-    sources: [{ type: "Timeline", title: event.title, href: "/timeline" }],
-  };
-}
-
-function answerFromMatch(match: SearchResult): TutorAnswer | null {
-  if (match.type === "Flashcard") return fromFlashcard(match.id);
-  if (match.type === "Kavram") return fromGlossary(match.id);
-  if (match.type === "Soru") return fromQuestion(match.id);
-  if (match.type === "Konu") return fromTopic(match.id);
-  if (match.type === "Timeline") return fromTimeline(match.id);
-  return null;
-}
-
-function safeFallback(message: string): TutorAnswer {
-  const reply = [
-    "Bu soruyu site veri havuzunda birebir güvenilir bir maddeyle eşleştiremedim.",
-    "",
-    "Yanlış bilgi vermemek için sallama cevap üretmiyorum. Soruyu bir kişi, olay, antlaşma veya kavram adıyla biraz daha net yazarsan önce yerel KPSS Tarih havuzunu tarayıp ardından sınav odaklı açıklayacağım.",
-    "",
-    `Örnek: “${message.trim()} hangi dönemle ilgilidir?” veya “${message.trim()} KPSS'de nasıl sorulur?”`,
-  ].join("\n");
-
-  return {
-    reply,
-    answer: reply,
-    sourceMode: "safe-fallback",
-    sources: [],
-  };
-}
-
-export function answerKpssTutor(message: string): TutorAnswer {
-  const clean = message.trim();
-  if (!clean) {
-    const reply = "KPSS Tarih için bir kavram, olay, kişi, antlaşma veya soru kökü yazabilirsin. Önce site veri havuzunu tararım, sonra sınav odaklı açıklarım.";
-    return { reply, answer: reply, sourceMode: "safe-fallback", sources: [] };
+  for (const token of tokenize(query)) {
+    if (normalizedTarget.includes(token)) score += token.length >= 6 ? 5 : 3;
   }
 
-  const greeting = ["selam", "merhaba", "slm", "mrb", "günaydın", "iyi akşamlar"].some((item) => normalize(clean) === normalize(item));
-  if (greeting) {
-    const reply = "Merhaba. Ben KPSS Tarih Rehberi'yim. Bana kavram, kronoloji, antlaşma, kişi veya soru kökü sorabilirsin; önce site veri havuzunu tarayıp güvenli cevap veririm.";
-    return { reply, answer: reply, sourceMode: "safe-fallback", sources: [] };
+  return score;
+}
+
+function findCuratedFact(question: string) {
+  return CURATED_FACTS.map((fact) => {
+    const aliasScore = Math.max(...fact.aliases.map((alias) => scoreText(question, alias)));
+    const bodyScore = scoreText(question, `${fact.title} ${fact.answer} ${fact.examTip}`);
+    return { fact, score: Math.max(aliasScore * 1.5, bodyScore) };
+  }).sort((a, b) => b.score - a.score)[0];
+}
+
+function getString(record: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return "";
+}
+
+function buildSiteEntries(): SiteEntry[] {
+  const topicEntries: SiteEntry[] = topics.map((topic) => {
+    const summary = topic.summary
+      .map((block) => `${block.heading}\n${block.body}\n${block.bullets.join("\n")}`)
+      .join("\n\n");
+
+    return {
+      id: topic.id,
+      title: topic.title,
+      kind: "Konu",
+      href: `/topics/${topic.slug}`,
+      text: [topic.title, topic.shortDescription, topic.keywords.join(" "), summary, topic.mustKnow.join(" "), topic.commonMistakes.join(" ")].join("\n"),
+    };
+  });
+
+  const cardEntries: SiteEntry[] = flashcards.map((card) => {
+    const record = card as unknown as Record<string, unknown>;
+    const front = getString(record, ["front", "term", "title"]);
+    const back = getString(record, ["back", "definition", "body", "answer"]);
+    const hint = getString(record, ["hint", "examTip", "whyImportant"]);
+
+    return {
+      id: getString(record, ["id"]) || front,
+      title: front,
+      kind: "Kart",
+      text: [front, back, hint].join("\n"),
+    };
+  });
+
+  const glossaryEntries: SiteEntry[] = glossary.map((item) => {
+    const record = item as unknown as Record<string, unknown>;
+    const term = getString(record, ["term", "front", "title"]);
+    const definition = getString(record, ["definition", "back", "body"]);
+    const whyImportant = getString(record, ["whyImportant", "hint", "examTip"]);
+
+    return {
+      id: getString(record, ["id"]) || term,
+      title: term,
+      kind: "Kavram",
+      text: [term, definition, whyImportant].join("\n"),
+    };
+  });
+
+  return [...topicEntries, ...cardEntries, ...glossaryEntries].filter((entry) => entry.title && entry.text.length > 20);
+}
+
+function findSiteEntry(question: string) {
+  return buildSiteEntries()
+    .map((entry) => ({ entry, score: scoreText(question, `${entry.title}\n${entry.text}`) }))
+    .sort((a, b) => b.score - a.score)[0];
+}
+
+function formatCuratedAnswer(fact: KnowledgeEntry): string {
+  return [`**${fact.title}**`, fact.answer, `📌 Sınavda dikkat: ${fact.examTip}`].join("\n\n");
+}
+
+function formatSiteAnswer(entry: SiteEntry): string {
+  const cleanText = entry.text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 6)
+    .join("\n");
+
+  const link = entry.href ? `\n\nDetaylı çalışmak için: ${entry.href}` : "";
+
+  return [
+    `**${entry.title}**`,
+    `Bu cevabı site bilgi havuzundaki ${entry.kind.toLocaleLowerCase("tr-TR")} içeriğinden derledim:`,
+    cleanText,
+    "📌 Sınavda dikkat: Kavramı yalnızca ezberleme; dönem, neden-sonuç ve benzer kavramlarla farkını birlikte öğren.",
+  ].join("\n\n") + link;
+}
+
+function isGreeting(question: string) {
+  const normalized = normalize(question);
+  return ["selam", "merhaba", "slm", "mrb", "gunaydin", "iyi gunler", "iyi calismalar"].some(
+    (item) => normalized === item || normalized.startsWith(`${item} `)
+  );
+}
+
+function buildModelPrompt(question: string, history: KpssTutorHistoryItem[] = []) {
+  const lastTurns = history
+    .slice(-6)
+    .map((item) => `${item.role === "user" ? "Öğrenci" : "Asistan"}: ${item.text}`)
+    .join("\n");
+
+  return `Sen KPSS Tarih alanında uzman, dikkatli ve sınav odaklı bir öğretmensin.
+Kurallar:
+- Bilmediğin şeyi uydurma.
+- Önce kısa ve net cevap ver, sonra sınav ipucu ekle.
+- Yanlış eşleşme yapma. Put Kırıcı sorulursa Gazneli Mahmut cevabını ver; Artuklular ile karıştırma.
+- Kronoloji sorularında tarihi sırayı açıkça yaz.
+
+Son konuşma:
+${lastTurns || "Yok"}
+
+Öğrenci sorusu: ${question}`;
+}
+
+async function answerWithModel(question: string, history: KpssTutorHistoryItem[] = []) {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const { GoogleGenerativeAI } = await import("@google/generative-ai");
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(buildModelPrompt(question, history));
+    const text = result.response.text().trim();
+    return text || null;
+  } catch (error) {
+    console.error("[kpss-tutor] model fallback failed", error);
+    return null;
+  }
+}
+
+export async function answerKpssQuestion(
+  question: string,
+  options: { history?: KpssTutorHistoryItem[] } = {}
+): Promise<KpssTutorAnswer> {
+  const trimmed = question.trim();
+
+  if (!trimmed) {
+    return {
+      reply: "Sorunu yazarsan önce site bilgi havuzunda arayıp sonra sınav odaklı şekilde cevaplayabilirim.",
+      source: "safe-fallback",
+      confidence: 0,
+    };
   }
 
-  const direct = findDirectFact(clean);
-  if (direct) return fromDirectFact(direct);
-
-  const matches = extractUsefulMatches(clean);
-  for (const match of matches) {
-    const answer = answerFromMatch(match);
-    if (answer) {
-      return {
-        ...answer,
-        sources: matches.slice(0, 3).map((item) => ({ type: item.type, title: item.title, href: item.href, score: item.score })),
-      };
-    }
+  if (isGreeting(trimmed)) {
+    return {
+      reply: "Merhaba! KPSS Tarih’te kavram, kronoloji, savaş, antlaşma, padişah, inkılap veya çıkmış soru mantığı sorabilirsin. Önce site bilgi havuzunu tarayıp en güvenilir cevabı vermeye çalışırım.",
+      source: "safe-fallback",
+      confidence: 1,
+    };
   }
 
-  return safeFallback(clean);
+  const curatedMatch = findCuratedFact(trimmed);
+  if (curatedMatch && curatedMatch.score >= 9) {
+    return {
+      reply: formatCuratedAnswer(curatedMatch.fact),
+      source: "curated-fact",
+      confidence: Math.min(1, curatedMatch.score / 30),
+      matchedTitle: curatedMatch.fact.title,
+    };
+  }
+
+  const siteMatch = findSiteEntry(trimmed);
+  if (siteMatch && siteMatch.score >= 16) {
+    return {
+      reply: formatSiteAnswer(siteMatch.entry),
+      source: "site-pool",
+      confidence: Math.min(1, siteMatch.score / 36),
+      matchedTitle: siteMatch.entry.title,
+    };
+  }
+
+  const modelAnswer = await answerWithModel(trimmed, options.history);
+  if (modelAnswer) {
+    return {
+      reply: `${modelAnswer}\n\n_Not: Bu cevap site havuzunda güçlü eşleşme bulunamadığı için genel tarih modeliyle üretildi._`,
+      source: "model",
+      confidence: 0.55,
+    };
+  }
+
+  return {
+    reply:
+      "Bu soruyu site bilgi havuzunda net eşleştiremedim ve şu anda çevrim içi model anahtarı da aktif görünmüyor. Soruyu biraz daha belirgin yazarsan, örneğin kişi/olay/dönem adıyla sorarsan daha güvenli cevap verebilirim.",
+    source: "safe-fallback",
+    confidence: 0.2,
+  };
 }

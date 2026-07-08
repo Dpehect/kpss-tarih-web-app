@@ -1,3 +1,3 @@
 {
-  "buildCommand": "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && next build"
+  "buildCommand": "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && node scripts/audit-readability-and-vercel.mjs && next build"
 }
