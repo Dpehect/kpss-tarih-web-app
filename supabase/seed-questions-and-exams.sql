@@ -3,13 +3,25 @@
 -- Supabase SQL Editor'de çalıştır
 -- ============================================================
 
--- ─── 0. MEVCUT VERİLERİ TEMİZLE (FK sırasına göre) ─────────
--- Önce bağımlı tablolar, sonra ana tablolar
-DELETE FROM public.content_exam_questions;
-DELETE FROM public.content_exams;
-DELETE FROM public.content_question_choices;
-DELETE FROM public.content_questions;
-DELETE FROM public.content_topics;
+-- ─── 0. MEVCUT VERİLERİ TEMİZLE (tablo yoksa atla) ─────────
+DO $$
+BEGIN
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_exam_questions') THEN
+    DELETE FROM public.content_exam_questions;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_exams') THEN
+    DELETE FROM public.content_exams;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_question_choices') THEN
+    DELETE FROM public.content_question_choices;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_questions') THEN
+    DELETE FROM public.content_questions;
+  END IF;
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_topics') THEN
+    DELETE FROM public.content_topics;
+  END IF;
+END $$;
 
 -- ─── 1. TOPICS ──────────────────────────────────────────────
 INSERT INTO public.content_topics (id, slug, title, era, short_description, exam_importance, estimated_minutes, keywords, summary, must_know, common_mistakes, quick_timeline, sort_order)
