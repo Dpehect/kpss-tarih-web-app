@@ -3,6 +3,14 @@
 -- Supabase SQL Editor'de çalıştır
 -- ============================================================
 
+-- ─── 0. MEVCUT VERİLERİ TEMİZLE (FK sırasına göre) ─────────
+-- Önce bağımlı tablolar, sonra ana tablolar
+DELETE FROM public.content_exam_questions;
+DELETE FROM public.content_exams;
+DELETE FROM public.content_question_choices;
+DELETE FROM public.content_questions;
+DELETE FROM public.content_topics;
+
 -- ─── 1. TOPICS ──────────────────────────────────────────────
 INSERT INTO public.content_topics (id, slug, title, era, short_description, exam_importance, estimated_minutes, keywords, summary, must_know, common_mistakes, quick_timeline, sort_order)
 VALUES
