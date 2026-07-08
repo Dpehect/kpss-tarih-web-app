@@ -1,36 +1,38 @@
 import { cn } from "@/lib/cn";
 
-type BrandMarkSize = "xs" | "sm" | "md" | "lg" | "xl" | number;
+type BrandSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 type SBBrandMarkProps = {
   className?: string;
-  size?: BrandMarkSize;
+  size?: BrandSize | number;
+  title?: string;
 };
 
-const sizeClassMap: Record<Exclude<BrandMarkSize, number>, string> = {
-  xs: "size-8 rounded-2xl",
-  sm: "size-10 rounded-2xl",
-  md: "size-12 rounded-[1.25rem]",
-  lg: "size-14 rounded-[1.35rem]",
-  xl: "size-16 rounded-[1.5rem]",
+const sizeClassMap: Record<BrandSize, string> = {
+  xs: "size-8 text-[10px]",
+  sm: "size-10 text-xs",
+  md: "size-12 text-sm",
+  lg: "size-14 text-base",
+  xl: "size-16 text-lg",
 };
 
-export function SBBrandMark({ className, size = "md" }: SBBrandMarkProps) {
-  const numericSize = typeof size === "number" ? size : undefined;
+export function SBBrandMark({ className, size = "md", title = "Softbridge Akademi" }: SBBrandMarkProps) {
+  const isNumericSize = typeof size === "number";
 
   return (
-    <span
-      aria-hidden="true"
+    <div
+      aria-label={title}
       className={cn(
-        "relative isolate grid shrink-0 place-items-center overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1d4ed8] to-[#059669] text-white shadow-[0_16px_40px_rgba(16,24,40,0.22)] ring-1 ring-white/60",
-        typeof size === "number" ? "rounded-[1.25rem]" : sizeClassMap[size],
+        "relative grid shrink-0 place-items-center overflow-hidden rounded-[1.05rem] border border-[rgba(14,17,23,.12)] bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] shadow-[0_18px_52px_rgba(14,17,23,.18)]",
+        !isNumericSize && sizeClassMap[size],
         className,
       )}
-      style={numericSize ? { width: numericSize, height: numericSize } : undefined}
+      style={isNumericSize ? { width: size, height: size } : undefined}
     >
-      <span className="pointer-events-none absolute -left-5 -top-6 size-12 rounded-full bg-white/28 blur-xl" />
-      <span className="pointer-events-none absolute bottom-0 right-0 size-7 rounded-tl-full bg-emerald-300/45" />
-      <span className="relative text-[0.78em] font-black tracking-[-0.08em]">TA</span>
-    </span>
+      <span className="pointer-events-none absolute -left-1 top-0 h-8 w-8 rounded-full bg-[rgba(255,250,242,.16)] blur-[2px]" />
+      <span className="pointer-events-none absolute -bottom-4 -right-3 h-10 w-10 rounded-full bg-[rgba(4,126,137,.45)] blur-sm" />
+      <span className="relative z-10 font-black leading-none tracking-[-.08em] text-[var(--bureau-inverse)]">SB</span>
+      <span className="absolute bottom-2 left-1/2 h-[2px] w-1/2 -translate-x-1/2 rounded-full bg-[var(--bureau-teal)]" />
+    </div>
   );
 }
