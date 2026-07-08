@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { isAdminEmail } from "@/lib/admin/admin-config";
 import { createClient } from "@/lib/supabase/client";
 
 export function useAdminSession() {
   const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(Boolean(supabase));
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!supabase) {
@@ -16,29 +16,59 @@ export function useAdminSession() {
       return;
     }
 
-    const client = supabase;
     let mounted = true;
 
-    client.auth.getUser().then(({ data }) => {
-      if (!mounted) return;
-      setUser(data.user ?? null);
-      setIsLoading(false);
-    });
+    async function checkAdminStatus() {
+      if (!supabase) return;
+      try {
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        if (!mounted) return;
+        setUser(currentUser);
 
-    const { data } = client.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setIsLoading(false);
+        if (currentUser?.email) {
+          const res = await fetch("/api/admin/check", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: currentUser.email }),
+          });
+          const data = await res.json();
+          if (mounted) {
+            setIsAdmin(Boolean(data.isAdmin));
+          }
+        } else {
+          if (mounted) setIsAdmin(false);
+        }
+      } catch (err) {
+        console.error("Admin check failed", err);
+        if (mounted) setIsAdmin(false);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    }
+
+    void checkAdminStatus();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      const sessionUser = session?.user ?? null;
+      setUser(sessionUser);
+      if (!sessionUser) {
+        setIsAdmin(false);
+        setIsLoading(false);
+      } else {
+        void checkAdminStatus();
+      }
     });
 
     return () => {
       mounted = false;
-      data.subscription.unsubscribe();
+      authListener.subscription.unsubscribe();
     };
   }, [supabase]);
 
   return {
     user,
     isLoading,
-    isAdmin: isAdminEmail(user?.email)
+    isAdmin
   };
 }
