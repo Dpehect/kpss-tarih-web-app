@@ -46,36 +46,37 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ reply: "Merhaba! Ben KPSS Tarih yapay zeka asistanın. KPSS Tarih müfredatına dair konuları, kavramları veya kronolojik bilgileri sorabilirsin. Sana nasıl yardımcı olabilirim? 🎯" });
     }
 
-    // ─── 1. VERİTABANI / ARŞİV ARAMASI (ÖNCELİKLİ) ───
+    // ─── 1. VERİTABANI / ARŞİV ARAMASI (BAĞLAM/CONTEXT İÇİN) ───
     const searchResults = searchKpssHistory(message);
     const bestMatch = searchResults[0];
 
-    // Eğer güçlü bir konu veya kavram eşleşmesi varsa (> 12 puan) doğrudan resmi bilgiyi dön
+    let localContext = "";
+    let deepLink = "";
+    let fallbackText = "";
+
     if (bestMatch && bestMatch.score >= 12) {
-      console.log(`[chat-api] Strong local search match found: ${bestMatch.title} (${bestMatch.type})`);
-      
-      let answerText = "";
+      console.log(`[chat-api] Strong local search match found for context: ${bestMatch.title} (${bestMatch.type})`);
       if (bestMatch.type === "Konu") {
         const t = topics.find((item) => item.id === bestMatch.id);
         if (t) {
           const firstSummary = t.summary?.[0];
           const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
+          localContext = `Konu Başlığı: ${t.title}\nAçıklama: ${t.shortDescription}\nDetay: ${firstSummary?.body ?? ""}\nÖnemli Noktalar:\n${bulletList}\nSık Yapılan Hatalar: ${t.commonMistakes?.join(", ") ?? ""}`;
+          deepLink = `\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
+          fallbackText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}${deepLink}`;
         }
       } else if (bestMatch.type === "Flashcard") {
         const card = flashcards.find((item) => item.id === bestMatch.id);
         if (card) {
-          answerText = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
+          localContext = `Kavram: ${card.front}\nAçıklama/Tanım: ${card.back}\nSınav İpucu: ${card.hint}`;
+          fallbackText = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
         }
       } else if (bestMatch.type === "Kavram") {
         const term = glossary.find((item) => item.id === bestMatch.id);
         if (term) {
-          answerText = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+          localContext = `Kavram: ${term.term}\nTanım: ${term.definition}\nNeden Önemli: ${term.whyImportant}`;
+          fallbackText = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
         }
-      }
-
-      if (answerText) {
-        return NextResponse.json({ reply: answerText });
       }
     }
 
@@ -100,17 +101,33 @@ export async function POST(req: NextRequest) {
       parts: [{ text: msg.text }],
     }));
 
+    // Eğer yerel bağlam varsa promptu zenginleştir
+    const userPrompt = localContext
+      ? `Aşağıda sana verilen [Referans Bilgi]'ye sadık kalarak, kullanıcının [Kullanıcı Sorusu]'ndaki sorusunu nokta atışı, doğru ve sınav odaklı yanıtla. Gereksiz veya alakasız detaylara girme, sadece doğrudan soruyu cevapla.
+      
+[Referans Bilgi]:
+${localContext}
+
+[Kullanıcı Sorusu]:
+${message}`
+      : message;
+
     let text = "";
     try {
       const chat = model.startChat({ history: chatHistory });
-      const result = await chat.sendMessage(message);
+      const result = await chat.sendMessage(userPrompt);
       text = result.response.text();
+
+      // Eğer bir konu yönlendirme linki varsa ve Gemini yanıtı bu linki barındırmıyorsa sonuna ekle
+      if (deepLink && !text.includes("/topics/")) {
+        text = `${text.trim()}${deepLink}`;
+      }
     } catch (apiError: any) {
       console.warn("[chat-api] Gemini API error, falling back to local database helper...", apiError.message || apiError);
       
-      // Hata durumunda (429 gibi) arama sonucunu (bestMatch) kullan. Skor 12'den düşük olsa bile en yüksek olanı sun.
-      let matchedTip = "";
-      if (bestMatch && bestMatch.score > 0) {
+      // Hata durumunda (429 gibi) arama sonucunu (bestMatch) kullan.
+      let matchedTip = fallbackText;
+      if (!matchedTip && bestMatch && bestMatch.score > 0) {
         if (bestMatch.type === "Konu") {
           const t = topics.find((item) => item.id === bestMatch.id);
           if (t) {
@@ -131,7 +148,6 @@ export async function POST(req: NextRequest) {
         }
       }
       
-      // Eğer arama sonucu tamamen boşsa, genel ve kaliteli bir KPSS Tarih başlangıç rehberi sun
       if (!matchedTip) {
         matchedTip = "Sorduğun soruya dair doğrudan bir eşleşme bulamadım, ancak KPSS Tarih sınavında en sık sorulan başlıklardan biri olan **Osmanlı Kuruluş Dönemi** hakkında şunları bilmelisin:\n\nOsmanlı Devleti, 1299 yılında Osman Bey tarafından Söğüt ve Domaniç çevresinde kurulmuştur. Bizans sınırındaki jeopolitik konumu (uç beyliği) ve gaza ideolojisi sayesinde kısa sürede büyümüştür.\n\n📌 Sınavda dikkat: Osmanlı'nın büyümesinde iskan ve istimalet (hoşgörü) politikaları en belirleyici unsurlardır.";
       }
