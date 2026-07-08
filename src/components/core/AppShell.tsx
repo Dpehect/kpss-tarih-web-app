@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href as any}
                 aria-current={active ? "page" : undefined}
                 data-active={active ? "true" : undefined}
                 className={cn(
