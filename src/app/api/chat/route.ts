@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-1.5-flash",
       systemInstruction: SYSTEM_PROMPT,
     });
 
@@ -59,9 +59,41 @@ export async function POST(req: NextRequest) {
       parts: [{ text: msg.text }],
     }));
 
-    const chat = model.startChat({ history: chatHistory });
-    const result = await chat.sendMessage(message);
-    const text = result.response.text();
+    let text = "";
+    try {
+      const chat = model.startChat({ history: chatHistory });
+      const result = await chat.sendMessage(message);
+      text = result.response.text();
+    } catch (apiError: any) {
+      console.warn("[chat-api] Gemini API error, falling back to local database helper...", apiError.message || apiError);
+      
+      // Hata durumunda (429 gibi) KPSS Tarih asistanı dilinde zekice ve faydalı bir fallback yanıt üret
+      const fallbackTips = [
+        "Şu an yapay zeka sunucularımızda yoğunluk yaşanıyor, ama KPSS Tarih asistanı olarak sana harika bir sınav ipucu hazırladım:\n\n📌 **Kut Anlayışı:** İslamiyet öncesi Türk devletlerinde ülkeyi yönetme yetkisinin Tanrı tarafından hükümdara verildiği inancıdır. Kut kan yoluyla babadan oğula geçer, bu da taht kavgalarını artırır. Sınavda bunu unutma!\n\n📌 Sınavda dikkat: Kutun kalıtsal olması egemenliği pekiştirir ama merkezi otoriteyi zayıflatır.",
+        "Yapay zeka sunucumuz kısa süreliğine dinlenmeye çekildi, ancak KPSS hazırlığı durmaz! İşte senin için kritik bir not:\n\n📌 **Tımar Sistemi:** Osmanlı'da toprağın mülkiyeti devlete, kullanım hakkı köylüye, vergisi ise hizmeti karşılığı sipahiye aittir. Tımar sistemi üretimde süreklilik sağlar ve hazineden para çıkmadan ordu yetiştirilmesini sağlar.\n\n📌 Sınavda dikkat: Tımarlı sipahiler eyalet askerleridir, merkez ordusu olan yeniçerilerle karıştırma.",
+        "Şu an yapay zeka hattımız yoğun, fakat KPSS Tarih maratonunda her saniye değerlidir. İşte o kritik bilgi:\n\n📌 **Amasya Genelgesi (1919):** Milli Mücadele'nin amacı, gerekçesi ve yöntemi ilk kez burada belirlenmiştir. 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' maddesi ulusal egemenliğe dayalı yeni bir devletin ilk sinyalidir.\n\n📌 Sınavda dikkat: Bu genelge aynı zamanda ihtilal bildirgesi niteliğindedir.",
+        "Sunucu yoğunluğu nedeniyle yapay zekamıza erişemedim ancak arşivimden senin için bu can alıcı soruyu çıkardım:\n\n📌 **Lozan Barış Antlaşması (1923):** Kapitülasyonlar, Duyun-u Umumiye ve Ermeni yurdu meselesi kesin olarak çözülmüştür. Sınır komisyonlarında Musul (Irak sınırı) çözülemeyerek sonraki döneme bırakılmıştır.\n\n📌 Sınavda dikkat: Lozan'da çözülemeyen tek konu Irak sınırıdır.",
+        "Yapay zeka yoğunluğuna takıldık, ama sınav bilgisi asla durmaz! İşte günün konusu:\n\n📌 **Atatürk İlkeleri:** Cumhuriyetçilik siyasi yapıya ve seçime odaklanırken, Halkçılık eşitlik ve sosyal devlete, Devletçilik ise ekonomik yatırımlara odaklanır. İnkılapçılık ise sürekli çağdaşlaşmayı ve dinamizmi hedefler.\n\n📌 Sınavda dikkat: Kabotaj Kanunu milliyetçilik ve halkçılık ilkeleriyle doğrudan ilişkilidir."
+      ];
+      
+      // Kullanıcının sorusundaki anahtar kelimelere göre eşleşen bir fallback seç
+      const lowerMsg = message.toLowerCase();
+      let matchedTip = fallbackTips[Math.floor(Math.random() * fallbackTips.length)];
+      
+      if (lowerMsg.includes("kut") || lowerMsg.includes("töre") || lowerMsg.includes("kurultay")) {
+        matchedTip = fallbackTips[0];
+      } else if (lowerMsg.includes("tımar") || lowerMsg.includes("vergi") || lowerMsg.includes("sipahi")) {
+        matchedTip = fallbackTips[1];
+      } else if (lowerMsg.includes("amasya") || lowerMsg.includes("genelge") || lowerMsg.includes("erzurum")) {
+        matchedTip = fallbackTips[2];
+      } else if (lowerMsg.includes("lozan") || lowerMsg.includes("antlaşma") || lowerMsg.includes("musul")) {
+        matchedTip = fallbackTips[3];
+      } else if (lowerMsg.includes("ilke") || lowerMsg.includes("halk") || lowerMsg.includes("cumhuriyet")) {
+        matchedTip = fallbackTips[4];
+      }
+      
+      text = `🤖 *Hızlı Destek Modu* (Yapay zeka sunucusu yoğun olduğu için arşivden yanıtlanıyor):\n\n${matchedTip}`;
+    }
 
     return NextResponse.json({ reply: text });
   } catch (err: unknown) {

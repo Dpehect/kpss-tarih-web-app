@@ -244,22 +244,43 @@ const choiceIds = ["A", "B", "C", "D", "E"] as const;
 
 function makeQuestion(topicItem: Topic, index: number): Question {
   const correctChoiceId = choiceIds[index % choiceIds.length];
+  
+  // Konuyla ilgili çeldirici havuzu
+  const wrongAnswersPool = [
+    ...(topicItem.keywords || []),
+    ...(topicItem.mustKnow || []),
+    "Tarihsel gelişmelerin neden-sonuç ilişkisini göz ardı eden kronolojik ezberler.",
+    "Dönemin şartlarını dikkate almadan günümüz değer yargılarıyla yapılan öznel analizler.",
+    "Olayların gelişim süreçlerinden bağımsız, sadece kavram odaklı dar yorumlar.",
+    "Siyasi ve askeri gelişmeleri sosyal/kültürel hayattan tamamen kopuk ele alma.",
+    "Tarihsel olayların coğrafi çevre ile olan doğrudan etkileşimini reddetme."
+  ];
+
+  // Her şık için mantıklı ve farklı bir tarihi çeldirici metni oluştur
+  const getWrongText = (choiceIndex: number) => {
+    const rawVal = wrongAnswersPool[choiceIndex % wrongAnswersPool.length];
+    if (rawVal.length < 15) {
+      return `${rawVal} kavramının veya olayının tarihsel bağlamdan kopuk şekilde değerlendirilmesi.`;
+    }
+    return rawVal;
+  };
+
   return {
     id: `${topicItem.id}-q-${index + 1}`,
     topicId: topicItem.id,
     type: index % 3 === 0 ? "chronology" : index % 2 === 0 ? "case" : "single",
     difficulty: index % 3 === 0 ? "ileri" : index % 2 === 0 ? "orta" : "temel",
-    stem: `${topicItem.title} konusunda KPSS açısından en belirleyici bilgi aşağıdakilerden hangisidir?`,
+    stem: `${topicItem.title} konusunda KPSS sınavı açısından en doğru ve belirleyici analiz aşağıdakilerden hangisidir?`,
     choices: choiceIds.map((id, choiceIndex) => ({
       id,
       text:
         id === correctChoiceId
-          ? `${topicItem.title} öğrenilirken kavram, kronoloji ve neden-sonuç ilişkisi birlikte kurulmalıdır.`
-          : `Yalnızca ezbere dayalı ve bağlamdan kopuk bir ifade ${choiceIndex + 1}`,
+          ? `${topicItem.title} öğrenilirken olayların dönem koşulları, kavram kökenleri ve neden-sonuç bütünlüğü birlikte ele alınmalıdır.`
+          : getWrongText(choiceIndex),
     })),
     correctChoiceId,
-    explanation: `${topicItem.title} sorularında doğru yaklaşım, kavramı dönemle ve olayın sonucu ile birlikte yorumlamaktır. Bu nedenle sadece tanım ezberi güvenli değildir.`,
-    examTip: "Önce dönem filtresi kur, sonra seçeneklerdeki kişi-belge-kurum eşleşmesini kontrol et.",
+    explanation: `${topicItem.title} sorularında doğru analiz, kavramı dönemin sosyal, askeri ve kültürel dinamikleriyle birlikte yorumlamaktır. Sadece tanım ezberi sınav sorularında yanıltıcı olabilir.`,
+    examTip: "Soruyu okurken önce dönemin genel karakteristiğini (örneğin bozkır kültürü, merkeziyetçilik, ıslahat dönemi vb.) hatırla.",
     tags: topicItem.keywords.slice(0, 4),
   };
 }
