@@ -46,8 +46,8 @@ export async function POST(req: NextRequest) {
     const searchResults = searchKpssHistory(message);
     const bestMatch = searchResults[0];
 
-    // Eğer güçlü bir konu veya kavram eşleşmesi varsa (> 16 puan) doğrudan resmi bilgiyi dön
-    if (bestMatch && bestMatch.score >= 16) {
+    // Eğer güçlü bir konu veya kavram eşleşmesi varsa (> 12 puan) doğrudan resmi bilgiyi dön
+    if (bestMatch && bestMatch.score >= 12) {
       console.log(`[chat-api] Strong local search match found: ${bestMatch.title} (${bestMatch.type})`);
       
       let answerText = "";
@@ -104,29 +104,32 @@ export async function POST(req: NextRequest) {
     } catch (apiError: any) {
       console.warn("[chat-api] Gemini API error, falling back to local database helper...", apiError.message || apiError);
       
-      // Hata durumunda (429 gibi) çaktırmadan doğrudan ve doğru tarihi bilgiyi yalın şekilde sun
-      const fallbackTips = [
-        "Kut Anlayışı, İslamiyet öncesi Türk devletlerinde ülkeyi yönetme yetkisinin Tanrı tarafından hükümdara verildiği inancıdır. Kut kan yoluyla babadan oğula geçer, bu da taht kavgalarını artırır.\n\n📌 Sınavda dikkat: Kutun kalıtsal olması egemenliği pekiştirir ama merkezi otoriteyi zayıflatır.",
-        "Tımar Sistemi, Osmanlı'da toprağın mülkiyeti devlete, kullanım hakkı köylüye, vergisi ise hizmeti karşılığı sipahiye ait olan yapıdır. Tımar sistemi üretimde süreklilik sağlar ve hazineden para çıkmadan ordu yetiştirilmesini sağlar.\n\n📌 Sınavda dikkat: Tımarlı sipahiler eyalet askerleridir, merkez ordusu olan yeniçerilerle karıştırmamalısın.",
-        "Amasya Genelgesi (1919), Milli Mücadele'nin amacı, gerekçesi ve yöntemi ilk kez burada belirlenmiştir. 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' maddesi ulusal egemenliğe dayalı yeni bir devletin ilk sinyalidir.\n\n📌 Sınavda dikkat: Bu genelge aynı zamanda ihtilal bildirgesi niteliğindedir.",
-        "Lozan Barış Antlaşması (1923), kapitülasyonlar, Duyun-u Umumiye ve Ermeni yurdu meselelerinin kesin olarak çözüldüğü barış belgesidir. Sınır komisyonlarında Musul (Irak sınırı) çözülemeyerek sonraki döneme bırakılmıştır.\n\n📌 Sınavda dikkat: Lozan'da çözülemeyen tek konu Irak sınırıdır.",
-        "Atatürk İlkeleri, altı temel ilkeden oluşur. Cumhuriyetçilik siyasi yapıya ve seçime odaklanırken, Halkçılık eşitlik ve sosyal devlete, Devletçilik ise ekonomik yatırımlara odaklanır. İnkılapçılık ise sürekli çağdaşlaşmayı ve dinamizmi hedefler.\n\n📌 Sınavda dikkat: Kabotaj Kanunu milliyetçilik ve halkçılık ilkeleriyle doğrudan ilişkilidir."
-      ];
+      // Hata durumunda (429 gibi) arama sonucunu (bestMatch) kullan. Skor 12'den düşük olsa bile en yüksek olanı sun.
+      let matchedTip = "";
+      if (bestMatch && bestMatch.score > 0) {
+        if (bestMatch.type === "Konu") {
+          const t = topics.find((item) => item.id === bestMatch.id);
+          if (t) {
+            const firstSummary = t.summary?.[0];
+            const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
+            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}`;
+          }
+        } else if (bestMatch.type === "Flashcard") {
+          const card = flashcards.find((item) => item.id === bestMatch.id);
+          if (card) {
+            matchedTip = `💡 **${card.front}** kavramının açıklaması:\n\n${card.back}\n\n📌 İpucu: ${card.hint}`;
+          }
+        } else if (bestMatch.type === "Kavram") {
+          const term = glossary.find((item) => item.id === bestMatch.id);
+          if (term) {
+            matchedTip = `📖 **${term.term}** teriminin sözlük anlamı:\n\n${term.definition}\n\n📌 Neden Önemli: ${term.whyImportant}`;
+          }
+        }
+      }
       
-      // Kullanıcının sorusundaki anahtar kelimelere göre eşleşen bir fallback seç
-      const lowerMsg = message.toLowerCase();
-      let matchedTip = fallbackTips[Math.floor(Math.random() * fallbackTips.length)];
-      
-      if (lowerMsg.includes("kut") || lowerMsg.includes("töre") || lowerMsg.includes("kurultay")) {
-        matchedTip = fallbackTips[0];
-      } else if (lowerMsg.includes("tımar") || lowerMsg.includes("vergi") || lowerMsg.includes("sipahi")) {
-        matchedTip = fallbackTips[1];
-      } else if (lowerMsg.includes("amasya") || lowerMsg.includes("genelge") || lowerMsg.includes("erzurum")) {
-        matchedTip = fallbackTips[2];
-      } else if (lowerMsg.includes("lozan") || lowerMsg.includes("antlaşma") || lowerMsg.includes("musul")) {
-        matchedTip = fallbackTips[3];
-      } else if (lowerMsg.includes("ilke") || lowerMsg.includes("halk") || lowerMsg.includes("cumhuriyet")) {
-        matchedTip = fallbackTips[4];
+      // Eğer arama sonucu tamamen boşsa, genel ve kaliteli bir KPSS Tarih başlangıç rehberi sun
+      if (!matchedTip) {
+        matchedTip = "Sorduğun soruya dair doğrudan bir eşleşme bulamadım, ancak KPSS Tarih sınavında en sık sorulan başlıklardan biri olan **Osmanlı Kuruluş Dönemi** hakkında şunları bilmelisin:\n\nOsmanlı Devleti, 1299 yılında Osman Bey tarafından Söğüt ve Domaniç çevresinde kurulmuştur. Bizans sınırındaki jeopolitik konumu (uç beyliği) ve gaza ideolojisi sayesinde kısa sürede büyümüştür.\n\n📌 Sınavda dikkat: Osmanlı'nın büyümesinde iskan ve istimalet (hoşgörü) politikaları en belirleyici unsurlardır.";
       }
       
       text = matchedTip;
