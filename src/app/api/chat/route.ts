@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         if (t) {
           const firstSummary = t.summary?.[0];
           const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 Konu Akademisi'nde Çalışmaya Başla](/topics)`;
+          answerText = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
         }
       } else if (bestMatch.type === "Flashcard") {
         const card = flashcards.find((item) => item.id === bestMatch.id);
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
           if (t) {
             const firstSummary = t.summary?.[0];
             const bulletList = firstSummary?.bullets?.map(b => `• ${b}`).join("\n") ?? "";
-            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 Konu Akademisi'nde Çalışmaya Başla](/topics)`;
+            matchedTip = `📍 **${t.title}** hakkında aradığın bilgiler burada:\n\n${t.shortDescription}\n\n${firstSummary?.body ?? ""}\n${bulletList}\n\n📌 Sınavda dikkat: ${t.commonMistakes?.[0] ?? "Konudaki kavram eşleştirmelerine dikkat et."}\n\n🔗 **Bu konuyu daha detaylı çalışmak ister misin?**\n[👉 ${t.title} Konusuna Git](/topics/${t.slug})`;
           }
         } else if (bestMatch.type === "Flashcard") {
           const card = flashcards.find((item) => item.id === bestMatch.id);
