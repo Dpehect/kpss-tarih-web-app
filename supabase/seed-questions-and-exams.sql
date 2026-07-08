@@ -6,6 +6,7 @@
 -- ─── 0. MEVCUT VERİLERİ TEMİZLE (tablo yoksa atla) ─────────
 DO $$
 BEGIN
+  -- Önce en bağımlı tabloları temizle
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_exam_questions') THEN
     DELETE FROM public.content_exam_questions;
   END IF;
@@ -17,6 +18,10 @@ BEGIN
   END IF;
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_questions') THEN
     DELETE FROM public.content_questions;
+  END IF;
+  -- content_tests de content_topics'e FK ile bağlı, ondan önce sil
+  IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_tests') THEN
+    DELETE FROM public.content_tests;
   END IF;
   IF EXISTS (SELECT FROM information_schema.tables WHERE table_schema='public' AND table_name='content_topics') THEN
     DELETE FROM public.content_topics;
