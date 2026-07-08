@@ -6,6 +6,7 @@ import type {
   TimelineEvent,
   Topic,
 } from "@/types/study";
+import { staticQuestions } from "./static-questions";
 
 function topic(
   id: string,
@@ -240,62 +241,7 @@ export const topics: Topic[] = [
   ),
 ];
 
-const choiceIds = ["A", "B", "C", "D", "E"] as const;
-
-function makeQuestion(topicItem: Topic, index: number): Question {
-  const correctChoiceId = choiceIds[index % choiceIds.length];
-  
-  // Konunun anahtar bilgilerinden benzersiz doğru cevap metni üret
-  const getCorrectText = () => {
-    const rawCorrect = topicItem.mustKnow[index % topicItem.mustKnow.length];
-    return `${topicItem.title} konusunda en kritik eşik; ${rawCorrect.charAt(0).toLowerCase() + rawCorrect.slice(1)} ve bunun dönem koşullarıyla ilişkilendirilmesidir.`;
-  };
-
-  // Konuyla ilgili çeldirici havuzu
-  const wrongAnswersPool = [
-    ...(topicItem.keywords || []),
-    ...(topicItem.commonMistakes || []),
-    "Tarihsel gelişmelerin neden-sonuç ilişkisini göz ardı eden kronolojik ezberler.",
-    "Dönemin şartlarını dikkate almadan günümüz değer yargılarıyla yapılan öznel analizler.",
-    "Olayların gelişim süreçlerinden bağımsız, sadece kavram odaklı dar yorumlar.",
-    "Siyasi ve askeri gelişmeleri sosyal/kültürel hayattan tamamen kopuk ele alma.",
-    "Tarihsel olayların coğrafi çevre ile olan doğrudan etkileşimini reddetme."
-  ];
-
-  // Her şık için mantıklı ve farklı bir tarihi çeldirici metni oluştur (indis kaydırma ile çakışmayı önle)
-  const getWrongText = (choiceIndex: number) => {
-    const salt = topicItem.title.charCodeAt(0) + topicItem.id.charCodeAt(topicItem.id.length - 1);
-    const uniqueIndex = (choiceIndex * 7 + index * 13 + salt) % wrongAnswersPool.length;
-    const rawVal = wrongAnswersPool[uniqueIndex];
-    if (rawVal.length < 15) {
-      return `${rawVal} kavramının veya olayının tarihsel bağlamdan kopuk şekilde değerlendirilmesi.`;
-    }
-    return rawVal;
-  };
-
-  return {
-    id: `${topicItem.id}-q-${index + 1}`,
-    topicId: topicItem.id,
-    type: index % 3 === 0 ? "chronology" : index % 2 === 0 ? "case" : "single",
-    difficulty: index % 3 === 0 ? "ileri" : index % 2 === 0 ? "orta" : "temel",
-    stem: `${topicItem.title} konusunda KPSS sınavı açısından en doğru ve belirleyici analiz aşağıdakilerden hangisidir?`,
-    choices: choiceIds.map((id, choiceIndex) => ({
-      id,
-      text:
-        id === correctChoiceId
-          ? getCorrectText()
-          : getWrongText(choiceIndex),
-    })),
-    correctChoiceId,
-    explanation: `${topicItem.title} sorularında doğru analiz, kavramı dönemin sosyal, askeri ve kültürel dinamikleriyle birlikte yorumlamaktır. Sadece tanım ezberi sınav sorularında yanıltıcı olabilir.`,
-    examTip: "Soruyu okurken önce dönemin genel karakteristiğini (örneğin bozkır kültürü, merkeziyetçilik, ıslahat dönemi vb.) hatırla.",
-    tags: topicItem.keywords.slice(0, 4),
-  };
-}
-
-export const questions: Question[] = topics.flatMap((topicItem) =>
-  Array.from({ length: 4 }, (_, index) => makeQuestion(topicItem, index))
-);
+export const questions: Question[] = staticQuestions;
 
 export const flashcards: Flashcard[] = topics.flatMap((topicItem) =>
   topicItem.keywords.slice(0, 4).map((keyword, index) => ({
