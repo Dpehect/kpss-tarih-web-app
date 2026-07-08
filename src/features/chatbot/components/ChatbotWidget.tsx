@@ -2,104 +2,23 @@
 
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BotMessageSquare, Send, X, ChevronDown } from "lucide-react";
-import { topics, questions, glossary } from "@/data/kpss-history";
+import { BotMessageSquare, Send, X, Sparkles, RotateCcw } from "lucide-react";
 
 type Message = {
   id: string;
   role: "user" | "bot";
   text: string;
+  error?: boolean;
 };
 
-// ─── Offline KPSS Tarih Yanıt Motoru ────────────────────────────────────────
+type HistoryItem = { role: "user" | "bot"; text: string };
 
-function normalize(text: string) {
-  return text
-    .toLocaleLowerCase("tr-TR")
-    .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c");
-}
-
-function generateReply(userMessage: string): string {
-  const msg = normalize(userMessage);
-
-  // Selamlama
-  if (/^(merhaba|selam|iyi|hey|naber)/.test(msg)) {
-    return "Merhaba! Ben KPSS Tarih çalışma asistanınım. Konu özetleri, kavramlar veya tarih soruları hakkında sorularını yanıtlayabilirim.";
-  }
-
-  // Yardım
-  if (/yardim|ne yapabilirsin|ne biliyorsun/.test(msg)) {
-    return "KPSS Tarih konularında şunları yapabilirim:\n• Konu özetleri sunmak\n• Kavram tanımları açıklamak\n• Önemli tarih ve olayları anlatmak\n• Sınavda sık sorulan konuları vurgulamak\n\nHangi konu veya kavramı merak ediyorsunuz?";
-  }
-
-  // Konu araması
-  for (const topic of topics) {
-    const topicNorm = normalize(topic.title);
-    const keywords = topic.keywords.map(normalize);
-
-    if (msg.includes(topicNorm) || keywords.some((k) => msg.includes(k))) {
-      const summary = topic.summary[0];
-      const mustKnow = topic.mustKnow.slice(0, 3).join(", ");
-      return `**${topic.title}**\n\n${summary?.body ?? topic.shortDescription}\n\n📌 Kesinlikle bilinmesi gerekenler:\n${mustKnow}\n\n⚠️ Sık yapılan hata: ${topic.commonMistakes[0] ?? "Kavram ve dönem ilişkisini karıştırmak"}`;
-    }
-  }
-
-  // Kavram/glossary araması
-  for (const item of glossary) {
-    const termNorm = normalize(item.term);
-    if (msg.includes(termNorm) || termNorm.includes(msg)) {
-      return `**${item.term}**\n\n${item.definition}\n\n${item.example ? `Örnek: ${item.example}` : ""}`;
-    }
-  }
-
-  // Soru araması (konu bazlı)
-  for (const q of questions) {
-    const stemNorm = normalize(q.stem);
-    if (msg.split(" ").filter((w) => w.length > 4).some((w) => stemNorm.includes(w))) {
-      const correct = q.choices.find((c) => c.id === q.correctChoiceId);
-      return `Bu konuyla ilgili örnek bir soru:\n\n**${q.stem}**\n\nDoğru cevap: ${correct?.id ?? "?"}) ${correct?.text ?? ""}\n\n📖 Açıklama: ${q.explanation}`;
-    }
-  }
-
-  // Tarihsel dönem soruları
-  if (/kut|tan[rı]i/.test(msg)) {
-    return "**Kut Anlayışı:**\nTürklerde yönetme yetkisini simgeleyen, Tanrı tarafından bağışlanan siyasi güçtür. Kalıtsal değil, Tanrı''nın takdirine bağlıdır; bu nedenle her an geri alınabilir.";
-  }
-  if (/timar|sipahi/.test(msg)) {
-    return "**Tımar Sistemi:**\nOsmanlı''da askerlik hizmeti karşılığında belirli bir bölgenin vergi gelirinin sipahiye bırakılmasıdır. Mülkiyet değil, gelir devri söz konusudur. Merkezi otoritenin taşraya uzanmasını sağlamıştır.";
-  }
-  if (/tanzimat|islahat|mesrutiyet/.test(msg)) {
-    return "**Osmanlı Yenileşme Süreci:**\n• Tanzimat Fermanı (1839) – Abdülmecit döneminde ilan edilmiş, eşitlik ilkelerini getirmiştir.\n• Islahat Fermanı (1856) – Gayrimüslim haklarını genişletmiştir.\n• I. Meşrutiyet (1876) – Kanun-i Esasi ilan edilmiştir.\n• II. Meşrutiyet (1908) – İttihat ve Terakki dönemi başlamıştır.";
-  }
-  if (/mondros|lozan|sevr|mudanya/.test(msg)) {
-    return "**Önemli Antlaşmalar:**\n• Mondros (30 Ekim 1918) – Osmanlı''nın I. Dünya Savaşı''ndan çekilişi.\n• Sevr (1920) – TBMM tarafından tanınmamıştır.\n• Mudanya (1922) – Ateşkes; İstanbul ve Trakya TBMM''ye bırakıldı.\n• Lozan (24 Temmuz 1923) – Türkiye''nin uluslararası bağımsızlığını tescil eden antlaşma.";
-  }
-  if (/saltanat|halifelik/.test(msg)) {
-    return "**Kritik Tarih Ayrımı:**\n• Saltanat: 1 Kasım 1922''de kaldırılmıştır.\n• Halifelik: 3 Mart 1924''te kaldırılmıştır.\n\nBu iki tarihi karıştırmak KPSS''nin en sık hata yaptırdığı noktalardan biridir!";
-  }
-  if (/ataturk ilkeleri|alti ok/.test(msg)) {
-    return "**Atatürk''ün Altı İlkesi (Altı Ok):**\n1. Cumhuriyetçilik\n2. Milliyetçilik\n3. Halkçılık\n4. Devletçilik\n5. Laiklik\n6. İnkılapçılık\n\nBu ilkelerin her biri belirli inkılaplarla doğrudan ilişkilidir. Hangi ilkeyi merak ediyorsunuz?";
-  }
-
-  // Sınav ipucu
-  if (/ipucu|strateji|nasil calisayim|tavsiye/.test(msg)) {
-    return "**KPSS Tarih Çalışma Stratejisi:**\n1. Önce konu özetini oku, ana kavramları not al.\n2. Kronoloji: yüzyıl filtresi kur, sonra tarihleri sırala.\n3. Benzer kurumları (tımar/devşirme/vakıf) karşılaştırmalı öğren.\n4. Her konudan en az 10 soru çöz; yanlışları not et.\n5. Son 2 haftada yalnızca yanlış yaptığın konulara odaklan.";
-  }
-
-  // Genel fallback
-  const topicList = topics
-    .slice(0, 6)
-    .map((t) => t.title)
-    .join(", ");
-  return `Bu konuda spesifik bir bilgim bulunamadı. Şu konularda yardımcı olabilirim: ${topicList}...\n\nDaha net bir konu veya kavram adı yazarsanız daha ayrıntılı bilgi verebilirim.`;
-}
-
-// ─── Bileşen ─────────────────────────────────────────────────────────────────
+const QUICK_PROMPTS = [
+  "Kut anlayışı nedir?",
+  "Tanzimat ile Islahat farkı?",
+  "Saltanat ne zaman kaldırıldı?",
+  "Lozan'da neler düzenlendi?",
+];
 
 export function ChatbotWidget() {
   const [open, setOpen] = useState(false);
@@ -107,7 +26,7 @@ export function ChatbotWidget() {
     {
       id: "welcome",
       role: "bot",
-      text: "Merhaba! Ben KPSS Tarih çalışma asistanınım. Konu özetleri, kavramlar ve tarih soruları hakkında sorularını yanıtlayabilirim.",
+      text: "Merhaba! Ben KPSS Tarih asistanınım, Gemini AI ile çalışıyorum. Konu özetleri, kavramlar, tarihler veya sınav stratejisi hakkında her şeyi sorabilirsin. 🎯",
     },
   ]);
   const [input, setInput] = useState("");
@@ -117,28 +36,59 @@ export function ChatbotWidget() {
 
   useEffect(() => {
     if (open) {
-      endRef.current?.scrollIntoView({ behavior: "smooth" });
-      setTimeout(() => inputRef.current?.focus(), 200);
+      setTimeout(() => {
+        endRef.current?.scrollIntoView({ behavior: "smooth" });
+        inputRef.current?.focus();
+      }, 100);
     }
   }, [messages, open]);
 
-  function sendMessage() {
-    const text = input.trim();
+  async function sendMessage(text: string = input.trim()) {
     if (!text || loading) return;
 
-    const userMsg: Message = { id: Date.now().toString(), role: "user", text };
+    const userMsg: Message = { id: `u-${Date.now()}`, role: "user", text };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
 
-    setTimeout(() => {
-      const reply = generateReply(text);
+    // Konuşma geçmişini oluştur (welcome mesajı hariç)
+    const history: HistoryItem[] = messages
+      .filter((m) => m.id !== "welcome" && !m.error)
+      .map((m) => ({ role: m.role, text: m.text }));
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error ?? "Sunucu hatası");
+      }
+
       setMessages((prev) => [
         ...prev,
-        { id: Date.now().toString() + "-bot", role: "bot", text: reply },
+        { id: `b-${Date.now()}`, role: "bot", text: data.reply },
       ]);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Bağlantı hatası";
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `e-${Date.now()}`,
+          role: "bot",
+          text: errMsg.includes("GEMINI_API_KEY")
+            ? "⚠️ GEMINI_API_KEY ayarlanmamış. Lütfen .env.local dosyasına API anahtarınızı ekleyin: GEMINI_API_KEY=..."
+            : `⚠️ Hata: ${errMsg}. Lütfen tekrar deneyin.`,
+          error: true,
+        },
+      ]);
+    } finally {
       setLoading(false);
-    }, 420);
+    }
   }
 
   function handleKey(e: React.KeyboardEvent) {
@@ -148,44 +98,77 @@ export function ChatbotWidget() {
     }
   }
 
+  function clearChat() {
+    setMessages([
+      {
+        id: "welcome",
+        role: "bot",
+        text: "Sohbet sıfırlandı. Yeni sorun nedir? 🎯",
+      },
+    ]);
+  }
+
   return (
     <>
       {/* Floating Button */}
       <motion.button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="KPSS Tarih Asistanı"
-        className="fixed bottom-24 right-5 z-[60] grid size-14 place-items-center rounded-full bg-gradient-to-br from-blue-700 to-indigo-800 text-white shadow-[0_8px_32px_rgba(30,58,138,.42)] transition hover:-translate-y-1 hover:shadow-[0_14px_40px_rgba(30,58,138,.52)] lg:bottom-6 lg:right-6"
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
+        aria-label="KPSS Tarih AI Asistanı"
+        className="fixed bottom-24 right-5 z-[60] flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-700 to-indigo-800 text-white shadow-[0_8px_32px_rgba(30,58,138,.45)] lg:bottom-6 lg:right-6"
+        whileHover={{ scale: 1.08, y: -2 }}
+        whileTap={{ scale: 0.92 }}
       >
-        {open ? <X size={22} /> : <BotMessageSquare size={22} />}
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <X size={22} />
+            </motion.span>
+          ) : (
+            <motion.span key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <BotMessageSquare size={22} />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {/* Pulse ring */}
+        {!open && (
+          <span className="absolute inset-0 rounded-full bg-blue-600/30 animate-ping" style={{ animationDuration: "2.4s" }} />
+        )}
       </motion.button>
 
       {/* Chat Panel */}
       <AnimatePresence>
         {open && (
           <motion.div
-            key="chat"
-            initial={{ opacity: 0, scale: 0.92, y: 24 }}
+            key="chat-panel"
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 24 }}
-            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-44 right-5 z-[59] flex h-[520px] w-[min(92vw,400px)] flex-col overflow-hidden rounded-[1.8rem] border border-white/12 bg-[var(--sb-surface-strong)] shadow-[0_32px_100px_rgba(15,23,42,.28)] backdrop-blur-2xl lg:bottom-24 lg:right-6"
+            exit={{ opacity: 0, scale: 0.94, y: 20 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-44 right-5 z-[59] flex w-[min(94vw,420px)] flex-col overflow-hidden rounded-[1.8rem] border border-white/10 shadow-[0_32px_100px_rgba(15,23,42,.3)] backdrop-blur-2xl lg:bottom-24 lg:right-6"
+            style={{ height: "min(580px, calc(100dvh - 160px))", background: "var(--sb-surface-strong)" }}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-[var(--sb-line)] bg-gradient-to-r from-blue-700 to-indigo-800 px-5 py-4">
-              <div className="grid size-9 place-items-center rounded-2xl bg-white/15">
-                <BotMessageSquare size={18} className="text-white" />
+            <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-gradient-to-r from-blue-700 to-indigo-800 px-5 py-4">
+              <div className="grid size-9 shrink-0 place-items-center rounded-2xl bg-white/15">
+                <Sparkles size={17} className="text-white" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-black text-white">KPSS Tarih Asistanı</p>
-                <p className="text-[11px] text-white/70">Konu, kavram ve soru sora bilirsin</p>
+                <p className="text-[13px] font-black text-white">KPSS Tarih AI</p>
+                <p className="text-[11px] text-white/65">Gemini ile güçlendirilmiş asistan</p>
               </div>
               <button
                 type="button"
+                onClick={clearChat}
+                title="Sohbeti sıfırla"
+                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
+              >
+                <RotateCcw size={15} />
+              </button>
+              <button
+                type="button"
                 onClick={() => setOpen(false)}
-                className="grid size-8 place-items-center rounded-xl text-white/70 transition hover:bg-white/10 hover:text-white"
+                className="grid size-8 place-items-center rounded-xl text-white/60 transition hover:bg-white/10 hover:text-white"
                 aria-label="Kapat"
               >
                 <X size={16} />
@@ -193,17 +176,21 @@ export function ChatbotWidget() {
             </div>
 
             {/* Messages */}
-            <div className="scrollbar-clean flex-1 space-y-3 overflow-y-auto p-4">
+            <div className="flex-1 space-y-3 overflow-y-auto p-4">
               {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                >
+                <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  {msg.role === "bot" && (
+                    <div className="mr-2 mt-1 grid size-7 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+                      <Sparkles size={12} />
+                    </div>
+                  )}
                   <div
-                    className={`max-w-[82%] rounded-[1.1rem] px-4 py-2.5 text-sm leading-6 ${
+                    className={`max-w-[82%] rounded-[1.1rem] px-4 py-2.5 text-[13px] leading-6 ${
                       msg.role === "user"
-                        ? "bg-gradient-to-br from-blue-600 to-indigo-700 text-white"
-                        : "border border-[var(--sb-line)] bg-[var(--sb-surface)] text-[var(--sb-text)]"
+                        ? "rounded-br-sm bg-gradient-to-br from-blue-600 to-indigo-700 text-white"
+                        : msg.error
+                        ? "rounded-bl-sm border border-red-200 bg-red-50 text-red-700"
+                        : "rounded-bl-sm border border-[var(--sb-line)] bg-[var(--sb-surface)] text-[var(--sb-text)]"
                     }`}
                     style={{ whiteSpace: "pre-line" }}
                   >
@@ -211,17 +198,20 @@ export function ChatbotWidget() {
                   </div>
                 </div>
               ))}
+
+              {/* Loading indicator */}
               {loading && (
-                <div className="flex justify-start">
-                  <div className="rounded-[1.1rem] border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-3">
-                    <div className="flex gap-1">
+                <div className="flex items-start justify-start gap-2">
+                  <div className="grid size-7 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+                    <Sparkles size={12} />
+                  </div>
+                  <div className="rounded-[1.1rem] rounded-bl-sm border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-3">
+                    <div className="flex items-center gap-1.5">
                       {[0, 1, 2].map((i) => (
                         <span
                           key={i}
-                          className="size-2 rounded-full bg-[var(--sb-text-muted)]"
-                          style={{
-                            animation: `bounce 1s ease-in-out ${i * 0.15}s infinite`,
-                          }}
+                          className="size-2 rounded-full bg-blue-500"
+                          style={{ animation: `sb-bounce 1.2s ease-in-out ${i * 0.18}s infinite` }}
                         />
                       ))}
                     </div>
@@ -231,8 +221,27 @@ export function ChatbotWidget() {
               <div ref={endRef} />
             </div>
 
+            {/* Quick prompts (shown when only welcome message) */}
+            {messages.length === 1 && !loading && (
+              <div className="shrink-0 border-t border-[var(--sb-line)] px-4 py-3">
+                <p className="mb-2 text-[10px] font-black uppercase tracking-wider text-[var(--sb-text-muted)]">Hızlı sorular</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {QUICK_PROMPTS.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onClick={() => sendMessage(q)}
+                      className="rounded-full border border-[var(--sb-line)] bg-[var(--sb-surface)] px-3 py-1 text-[11px] font-semibold text-[var(--sb-text-soft)] transition hover:border-blue-500/30 hover:bg-blue-600/5 hover:text-blue-700"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Input */}
-            <div className="border-t border-[var(--sb-line)] p-3">
+            <div className="shrink-0 border-t border-[var(--sb-line)] p-3">
               <div className="flex gap-2">
                 <input
                   ref={inputRef}
@@ -240,21 +249,24 @@ export function ChatbotWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKey}
-                  placeholder="Konu veya kavram sor..."
-                  className="min-w-0 flex-1 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-2.5 text-sm text-[var(--sb-text)] outline-none transition placeholder:text-[var(--sb-text-muted)] focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10"
+                  placeholder="Konu, kavram veya tarih sor..."
+                  disabled={loading}
+                  className="min-w-0 flex-1 rounded-2xl border border-[var(--sb-line)] bg-[var(--sb-surface)] px-4 py-2.5 text-[13px] text-[var(--sb-text)] outline-none transition placeholder:text-[var(--sb-text-muted)] focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 disabled:opacity-60"
                 />
-                <button
+                <motion.button
                   type="button"
-                  onClick={sendMessage}
+                  onClick={() => sendMessage()}
                   disabled={!input.trim() || loading}
-                  className="grid size-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow transition hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-40"
+                  className="grid size-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-md disabled:opacity-40"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   aria-label="Gönder"
                 >
-                  <Send size={16} />
-                </button>
+                  <Send size={15} />
+                </motion.button>
               </div>
               <p className="mt-2 text-center text-[10px] text-[var(--sb-text-muted)]">
-                Konu adı, kavram veya tarih hakkında soru sorabilirsin
+                Gemini AI · Yalnızca KPSS Tarih konularında
               </p>
             </div>
           </motion.div>
@@ -262,9 +274,9 @@ export function ChatbotWidget() {
       </AnimatePresence>
 
       <style jsx global>{`
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-4px); }
+        @keyframes sb-bounce {
+          0%, 100% { transform: translateY(0); opacity: .6; }
+          50% { transform: translateY(-5px); opacity: 1; }
         }
       `}</style>
     </>
