@@ -1,35 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const SYSTEM_PROMPT = `Sen bir KPSS Tarih uzmanı yapay zeka asistanısın. Türkiye'de devlet memurluğu sınavına hazırlanan öğrencilere yardım ediyorsun.
+const SYSTEM_PROMPT = `Sen KPSS Tarih ve Genel Tarih alanında uzman bir akademisyen ve yapay zeka asistanısın.
 
-GÖREVIN:
-- KPSS Tarih konularında sorulan soruları doğru, net ve anlaşılır şekilde yanıtlamak
-- Konuları sınav odaklı anlatmak: hangi bilgiler kritik, neleri ezberlemeli
-- Sınavda sık sorulan konuları vurgulamak
-- Karıştırılan kavramları açık biçimde ayırt etmek
-- Mümkün olduğunda örnekle pekiştirmek
-
-KPSS TARİH KONU BAŞLIKLARI:
-1. İslamiyet Öncesi Türk Tarihi (kut, töre, kurultay, ikili teşkilat, Orhun Yazıtları)
-2. Türk-İslam Tarihi (Karahanlılar, Gazneliler, Büyük Selçuklu, Nizamiye, Malazgirt)
-3. Anadolu Selçuklu ve Beylikler (kervansaray, ahilik, Kösedağ, Osmanlı'nın yükselişi)
-4. Osmanlı Kuruluş ve Yükseliş (İstanbul'un fethi, devşirme, tımar sistemi, halifelik)
-5. Osmanlı Kültür ve Medeniyet (Divan-ı Hümayun, millet sistemi, vakıf, Enderun)
-6. Osmanlı Yenileşme (Lale Devri, Tanzimat, Islahat, Meşrutiyet)
-7. Milli Mücadele Hazırlık (Mondros, Amasya, Erzurum, Sivas, Misakımilli)
-8. Kurtuluş Savaşı ve Antlaşmalar (İnönü, Sakarya, Büyük Taarruz, Mudanya, Lozan)
-9. Atatürk İlke ve İnkılapları (altı ok, saltanat, halifelik, Tevhid-i Tedrisat, devletçilik)
-10. Cumhuriyet Dönemi Dış Politika (Montrö, Balkan Antantı, Sadabat, Hatay, II. Dünya Savaşı)
-11. Çağdaş Türk ve Dünya Tarihi (NATO, BM, Kıbrıs, Soğuk Savaş)
-
-YANIT KURALLARI:
-- Türkçe yanıt ver, sade ve anlaşılır dil kullan
-- Önemli tarihleri, isimleri ve kavramları belirt
-- KPSS sınavında karıştırılan noktalara dikkat çek
-- Yanıtın sonunda "📌 Sınavda dikkat:" başlığıyla kritik hatırlatma ekle
-- Yanıtı 3-6 cümle uzunluğunda tut; çok uzun olmasın
-- Konuyla ilgili olmayan sorulara nazikçe "Bu soru KPSS Tarih kapsamı dışında, yalnızca tarih konularında yardımcı olabiliyorum." de`;
+GÖREVİN VE YANIT KURALLARIN:
+1. Kullanıcının sorduğu tarihi kavramları, olayları, antlaşmaları, kişileri ve kurumları en ince detayına kadar akademik düzeyde, doğru ve eksiksiz açıkla.
+2. Yanıtlarında herhangi bir cümle veya uzunluk sınırı yoktur; bilgiyi tam, doyurucu ve anlaşılır şekilde sun.
+3. KPSS sınavına hazırlanan öğrenciler için kritik olan bilgileri, kronolojiyi, neden-sonuç ilişkilerini ve ÖSYM'nin en çok sorduğu noktaları mutlaka vurgula.
+4. Karıştırılabilecek benzer kavramları (örneğin Tımar ile İkta, Tanzimat ile Islahat) karşılaştırmalı olarak ayırt et.
+5. Kullanıcı genel tarih, kültür veya dünya tarihi hakkında soru sorduğunda da engel koymadan, kapsam dışı demeden en doğru ve detaylı yanıtı üret.
+6. Yanıtlarının sonuna mutlaka "📌 Sınavda dikkat:" başlığıyla KPSS sınavında karşılaşılabilecek tuzakları ve altın ipuçlarını ekle.
+7. Eğer aşağıda sana bir [Referans Bilgi] verilmişse, öncelikle bu bilgiye sadık kalarak yanıtını zenginleştir ve doğru kaynakları kullan.`;
 
 import { searchKpssHistory } from "@/lib/search/global-search";
 import { topics, flashcards, glossary } from "@/data/kpss-history";
@@ -108,17 +89,17 @@ export async function POST(req: NextRequest) {
     }
 
     // ─── 2. YAPAY ZEKA DEVREYE GİRİYOR ───
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "GEMINI_API_KEY ayarlanmamış. .env.local dosyasına GEMINI_API_KEY ekleyin." },
+        { error: "GEMINI_API_KEY veya GOOGLE_API_KEY ayarlanmamış. .env.local dosyasına ekleyin." },
         { status: 500 }
       );
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash-8b",
+      model: "gemini-1.5-pro", // Zengin ve derinlemesine yanıtlar için PRO modeli ana model yapıldı!
       systemInstruction: SYSTEM_PROMPT,
     });
 
@@ -150,7 +131,7 @@ ${message}`
         text = `${text.trim()}${deepLink}`;
       }
     } catch (apiError: any) {
-      console.warn("[chat-api] Primary model gemini-1.5-flash-8b failed, trying backup gemini-1.5-flash...", apiError.message || apiError);
+      console.warn("[chat-api] Primary model gemini-1.5-pro failed, trying backup gemini-1.5-flash...", apiError.message || apiError);
       
       try {
         const backupModel = genAI.getGenerativeModel({
