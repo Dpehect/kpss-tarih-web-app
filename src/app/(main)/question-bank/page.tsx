@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { QuestionBankPage } from "@/features/question-bank/components/QuestionBankPage";
 
 export const metadata: Metadata = {
-  title: "Soru Dosyaları",
-  description: "KPSS Tarih konu başlıklarına göre ayrılmış görsel, açıklamalı ve zenginleştirilmiş soru dosyaları."
+  title: "Soru Bankası",
+  description: "KPSS Tarih soru bankası."
 };
 
-export default function QuestionBankRoute() {
+export default async function QuestionBankRoute() {
   return <QuestionBankPage />;
 }

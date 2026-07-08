@@ -1,0 +1,252 @@
+[
+  {
+    "id": "e1",
+    "topic_id": "t1",
+    "date": "552",
+    "title": "I. Göktürk Devleti",
+    "description": "Türk adını devlet adı olarak kullanan ilk büyük siyasal yapı.",
+    "tone": "gold",
+    "sort_order": 0,
+    "is_published": true
+  },
+  {
+    "id": "e2",
+    "topic_id": "t1",
+    "date": "682",
+    "title": "II. Göktürk Devleti",
+    "description": "Kutluk Devleti olarak da bilinir; bağımsızlık vurgusu güçlüdür.",
+    "tone": "turquoise",
+    "sort_order": 1,
+    "is_published": true
+  },
+  {
+    "id": "e3",
+    "topic_id": "t2",
+    "date": "840",
+    "title": "Karahanlılar",
+    "description": "İlk Müslüman Türk devleti kabul edilir.",
+    "tone": "gold",
+    "sort_order": 2,
+    "is_published": true
+  },
+  {
+    "id": "e4",
+    "topic_id": "t2",
+    "date": "1040",
+    "title": "Dandanakan",
+    "description": "Büyük Selçuklu yükselişini hızlandırdı.",
+    "tone": "crimson",
+    "sort_order": 3,
+    "is_published": true
+  },
+  {
+    "id": "e5",
+    "topic_id": "t2",
+    "date": "1071",
+    "title": "Malazgirt",
+    "description": "Anadolu'nun Türkleşme sürecini hızlandırdı.",
+    "tone": "turquoise",
+    "sort_order": 4,
+    "is_published": true
+  },
+  {
+    "id": "e6",
+    "topic_id": "t3",
+    "date": "1176",
+    "title": "Miryokefalon",
+    "description": "Anadolu'nun Türk yurdu olduğu kesinleşti.",
+    "tone": "gold",
+    "sort_order": 5,
+    "is_published": true
+  },
+  {
+    "id": "e7",
+    "topic_id": "t3",
+    "date": "1243",
+    "title": "Kösedağ",
+    "description": "Türkiye Selçuklu otoritesi zayıfladı.",
+    "tone": "crimson",
+    "sort_order": 6,
+    "is_published": true
+  },
+  {
+    "id": "e8",
+    "topic_id": "t4",
+    "date": "1299",
+    "title": "Osmanlı Kuruluşu",
+    "description": "Beylikten imparatorluğa giden süreç başladı.",
+    "tone": "gold",
+    "sort_order": 7,
+    "is_published": true
+  },
+  {
+    "id": "e9",
+    "topic_id": "t4",
+    "date": "1353",
+    "title": "Çimpe",
+    "description": "Rumeli'ye geçiş için önemli üs elde edildi.",
+    "tone": "turquoise",
+    "sort_order": 8,
+    "is_published": true
+  },
+  {
+    "id": "e10",
+    "topic_id": "t4",
+    "date": "1453",
+    "title": "İstanbul'un Fethi",
+    "description": "Osmanlı imparatorluk karakteri güçlendi.",
+    "tone": "crimson",
+    "sort_order": 9,
+    "is_published": true
+  },
+  {
+    "id": "e11",
+    "topic_id": "t6",
+    "date": "1699",
+    "title": "Karlofça",
+    "description": "Batıda ilk büyük toprak kaybı.",
+    "tone": "parchment",
+    "sort_order": 10,
+    "is_published": true
+  },
+  {
+    "id": "e12",
+    "topic_id": "t6",
+    "date": "1718",
+    "title": "Pasarofça",
+    "description": "Lale Devri ve Batı etkisi arttı.",
+    "tone": "gold",
+    "sort_order": 11,
+    "is_published": true
+  },
+  {
+    "id": "e13",
+    "topic_id": "t7",
+    "date": "1808",
+    "title": "Sened-i İttifak",
+    "description": "Padişah yetkilerini sınırlayan ilk belge.",
+    "tone": "turquoise",
+    "sort_order": 12,
+    "is_published": true
+  },
+  {
+    "id": "e14",
+    "topic_id": "t7",
+    "date": "1839",
+    "title": "Tanzimat",
+    "description": "Hukuki güvenlik ve modernleşme adımı.",
+    "tone": "gold",
+    "sort_order": 13,
+    "is_published": true
+  },
+  {
+    "id": "e15",
+    "topic_id": "t7",
+    "date": "1876",
+    "title": "Kanun-i Esasi",
+    "description": "Osmanlı'nın ilk anayasası.",
+    "tone": "crimson",
+    "sort_order": 14,
+    "is_published": true
+  },
+  {
+    "id": "e16",
+    "topic_id": "t8",
+    "date": "1912",
+    "title": "Uşi",
+    "description": "Trablusgarp Savaşı sona erdi.",
+    "tone": "parchment",
+    "sort_order": 15,
+    "is_published": true
+  },
+  {
+    "id": "e17",
+    "topic_id": "t8",
+    "date": "1918",
+    "title": "Mondros",
+    "description": "İşgallere zemin hazırladı.",
+    "tone": "crimson",
+    "sort_order": 16,
+    "is_published": true
+  },
+  {
+    "id": "e18",
+    "topic_id": "t9",
+    "date": "1919",
+    "title": "Amasya",
+    "description": "Milli Mücadele'nin amaç, gerekçe ve yöntemi.",
+    "tone": "gold",
+    "sort_order": 17,
+    "is_published": true
+  },
+  {
+    "id": "e19",
+    "topic_id": "t10",
+    "date": "1920",
+    "title": "Gümrü",
+    "description": "TBMM'nin imzaladığı ilk antlaşma.",
+    "tone": "turquoise",
+    "sort_order": 18,
+    "is_published": true
+  },
+  {
+    "id": "e20",
+    "topic_id": "t10",
+    "date": "1922",
+    "title": "Mudanya",
+    "description": "Silahlı mücadele fiilen sona erdi.",
+    "tone": "crimson",
+    "sort_order": 19,
+    "is_published": true
+  },
+  {
+    "id": "e21",
+    "topic_id": "t11",
+    "date": "1923",
+    "title": "Cumhuriyet",
+    "description": "Milli egemenlik yönetim biçimine dönüştü.",
+    "tone": "gold",
+    "sort_order": 20,
+    "is_published": true
+  },
+  {
+    "id": "e22",
+    "topic_id": "t11",
+    "date": "1926",
+    "title": "Medeni Kanun",
+    "description": "Hukuk alanında modernleşme.",
+    "tone": "turquoise",
+    "sort_order": 21,
+    "is_published": true
+  },
+  {
+    "id": "e23",
+    "topic_id": "t12",
+    "date": "1936",
+    "title": "Montrö",
+    "description": "Boğazlar egemenliği güçlendi.",
+    "tone": "gold",
+    "sort_order": 22,
+    "is_published": true
+  },
+  {
+    "id": "e24",
+    "topic_id": "t12",
+    "date": "1939",
+    "title": "Hatay",
+    "description": "Türkiye'ye katıldı.",
+    "tone": "crimson",
+    "sort_order": 23,
+    "is_published": true
+  },
+  {
+    "id": "e25",
+    "topic_id": "t12",
+    "date": "1952",
+    "title": "NATO",
+    "description": "Türkiye Batı güvenlik sistemine katıldı.",
+    "tone": "turquoise",
+    "sort_order": 24,
+    "is_published": true
+  }
+]

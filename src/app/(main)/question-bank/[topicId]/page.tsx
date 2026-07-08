@@ -1,69 +1,46 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { topics } from "@/data/kpss-history";
-import { getTestsForTopic, type TestLevel } from "@/data/generated-30-question-tests";
 import { TopicQuestionPage } from "@/features/question-bank/components/TopicQuestionPage";
+import { fetchContentTestsForTopic, fetchContentTopicById, type ContentTestLevel } from "@/lib/content/supabase-content-server";
 
 type PageProps = {
-  params: Promise<{
-    topicId: string;
-  }>;
-  searchParams?: Promise<{
-    test?: string;
-    level?: string;
-  }>;
+  params: Promise<{ topicId: string }>;
+  searchParams?: Promise<{ test?: string; level?: string }>;
 };
 
 const levels = ["kolay", "orta", "zor"] as const;
 
-function normalizeLevel(value?: string): TestLevel | undefined {
-  if (levels.includes(value as TestLevel)) return value as TestLevel;
-  return undefined;
+function normalizeLevel(value?: string): ContentTestLevel | undefined {
+  return levels.includes(value as ContentTestLevel) ? (value as ContentTestLevel) : undefined;
 }
 
-export function generateStaticParams() {
-  return [
-    { topicId: "all" },
-    ...topics.map((topic) => ({
-      topicId: topic.id
-    }))
-  ];
-}
+export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { topicId } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
-  const level = normalizeLevel(resolvedSearchParams.level);
-  const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const tests = getTestsForTopic(topicId, level);
-  const selectedTest = resolvedSearchParams.test ? tests.find((test) => test.id === resolvedSearchParams.test) : null;
-
-  if (topicId !== "all" && !topic) {
-    return { title: "Test bulunamadı" };
-  }
-
-  const title = selectedTest?.title ?? (topic ? `${topic.title} Testleri` : "Karma KPSS Tarih Testleri");
-
+  const topic = await fetchContentTopicById(topicId);
   return {
-    title,
-    description: `${title} için 30 soruluk açıklamalı KPSS Tarih testleri.`
+    title: topic ? `${topic.title} Testleri` : "Konu Testleri",
+    description: "Supabase destekli 30 soruluk konu testleri."
   };
 }
 
 export default async function TopicQuestionRoute({ params, searchParams }: PageProps) {
   const { topicId } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
-  const level = normalizeLevel(resolvedSearchParams.level);
-  const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const tests = getTestsForTopic(topicId, level);
+  const resolved = searchParams ? await searchParams : {};
+  const level = normalizeLevel(resolved.level);
+  const topic = await fetchContentTopicById(topicId);
 
-  if (topicId !== "all" && !topic) {
-    notFound();
+  if (!topic) notFound();
+
+  if (level) {
+    const tests = await fetchContentTestsForTopic(topicId, level);
+    if (tests.length === 0) notFound();
+
+    if (resolved.test && !tests.some((test) => test.id === resolved.test)) {
+      notFound();
+    }
   }
 
-  if (tests.length === 0) {
-    notFound();
-  }
-
-  return <TopicQuestionPage topicId={topicId} testId={resolvedSearchParams.test} level={level} />;
+  return <TopicQuestionPage topicId={topicId} testId={resolved.test} level={level} />;
 }

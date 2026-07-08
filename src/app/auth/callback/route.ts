@@ -1,26 +1,33 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
+import { getSupabasePublishableKey, getSupabaseUrl, isSupabaseConfigured } from "@/lib/supabase/env";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const next = requestUrl.searchParams.get("next") ?? "/dashboard";
+  const redirectUrl = new URL("/dashboard", requestUrl.origin);
+  const response = NextResponse.redirect(redirectUrl);
 
-  if (code) {
-    const supabase = await createClient();
+  if (!code || !isSupabaseConfigured()) return response;
 
-    if (!supabase) {
-      return NextResponse.redirect(
-        new URL("/auth?error=Supabase%20environment%20variables%20missing", requestUrl.origin)
-      );
+  const supabase = createServerClient(getSupabaseUrl(), getSupabasePublishableKey(), {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+      }
     }
+  });
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (error) {
-      return NextResponse.redirect(new URL(`/auth?error=${encodeURIComponent(error.message)}`, requestUrl.origin));
-    }
+  if (error) {
+    const loginUrl = new URL("/login", requestUrl.origin);
+    loginUrl.searchParams.set("error", error.message);
+    return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.redirect(new URL(next, requestUrl.origin));
+  return response;
 }

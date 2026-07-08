@@ -3,26 +3,31 @@
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { LogOut, UserRound } from "lucide-react";
-import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 
 export function AuthStatusButton() {
-  const [user, setUser] = useState<User | null>(null);
   const supabase = useMemo(() => createClient(), []);
+  const [user, setUser] = useState<User | null>(null);
+  const [ready, setReady] = useState(false);
+  const displayName = user?.user_metadata?.full_name ?? user?.email ?? "Profil";
 
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase) {
+      setReady(true);
+      return;
+    }
 
-    const client = supabase;
     let mounted = true;
 
-    client.auth.getUser().then(({ data }) => {
+    void supabase.auth.getUser().then(({ data }) => {
       if (!mounted) return;
       setUser(data.user ?? null);
+      setReady(true);
     });
 
-    const { data: listener } = client.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setReady(true);
     });
 
     return () => {
@@ -32,27 +37,27 @@ export function AuthStatusButton() {
   }, [supabase]);
 
   async function signOut() {
-    if (!supabase) return;
-
-    const client = supabase;
-    const { error } = await client.auth.signOut();
-
-    if (error) {
-      toast.error(error.message);
-      return;
+    if (supabase) {
+      await supabase.auth.signOut();
     }
 
-    toast.success("Çıkış yapıldı");
-    setUser(null);
-    window.location.href = "/login";
+    window.location.href = "/";
   }
 
-  if (!supabase || !user) {
+  if (!ready) {
+    return (
+      <span className="hidden min-h-11 items-center rounded-full border border-[#e4d8c8] bg-white/80 px-4 text-sm font-black text-[#667085] sm:inline-flex">
+        Hesap
+      </span>
+    );
+  }
+
+  if (!user) {
     return (
       <a
         href="/login"
-        data-dark-button="true"
-        className="inline-flex min-h-10 items-center justify-center rounded-2xl bg-[#0f766e] px-4 text-sm font-black text-white shadow-[0_14px_38px_rgba(15,118,110,.22)] transition hover:bg-[#115e59]"
+        data-ultra-click="true"
+        className="inline-flex min-h-11 items-center rounded-full bg-[#101828] px-4 text-sm font-black text-white shadow-[0_12px_32px_rgba(16,24,40,.18)]"
       >
         Giriş Yap
       </a>
@@ -63,19 +68,23 @@ export function AuthStatusButton() {
     <div className="flex items-center gap-2">
       <a
         href="/profile"
-        className="hidden min-h-10 items-center gap-2 rounded-2xl border border-[#e4d8c8] bg-white/76 px-3 text-sm font-bold text-[#101828] shadow-sm transition hover:bg-white md:inline-flex"
+        data-ultra-click="true"
+        className="hidden min-h-11 max-w-[220px] items-center gap-2 truncate rounded-full border border-[#e4d8c8] bg-white/85 px-4 text-sm font-black text-[#101828] shadow-[0_10px_28px_rgba(16,24,40,.08)] sm:inline-flex"
+        title={displayName}
       >
         <UserRound size={16} />
-        <span className="max-w-[150px] truncate">{user.user_metadata?.full_name ?? user.email}</span>
+        <span className="truncate">{displayName}</span>
       </a>
 
       <button
         type="button"
+        data-ultra-click="true"
         onClick={() => void signOut()}
-        className="inline-flex min-h-10 items-center justify-center gap-2 rounded-2xl border border-[#e4d8c8] bg-white/76 px-3 text-sm font-black text-[#101828] shadow-sm transition hover:bg-white"
+        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#f3c7c9] bg-[#fff1f2] px-4 text-sm font-black text-[#b4232a] shadow-[0_10px_28px_rgba(180,35,42,.08)]"
       >
         <LogOut size={16} />
-        <span className="hidden sm:inline">Çıkış</span>
+        <span className="hidden sm:inline">Çıkış Yap</span>
+        <span className="sm:hidden">Çıkış</span>
       </button>
     </div>
   );

@@ -1,0 +1,43 @@
+:root {
+  --softbridge-ink: #101828;
+  --softbridge-muted: #475467;
+  --softbridge-line: #e4d8c8;
+  --softbridge-red: #b4232a;
+}
+
+.professional-surface {
+  border: 1px solid rgba(255,255,255,.75);
+  background: rgba(255,255,255,.80);
+  box-shadow: 0 24px 80px rgba(16,24,40,.10);
+  backdrop-filter: blur(18px);
+}
+
+.professional-hero {
+  border: 1px solid rgba(255,255,255,.75);
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 32px 105px rgba(16,24,40,.12);
+  backdrop-filter: blur(20px);
+}
+
+[data-ultra-sidebar="true"] a {
+  will-change: transform, box-shadow, background-color, color;
+}
+
+[data-ultra-sidebar="true"] a:hover {
+  text-decoration: none;
+}
+
+[data-ultra-click="true"] {
+  -webkit-tap-highlight-color: rgba(16,24,40,.08);
+}
+
+[data-ultra-content="true"] a,
+[data-ultra-content="true"] button {
+  transition-property: transform, box-shadow, background-color, color, border-color;
+  transition-duration: 180ms;
+}
+
+[data-decorative="true"],
+[data-decorative="true"] * {
+  pointer-events: none !important;
+}

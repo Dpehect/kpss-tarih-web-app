@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { ExamsPage } from "@/features/exams/components/ExamsPage";
 
 export const metadata: Metadata = {
-  title: "KPSS Tarih Denemeleri",
-  description: "KPSS Genel Kültür içindeki 27 tarih sorusuna göre hazırlanmış süreli ve süresiz tarih denemeleri."
+  title: "Denemeler",
+  description: "KPSS Tarih deneme merkezi."
 };
 
-export default function ExamsRoute() {
+export default async function ExamsRoute() {
   return <ExamsPage />;
 }

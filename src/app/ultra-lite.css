@@ -1,0 +1,45 @@
+html {
+  scroll-behavior: auto !important;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+* {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+[data-ultra-shell="true"] {
+  isolation: isolate;
+}
+
+[data-ultra-sidebar="true"],
+[data-ultra-sidebar="true"] *,
+[data-ultra-click="true"] {
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+
+[data-ultra-click="true"] svg,
+[data-ultra-click="true"] svg * {
+  pointer-events: none !important;
+}
+
+[data-ultra-content="true"] [class*="blur-"],
+[data-ultra-content="true"] [class*="absolute"][class*="blur"],
+[data-ultra-content="true"] [aria-hidden="true"],
+[data-ultra-content="true"] [data-decorative="true"] {
+  pointer-events: none !important;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}

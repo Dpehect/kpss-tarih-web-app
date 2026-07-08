@@ -1,0 +1,76 @@
+html {
+  scroll-behavior: auto !important;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+[data-turbo-shell="true"] {
+  isolation: isolate;
+}
+
+[data-turbo-sidebar="true"],
+[data-turbo-topbar="true"],
+[data-turbo-bottom-nav="true"] {
+  pointer-events: auto !important;
+  transform: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+[data-turbo-sidebar="true"] *,
+[data-turbo-topbar="true"] *,
+[data-turbo-bottom-nav="true"] * {
+  pointer-events: auto;
+}
+
+[data-turbo-click="true"] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(16, 24, 40, 0.1);
+}
+
+[data-turbo-click="true"] svg,
+[data-turbo-click="true"] svg * {
+  pointer-events: none !important;
+}
+
+[data-turbo-content="true"] [class*="absolute"][class*="blur"],
+[data-turbo-content="true"] [class*="blur-"],
+[data-turbo-content="true"] [aria-hidden="true"],
+[data-turbo-content="true"] [data-decorative="true"],
+[data-turbo-shell="true"] [data-decorative="true"] {
+  pointer-events: none !important;
+}
+
+[data-turbo-content="true"]::before,
+[data-turbo-content="true"]::after,
+[data-turbo-sidebar="true"]::before,
+[data-turbo-sidebar="true"]::after,
+[data-turbo-topbar="true"]::before,
+[data-turbo-topbar="true"]::after {
+  pointer-events: none !important;
+}
+
+[data-turbo-shell="true"] * {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+[data-turbo-shell="true"] a,
+[data-turbo-shell="true"] button {
+  transition-duration: 75ms !important;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}

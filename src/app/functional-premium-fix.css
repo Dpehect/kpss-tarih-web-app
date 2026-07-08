@@ -1,0 +1,21 @@
+[data-ultra-content="true"] a,
+[data-ultra-content="true"] button {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+}
+
+[data-ultra-content="true"] [data-decorative="true"],
+[data-ultra-content="true"] [aria-hidden="true"][data-decorative="true"] {
+  pointer-events: none !important;
+}
+
+.functional-click-card {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.functional-click-card svg,
+.functional-click-card svg * {
+  pointer-events: none;
+}

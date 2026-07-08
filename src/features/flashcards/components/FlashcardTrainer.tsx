@@ -1,333 +1,193 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { animate, motion, type PanInfo, useMotionValue, useTransform } from "framer-motion";
-import { toast } from "sonner";
-import { saveOnlineFlashcardReview } from "@/lib/progress/online-progress";
+import { useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Layers3, RotateCcw, Sparkles } from "lucide-react";
 import type { Flashcard, Topic } from "@/types/study";
-import { useStudyProgressStore } from "@/store/useStudyProgressStore";
 
-type FlashcardTrainerProps = {
+export function FlashcardTrainer({
+  cards,
+  topics
+}: {
   cards: Flashcard[];
   topics: Topic[];
-};
-
-const SWIPE_THRESHOLD = 120;
-
-export function FlashcardTrainer({ cards, topics }: FlashcardTrainerProps) {
-  const [selectedTopicId, setSelectedTopicId] = useState("all");
+}) {
+  const [topicId, setTopicId] = useState<string>("all");
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [showHint, setShowHint] = useState(false);
-  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
-  const [entryDirection, setEntryDirection] = useState<1 | -1>(1);
-
-  const recordReview = useStudyProgressStore((state) => state.recordFlashcardReview);
-  const reviews = useStudyProgressStore((state) => state.flashcardReviews);
-
-  const x = useMotionValue(0);
-  const knowOpacity = useTransform(x, [24, 150], [0, 1]);
-  const againOpacity = useTransform(x, [-150, -24], [1, 0]);
+  const [knownIds, setKnownIds] = useState<Set<string>>(() => new Set());
 
   const filteredCards = useMemo(() => {
-    if (selectedTopicId === "all") return cards;
-    return cards.filter((card) => card.topicId === selectedTopicId);
-  }, [cards, selectedTopicId]);
+    if (topicId === "all") return cards;
+    return cards.filter((card) => card.topicId === topicId);
+  }, [cards, topicId]);
 
-  const deckTopics = useMemo(() => {
-    const topicIds = new Set(cards.map((card) => card.topicId));
-    return topics.filter((topic) => topicIds.has(topic.id));
-  }, [cards, topics]);
+  const safeIndex = filteredCards.length ? Math.min(index, filteredCards.length - 1) : 0;
+  const current = filteredCards[safeIndex];
+  const topicTitle = current ? topics.find((topic) => topic.id === current.topicId)?.title : null;
+  const progress = filteredCards.length ? Math.round(((safeIndex + 1) / filteredCards.length) * 100) : 0;
 
-  const currentCard = filteredCards[index] ?? filteredCards[0];
-  const currentTopic = topics.find((topic) => topic.id === currentCard?.topicId);
-  const reviewedCardIds = useMemo(() => new Set(reviews.map((review) => review.cardId)), [reviews]);
-
-  const rememberedCount = reviews.filter((review) => review.remembered).length;
-  const reviewCount = reviews.length;
-  const successRate = reviewCount ? Math.round((rememberedCount / reviewCount) * 100) : 0;
-  const deckProgress = filteredCards.length ? Math.round(((index + 1) / filteredCards.length) * 100) : 0;
-
-  const resetCardVisualState = useCallback(() => {
+  function nextCard() {
     setFlipped(false);
-    setShowHint(false);
-    x.set(0);
-  }, [x]);
-
-  const goToCard = useCallback(
-    (nextIndex: number, direction: 1 | -1) => {
-      if (filteredCards.length === 0) return;
-      setEntryDirection(direction);
-      setIndex((nextIndex + filteredCards.length) % filteredCards.length);
-      resetCardVisualState();
-    },
-    [filteredCards.length, resetCardVisualState]
-  );
-
-  const commitReview = useCallback(
-    async (remembered: boolean, direction: 1 | -1) => {
-      if (!currentCard || isAnimatingOut) return;
-
-      setIsAnimatingOut(true);
-
-      recordReview({ cardId: currentCard.id, topicId: currentCard.topicId, remembered });
-      void saveOnlineFlashcardReview({ cardId: currentCard.id, topicId: currentCard.topicId, remembered });
-
-      toast.success(remembered ? "Biliyorum olarak kaydedildi" : "Tekrar gerekli olarak kaydedildi");
-
-      await animate(x, direction * 560, { duration: 0.22, ease: [0.22, 1, 0.36, 1] });
-
-      goToCard(index + 1, 1);
-      setIsAnimatingOut(false);
-    },
-    [currentCard, goToCard, index, isAnimatingOut, recordReview, x]
-  );
-
-  function handleDragEnd(_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) {
-    if (isAnimatingOut) return;
-
-    if (info.offset.x > SWIPE_THRESHOLD) {
-      void commitReview(true, 1);
-      return;
-    }
-
-    if (info.offset.x < -SWIPE_THRESHOLD) {
-      void commitReview(false, -1);
-      return;
-    }
-
-    void animate(x, 0, { type: "spring", stiffness: 420, damping: 32 });
+    setIndex((value) => (filteredCards.length ? (value + 1) % filteredCards.length : 0));
   }
 
-  function handleTopicChange(topicId: string) {
-    setSelectedTopicId(topicId);
-    setEntryDirection(1);
+  function previousCard() {
+    setFlipped(false);
+    setIndex((value) => (filteredCards.length ? (value - 1 + filteredCards.length) % filteredCards.length : 0));
+  }
+
+  function markKnown() {
+    if (!current) return;
+
+    setKnownIds((value) => {
+      const next = new Set(value);
+      next.add(current.id);
+      return next;
+    });
+
+    nextCard();
+  }
+
+  function selectTopic(value: string) {
+    setTopicId(value);
     setIndex(0);
-    resetCardVisualState();
-  }
-
-  if (!currentCard || !currentTopic) {
-    return (
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-8 text-center">
-        <h2 className="text-xl font-bold text-[var(--ink)]">Bu filtrede kart yok.</h2>
-        <p className="mt-2 text-sm text-[var(--graphite)]">Başka bir konu seçerek devam et.</p>
-      </section>
-    );
+    setFlipped(false);
   }
 
   return (
-    <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-5 shadow-[var(--shadow-xs)]">
-        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+    <div className="mx-auto grid max-w-7xl gap-6">
+      <section className="relative overflow-hidden rounded-[2.75rem] border border-white/75 bg-white/78 p-6 shadow-[0_32px_105px_rgba(16,24,40,.12)] backdrop-blur-xl md:p-8">
+        <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[#fed7aa]/70 blur-3xl" />
+        <div className="relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
           <div>
-            <p className="kicker">{currentTopic.title}</p>
-            <h2 className="mt-1.5 text-xl font-bold tracking-tight text-[var(--ink)]">
-              Kart {index + 1} / {filteredCards.length}
-            </h2>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Aktif hatırlama</p>
+            <h1 className="mt-3 text-5xl font-black leading-[0.92] tracking-[-0.08em] text-[#101828] md:text-7xl">
+              Kartlarla hızlı tekrar.
+            </h1>
+            <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#475467]">
+              Kavramı gör, cevabı çevir, biliyorsan bir sonraki karta geç. Gereksiz bildirim yok; akış kesilmez.
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={() => goToCard(index - 1, -1)} className="btn-ghost px-3 py-1.5 text-[13px]">
+          <div className="grid grid-cols-2 gap-3">
+            <Metric label="Kart" value={filteredCards.length} />
+            <Metric label="Bilinen" value={knownIds.size} />
+          </div>
+        </div>
+      </section>
+
+      <section className="flex gap-2 overflow-x-auto pb-1">
+        <button
+          type="button"
+          onClick={() => selectTopic("all")}
+          className={[
+            "shrink-0 rounded-full border px-4 py-2 text-sm font-black transition",
+            topicId === "all" ? "border-[#101828] bg-[#101828] text-white" : "border-[#e4d8c8] bg-white/82 text-[#101828] hover:bg-white"
+          ].join(" ")}
+        >
+          Tüm kartlar
+        </button>
+        {topics.map((topic) => (
+          <button
+            key={topic.id}
+            type="button"
+            onClick={() => selectTopic(topic.id)}
+            className={[
+              "shrink-0 rounded-full border px-4 py-2 text-sm font-black transition",
+              topicId === topic.id ? "border-[#101828] bg-[#101828] text-white" : "border-[#e4d8c8] bg-white/82 text-[#101828] hover:bg-white"
+            ].join(" ")}
+          >
+            {topic.title}
+          </button>
+        ))}
+      </section>
+
+      {current ? (
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <button
+            type="button"
+            onClick={() => setFlipped((value) => !value)}
+            className="group min-h-[420px] rounded-[2.5rem] border border-white/75 bg-white/84 p-8 text-left shadow-[0_30px_95px_rgba(16,24,40,.11)] backdrop-blur-xl transition hover:-translate-y-1"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#fffaf3] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#b4232a]">
+                <Layers3 size={15} />
+                {topicTitle ?? "Kart"}
+              </span>
+              <span className="text-xs font-black text-[#667085]">{safeIndex + 1}/{filteredCards.length}</span>
+            </div>
+
+            <div className="grid min-h-[260px] place-items-center">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#667085]">
+                  {flipped ? "Cevap" : "Soru"}
+                </p>
+                <h2 className="mt-4 text-4xl font-black leading-tight tracking-[-0.06em] text-[#101828]">
+                  {flipped ? current.back : current.front}
+                </h2>
+                {!flipped && current.hint ? (
+                  <p className="mt-5 rounded-2xl bg-[#fffaf3] p-4 text-sm font-bold leading-7 text-[#475467]">
+                    İpucu: {current.hint}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+
+            <p className="text-center text-xs font-black uppercase tracking-[0.16em] text-[#98a2b3]">
+              Kartı çevirmek için tıkla
+            </p>
+          </button>
+
+          <aside className="grid content-start gap-3 rounded-[2rem] border border-white/75 bg-white/78 p-5 shadow-[0_22px_70px_rgba(16,24,40,.08)] backdrop-blur-xl">
+            <div className="rounded-[1.5rem] border border-[#e4d8c8] bg-[#fffaf3] p-4">
+              <p className="text-xs font-black uppercase tracking-[0.14em] text-[#b4232a]">İlerleme</p>
+              <div className="mt-3 h-3 overflow-hidden rounded-full bg-white">
+                <div className="h-full rounded-full bg-[#101828]" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="mt-2 text-xs font-bold text-[#667085]">%{progress} tamamlandı</p>
+            </div>
+
+            <button type="button" onClick={previousCard} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#e4d8c8] bg-white px-5 text-sm font-black text-[#101828]">
+              <ArrowLeft size={17} />
               Önceki
             </button>
-            <button type="button" onClick={() => goToCard(index + 1, 1)} className="btn-primary px-3 py-1.5 text-[13px]" data-dark-button="true">
+            <button type="button" onClick={() => setFlipped((value) => !value)} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#e4d8c8] bg-[#fffaf3] px-5 text-sm font-black text-[#101828]">
+              <RotateCcw size={17} />
+              Çevir
+            </button>
+            <button type="button" onClick={markKnown} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#101828] px-5 text-sm font-black text-white">
+              <CheckCircle2 size={17} />
+              Biliyorum
+            </button>
+            <button type="button" onClick={nextCard} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#e4d8c8] bg-white px-5 text-sm font-black text-[#101828]">
               Sonraki
+              <ArrowRight size={17} />
             </button>
-          </div>
-        </div>
 
-        <div className="progress-track mb-5">
-          <motion.div
-            className="progress-fill"
-            initial={{ width: 0 }}
-            animate={{ width: `${deckProgress}%` }}
-            transition={{ duration: 0.55 }}
-          />
-        </div>
-
-        <div className="relative mx-auto grid min-h-[460px] max-w-2xl place-items-center overflow-hidden rounded-xl bg-[var(--cream)] p-4">
-          <motion.div style={{ opacity: againOpacity }} className="pointer-events-none absolute left-6 top-6 z-20 rounded-lg border border-[var(--terracotta)]/30 bg-[var(--terracotta-soft)] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--terracotta)]">
-            Tekrar
-          </motion.div>
-          <motion.div style={{ opacity: knowOpacity }} className="pointer-events-none absolute right-6 top-6 z-20 rounded-lg border border-[var(--sage)]/30 bg-[var(--sage-soft)] px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--sage)]">
-            Biliyorum
-          </motion.div>
-
-          <motion.div
-            key={currentCard.id}
-            initial={{ x: entryDirection * 180, y: -20, opacity: 0 }}
-            animate={{ x: 0, y: 0, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 145, damping: 22, mass: 0.9 }}
-            className="w-full max-w-[600px]"
-          >
-            <motion.div
-              drag="x"
-              dragElastic={0.16}
-              dragMomentum={false}
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={handleDragEnd}
-              whileDrag={{ scale: 1.01, cursor: "grabbing" }}
-              style={{ x }}
-              className="relative h-[400px] w-full cursor-grab touch-pan-y select-none"
-            >
-              <motion.div
-                onClick={() => setFlipped((value) => !value)}
-                animate={{ rotateY: flipped ? 180 : 0 }}
-                transition={{ type: "spring", stiffness: 150, damping: 20 }}
-                className="relative h-full w-full"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                <CardFace side="Ön yüz" title={currentCard.front} subtitle={currentTopic.title} dark />
-                <CardFace side="Arka yüz" title={currentCard.back} subtitle="Cevap" back />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {showHint ? (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 rounded-xl border border-[var(--navy)]/15 bg-[var(--navy-soft)] p-4"
-          >
-            <p className="text-sm font-semibold text-[var(--navy)]">İpucu</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-[var(--navy)]">{currentCard.hint}</p>
-          </motion.div>
-        ) : null}
-
-        <div className="mt-4 grid gap-2 md:grid-cols-4">
-          <button type="button" onClick={() => void commitReview(false, -1)} className="rounded-lg border border-[var(--terracotta)]/20 bg-[var(--terracotta-soft)] px-4 py-3 text-[13px] font-medium text-[var(--terracotta)] transition hover:bg-[var(--terracotta)]/10">
-            Tekrar gerekli
-          </button>
-          <button type="button" onClick={() => setFlipped((value) => !value)} className="btn-ghost py-3 text-[13px]">
-            Kartı çevir
-          </button>
-          <button type="button" onClick={() => setShowHint((value) => !value)} className="btn-ghost py-3 text-[13px]">
-            İpucu
-          </button>
-          <button type="button" onClick={() => void commitReview(true, 1)} className="rounded-lg border border-[var(--sage)]/20 bg-[var(--sage-soft)] px-4 py-3 text-[13px] font-medium text-[var(--sage)] transition hover:bg-[var(--sage)]/10">
-            Biliyorum
-          </button>
-        </div>
-      </div>
-
-      <aside className="space-y-4">
-        <section className="rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-4 shadow-[var(--shadow-xs)]">
-          <p className="kicker">Deste filtresi</p>
-          <div className="mt-4 max-h-[380px] space-y-1.5 overflow-y-auto pr-1 scrollbar-clean">
-            <button
-              type="button"
-              onClick={() => handleTopicChange("all")}
-              className={`w-full rounded-lg px-3 py-2.5 text-left text-[13px] transition ${
-                selectedTopicId === "all"
-                  ? "bg-[var(--ink)] font-medium text-white"
-                  : "font-normal text-[var(--graphite)] hover:bg-[var(--cream)]"
-              }`}
-            >
-              Tüm kartlar <span className="opacity-60">({cards.length})</span>
-            </button>
-            {deckTopics.map((topic) => {
-              const count = cards.filter((card) => card.topicId === topic.id).length;
-              const active = selectedTopicId === topic.id;
-
-              return (
-                <button
-                  key={topic.id}
-                  type="button"
-                  onClick={() => handleTopicChange(topic.id)}
-                  className={`w-full rounded-lg px-3 py-2.5 text-left text-[13px] transition ${
-                    active
-                      ? "bg-[var(--ink)] font-medium text-white"
-                      : "font-normal text-[var(--graphite)] hover:bg-[var(--cream)]"
-                  }`}
-                >
-                  {topic.title} <span className="opacity-60">({count})</span>
-                </button>
-              );
-            })}
-          </div>
+            <div className="rounded-[1.5rem] border border-[#e4d8c8] bg-white p-4">
+              <div className="flex items-start gap-2">
+                <Sparkles size={17} className="mt-0.5 text-[#b4232a]" />
+                <p className="text-xs font-bold leading-5 text-[#667085]">
+                  “Biliyorum” kartı sessizce tamamlar ve bir sonraki karta geçer.
+                </p>
+              </div>
+            </div>
+          </aside>
         </section>
-
-        <section className="rounded-xl bg-[var(--ink)] p-4">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--sage)]">Tekrar istatistiği</p>
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            <StatBox label="Başarı" value={`%${successRate}`} />
-            <StatBox label="Kayıt" value={String(reviewCount)} />
-            <StatBox label="Hatırlanan" value={String(rememberedCount)} />
-          </div>
+      ) : (
+        <section className="rounded-[2rem] border border-[#f7b2b7] bg-[#fff1f2] p-6 text-sm font-black text-[#b4232a]">
+          Bu filtrede kart bulunamadı.
         </section>
-
-        <section className="rounded-xl border border-[var(--border)] bg-[var(--warm-white)] p-4">
-          <p className="kicker">Kart etiketleri</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {currentCard.tags.map((tag) => (
-              <span key={tag} className="rounded-md border border-[var(--border)] bg-[var(--stone)] px-2.5 py-1 text-xs text-[var(--graphite)]">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="mt-4">
-            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-[var(--slate)]">Bu kart durumu</p>
-            <span className={`rounded-md px-2.5 py-1 text-xs font-medium ${reviewedCardIds.has(currentCard.id) ? "bg-[var(--sage-soft)] text-[var(--sage)]" : "bg-[var(--cream)] text-[var(--slate)]"}`}>
-              {reviewedCardIds.has(currentCard.id) ? "tekrar edildi" : "ilk kez görülüyor"}
-            </span>
-          </div>
-        </section>
-      </aside>
-    </section>
-  );
-}
-
-function CardFace({
-  side,
-  title,
-  subtitle,
-  dark,
-  back
-}: {
-  side: string;
-  title: string;
-  subtitle: string;
-  dark?: boolean;
-  back?: boolean;
-}) {
-  return (
-    <div
-      className={`absolute inset-0 grid grid-rows-[auto_minmax(0,1fr)] overflow-hidden rounded-xl border p-6 shadow-[var(--shadow-md)] ${
-        dark ? "border-white/10 bg-[var(--ink)] text-white" : "border-[var(--border)] bg-[var(--warm-white)] text-[var(--ink)]"
-      }`}
-      style={{ backfaceVisibility: "hidden", transform: back ? "rotateY(180deg)" : undefined }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className={`text-[11px] font-semibold uppercase tracking-wider ${dark ? "text-[var(--sage)]" : "text-[var(--navy)]"}`}>{side}</p>
-          <p className={`mt-1 text-sm ${dark ? "text-white/50" : "text-[var(--slate)]"}`}>{subtitle}</p>
-        </div>
-        <div className={`rounded-md border px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider ${dark ? "border-white/10 bg-white/[.06] text-white/70" : "border-[var(--border)] bg-[var(--stone)] text-[var(--slate)]"}`}>
-          KPSS
-        </div>
-      </div>
-      <div className="flex min-h-0 items-center justify-center overflow-y-auto px-1 py-4">
-        <h3 className={`${getCardTextClass(title)} max-w-[20ch] break-words text-center font-bold tracking-tight ${dark ? "text-white" : "text-[var(--ink)]"}`}>
-          {title}
-        </h3>
-      </div>
+      )}
     </div>
   );
 }
 
-function StatBox({ label, value }: { label: string; value: string }) {
+function Metric({ label, value }: { label: string; value: number | string }) {
   return (
-    <div className="rounded-lg border border-white/8 bg-white/[0.06] p-3">
-      <p className="text-[10px] uppercase tracking-wider text-white/45">{label}</p>
-      <p className="mt-1.5 text-lg font-bold text-white">{value}</p>
+    <div className="rounded-3xl border border-white/80 bg-white/84 p-4 shadow-[0_16px_44px_rgba(16,24,40,.08)]">
+      <p className="text-xs font-black uppercase tracking-[0.12em] text-[#667085]">{label}</p>
+      <p className="mt-1 text-2xl font-black text-[#101828]">{value}</p>
     </div>
   );
-}
-
-function getCardTextClass(text: string) {
-  if (text.length > 220) return "text-[clamp(1rem,3vw,1.75rem)] leading-[1.3]";
-  if (text.length > 150) return "text-[clamp(1.1rem,3.5vw,2rem)] leading-[1.25]";
-  if (text.length > 90) return "text-[clamp(1.25rem,4vw,2.25rem)] leading-[1.2]";
-  return "text-[clamp(1.5rem,4.5vw,3rem)] leading-[1.1]";
 }

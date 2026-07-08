@@ -1,0 +1,36 @@
+.premium-card {
+  border: 1px solid rgba(255,255,255,.75);
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 20px 65px rgba(16,24,40,.08);
+  backdrop-filter: blur(18px);
+}
+
+.premium-card-hero {
+  border: 1px solid rgba(255,255,255,.70);
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 28px 90px rgba(16,24,40,.10);
+  backdrop-filter: blur(20px);
+}
+
+[data-ultra-shell="true"] {
+  --premium-ink: #101828;
+  --premium-muted: #475467;
+  --premium-line: #e4d8c8;
+}
+
+[data-ultra-click="true"] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+[data-ultra-click="true"] svg,
+[data-ultra-click="true"] svg * {
+  pointer-events: none !important;
+}
+
+[data-decorative="true"],
+[aria-hidden="true"][data-decorative="true"] {
+  pointer-events: none !important;
+}

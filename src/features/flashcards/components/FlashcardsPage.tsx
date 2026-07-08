@@ -1,7 +1,7 @@
-import { expandedFlashcards as flashcards } from "@/data/expanded-flashcards";
-import { topics } from "@/data/kpss-history";
+import { fetchContentFlashcards, fetchContentTopics } from "@/lib/content/supabase-content-server";
 import { FlashcardTrainer } from "@/features/flashcards/components/FlashcardTrainer";
 
-export function FlashcardsPage() {
-  return <FlashcardTrainer cards={flashcards} topics={topics} />;
+export async function FlashcardsPage() {
+  const [topics, cards] = await Promise.all([fetchContentTopics(), fetchContentFlashcards()]);
+  return <FlashcardTrainer cards={cards} topics={topics} />;
 }

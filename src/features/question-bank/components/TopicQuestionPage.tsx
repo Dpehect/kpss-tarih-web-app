@@ -1,251 +1,141 @@
-import { ArrowLeft, ArrowRight, BookOpen, FileQuestion, Layers3, Shuffle } from "lucide-react";
-import { PageHeader } from "@/components/core/PageHeader";
+import { ArrowLeft, ArrowRight, Database, FileQuestion } from "lucide-react";
 import {
-  QUESTIONS_PER_TEST,
-  getQuestionsForTest,
-  getTestCountsForTopic,
-  getTestsForTopic,
-  type GeneratedQuestionTest,
-  type TestLevel
-} from "@/data/generated-30-question-tests";
-import { topics } from "@/data/kpss-history";
+  fetchContentQuestionsForTest,
+  fetchContentTestsForTopic,
+  fetchContentTopicById,
+  type ContentTest,
+  type ContentTestLevel
+} from "@/lib/content/supabase-content-server";
 import { TopicQuestionRunner } from "@/features/question-bank/components/TopicQuestionRunner";
 
-const levelTitles: Record<TestLevel, string> = {
+const levels = ["kolay", "orta", "zor"] as const;
+
+const levelTitles: Record<ContentTestLevel, string> = {
   kolay: "Kolay testler",
   orta: "Orta testler",
   zor: "Zor testler"
 };
 
-const levelDescriptions: Record<TestLevel, string> = {
-  kolay: "Temel bilgi, doğrudan kavram ve net tarih bilgisini ölçer.",
-  orta: "Olay, kavram, dönem ve sonuç ilişkisini birlikte yoklar.",
-  zor: "Seçici yorum, kronoloji, çeldirici ve karıştırılan kavramlara odaklanır."
+const levelDescriptions: Record<ContentTestLevel, string> = {
+  kolay: "Temel bilgileri ve doğrudan kavramları ölçen açıklamalı testler.",
+  orta: "Olay, kavram ve sonuç ilişkisini birlikte yoklayan testler.",
+  zor: "Seçici yorum, kronoloji ve karıştırılan kavramlara odaklanan testler."
 };
 
-const levelOrder: TestLevel[] = ["kolay", "orta", "zor"];
-
-export function TopicQuestionPage({
+export async function TopicQuestionPage({
   topicId,
   testId,
   level
 }: {
   topicId: string;
   testId?: string;
-  level?: TestLevel;
+  level?: ContentTestLevel;
 }) {
-  const topic = topicId === "all" ? null : topics.find((item) => item.id === topicId);
-  const isMixed = topicId === "all";
-  const allTests = getTestsForTopic(topicId);
-  const tests = getTestsForTopic(topicId, level);
-  const selectedTest = testId ? allTests.find((test) => test.id === testId) : null;
-  const counts = getTestCountsForTopic(topicId);
-  const title = topic ? `${topic.title} testleri` : "Karışık KPSS Tarih testleri";
-
-  if (!isMixed && !topic) {
-    return (
-      <div className="bureau-card rounded-[2rem] p-6">
-        <h1 className="text-3xl font-black text-[var(--bureau-ink)]">Konu bulunamadı</h1>
-        <a href="/question-bank" className="btn-primary mt-5" data-dark-button="true">
-          Soru bankasına dön
-          <ArrowRight size={17} />
-        </a>
-      </div>
-    );
-  }
+  const topic = await fetchContentTopicById(topicId);
+  const tests = await fetchContentTestsForTopic(topicId, level);
+  const selectedTest = testId ? tests.find((test) => test.id === testId) : null;
 
   if (selectedTest) {
-    const selectedQuestions = getQuestionsForTest(selectedTest.id);
+    const questions = await fetchContentQuestionsForTest(selectedTest.id);
+
+    console.log(`[question-bank] Supabase’den parça parça yükleniyor | test=${selectedTest.id} | soru=${questions.length}`);
 
     return (
-      <div className="space-y-6">
-        <PageHeader
-          eyebrow={selectedTest.levelLabel}
-          title={selectedTest.title}
-          description={`${selectedTest.questionCount} soruluk açıklamalı çalışma testi. Cevapladıktan sonra gerekçeyi okuyup sonraki soruya geç.`}
-          actions={
-            <a href={`/question-bank/${topicId}?level=${selectedTest.level}`} className="btn-ghost">
+      <div className="grid gap-6">
+        <section className="relative overflow-hidden rounded-[2.75rem] border border-white/75 bg-white/78 p-6 shadow-[0_32px_105px_rgba(16,24,40,.12)] backdrop-blur-xl md:p-8">
+          <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[#bfdbfe]/70 blur-3xl" />
+          <div className="relative z-10">
+            <a href={`/question-bank/${topicId}${level ? `?level=${level}` : ""}`} className="inline-flex items-center gap-2 rounded-full border border-[#e4d8c8] bg-white/85 px-4 py-2 text-sm font-black text-[#101828]">
               <ArrowLeft size={17} />
               Test listesi
             </a>
-          }
-        />
+            <p className="mt-5 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">Açıklamalı test</p>
+            <h1 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[#101828] md:text-6xl">{selectedTest.title}</h1>
+            <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#475467]">
+              Bu testte yalnızca seçili testin soruları yüklenir.
+            </p>
+          </div>
+        </section>
 
-        {isMixed ? <MixedTopicsNotice /> : null}
+        <div className="rounded-[1.5rem] border border-[#c7d2fe] bg-white/86 p-4 text-[#172554] shadow-[0_16px_44px_rgba(16,24,40,.07)]">
+          <div className="flex items-center gap-3">
+            <span className="grid size-10 place-items-center rounded-2xl bg-[#101828] text-white"><Database size={18} /></span>
+            <div>
+              <p className="text-sm font-black">Test hazırlandı</p>
+              <p className="text-xs font-bold opacity-75">Yüklenen soru sayısı: {questions.length}</p>
+            </div>
+          </div>
+        </div>
 
-        <TopicQuestionRunner questions={selectedQuestions} topicTitle={selectedTest.title} />
+        {questions.length > 0 ? (
+          <TopicQuestionRunner questions={questions} topicTitle={topic?.title ?? selectedTest.title} />
+        ) : (
+          <div className="rounded-[2rem] border border-[#f7b2b7] bg-[#fff1f2] p-6 text-sm font-black text-[#b4232a]">
+            Bu test için soru gelmedi. Supabase content_questions tablosunu kontrol et.
+          </div>
+        )}
       </div>
     );
   }
 
   if (level) {
     return (
-      <div className="space-y-6">
-        <PageHeader
-          eyebrow={levelTitles[level]}
-          title={title}
-          description={`${tests.length} test, toplam ${tests.length * QUESTIONS_PER_TEST} soru. Her test ${QUESTIONS_PER_TEST} sorudan oluşur.`}
-          actions={
-            <a href={`/question-bank/${topicId}`} className="btn-ghost">
-              <ArrowLeft size={17} />
-              Zorluk seçimi
-            </a>
-          }
-        />
-
-        {isMixed ? <MixedTopicsNotice /> : null}
-
-        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {tests.map((test) => (
-            <TestCard key={test.id} topicId={topicId} test={test} isMixed={isMixed} />
-          ))}
+      <div className="grid gap-6">
+        <Header title={levelTitles[level]} href={`/question-bank/${topicId}`} label="Zorluk seçimi" eyebrow={topic?.title ?? "Konu testi"} />
+        <p className="max-w-3xl text-sm font-bold leading-7 text-[#475467]">{levelDescriptions[level]}</p>
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {tests.map((test) => <TestCard key={test.id} topicId={topicId} level={level} test={test} />)}
         </section>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        eyebrow="Soru bankası"
-        title={title}
-        description={
-          isMixed
-            ? `Karışık testlerde bütün KPSS Tarih konularından soru gelir. Toplam ${counts.totalTests} test ve ${counts.totalQuestions} soru var.`
-            : `Önce zorluk seviyesini seç. Bu konuda toplam ${counts.totalTests} test ve ${counts.totalQuestions} soru var.`
-        }
-        actions={
-          <a href="/question-bank" className="btn-ghost">
-            <ArrowLeft size={17} />
-            Konulara dön
+    <div className="grid gap-6">
+      <Header title={topic?.title ?? "Konu testleri"} href="/question-bank" label="Soru bankası" eyebrow="Zorluk seçimi" />
+      <section className="grid gap-4 md:grid-cols-3">
+        {levels.map((item) => (
+          <a key={item} href={`/question-bank/${topicId}?level=${item}`} className="group relative z-10 rounded-[2rem] border border-white/75 bg-white/80 p-5 shadow-[0_20px_65px_rgba(16,24,40,.08)] backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-[0_30px_90px_rgba(16,24,40,.12)]">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">20 test</p>
+            <h2 className="mt-3 text-2xl font-black text-[#101828]">{levelTitles[item]}</h2>
+            <p className="mt-3 text-sm font-bold leading-6 text-[#475467]">{levelDescriptions[item]}</p>
+            <div className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#101828]">
+              Testleri gör <ArrowRight className="transition group-hover:translate-x-1" size={17} />
+            </div>
           </a>
-        }
-      />
-
-      {isMixed ? <MixedTopicsNotice /> : null}
-
-      <section className="grid gap-5 md:grid-cols-3">
-        {levelOrder.map((item) => (
-          <LevelChoiceCard key={item} topicId={topicId} level={item} isMixed={isMixed} />
         ))}
       </section>
     </div>
   );
 }
 
-function LevelChoiceCard({ topicId, level, isMixed }: { topicId: string; level: TestLevel; isMixed: boolean }) {
-  const tests = getTestsForTopic(topicId, level);
-  const tone = {
-    kolay: "bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]",
-    orta: "bg-[var(--bureau-blue-soft)] text-[var(--bureau-blue)]",
-    zor: "bg-[var(--bureau-plum-soft)] text-[var(--bureau-plum)]"
-  }[level];
-
+function Header({ title, href, label, eyebrow }: { title: string; href: string; label: string; eyebrow: string }) {
   return (
-    <a
-      href={`/question-bank/${topicId}?level=${level}`}
-      className="bureau-card group flex min-h-[300px] flex-col justify-between rounded-[2rem] p-6"
-    >
-      <div>
-        <div className="flex items-center justify-between gap-3">
-          <span className={`grid size-12 place-items-center rounded-[1rem] ${tone}`}>
-            {isMixed ? <Shuffle size={20} /> : <BookOpen size={20} />}
-          </span>
-          <span className="rounded-full bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]">
-            {tests.length} test
-          </span>
-        </div>
-
-        <h2 className="mt-7 text-3xl font-black tracking-[-0.06em] text-[var(--bureau-ink)]">{levelTitles[level]}</h2>
-        <p className="mt-4 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
-          {isMixed ? `${levelDescriptions[level]} Sorular farklı konulardan seçilir.` : levelDescriptions[level]}
-        </p>
-      </div>
-
-      <div className="mt-6 flex items-center justify-between gap-3 border-t border-[var(--bureau-line)] pt-5">
-        <span className="text-sm font-black text-[var(--bureau-ink)]">{tests.length * QUESTIONS_PER_TEST} soru</span>
-        <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-teal)]">
-          Testleri gör
-          <ArrowRight size={17} />
-        </span>
-      </div>
-    </a>
-  );
-}
-
-function TestCard({
-  topicId,
-  test,
-  isMixed
-}: {
-  topicId: string;
-  test: GeneratedQuestionTest;
-  isMixed: boolean;
-}) {
-  return (
-    <a
-      href={`/question-bank/${topicId}?level=${test.level}&test=${test.id}`}
-      className="bureau-card group flex min-h-[270px] flex-col justify-between rounded-[2rem] p-6"
-    >
-      <div>
-        <div className="flex items-center justify-between gap-3">
-          <span className="rounded-full bg-[var(--bureau-blue-soft)] px-3 py-1 text-xs font-black text-[var(--bureau-blue)]">
-            Test {test.testNo}
-          </span>
-          <span className="rounded-full bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]">
-            {test.questionCount} soru
-          </span>
-        </div>
-
-        <h2 className="mt-7 text-2xl font-black leading-tight tracking-[-0.055em] text-[var(--bureau-ink)]">
-          {test.title}
-        </h2>
-        <p className="mt-4 text-sm font-semibold leading-7 text-[var(--bureau-copy)]">
-          {isMixed ? "Farklı konulardan hazırlanmış açıklamalı karışık test." : "Açıklamalı 30 soruluk çalışma testi."}
-        </p>
-
-        {isMixed ? (
-          <div className="mt-4 rounded-[1.2rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.72)] p-3">
-            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--bureau-muted)]">Konular</p>
-            <p className="mt-2 text-xs font-semibold leading-6 text-[var(--bureau-copy)]">
-              {topics.slice(0, 5).map((topic) => topic.title).join(", ")} ve {topics.length - 5} konu daha
-            </p>
-          </div>
-        ) : null}
-      </div>
-
-      <span className="mt-6 inline-flex items-center gap-2 text-sm font-black text-[var(--bureau-teal)]">
-        Testi aç
-        <ArrowRight size={17} />
-      </span>
-    </a>
-  );
-}
-
-function MixedTopicsNotice() {
-  return (
-    <section className="bureau-card rounded-[2rem] p-5">
-      <div className="flex items-start gap-4">
-        <span className="grid size-12 shrink-0 place-items-center rounded-[1rem] bg-[var(--bureau-teal-soft)] text-[var(--bureau-teal)]">
-          <Layers3 size={20} />
-        </span>
-        <div>
-          <p className="bureau-kicker">Karışık test konuları</p>
-          <h2 className="mt-2 text-2xl font-black tracking-[-0.055em] text-[var(--bureau-ink)]">
-            Bu testlerde tüm KPSS Tarih konularından soru gelir.
-          </h2>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {topics.map((topic) => (
-              <span
-                key={topic.id}
-                className="rounded-full border border-[var(--bureau-line)] bg-[rgba(255,250,242,.78)] px-3 py-1 text-xs font-black text-[var(--bureau-copy)]"
-              >
-                {topic.title}
-              </span>
-            ))}
-          </div>
-        </div>
+    <section className="relative overflow-hidden rounded-[2.75rem] border border-white/75 bg-white/78 p-6 shadow-[0_32px_105px_rgba(16,24,40,.12)] backdrop-blur-xl md:p-8">
+      <div aria-hidden="true" data-decorative="true" className="pointer-events-none absolute -right-24 -top-28 size-72 rounded-full bg-[#fed7aa]/70 blur-3xl" />
+      <div className="relative z-10">
+        <a href={href} className="inline-flex items-center gap-2 rounded-full border border-[#e4d8c8] bg-white/85 px-4 py-2 text-sm font-black text-[#101828]">
+          <ArrowLeft size={17} /> {label}
+        </a>
+        <p className="mt-5 text-xs font-black uppercase tracking-[0.18em] text-[#b4232a]">{eyebrow}</p>
+        <h1 className="mt-3 text-4xl font-black tracking-[-0.07em] text-[#101828] md:text-6xl">{title}</h1>
       </div>
     </section>
+  );
+}
+
+function TestCard({ topicId, level, test }: { topicId: string; level: ContentTestLevel; test: ContentTest }) {
+  return (
+    <a href={`/question-bank/${topicId}?level=${level}&test=${test.id}`} className="group relative z-10 rounded-[1.7rem] border border-white/75 bg-white/84 p-5 shadow-[0_18px_55px_rgba(16,24,40,.07)] transition hover:-translate-y-1 hover:shadow-[0_26px_76px_rgba(16,24,40,.12)]">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className="rounded-full bg-[#101828] px-3 py-1 text-xs font-black text-white">Test {test.testNo}</span>
+        <span className="inline-flex items-center gap-1 text-xs font-black text-[#667085]"><FileQuestion size={14} /> {test.questionCount} soru</span>
+      </div>
+      <h3 className="text-lg font-black text-[#101828]">{test.title}</h3>
+      <p className="mt-2 text-sm font-bold text-[#475467]">Açıklamalı çalışma testi.</p>
+      <div className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#101828]">
+        Başla <ArrowRight className="transition group-hover:translate-x-1" size={17} />
+      </div>
+    </a>
   );
 }

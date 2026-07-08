@@ -1,0 +1,82 @@
+/*
+  Sert click/freeze fix:
+  - Sidebar/topbar üstüne görünmez katman binmesini engeller.
+  - Linklerin bütün satırı tıklanabilir olur.
+  - SVG ikonlar click event'i yemez.
+  - Blur/absolute dekoratif katmanlar pointer almaz.
+*/
+
+html,
+body {
+  overscroll-behavior: none;
+}
+
+[data-safe-app-shell="true"] {
+  isolation: isolate;
+}
+
+[data-safe-sidebar="true"],
+[data-safe-topbar="true"],
+[data-safe-bottom-nav="true"],
+[data-safe-mobile-menu="true"] {
+  pointer-events: auto !important;
+  transform: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+[data-safe-sidebar="true"] *,
+[data-safe-topbar="true"] *,
+[data-safe-bottom-nav="true"] *,
+[data-safe-mobile-menu="true"] * {
+  pointer-events: auto;
+}
+
+[data-safe-click="true"] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(16, 24, 40, 0.1);
+}
+
+[data-safe-click="true"] svg,
+[data-safe-click="true"] svg * {
+  pointer-events: none !important;
+}
+
+[data-safe-sidebar="true"] a,
+[data-safe-sidebar="true"] button,
+[data-safe-topbar="true"] a,
+[data-safe-topbar="true"] button,
+[data-safe-bottom-nav="true"] a,
+[data-safe-bottom-nav="true"] button,
+[data-safe-mobile-menu="true"] a,
+[data-safe-mobile-menu="true"] button {
+  pointer-events: auto !important;
+}
+
+[data-safe-content="true"] [class*="absolute"][class*="blur"],
+[data-safe-content="true"] [class*="blur-"],
+[data-safe-content="true"] [aria-hidden="true"],
+[data-safe-content="true"] [data-decorative="true"],
+[data-safe-app-shell="true"] [data-decorative="true"] {
+  pointer-events: none !important;
+}
+
+[data-safe-content="true"]::before,
+[data-safe-content="true"]::after,
+[data-safe-sidebar="true"]::before,
+[data-safe-sidebar="true"]::after,
+[data-safe-topbar="true"]::before,
+[data-safe-topbar="true"]::after {
+  pointer-events: none !important;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}

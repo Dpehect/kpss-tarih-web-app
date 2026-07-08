@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Providers } from "@/app/providers";
 import "@/app/globals.css";
+import "@/app/functional-premium-fix.css";
+import "@/app/professional-polish.css";
+import "@/app/premium-ultralite-ui.css";
+import "@/app/ultra-lite.css";
+import "@/app/hard-click-freeze-fix.css";
 import "@/app/contrast-fixes.css";
 import "@/app/cta-white-text-fix.css";
 
