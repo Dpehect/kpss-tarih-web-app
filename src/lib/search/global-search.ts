@@ -21,16 +21,35 @@ function scoreText(query: string, ...fields: string[]) {
   const normalizedQuery = normalize(query.trim());
   if (!normalizedQuery) return 0;
 
-  const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+  const tokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 2);
   const haystack = normalize(fields.join(" "));
+  const haystackTokens = haystack.split(/\s+/).filter(token => token.length >= 2);
   let score = 0;
 
   for (const token of tokens) {
-    if (haystack.includes(token)) score += 5;
+    // Tam veya substring eşleşme
+    if (haystack.includes(token)) {
+      score += 8;
+      continue;
+    }
+    
+    // Türkçe ek toleranslı arama (Örn: "lozanı" -> "lozan")
+    const match = haystackTokens.some(hToken => {
+      if (token.length >= 3 && hToken.length >= 3) {
+        const minLen = Math.min(token.length, hToken.length);
+        const prefixLen = Math.max(3, minLen - 1);
+        return hToken.substring(0, prefixLen) === token.substring(0, prefixLen);
+      }
+      return false;
+    });
+
+    if (match) {
+      score += 6;
+    }
   }
 
-  if (haystack.includes(normalizedQuery)) score += 12;
-  if (normalize(fields[0] ?? "").startsWith(normalizedQuery)) score += 18;
+  if (haystack.includes(normalizedQuery)) score += 15;
+  if (normalize(fields[0] ?? "").startsWith(normalizedQuery)) score += 20;
 
   return score;
 }
