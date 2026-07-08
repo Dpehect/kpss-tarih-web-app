@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/cn";
 
 type Variant = "primary" | "gold" | "ghost" | "accent" | "danger";
@@ -16,7 +16,9 @@ type BaseProps = {
   className?: string;
 };
 
-type ButtonProps = BaseProps & ComponentPropsWithoutRef<"button">;
+// motion.button ile uyumlu tip
+type ButtonProps = BaseProps & Omit<HTMLMotionProps<"button">, "children">;
+
 type ButtonLinkProps = BaseProps & ComponentPropsWithoutRef<typeof Link>;
 
 const variants: Record<Variant, string> = {
@@ -33,7 +35,15 @@ const sizes: Record<Size, string> = {
   lg: "min-h-11 px-5 py-2.5 text-[14px]",
 };
 
-export function Button({ variant = "primary", size = "md", loading = false, disabled, className, children, ...props }: ButtonProps) {
+export function Button({ 
+  variant = "primary", 
+  size = "md", 
+  loading = false, 
+  disabled, 
+  className, 
+  children, 
+  ...props 
+}: ButtonProps) {
   return (
     <motion.button
       whileHover={disabled || loading ? undefined : { y: -1 }}
@@ -43,17 +53,33 @@ export function Button({ variant = "primary", size = "md", loading = false, disa
       className={cn(variants[variant], sizes[size], className)}
       {...props}
     >
-      {loading ? <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" /> : null}
+      {loading ? (
+        <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+      ) : null}
       {children}
     </motion.button>
   );
 }
 
-export function ButtonLink({ variant = "primary", size = "md", loading = false, className, children, ...props }: ButtonLinkProps) {
+export function ButtonLink({ 
+  variant = "primary", 
+  size = "md", 
+  loading = false, 
+  className, 
+  children, 
+  ...props 
+}: ButtonLinkProps) {
   return (
-    <motion.span whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.18, ease: "easeOut" }} className="inline-flex">
+    <motion.span 
+      whileHover={{ y: -1 }} 
+      whileTap={{ scale: 0.98 }} 
+      transition={{ duration: 0.18, ease: "easeOut" }} 
+      className="inline-flex"
+    >
       <Link className={cn(variants[variant], sizes[size], className)} {...props}>
-        {loading ? <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" /> : null}
+        {loading ? (
+          <span className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+        ) : null}
         {children}
       </Link>
     </motion.span>
