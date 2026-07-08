@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
@@ -13,25 +14,29 @@ import {
   Layers3,
   Menu,
   NotebookPen,
-  Search,
   ShieldCheck,
   Target,
   Trophy,
   UserRound,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { SBBrandMark } from "@/components/brand/SBBrandMark";
 import { AuthStatusButton } from "@/features/auth/components/AuthStatusButton";
 import { cn } from "@/lib/cn";
 
+type NavGroup = "Öğrenme" | "Pratik" | "Takip" | "Hesap";
+
 type NavItem = {
   label: string;
   shortLabel: string;
   href: string;
-  icon: typeof Home;
-  group: "Öğrenme" | "Pratik" | "Takip" | "Hesap";
+  icon: LucideIcon;
+  group: NavGroup;
   mobile?: boolean;
 };
+
+const navGroups: NavGroup[] = ["Öğrenme", "Pratik", "Takip", "Hesap"];
 
 const mainNavItems: NavItem[] = [
   { label: "Kontrol Paneli", shortLabel: "Panel", href: "/dashboard", icon: Home, group: "Takip", mobile: true },
@@ -49,7 +54,7 @@ const mainNavItems: NavItem[] = [
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/dashboard";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileNavItems = useMemo(() => mainNavItems.filter((item) => item.mobile), []);
 
@@ -58,50 +63,40 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bureau-bone)] text-[var(--bureau-ink)]">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.08),transparent_34%),linear-gradient(135deg,#fffaf0_0%,#f4fbff_46%,#f8fff5_100%)] text-[var(--bureau-ink)]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:rounded-2xl focus:bg-[var(--bureau-ink)] focus:px-4 focus:py-3 focus:text-sm focus:font-black focus:text-[var(--bureau-inverse)]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-2xl focus:bg-[#101828] focus:px-4 focus:py-3 focus:text-sm focus:font-black focus:text-white"
       >
         İçeriğe geç
       </a>
 
-      <div aria-hidden="true" data-decorative="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[8%] top-[-12rem] h-[28rem] w-[28rem] rounded-full bg-[rgba(4,126,137,.12)] blur-3xl" />
-        <div className="absolute right-[-8rem] top-[20%] h-[24rem] w-[24rem] rounded-full bg-[rgba(37,63,116,.10)] blur-3xl" />
-        <div className="absolute bottom-[-10rem] left-[35%] h-[28rem] w-[28rem] rounded-full bg-[rgba(102,52,95,.08)] blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-[-8rem] top-24 h-80 w-80 rounded-full bg-sky-200/35 blur-3xl" />
+        <div className="absolute bottom-20 right-[-7rem] h-96 w-96 rounded-full bg-emerald-200/30 blur-3xl" />
       </div>
 
       <DesktopSidebar pathname={pathname} onNavigate={closeMenu} />
 
-      <header className="sticky top-0 z-40 border-b border-[var(--bureau-line)] bg-[rgba(255,250,242,.86)] px-4 py-3 backdrop-blur-xl lg:hidden">
-        <div className="flex items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 border-b border-[var(--bureau-line)] bg-white/78 backdrop-blur-2xl lg:ml-80 lg:hidden">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4">
+          <Link href={asRoute("/dashboard")} onClick={closeMenu} className="flex min-w-0 items-center gap-3">
+            <SBBrandMark size="sm" />
+            <div className="min-w-0">
+              <p className="truncate text-sm font-black text-[#101828]">KPSS Tarih Akademi</p>
+              <p className="truncate text-[11px] font-bold text-[#667085]">Profesyonel çalışma paneli</p>
+            </div>
+          </Link>
+
           <button
             type="button"
             aria-label={isMobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
             aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen((value) => !value)}
-            className="grid size-12 place-items-center rounded-2xl border border-[var(--bureau-line)] bg-white text-[var(--bureau-ink)] shadow-[var(--shadow-paper)]"
+            className="grid size-12 place-items-center rounded-2xl border border-[var(--bureau-line)] bg-white text-[#101828] shadow-[var(--shadow-paper)] transition hover:-translate-y-0.5 hover:shadow-lg"
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
-
-          <Link href="/dashboard" onClick={closeMenu} className="flex min-w-0 items-center gap-3">
-            <SBBrandMark size="sm" />
-            <div className="min-w-0">
-              <p className="truncate text-sm font-black">KPSS Tarih Akademi</p>
-              <p className="truncate text-[11px] font-bold text-[var(--bureau-muted)]">Profesyonel çalışma paneli</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/search"
-            onClick={closeMenu}
-            className="grid size-12 place-items-center rounded-2xl border border-[var(--bureau-line)] bg-white text-[var(--bureau-ink)] shadow-[var(--shadow-paper)]"
-            aria-label="Ara"
-          >
-            <Search size={19} />
-          </Link>
         </div>
       </header>
 
@@ -110,37 +105,43 @@ export function AppShell({ children }: { children: ReactNode }) {
           <button
             type="button"
             aria-label="Mobil menüyü kapat"
+            className="absolute inset-0 bg-[#101828]/35 backdrop-blur-sm"
             onClick={closeMenu}
-            className="absolute inset-0 h-full w-full cursor-default bg-[rgba(14,17,23,.34)] backdrop-blur-sm"
           />
-          <aside className="relative z-10 h-full w-[min(86vw,360px)] overflow-y-auto border-r border-[var(--bureau-line)] bg-[var(--bureau-bone-2)] p-5 shadow-[var(--shadow-stage)]">
-            <div className="mb-6 flex items-center justify-between gap-3">
-              <Link href="/dashboard" onClick={closeMenu} className="flex items-center gap-3">
-                <SBBrandMark size="md" />
+          <aside className="absolute left-3 right-3 top-3 max-h-[calc(100vh-1.5rem)] overflow-y-auto rounded-[2rem] border border-white/70 bg-white p-4 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <Link href={asRoute("/dashboard")} onClick={closeMenu} className="flex items-center gap-3">
+                <SBBrandMark size="sm" />
                 <div>
-                  <p className="text-sm font-black">KPSS Tarih Akademi</p>
-                  <p className="text-xs font-bold text-[var(--bureau-muted)]">Çalışma paneli</p>
+                  <p className="text-sm font-black text-[#101828]">KPSS Tarih Akademi</p>
+                  <p className="text-[11px] font-bold text-[#667085]">Çalışma paneli</p>
                 </div>
               </Link>
               <button
                 type="button"
-                aria-label="Menüyü kapat"
                 onClick={closeMenu}
-                className="grid size-10 place-items-center rounded-2xl border border-[var(--bureau-line)] bg-white text-[var(--bureau-ink)]"
+                className="grid size-11 place-items-center rounded-2xl border border-[var(--bureau-line)] bg-[#f8fafc] text-[#101828]"
+                aria-label="Menüyü kapat"
               >
-                <X size={18} />
+                <X className="size-5" />
               </button>
             </div>
             <ShellNav pathname={pathname} items={mainNavItems} onNavigate={closeMenu} />
+            <div className="mt-5 rounded-[1.5rem] border border-[#dbeafe] bg-[#eff6ff] p-4">
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#2563eb]">Akıllı akış</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#1d2939]">
+                Konu anlatımı, açıklamalı test ve analiz adımlarını tek sırada takip et.
+              </p>
+            </div>
           </aside>
         </div>
       ) : null}
 
-      <main id="main-content" className="relative z-10 pb-28 lg:ml-[304px] lg:pb-10">
-        <div className="mx-auto w-full max-w-[1500px] px-4 py-5 sm:px-6 lg:px-8 lg:py-8">{children}</div>
+      <main id="main-content" className="min-h-screen pb-28 lg:ml-80 lg:pb-0">
+        <div className="mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</div>
       </main>
 
-      <nav className="fixed inset-x-3 bottom-3 z-40 rounded-[1.6rem] border border-[var(--bureau-line)] bg-[rgba(255,250,242,.94)] p-2 shadow-[0_22px_70px_rgba(14,17,23,.16)] backdrop-blur-xl lg:hidden" aria-label="Alt menü">
+      <nav className="fixed inset-x-3 bottom-3 z-40 rounded-[1.75rem] border border-white/70 bg-white/92 p-2 shadow-[0_20px_70px_rgba(16,24,40,0.18)] backdrop-blur-2xl lg:hidden">
         <div className="grid grid-cols-5 gap-1">
           {mobileNavItems.map((item) => {
             const active = isActive(pathname, item.href);
@@ -154,86 +155,82 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 function DesktopSidebar({ pathname, onNavigate }: { pathname: string; onNavigate: () => void }) {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[304px] border-r border-[var(--bureau-line)] bg-[rgba(255,250,242,.88)] p-5 shadow-[18px_0_80px_rgba(14,17,23,.06)] backdrop-blur-2xl lg:flex lg:flex-col">
-      <Link href="/dashboard" onClick={onNavigate} className="mb-7 flex items-center gap-3 rounded-[1.4rem] border border-[var(--bureau-line)] bg-white/70 p-3 shadow-[var(--shadow-paper)]">
-        <SBBrandMark size="md" />
-        <div>
-          <p className="text-[15px] font-black tracking-[-.02em]">KPSS Tarih Akademi</p>
-          <p className="text-xs font-bold text-[var(--bureau-muted)]">Sınav odaklı öğrenme sistemi</p>
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-80 border-r border-white/70 bg-white/86 p-4 shadow-[20px_0_80px_rgba(16,24,40,0.08)] backdrop-blur-2xl lg:flex lg:flex-col">
+      <Link href={asRoute("/dashboard")} onClick={onNavigate} className="mb-6 flex items-center gap-3 rounded-[1.75rem] px-2 py-2 transition hover:bg-white">
+        <SBBrandMark size="lg" />
+        <div className="min-w-0">
+          <p className="truncate text-base font-black text-[#101828]">KPSS Tarih Akademi</p>
+          <p className="truncate text-xs font-bold text-[#667085]">Sınav odaklı öğrenme sistemi</p>
         </div>
       </Link>
 
-      <div className="mb-5 rounded-[1.35rem] border border-[rgba(4,126,137,.18)] bg-[rgba(4,126,137,.08)] p-4">
-        <p className="text-[11px] font-black uppercase tracking-[.16em] text-[var(--bureau-teal)]">Bugünün odağı</p>
-        <p className="mt-2 text-sm font-black text-[var(--bureau-ink)]">Konu → Test → Analiz</p>
-        <p className="mt-1 text-xs leading-5 text-[var(--bureau-copy)]">Önce konuyu kavra, ardından açıklamalı testle eksiklerini ölç.</p>
-      </div>
-
       <ShellNav pathname={pathname} items={mainNavItems} onNavigate={onNavigate} />
 
-      <div className="mt-auto space-y-3 pt-5">
+      <div className="mt-auto space-y-4 pt-6">
+        <div className="rounded-[1.75rem] border border-[#dbeafe] bg-gradient-to-br from-[#eff6ff] to-[#f0fdf4] p-4 shadow-sm">
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#2563eb]">Bugünün odağı</p>
+          <p className="mt-2 text-sm font-black text-[#101828]">Konu → Test → Analiz</p>
+          <p className="mt-2 text-xs font-semibold leading-5 text-[#475467]">
+            Önce konuyu kavra, ardından açıklamalı testle eksiklerini ölç.
+          </p>
+          <Link
+            href={asRoute("/question-bank")}
+            onClick={onNavigate}
+            className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-2xl bg-[#101828] px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            30 soruluk teste başla
+          </Link>
+        </div>
         <AuthStatusButton />
-        <Link
-          href="/question-bank"
-          className="flex items-center justify-between rounded-[1.25rem] bg-[var(--bureau-ink)] px-4 py-3 text-sm font-black text-[var(--bureau-inverse)] shadow-[var(--shadow-float)]"
-        >
-          30 soruluk teste başla
-          <Target size={17} />
-        </Link>
       </div>
     </aside>
   );
 }
 
 function ShellNav({ pathname, items, onNavigate }: { pathname: string; items: NavItem[]; onNavigate: () => void }) {
-  const grouped = items.reduce<Record<NavItem["group"], NavItem[]>>(
-    (acc, item) => {
-      acc[item.group].push(item);
-      return acc;
-    },
-    { Öğrenme: [], Pratik: [], Takip: [], Hesap: [] },
-  );
-
   return (
-    <nav className="space-y-5" aria-label="Ana menü">
-      {(Object.keys(grouped) as NavItem["group"][]).map((group) => (
-        <div key={group}>
-          <p className="mb-2 px-2 text-[10px] font-black uppercase tracking-[.18em] text-[var(--bureau-muted)]">{group}</p>
-          <div className="space-y-1">
-            {grouped[group].map((item) => {
-              const Icon = item.icon;
-              const active = isActive(pathname, item.href);
+    <div className="space-y-5">
+      {navGroups.map((group) => {
+        const groupItems = items.filter((item) => item.group === group);
+        if (!groupItems.length) return null;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onNavigate}
-                  aria-current={active ? "page" : undefined}
-                  data-active={active ? "true" : undefined}
-                  className={cn(
-                    "group flex items-center gap-3 rounded-[1.05rem] px-3.5 py-3 text-sm font-extrabold transition-all duration-200",
-                    active
-                      ? "bg-[var(--bureau-ink)] text-[var(--bureau-inverse)] shadow-[0_16px_45px_rgba(14,17,23,.18)]"
-                      : "text-[var(--bureau-copy)] hover:bg-white hover:text-[var(--bureau-ink)] hover:shadow-[var(--shadow-paper)]",
-                  )}
-                >
-                  <span
+        return (
+          <section key={group} aria-label={group} className="space-y-2">
+            <p className="px-3 text-[11px] font-black uppercase tracking-[0.22em] text-[#98a2b3]">{group}</p>
+            <div className="space-y-1">
+              {groupItems.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(pathname, item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={asRoute(item.href)}
+                    onClick={onNavigate}
+                    aria-current={active ? "page" : undefined}
+                    data-active={active ? "true" : undefined}
                     className={cn(
-                      "grid size-9 place-items-center rounded-2xl transition-colors",
-                      active ? "bg-white/12 text-[var(--bureau-inverse)]" : "bg-[rgba(14,17,23,.05)] text-[var(--bureau-muted)] group-hover:text-[var(--bureau-ink)]",
+                      "group flex min-h-12 items-center gap-3 rounded-2xl px-3 text-sm font-black text-[#344054] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563eb] focus-visible:ring-offset-2",
+                      "hover:-translate-y-0.5 hover:bg-white hover:text-[#101828] hover:shadow-[0_12px_30px_rgba(16,24,40,0.08)]",
+                      active && "bg-[#101828] text-white shadow-[0_12px_30px_rgba(16,24,40,0.18)] hover:bg-[#101828] hover:text-white",
                     )}
                   >
-                    <Icon size={17} />
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </nav>
+                    <span
+                      className={cn(
+                        "grid size-9 shrink-0 place-items-center rounded-xl bg-[#f2f4f7] text-[#475467] transition",
+                        active && "bg-white/14 text-white",
+                      )}
+                    >
+                      <Icon className="size-4" aria-hidden="true" />
+                    </span>
+                    <span className="truncate">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        );
+      })}
+    </div>
   );
 }
 
@@ -242,21 +239,24 @@ function MobileNavItem({ item, active }: { item: NavItem; active: boolean }) {
 
   return (
     <Link
-      href={item.href}
+      href={asRoute(item.href)}
       aria-current={active ? "page" : undefined}
-      data-active={active ? "true" : undefined}
       className={cn(
-        "flex min-h-[58px] flex-col items-center justify-center gap-1 rounded-[1.15rem] text-[10px] font-black transition-all",
-        active ? "bg-[var(--bureau-ink)] text-[var(--bureau-inverse)]" : "text-[var(--bureau-muted)] hover:bg-white hover:text-[var(--bureau-ink)]",
+        "flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-[10px] font-black text-[#667085] transition",
+        active && "bg-[#101828] text-white shadow-sm",
       )}
     >
-      <Icon size={18} />
-      <span>{item.shortLabel}</span>
+      <Icon className="size-4" aria-hidden="true" />
+      <span className="max-w-full truncate px-1">{item.shortLabel}</span>
     </Link>
   );
 }
 
 function isActive(pathname: string, href: string) {
-  if (href === "/dashboard") return pathname === "/dashboard";
+  if (href === "/dashboard") return pathname === "/" || pathname === "/dashboard";
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function asRoute(href: string) {
+  return href as Route;
 }
