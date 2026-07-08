@@ -94,8 +94,8 @@ function transpileAndEvaluateTs(filePath) {
 
 function loadLocalData() {
   const candidates = [
-    path.join(root, "src/data/kpss-history.ts"),
     path.join(root, "src/data/kpss/index.ts"),
+    path.join(root, "src/data/kpss-history.ts"),
   ];
   for (const candidate of candidates) {
     if (!fs.existsSync(candidate)) continue;
@@ -242,7 +242,7 @@ async function upsertInBatches(supabase, rows, batchSize = 50) {
 
 async function main() {
   if (!env.url || !env.serviceKey) {
-    log("Supabase env eksik. NEXT_PUBLIC_SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY eklenirse Vercel deploy sırasında otomatik seed yapılır.");
+    log("Supabase env eksik. Vercel Environment Variables içinde NEXT_PUBLIC_SUPABASE_URL ve SUPABASE_SERVICE_ROLE_KEY yoksa otomatik seed yapılamaz. Deploy devam edecek; site local fallback kullanır.");
     return;
   }
 

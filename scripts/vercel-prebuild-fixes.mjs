@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
 
@@ -15,6 +16,10 @@ const remove = (relative) => {
   if (fs.existsSync(file)) fs.rmSync(file, { recursive: true, force: true });
 };
 
+function log(message) {
+  console.log(`[vercel-prebuild-fixes] ${message}`);
+}
+
 function ensureTypedRoutesSafe() {
   const file = "next.config.ts";
   let source = read(file);
@@ -25,7 +30,7 @@ function ensureTypedRoutesSafe() {
     source = source.replace(/typescript\s*:\s*\{/, "typescript: {\n    typedRoutes: false,");
   }
   if (source !== before) write(file, source);
-  console.log("[vercel-prebuild-fixes] typedRoutes ayarı güvenli.");
+  log("typedRoutes ayarı güvenli.");
 }
 
 function ensureProxyConvention() {
@@ -37,10 +42,10 @@ function ensureProxyConvention() {
     source = source.replace(/export\s+default\s+function\s+middleware\s*\(/g, "export default function proxy(");
     write(proxy, source);
     remove(middleware);
-    console.log("[vercel-prebuild-fixes] Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
-  } else {
-    console.log("[vercel-prebuild-fixes] proxy uyumu hazır.");
+    log("Next 16 uyumu için middleware.ts -> proxy.ts dönüştürüldü.");
+    return;
   }
+  log("proxy uyumu hazır.");
 }
 
 function ensureNoDuplicateManifestRoute() {
@@ -48,56 +53,183 @@ function ensureNoDuplicateManifestRoute() {
   const manifestRoute = "src/app/manifest.webmanifest/route.ts";
   if (exists(manifestTs) && exists(manifestRoute)) {
     remove(manifestRoute);
-    console.log("[vercel-prebuild-fixes] duplicate manifest.webmanifest route kaldırıldı.");
+    log("duplicate manifest.webmanifest route kaldırıldı.");
     return;
   }
-  console.log("[vercel-prebuild-fixes] duplicate manifest route yok.");
+  log("duplicate manifest route yok.");
 }
 
-function ensureKpssHistoryExports() {
+function ensureCleanKpssIndex() {
+  const file = "src/data/kpss/index.ts";
+  if (!exists("src/data/kpss/topics/index.ts") || !exists("src/data/kpss/questions/index.ts")) return;
+  const cleanIndex = `import { modularTopics } from "./topics";
+import { modularQuestions } from "./questions";
+import { modularFlashcards } from "./flashcards";
+import { modularTimelineEvents } from "./timeline";
+import { modularGlossary } from "./glossary";
+
+export const topics = modularTopics;
+export const questions = modularQuestions;
+export const flashcards = modularFlashcards;
+export const timelineEvents = modularTimelineEvents;
+export const glossary = modularGlossary;
+
+export const exams = [];
+export const recommendations = [
+  {
+    id: "daily-kpss-history-book-flow",
+    title: "Bugünün KPSS Tarih çalışma akışı",
+    description: "Bir konu anlatım bloğu oku, 20 soru çöz, 10 flashcard tekrar et ve kronolojiyi kapat.",
+    href: "/dashboard",
+    minutes: 45,
+    priority: "yüksek",
+  },
+  {
+    id: "weak-topic-revision",
+    title: "Zayıf konu tamiri",
+    description: "Yanlış yaptığın başlığın konu anlatımı, sık hata ve timeline alanlarını tekrar et.",
+    href: "/analytics",
+    minutes: 25,
+    priority: "orta",
+  },
+];
+
+function normalize(value: string) {
+  return value.trim().toLocaleLowerCase("tr-TR");
+}
+
+export function getTopicBySlug(slug: string) {
+  const key = normalize(slug);
+  return topics.find((topic) => normalize(topic.slug) === key || normalize(topic.id) === key);
+}
+
+export function getTopicById(id: string) {
+  const key = normalize(id);
+  return topics.find((topic) => normalize(topic.id) === key || normalize(topic.slug) === key);
+}
+
+export function getQuestionsByTopic(topicId: string) {
+  const topic = getTopicById(topicId);
+  const id = topic?.id ?? topicId;
+  const slug = topic?.slug ?? topicId;
+  return questions.filter((question) => {
+    const topicSlug = (question as { topicSlug?: string }).topicSlug;
+    return question.topicId === id || topicSlug === slug || topicSlug === id || question.topicId === slug;
+  });
+}
+
+export function getFlashcardsByTopic(topicId: string) {
+  const topic = getTopicById(topicId);
+  const id = topic?.id ?? topicId;
+  const slug = topic?.slug ?? topicId;
+  return flashcards.filter((card) => {
+    const topicSlug = (card as { topicSlug?: string }).topicSlug;
+    return card.topicId === id || topicSlug === slug || topicSlug === id || card.topicId === slug;
+  });
+}
+
+export function getTimelineEventsByTopic(topicId: string) {
+  const topic = getTopicById(topicId);
+  const id = topic?.id ?? topicId;
+  const slug = topic?.slug ?? topicId;
+  return timelineEvents.filter((event) => {
+    const topicSlug = (event as { topicSlug?: string }).topicSlug;
+    return event.topicId === id || topicSlug === slug || topicSlug === id || event.topicId === slug;
+  });
+}
+
+export function getGlossaryByTopic(topicId: string) {
+  const topic = getTopicById(topicId);
+  const id = topic?.id ?? topicId;
+  const slug = topic?.slug ?? topicId;
+  return glossary.filter((item) => {
+    const topicSlug = (item as { topicSlug?: string }).topicSlug;
+    return item.topicId === id || item.topicId === slug || topicSlug === slug || topicSlug === id || item.period === topic?.title;
+  });
+}
+
+export const modularData = { topics, questions, flashcards, timelineEvents, glossary, exams, recommendations };
+export { modularTopics, modularQuestions, modularFlashcards, modularTimelineEvents, modularGlossary };
+`;
+  const before = read(file);
+  if (before !== cleanIndex) write(file, cleanIndex);
+  log("modüler kpss/index.ts duplicate export üretmeyecek şekilde hazır.");
+}
+
+function ensureKpssHistoryBridgeOrHelpers() {
   const file = "src/data/kpss-history.ts";
   let source = read(file);
   if (!source) return;
-  const before = source;
-  source = source.replaceAll("card as Record<string, unknown>", "card as unknown as Record<string, unknown>");
 
+  // Modular data exists: keep this as a pure bridge. Never append helpers to this file.
+  if (exists("src/data/kpss/index.ts")) {
+    const bridge = `export {
+  topics,
+  questions,
+  flashcards,
+  timelineEvents,
+  glossary,
+  exams,
+  recommendations,
+  getTopicBySlug,
+  getTopicById,
+  getQuestionsByTopic,
+  getFlashcardsByTopic,
+  getTimelineEventsByTopic,
+  getGlossaryByTopic,
+} from "@/data/kpss";
+`;
+    if (source !== bridge) write(file, bridge);
+    log("kpss-history bridge export uyumluluğu hazır.");
+    return;
+  }
+
+  const before = source;
+  source = source.replaceAll("card as Record", "card as unknown as Record");
+  const has = (name) => new RegExp(`export\\s+(function|const)\\s+${name}\\b|export\\s*\\{[^}]*\\b${name}\\b[^}]*\\}`, "s").test(source);
   const helpers = [];
-  if (!/export\s+function\s+getTopicBySlug|export\s+const\s+getTopicBySlug/.test(source)) {
-    helpers.push(`\nexport function getTopicBySlug(slug: string) {\n  return topics.find((topic) => topic.slug === slug || topic.id === slug);\n}\n`);
-  }
-  if (!/export\s+function\s+getTopicById|export\s+const\s+getTopicById/.test(source)) {
-    helpers.push(`\nexport function getTopicById(id: string) {\n  return topics.find((topic) => topic.id === id || topic.slug === id);\n}\n`);
-  }
-  if (!/export\s+function\s+getQuestionsByTopic|export\s+const\s+getQuestionsByTopic/.test(source)) {
-    helpers.push(`\nexport function getQuestionsByTopic(topicId: string) {\n  return questions.filter((question) => question.topicId === topicId || question.topicSlug === topicId);\n}\n`);
-  }
-  if (!/export\s+function\s+getFlashcardsByTopic|export\s+const\s+getFlashcardsByTopic/.test(source)) {
-    helpers.push(`\nexport function getFlashcardsByTopic(topicId: string) {\n  return flashcards.filter((card) => card.topicId === topicId || card.topicSlug === topicId);\n}\n`);
-  }
-  if (!/export\s+function\s+getTimelineEventsByTopic|export\s+const\s+getTimelineEventsByTopic/.test(source)) {
-    helpers.push(`\nexport function getTimelineEventsByTopic(topicId: string) {\n  return timelineEvents.filter((event) => event.topicId === topicId || event.topicSlug === topicId);\n}\n`);
-  }
+  if (!has("getTopicBySlug")) helpers.push(`\nexport function getTopicBySlug(slug: string) {\n  return topics.find((topic) => topic.slug === slug || topic.id === slug);\n}\n`);
+  if (!has("getTopicById")) helpers.push(`\nexport function getTopicById(id: string) {\n  return topics.find((topic) => topic.id === id || topic.slug === id);\n}\n`);
+  if (!has("getQuestionsByTopic")) helpers.push(`\nexport function getQuestionsByTopic(topicId: string) {\n  return questions.filter((question) => question.topicId === topicId || (question as { topicSlug?: string }).topicSlug === topicId);\n}\n`);
+  if (!has("getFlashcardsByTopic")) helpers.push(`\nexport function getFlashcardsByTopic(topicId: string) {\n  return flashcards.filter((card) => card.topicId === topicId || (card as { topicSlug?: string }).topicSlug === topicId);\n}\n`);
+  if (!has("getTimelineEventsByTopic")) helpers.push(`\nexport function getTimelineEventsByTopic(topicId: string) {\n  return timelineEvents.filter((event) => event.topicId === topicId || (event as { topicSlug?: string }).topicSlug === topicId);\n}\n`);
   if (helpers.length > 0) source += `\n// Build compatibility helpers added by vercel-prebuild-fixes.mjs.\n${helpers.join("\n")}`;
   if (source !== before) write(file, source);
-  console.log("[vercel-prebuild-fixes] kpss-history export/cast uyumluluğu hazır.");
+  log("kpss-history export/cast uyumluluğu hazır.");
 }
 
 function ensureSkeletonExports() {
   const file = "src/components/ui/Skeleton.tsx";
   let source = read(file);
   if (!source) return;
-  const append = [];
+  const chunks = [];
   if (!/export\s+function\s+SkeletonGrid/.test(source)) {
-    append.push(`\nexport function SkeletonGrid({ count = 8, className = "grid gap-4 sm:grid-cols-2 lg:grid-cols-4", itemClassName = "h-32" }: { count?: number; className?: string; itemClassName?: string }) {\n  return <div className={className}>{Array.from({ length: count }).map((_, index) => <Skeleton key={index} className={itemClassName} />)}</div>;\n}\n`);
+    chunks.push(`
+export function SkeletonGrid({ count = 8, className = "grid gap-4 sm:grid-cols-2 lg:grid-cols-4", itemClassName = "h-32" }: { count?: number; className?: string; itemClassName?: string }) {
+  return (
+    <div className={className}>
+      {Array.from({ length: count }).map((_, index) => (
+        <Skeleton key={index} className={itemClassName} />
+      ))}
+    </div>
+  );
+}
+`);
   }
   if (!/export\s+function\s+PageSkeleton/.test(source)) {
-    append.push(`\nexport function PageSkeleton() {\n  return <div className="space-y-6"><Skeleton className="h-56 rounded-3xl" /><SkeletonGrid count={6} /></div>;\n}\n`);
+    chunks.push(`
+export function PageSkeleton() {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-40 w-full" />
+      <SkeletonGrid />
+    </div>
+  );
+}
+`);
   }
-  if (append.length > 0) {
-    source += append.join("\n");
-    write(file, source);
-  }
-  console.log("[vercel-prebuild-fixes] Skeleton exportları hazır.");
+  if (chunks.length > 0) write(file, `${source}\n${chunks.join("\n")}`);
+  log("Skeleton exportları hazır.");
 }
 
 function ensureBrandMarkSizeProp() {
@@ -105,64 +237,22 @@ function ensureBrandMarkSizeProp() {
   let source = read(file);
   if (!source) return;
   if (/size\??\s*:/.test(source) || /size\s*=/.test(source)) {
-    console.log("[vercel-prebuild-fixes] SBBrandMark size prop uyumu hazır.");
+    log("SBBrandMark size prop uyumu hazır.");
     return;
   }
-  source = source
-    .replace(/\{\s*className\s*\}:\s*\{\s*className\??:\s*string\s*\}/, "{ className, size = 'md' }: { className?: string; size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number }")
-    .replace(/className=\{className\}/, "className={className}");
+  source = source.replace(
+    /\{\s*className\s*\}:\s*\{\s*className\??:\s*string\s*\}/,
+    "{ className, size = 'md' }: { className?: string; size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number }"
+  );
   write(file, source);
-  console.log("[vercel-prebuild-fixes] SBBrandMark size prop guard uygulandı.");
-}
-
-function ensureReadabilityCss() {
-  const file = "src/app/globals.css";
-  let source = read(file);
-  if (!source) return;
-  const before = source;
-
-  // These broad selectors caused white text on light gradient cards. They should never exist globally.
-  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-blue"\]/g, "");
-  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-indigo"\]/g, "");
-  source = source.replace(/,\s*\[class\*="bg-gradient-to"\]\[class\*="from-slate"\]/g, "");
-  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-blue"\],?/g, "");
-  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-indigo"\],?/g, "");
-  source = source.replace(/\[class\*="bg-gradient-to"\]\[class\*="from-slate"\],?/g, "");
-
-  const patchMarker = "/* SB_READABILITY_GUARD_V2 */";
-  const patch = `\n${patchMarker}\n.surface-light, .premium-light, [data-readable="light"], [data-tone="light"], :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-gray-50"], [class*="from-white"], [class*="via-white"], [class*="to-white"], [class*="from-slate-50"], [class*="to-slate-50"], [class*="from-blue-50"], [class*="to-blue-50"], [class*="from-sky-50"], [class*="to-sky-50"]) { color: var(--sb-text) !important; }\n.surface-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), .premium-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), [data-readable="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div), [data-tone="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div) { color: var(--sb-text) !important; }\n.btn-primary, .btn-dark, [data-dark-button="true"], .surface-dark, [data-tone="dark"] { color: #fff !important; }\n.btn-primary *, .btn-dark *, [data-dark-button="true"] *, .surface-dark *, [data-tone="dark"] * { color: currentColor !important; fill: currentColor !important; stroke: currentColor !important; }\n.btn-light, .btn-ghost, [data-light-button="true"] { color: var(--sb-text) !important; }\n`;
-  if (!source.includes(patchMarker)) source += patch;
-  if (source !== before) write(file, source);
-  console.log("[vercel-prebuild-fixes] okunabilirlik CSS guard hazır.");
-}
-
-function ensureVercelAutoScripts() {
-  const buildCommand = "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && node scripts/remove-ambiguous-exam-route.mjs && node scripts/audit-readability-and-vercel.mjs && next build";
-  const vercel = "vercel.json";
-  write(vercel, JSON.stringify({ buildCommand }, null, 2) + "\n");
-
-  const pkgFile = "package.json";
-  const pkgSource = read(pkgFile);
-  if (pkgSource) {
-    const pkg = JSON.parse(pkgSource);
-    pkg.scripts = {
-      ...(pkg.scripts ?? {}),
-      dev: "node scripts/vercel-prebuild-fixes.mjs && node scripts/force-question-bank-20-tests.mjs && next dev --turbopack",
-      build: buildCommand,
-      "audit:readability": "node scripts/audit-readability-and-vercel.mjs",
-      verify: "npm run typecheck && npm run audit:readability && npm run build",
-    };
-    write(pkgFile, JSON.stringify(pkg, null, 2) + "\n");
-  }
-  console.log("[vercel-prebuild-fixes] Vercel otomatik script zinciri hazır.");
+  log("SBBrandMark size prop guard uygulandı.");
 }
 
 ensureTypedRoutesSafe();
 ensureProxyConvention();
 ensureNoDuplicateManifestRoute();
-ensureKpssHistoryExports();
+ensureCleanKpssIndex();
+ensureKpssHistoryBridgeOrHelpers();
 ensureSkeletonExports();
 ensureBrandMarkSizeProp();
-ensureReadabilityCss();
-ensureVercelAutoScripts();
-console.log("[vercel-prebuild-fixes] tamamlandı.");
+log("tamamlandı.");
