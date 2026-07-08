@@ -106,7 +106,7 @@ export function Sidebar({
                 return (
                   <Link
                     key={item.href}
-                    href={item.href}
+                    href={item.href as any}
                     onClick={onNavigate}
                     data-active={active ? "true" : undefined}
                     aria-current={active ? "page" : undefined}
