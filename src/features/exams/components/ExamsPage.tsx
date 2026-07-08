@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Clock, FileQuestion, Gauge, Medal, Target, Trophy } from "lucide-react";
 import { fetchExamsFromSupabase } from "@/lib/content/content-service";
+import { exams as localExams } from "@/data/kpss-history";
 
 const DIFFICULTY_LABELS: Record<string, string> = {
   kolay: "Kolay",
@@ -23,6 +24,11 @@ export async function ExamsPage() {
     exams = await fetchExamsFromSupabase();
   } catch {
     // Supabase bağlantısı yoksa boş göster
+  }
+
+  // Eğer Supabase'den veri gelmediyse veya boş geldiyse yerel 50 denemeyi listele!
+  if (!exams || exams.length === 0) {
+    exams = localExams as any;
   }
 
   return (

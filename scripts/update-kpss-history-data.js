@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-console.log("[Local Data Hydrator] kpss-history.ts zenginleştiriliyor...");
+console.log("[Local Data Hydrator] kpss-history.ts devasa zenginlikte baştan oluşturuluyor...");
 
 const newHistoryContent = `import type {
   Exam,
@@ -20,45 +20,58 @@ export const topics: Topic[] = [
     slug: "islamiyet-oncesi-turk-tarihi",
     title: "İslamiyet Öncesi Türk Tarihi",
     era: "islamiyet-oncesi",
-    shortDescription: "İlk Türk devletleri, bozkır kültürü, töre, kut anlayışı, kurultay yapısı ve sosyal organizasyon.",
+    shortDescription: "İlk Türk devletleri, bozkır kültürü, töre hükümleri, kut inancı, meclis yapısı, göç hareketleri ve toplumsal kurumlar.",
     examImportance: 86,
     estimatedMinutes: 45,
-    keywords: ["kut", "töre", "kurultay", "ikili teşkilat", "Orhun Yazıtları", "balbal", "kurgan", "yuğ", "kam", "sagu", "koşuk", "uygurlar", "hunlar", "göktürkler", "maniheizm", "yerleşik yaşam"],
+    keywords: ["kut", "tore", "kurultay", "ikili teskilat", "Orhun Yazitlari", "balbal", "kurgan", "yug", "kam", "sagu", "kosuk", "uygurlar", "hunlar", "gokturkler", "maniheizm", "yerlesik yasam", "saka", "iskitler", "teoman", "mete han", "bumin kagan", "istemi yabgu", "bilge kagan", "kul tigin", "tonyukuk", "peceknekler", "hazarlar", "karluklar"],
     quickTimeline: [
-      { date: "MÖ 220", event: "Asya Hun Devleti'nin kuruluşu" },
-      { date: "552", event: "I. Kök Türk Devleti'nin kuruluşu" },
-      { date: "744", event: "Uygur Devleti'nin yerleşik hayata geçişi" },
-      { date: "732-735", event: "Orhun Yazıtları'nın dikilmesi" }
+      { date: "MÖ 220", event: "Teoman tarafından Ötüken merkezli Asya Hun Devleti'nin kurulması" },
+      { date: "MÖ 209", event: "Mete Han'ın tahta çıkışı ve ilk düzenli ordu (onlu teşkilat) kuruluşu" },
+      { date: "375", event: "Kavimler Göçü ile Avrupa'da Türk devletlerinin kurulması" },
+      { date: "552", event: "Bumin Kağan önderliğinde Avar hakimiyetine son verilerek I. Kök Türk Devleti'nin kurulması" },
+      { date: "744", event: "Kutluk Bilge Kül Kağan tarafından Uygur Devleti'nin kurulması ve yerleşik yaşama geçiş" },
+      { date: "732-735", event: "Kül Tigin, Bilge Kağan ve Vezir Tonyukuk adına Orhun Abideleri'nin dikilmesi" }
     ],
     summary: [
       {
-        heading: "Devlet Yönetimi ve Kut İnancı",
-        body: "İlk Türk devletlerinde yönetme yetkisinin Tanrı tarafından hükümdara verildiğine (Kut) inanılırdı. Kut kan yoluyla tüm hanedan üyelerine geçtiği için ülke hanedanın ortak malı kabul edilir ve bu durum taht kavgalarına yol açardı. Devlet doğu ve batı olarak ikili teşkilat ile yönetilir; kutsal doğuda kağan bulunurken, batıyı yabgu unvanıyla kağanın kardeşi idare ederdi.",
+        heading: "1. Siyasi Yapı, Egemenlik ve Kut İnancı",
+        body: "İlk Türk devletlerinde hükümdara devleti yönetme yetkisinin Tanrı tarafından verildiğine inanılırdı; bu inanca Kut denirdi. Kut yetkisinin kan yoluyla babadan oğula geçtiğine inanıldığı için hanedan üyesi tüm erkeklerin tahtta hakkı vardı. Bu durum 'ülke hanedanın ortak malıdır' kuralını doğurmuş ve sık sık taht kavgalarına, dolayısıyla devletlerin kısa sürede bölünmesine yol açmıştır. Hükümdarlar Şanşü, Tanhu, Hakan, Han, Kağan, İlteber ve Erkin gibi unvanlar kullanırlardı. Devlet işleri, boy beylerinin katıldığı danışma meclisi niteliğindeki Kurultay'da (Toy/Kengeş) görüşülürdü. Kağan'ın eşi Hatun (Katun) da kurultaya katılabilir, elçi kabul edebilir ve kağan savaştayken devlete vekalet edebilirdi. Ülke yönetimi kolaylaştırılsın diye doğu (kutsal yön, kağan yönetir) ve batı (yabgu yönetir) olarak ikiye bölünürdü (İkili Teşkilat).",
         bullets: [
-          "Kut yetkisi hükümdara karizma, meşruiyet ve siyasi güç kazandırır.",
-          "Veraset sistemi belirsizdir, bu durum devletlerin kısa sürede bölünmesine yol açmıştır.",
-          "Devlet işleri danışma meclisi niteliğindeki Kurultay'da (Toy) görüşülürdü."
+          "Kut inancı egemenliği ilahi kaynakla meşrulaştırarak kağanın otoritesini artırır.",
+          "Veraset yasasının belirsizliği, Türk devletlerinin ömrünü kısaltan en önemli iç nedendir.",
+          "Kurultay'da son söz hükümdara ait olduğu için bu meclis bir danışma organı niteliğindedir."
         ]
       },
       {
-        heading: "Hukuk, Sosyal Hayat ve Kültür",
-        body: "İlk Türklerde yazısız hukuk kurallarına Töre denirdi. Töre; örf, adet ve kurultay kararlarıyla şekillenirdi ve hükümdar dahil herkes töreye uymak zorundaydı. Toplum yapısı sırasıyla aile (oguş), sülale (urug), boy (bod), millet (budun) ve devlet (il) şeklinde örgütlenmişti. Göçebe hayatın etkisiyle hapis cezaları kısa süreli olmuş ve savaşçı, dayanıklı bir ordu yapısı (onlu teşkilat) gelişmiştir.",
+        heading: "2. Sosyal Hayat, Yazısız Hukuk (Töre) ve Ekonomi",
+        body: "İlk Türk devletlerinde toplum yapısı kan bağına dayanan aileden devlete doğru genişlerdi. Aile (Oguş), sülale (Urug), boy (Bod/Boy), millet (Budun) ve devlet (İl/El) şeklinde hiyerarşik bir piramit vardı. Sosyal hayatı ve devlet yönetimini düzenleyen yazısız hukuk kurallarına Töre denirdi. Töre; örf-adetler, kağan fermanları ve kurultay kararlarından oluşurdu. Hakan dahi töreye uymak zorundaydı, bu da ilk Türklerde hukukun üstünlüğü ilkesini gösterir. Töre kurallarından adalet (könilik), eşitlik (tüzlük), iyilik (uzluk) ve insanlık (kişilik) değişmez hükümlerdi. Hayvancılığa dayalı göçebe yaşam tarzı nedeniyle uzun süreli hapis cezaları uygulanamamış, kalıcı mimari eserler yapılamamış ve özel mülkiyet gelişmemiştir. Ancak Uygurlar, Maniheizm ve Budizm dinlerini kabul ederek yerleşik hayata geçmiş, tarım, matbaa, kütüphane ve kalıcı mimari saraylar kurarak Türk kültüründe devrim yapmışlardır.",
         bullets: [
-          "Töre kuralları adalet, eşitlik, iyilik ve insanlık gibi değişmez ilkelere sahipti.",
-          "Uygurlar Maniheizm dinini kabul ederek yerleşik hayata geçen, tarım ve mimariyi başlatan ilk Türk devletidir.",
-          "Sanatta taşınabilir eşyalar üzerinde hayvan üslubu (hayvan figürleri) kullanılmıştır."
+          "Töre, dinamik bir yapıya sahipti; zamanın ihtiyaçlarına göre kurultay kararıyla güncellenebilirdi.",
+          "Uygurlarla birlikte savaşçılık özellikleri zayıflamış, ancak ticaret, bilim ve sanat faaliyetleri zirve yapmıştır.",
+          "İlk Türk parası Türgişler (Bagat Tarkan) tarafından bastırılmış, Uygurlar ise kağıt para (Böz/Kamdu/Çao) kullanmıştır."
+        ]
+      },
+      {
+        heading: "3. Din, İnanış ve Sanat Anlayışı",
+        body: "Türklerin en eski inancı Gök Tanrı inancıdır. Bunun yanı sıra doğa güçlerine inanma (Totemizm/Atalar Kültü) yaygındı. Cennet kavramı Uçmağ, cehennem kavramı Tamu olarak adlandırılırdı. Ölen kişiler için Yuğ adı verilen cenaze törenleri düzenlenir, mezarlarına Kurgan denirdi. Kurganlara ölen kişinin atı, silahı ve değerli eşyaları konurdu; bu durum ahiret inancının en doğrudan kanıtıdır. Mezarların etrafına, ölen kişinin hayattayken öldürdüğü düşman sayısı kadar insan biçimli Balbal (mezar taşı) dikilirdi. Dini törenleri ve büyücülük-hekimlik işlerini yürüten din adamlarına Kam, Şaman veya Baksı denirdi. Sanat anlayışı göçebe yaşamın gereği olarak taşınabilir araç gereçler (kemer tokaları, kılıç kınları, halılar) üzerinde yoğunlaşmıştı ve tasvirlerde Hayvan Üslubu egemendi. Dünyanın en eski düğümlü halısı olan Pazırık Halısı Hun kurganlarından çıkarılmıştır.",
+        bullets: [
+          "Balballar, Türklerde heykel sanatının ilk örnekleri kabul edilir.",
+          "Uygurlar döneminde heykel (fresko) ve minyatür sanatı (kitap resmi) gelişim göstermiştir.",
+          "Orhun Abideleri (732-735), Türk adının geçtiği, Türk tarihini ve sosyal devlet anlayışını anlatan ilk yazılı Türkçe kaynaklardır."
         ]
       }
     ],
     mustKnow: [
-      "Kut anlayışı ve taht kavgalarının neden-sonuç ilişkisi",
-      "Töre kurallarının bağlayıcılığı ve içeriği",
-      "Uygurların Maniheizm ile yaşadığı kültürel ve ekonomik dönüşüm",
-      "Orhun Yazıtları'nın ilk Türkçe yazılı kaynak olma özelliği ve içeriği"
+      "Kut anlayışı, veraset sistemi ve taht kavgalarının Türk devletlerinin yıkılışındaki rolü",
+      "Törenin değişmez ilkeleri (Könilik, Tüzlük, Uzluk, Kişilik) ve kağanın töreye bağlılığı",
+      "Uygurların yerleşik yaşama geçişiyle değişen ekonomik, mimari ve kültürel yapı özellikleri",
+      "Orhun Abideleri'nin yazarları (Yolluğ Tigin) ve adına dikilen devlet adamları (Bilge Kağan, Kül Tigin, Tonyukuk)",
+      "İskitlerin (Sakalar) ilk Türk boyu olduğu, Alp Er Tunga ve Tomris Hatun gibi liderleri"
     ],
     commonMistakes: [
-      "İlk Türk devletlerinde düzenli ve sürekli bir veraset sisteminin olduğunu sanmak (veraset belirsizdir).",
-      "Uygurlardan önce kalıcı mimari eserler ve yazılı kütüphanelerin yaygın olduğunu düşünmek (yerleşik yaşam Uygurlarla başlamıştır)."
+      "İlk Türk devletlerinde mutlak, demokratik ve kalıcı bir taht veraset kuralı olduğunu düşünmek (Veraset belirsizdir, hanedan üyesi her erkek adaydır).",
+      "Tüm ilk Türk topluluklarının göçebe olduğunu sanmak (Uygurlar, Karluklar ve Hazarlar yerleşik hayata geçmiştir).",
+      "Kurultay'ın karar organı olduğunu sanmak (Hakan son söz hakkına sahip olduğu için temelde danışma meclisidir)."
     ]
   },
   {
@@ -66,45 +79,58 @@ export const topics: Topic[] = [
     slug: "turk-islam-tarihi",
     title: "Türk-İslam Tarihi",
     era: "turk-islam",
-    shortDescription: "Karahanlı, Gazneli, Büyük Selçuklu devletleri ve Türk-İslam medeniyetinin kurumsal altyapısı.",
+    shortDescription: "Talas Savaşı, Karahanlılar, Gazneliler, Büyük Selçuklu Devleti, Abbasi ilişkileri, İkta ve Gulam sistemleri ile kültür-sanat eserleri.",
     examImportance: 84,
     estimatedMinutes: 48,
-    keywords: ["Karahanlılar", "Gazneliler", "Büyük Selçuklu", "ikta", "Nizamiye", "Talas Savaşı", "Dandanakan", "Malazgirt", "gulam", "atabey", "divan-ı saltanat", "kutadgu bilig", "ribat", "bimaristan"],
+    keywords: ["Karahanlilar", "Gazneliler", "Buyuk Selcuklu", "ikta", "Nizamiye", "Talas Savasi", "Dandanakan", "Malazgirt", "gulam", "atabey", "divan-i saltanat", "kutadgu bilig", "ribat", "bimaristan", "satuk bugra han", "sultan mahmut", "tugrul bey", "alparslan", "meliksah", "nizamulmulk"],
     quickTimeline: [
-      { date: "751", event: "Talas Savaşı ile Türklerin İslamiyet'e geçişinin hızlanması" },
-      { date: "840", event: "İlk Müslüman Türk devleti olan Karahanlıların kuruluşu" },
-      { date: "1040", event: "Dandanakan Savaşı ile Büyük Selçuklu'nun kurulması" },
-      { date: "1071", event: "Malazgirt Savaşı ile Anadolu kapılarının açılması" }
+      { date: "751", event: "Talas Savaşı ile Türklerin (Karluklar) Abbasileri desteklemesi ve kitleler halinde İslamiyet'e geçişin başlaması" },
+      { date: "840", event: "Satuk Buğra Han liderliğinde Orta Asya'da ilk Müslüman Türk devleti olan Karahanlıların kurulması" },
+      { date: "963", event: "Alp Tigin tarafından Gazne merkezli çok uluslu Gazneliler Devleti'nin kurulması" },
+      { date: "1040", event: "Dandanakan Savaşı ile Selçukluların Gaznelileri yenerek resmen kurulması" },
+      { date: "1055", event: "Tuğrul Bey'in Bağdat Seferi ile halifeyi kurtarması ve 'Doğunun ve Batının Sultanı' unvanını alması" },
+      { date: "1071", event: "Sultan Alparslan'ın Malazgirt Savaşı'nda Bizans'ı yenerek Anadolu kapılarını açması" }
     ],
     summary: [
       {
-        heading: "İlk Türk-İslam Devletleri ve Gelişimi",
-        body: "751 Talas Savaşı'nda Karluk Türklerinin Çin'e karşı Abbasileri desteklemesiyle Türk-İslam tarihi başlamıştır. Orta Asya'da kurulan ilk Müslüman Türk devleti Karahanlılar'dır. Karahanlılar resmi dili Türkçe yaparak milli benliklerini korumuş, ribat adı verilen kervansaraylar ve bimaristan hastaneleri açmışlardır. Gazneliler ise Hindistan'a 17 sefer düzenleyerek İslamiyet'i buraya yaymış ve tarihte Sultan unvanını alan ilk hükümdar Sultan Mahmut olmuştur.",
+        heading: "1. İlk Türk-İslam Devletleri ve Siyasi Akış",
+        body: "Türklerin İslamiyet'i kabulü 751 Talas Savaşı ile hızlanmıştır. Orta Asya'da İslamiyet'i kabul eden ilk Türk devleti Karahanlılar'dır. Satuk Buğra Han döneminde İslamiyet'i resmi din yapmışlardır. Karahanlılar, halkı ve yöneticileri tamamen Türk olduğu için resmi dillerini Türkçe yapmış, ulusal kimliklerini en güçlü şekilde korumuşlardır. Gazneliler ise Afganistan'ın Gazne şehrinde kurulmuş olup çok uluslu bir yapıya sahipti. En parlak dönemlerini yaşayan Sultan Mahmut, Hindistan'a 17 sefer düzenleyerek İslamiyet'i yaymış, kast sistemini sarsmış ve halifeden 'Sultan' unvanını alan ilk Türk hükümdar olmuştur. Büyük Selçuklu Devleti ise Tuğrul ve Çağrı Beyler tarafından kurulmuş, Dandanakan Savaşı (1040) ile Gaznelileri yıkarak bağımsız olmuştur. 1071 Malazgirt Savaşı ile Bizans'ı mağlup ederek Anadolu'nun kapılarını Türklere açmışlardır.",
         bullets: [
-          "Karahanlılar döneminde Kutadgu Bilig, Divanü Lugati't-Türk gibi ilk edebi eserler yazılmıştır.",
-          "Gazneliler çok uluslu yapıları nedeniyle Selçuklular karşısında Dandanakan Savaşı'nda yenilerek yıkılmıştır.",
-          "Büyük Selçuklular, Tuğrul Bey döneminde Bağdat Seferi ile İslam dünyasının siyasi lideri olmuştur."
+          "Karahanlılar ribat adı verilen kervansaraylar ve bimaristan adı verilen hastanelerle sosyal devleti geliştirmişlerdir.",
+          "Gazneliler, ordularındaki etnik çeşitlilik ve çok uluslu yapı nedeniyle Selçuklular karşısında yenilerek hızlı yıkılmıştır.",
+          "Büyük Selçuklu, en parlak dönemini Melikşah ve ünlü vezir Nizamülmülk döneminde yaşamıştır."
         ]
       },
       {
-        heading: "Türk-İslam Devlet Teşkilatı ve Kurumlar",
-        body: "Devlet işleri Divan-ı Saltanat'ta görüşülürdü. Maliye için Divan-ı İstifa, askeri işler için Divan-ı Arz, yazışmalar için Divan-ı İnşa ve denetim için Divan-ı İşraf bulunurdu. Askeri ve idari yapı, toprak gelirlerinin hizmet karşılığı dağıtılması esasına dayanan İkta Sistemi ve esirlerin asker yetiştirilmesini sağlayan Gulam Sistemi ile güçlendirilmiştir. Şehzadeleri eğitmekle görevli öğretmenlere Atabey adı verilirdi.",
+        heading: "2. Devlet Teşkilatı, Toprak (İkta) ve Ordu Düzeni",
+        body: "Türk-İslam devletlerinde kut anlayışı 'Allah'ın takdiri' olarak devam etmiştir. Devlet işlerinin görüşüldüğü en yüksek merci Divan-ı Saltanat'tır. Alt kademelerinde mali işler için Divan-ı İstifa (başında Müstevfi), askeri işler için Divan-ı Arz (başında Arzü'l-Ceyş), iç ve dış yazışmalar için Divan-ı İnşa/Tuğra (başında Münşi) ve denetim için Divan-ı İşraf (başında Müşrif) bulunurdu. Hukuk sistemi Şer'i (dini, başında kadılkudat) ve Örfi (töre, başında emir-i dad) olarak ikiye ayrılırdı. Ordu teşkilatında savaş esirlerinin sarayda eğitilerek ordu ve bürokrasiye alınmasına Gulam Sistemi denirdi. Toprak yönetiminde ise devlet arazilerinin (Miri) vergi gelirlerinin memur ve askerlere hizmet karşılığı verilmesine İkta Sistemi denirdi. İkta sahipleri gelirleriyle Cebelü (atlı asker) yetiştirmek zorundaydı.",
         bullets: [
-          "Nizamiye Medreseleri Şii Batınilik faaliyetlerine karşı fikri mücadele vermek ve memur yetiştirmek için açılmıştır.",
-          "Adalet şer'i (başında kadılkudat) ve örfi (başında emir-i dad) olarak ikiye ayrılmıştır.",
-          "Hükümdarlık alameti olarak hutbe okutulur, para bastırılır, tıraz ve çetr gönderilirdi."
+          "İkta sistemi sayesinde devlet hazinesinden para çıkmadan büyük bir ordu (Eyalet Askerleri) hazır tutulmuştur.",
+          "Gulam sistemi, Osmanlı'daki devşirme ve pençik sistemlerinin temeli ve esin kaynağıdır.",
+          "Şehzadelerin eğitimi için eyaletlere gönderilen tecrübeli devlet adamlarına Atabey denirdi."
+        ]
+      },
+      {
+        heading: "3. Medeniyet, Eğitim ve İlk Edebi Eserler",
+        body: "Büyük Selçuklu veziri Nizamülmülk tarafından Şii Batınilik (Hasan Sabbah) tehlikesine karşı fikri mücadele vermek ve memur yetiştirmek amacıyla Nizamiye Medreseleri kurulmuştur. Bu medreseler sistemli eğitim müfredatıyla dünyanın ilk üniversiteleri kabul edilir. Bu dönemde ilk Türk-İslam edebi eserleri yazılmıştır: Yusuf Has Hacip'in Tabgaç Buğra Han'a sunduğu ilk siyasetname olan Kutadgu Bilig (Mutluluk veren bilgi), Kaşgarlı Mahmut'un Türkçe'nin üstünlüğünü kanıtlamak için yazdığı ilk sözlük Divanü Lugati't-Türk, Edip Ahmet Yükneki'nin ahlak kitabı Atabetü'l-Hakayık ve Hoca Ahmet Yesevi'nin tasavvuf şiirleri Divan-ı Hikmet. Karahanlılar döneminde yazılan bu 4 eser geçiş dönemi eserleri olarak bilinir.",
+        bullets: [
+          "Divanü Lugati't-Türk'ün sonunda ilk Türk dünyası haritası yer almaktadır.",
+          "Mimari alanda cami, medrese, darüşşifa, kervansaray ve anıt mezar niteliğindeki kümbetler yaygınlaşmıştır.",
+          "Bilim alanında Farabi (Muallim-i Sani), İbn-i Sina (Avicenna), Harezmi ve Gazali gibi isimler yetişmiştir."
         ]
       }
     ],
     mustKnow: [
-      "Talas Savaşı'nın kültürel ve dini sonuçları",
-      "Karahanlıların Türkçeyi resmi dil ilan etmesi ve ulusal kimlik vurgusu",
-      "İkta sisteminin askeri, mali ve tarımsal üretimdeki faydaları",
-      "Malazgirt Savaşı'nın Anadolu'nun Türkleşmesindeki tarihi önemi"
+      "Karahanlıların Türkçeyi resmi dil ilan etmeleri ve ulusal kimlik hassasiyetleri",
+      "Sultan unvanını kullanan ilk Türk hükümdarının Gazneli Mahmut olması",
+      "İkta sisteminin devlete sağladığı askeri, mali ve asayiş faydaları",
+      "Nizamiye Medreselerinin kuruluş amaçları ve eğitim tarihi açısından önemi",
+      "Tuğrul Bey'in 'Doğunun ve Batının Sultanı' unvanını alarak dini liderlik ile siyasi liderliği ayırması"
     ],
     commonMistakes: [
-      "İkta sisteminde toprağın mülkiyetinin şahıslara ait olduğunu sanmak (Mülkiyet devlete, vergi geliri görevliye aittir).",
-      "Tuğrul Bey'in halifeyi kurtarmasıyla halifelik makamının Selçuklulara geçtiğini düşünmek (Halifelik Abbasilerde kalmış, Selçuklu sadece siyasi lider olmuştur)."
+      "İslamiyet'in kabulüyle Türklerin milli benliklerini tamamen yitirdiğini sanmak (Karahanlılar gibi devletler töreyi ve dili korumuşlardır).",
+      "İkta sisteminde toprağın mülkiyetinin halka veya komutana ait olduğunu düşünmek (Mülkiyet daima devlete aittir; sadece vergi toplama hakkı devredilir).",
+      "Büyük Selçuklu döneminde halifeliğin Selçuklu hanedanına geçtiğini düşünmek (Halifelik Abbasilerde kalmış, Selçuklu sadece koruyuculuk üstlenmiştir)."
     ]
   },
   {
@@ -112,45 +138,59 @@ export const topics: Topic[] = [
     slug: "anadolu-selcuklu-ve-beylikler",
     title: "Anadolu Selçuklu ve Beylikler",
     era: "turk-islam",
-    shortDescription: "Anadolu'nun Türkleşmesi, I. ve II. Beylikler, Miryokefalon ve Kösedağ savaşları ile Ahilik teşkilatı.",
+    shortDescription: "Anadolu'nun Türkleşme süreci, I. ve II. Dönem beylikleri, Miryokefalon ve Kösedağ savaşları, Ahilik teşkilatı ve denizcilik faaliyetleri.",
     examImportance: 78,
     estimatedMinutes: 40,
-    keywords: ["kervansaray", "ahilik", "mirî arazi", "Kösedağ", "beylikler", "Miryokefalon", "Danişmentliler", "Saltuklular", "Mengücekliler", "Artuklular", "Çaka Bey", "Yassıçemen", "Babailer İsyanı"],
+    keywords: ["kervansaray", "ahilik", "miri arazi", "Kosedag", "beylikler", "Miryokefalon", "danismentliler", "saltuklular", "mengucekliler", "artuklular", "caka bey", "yassicemen", "babailer isyani", "ahi evran", "baciyan-i rum", "tersane", "ticari sigorta"],
     quickTimeline: [
-      { date: "1071", event: "Malazgirt sonrası Anadolu'da ilk Türk beyliklerinin kurulması" },
-      { date: "1075", event: "Süleyman Şah tarafından İznik merkezli Anadolu Selçuklu'nun kurulması" },
-      { date: "1176", event: "Miryokefalon Savaşı ile Anadolu'nun kesin Türk yurdu olması" },
-      { date: "1243", event: "Kösedağ Savaşı ile Anadolu'da Moğol hakimiyetinin başlaması" }
+      { date: "1071", event: "Malazgirt zaferi sonrası Anadolu'da ilk Türk beyliklerinin kurulması" },
+      { date: "1075", event: "Süleyman Şah tarafından İznik merkezli Anadolu Selçuklu Devleti'nin kurulması" },
+      { date: "1096", event: "I. Haçlı Seferi nedeniyle başkentin İznik'ten Konya'ya taşınması" },
+      { date: "1176", event: "II. Kılıç Arslan komutasında Bizans'ın Miryokefalon Savaşı'nda yenilmesi ve Anadolu'nun Türk yurdu olduğunun kesinleşmesi" },
+      { date: "1230", event: "Yassıçemen Savaşı'nda Harzemşahların yenilerek Moğol tamponunun kalkması" },
+      { date: "1240", event: "Milli tarihin ilk büyük dini-sosyal isyanı olan Babailer (Baba İshak) İsyanı'nın çıkması" },
+      { date: "1243", event: "Kösedağ Savaşı'nda Moğollara yenilerek Selçuklu'nun yıkılış sürecine girmesi ve II. Beylikler Dönemi'nin başlaması" }
     ],
     summary: [
       {
-        heading: "Anadolu'da Siyasi Süreç ve Savaşlar",
-        body: "Malazgirt zaferinden sonra Anadolu'da Saltuklular, Danişmentliler, Mengücekliler, Artuklular ve Çaka Beyliği (ilk denizci beylik) gibi I. Dönem beylikleri kurulmuştur. Anadolu Selçuklu Devleti İznik'te kurulmuş, Haçlı Seferleri nedeniyle merkez Konya'ya taşınmıştır. II. Kılıç Arslan döneminde kazanılan Miryokefalon Savaşı ile Anadolu'nun Türk yurdu olduğu kesinleşmiştir. 1243 Kösedağ Savaşı'nda Moğollara yenilen devlet yıkılış sürecine girmiş ve II. Beylikler Dönemi başlamıştır.",
+        heading: "1. Anadolu'nun Fethi, Birinci Dönem Beylikler ve Selçuklu Siyasi Tarihi",
+        body: "1071 Malazgirt Savaşı'ndan sonra Alparslan'ın komutanları Anadolu'da ilk beylikleri kurmuştur: Saltuklular (Erzurum'da kurulan ilk beylik), Danişmentliler (Sivas'ta kurulan, ilk medrese Yağıbasan'ı yapan en güçlü beylik), Mengücekliler (Erzincan'da kurulan, Divriği Ulu Camii'ni yapan beylik), Artuklular (Mardin'de kurulan, El Cezeri'nin çalıştığı, Malabadi Köprüsü'nü yapan beylik) ve Çaka Beyliği (İzmir'de kurulan ilk denizci beylik). Anadolu Selçuklu Devleti Süleyman Şah tarafından İznik'te kurulmuş, Haçlı Seferleri nedeniyle merkez Konya'ya kaydırılmıştır. II. Kılıç Arslan döneminde kazanılan Miryokefalon Savaşı (1176) Bizans'ın Anadolu'yu geri alma ümidini bitirmiştir. Alaeddin Keykubad döneminde devlet en parlak dönemini yaşamış, Alanya ve Sudak fethedilerek deniz aşırı ticaret geliştirilmiştir. Ancak 1243 Kösedağ Savaşı ile devlet Moğol egemenliğine girmiş ve yıkılma sürecine girmiştir.",
         bullets: [
-          "Yassıçemen Savaşı'nda Harzemşahların yenilmesi Moğollarla Selçuklu arasındaki tampon bölgeyi yok etmiştir.",
-          "Babailer İsyanı (1240) Selçuklu devletinin zayıfladığını Moğollara kanıtlayan ilk büyük dini-toplumsal isyandır.",
-          "Karamanoğlu Mehmet Bey Türkçe'yi resmi dil ilan ederek milli kültüre büyük hizmet etmiştir."
+          "Danişmentlilere ait Yağıbasan Medresesi, Anadolu'da inşa edilen ilk Türk medresesidir.",
+          "Çaka Bey'in donanma kurduğu 1081 yılı, Türk Deniz Kuvvetleri'nin resmi kuruluş yılı kabul edilir.",
+          "Yassıçemen Savaşı'nda Harzemşahların yıpratılması, Selçuklu'yu Moğol istilasına doğrudan açık hale getirmiştir."
         ]
       },
       {
-        heading: "Sosyo-Ekonomik Hayat ve Ahilik Teşkilatı",
-        body: "Anadolu Selçuklularında ticaret devlet politikası haline getirilmiştir. Yollar üzerine kervansaraylar yapılmış, tüccarların malları devlet tarafından sigortalanmıştır. Şehirlerde esnaf ve zanaatkarların örgütlendiği Ahilik Teşkilatı kurulmuştur. Ahilik; fiyatları belirler (narh), dükkan açma ruhsatı verir (gedik), esnaf ahlakını denetler ve çırak-kalfa-usta ilişkisiyle meslek eğitimi verirdi. Kadınlar da Bacıyan-ı Rum (Anadolu Kadınları) örgütünü kurmuşlardır.",
+        heading: "2. Ticaret Politikaları ve Ahilik Esnaf Teşkilatı",
+        body: "Anadolu Selçuklularında ticaret milli bir politika haline getirilmiştir. Yollar üzerine kervansaraylar inşa edilmiş, buralarda konaklayan tüccarlara 3 gün boyunca yeme, içme, barınma ve hayvan bakımı ücretsiz sunulmuştur. Düşman saldırısına uğrayan tüccarların zararlarını karşılamak amacıyla dünya tarihindeki ilk devlet destekli ticari sigortacılık sistemi uygulanmıştır. Şehirlerde esnaf ve zanaatkarların dayanışma ve denetim organı olan Ahilik Teşkilatı kurulmuştur. Ahi Evran tarafından Kırşehir merkezli kurulan bu yapı; mesleki eğitim verir (çırak-kalfa-usta), dükkan açma ruhsatı (gedik) verir, fiyatları belirler (narh sistemi) ve ürün kalitesini denetlerdi. Ahi Evran'ın eşi Fatma Bacı ise dünyanın ilk kadın örgütü olan Bacıyan-ı Rum'u (Anadolu Bacıları) kurarak kadınların üretime katılmasını sağlamıştır.",
         bullets: [
-          "Ahilik dini-ahlaki kuralları fütüvvetname adı verilen belgelerle belirlenirdi.",
-          "Gevher Nesibe Darüşşifası Kayseri'de açılan ilk büyük tıp medresesi ve hastanesidir.",
-          "Selçuklu mimarisinde anıt mezar niteliğindeki kümbetler bozkır çadır kültürünü yansıtır."
+          "Ahilik teşkilatının kuralları fütüvvetname adı verilen ahlaki tüzüklerde toplanmıştır.",
+          "Esnaflar savaş zamanında uç beyliklerinde orduyu destekleyen askeri bir güç haline de gelebilirdi.",
+          "Ahilik teşkilatına sadece Müslümanlar kabul edilirdi; bu durum Osmanlı'da yerini gayrimüslimleri de kapsayan Lonca teşkilatına bırakmıştır."
+        ]
+      },
+      {
+        heading: "3. Anadolu Medeniyeti, Tasavvuf ve Mimari",
+        body: "Anadolu'da Moğol baskısının arttığı yıkılış döneminde halka manevi güç veren büyük mutasavvıflar yetişmiştir: Mevlana Celaleddin Rumi (Mesnevi), Yunus Emre (Risaletü'n-Nushiyye) ve Hacı Bektaş-ı Veli (Makalat). Bu isimler Türk İslam kültürünün ve dilinin Anadolu'da kökleşmesini sağlamışlardır. Mimari alanda hastane ve tıp okulu olan darüşşifalar (Kayseri Gevher Nesibe Darüşşifası, Sivas İzzeddin Keykavus Darüşşifası), camiler, medreseler ve kervansaraylar yapılmıştır. Mimari süslemelerde taş işçiliği ön plana çıkmıştır.",
+        bullets: [
+          "Mevlevilik, Bektaşilik ve Kadirilik gibi tasavvufi ekoller bu dönemde Anadolu'da kurumsallaşmıştır.",
+          "Anadolu Selçuklu mimarisinin karakteristik özelliği olan görkemli Taç Kapılar (portal) taş işçiliğinin zirvesidir.",
+          "Karamanoğlu Mehmet Bey 1277'de yayınladığı fermanla Türkçe dışında dil konuşulmasını yasaklayarak resmi dil yapmıştır."
         ]
       }
     ],
     mustKnow: [
-      "I. Dönem beyliklerinin Anadolu'yu bayındır hale getirmesi (eserler ve medreseler)",
-      "Miryokefalon Savaşı'nın tapu senedi niteliğindeki siyasi önemi",
-      "Kösedağ Savaşı sonrasında Anadolu'da Türk siyasi birliğinin bozulması",
-      "Ahilik teşkilatının esnaf denetimi, narh sistemi ve gedik ruhsatı uygulamaları"
+      "Birinci Dönem beylikleri ve Anadolu'ya kazandırdıkları mimari eserler (Yağıbasan Medresesi, Malabadi Köprüsü, Divriği Ulu Camii)",
+      "Miryokefalon Savaşı'nın Anadolu'nun kesin Türk yurdu olduğunu kanıtlayan tapu senedi önemi",
+      "Kervansaraylar, devlet sigortası sistemi ve deniz aşırı liman fetihlerinin ticareti canlandırma amacı",
+      "Ahilik teşkilatının ekonomik yetkileri (narh sistemi, gedik belgesi, kalite kontrolü)",
+      "Kösedağ Savaşı sonrasında Anadolu'da Türk siyasi birliğinin bozularak beylikler döneminin yeniden başlaması"
     ],
     commonMistakes: [
-      "Malazgirt ile Miryokefalon savaşlarını karıştırmak (Malazgirt kapıyı açar, Miryokefalon tapuyu alır).",
-      "Ahilik teşkilatına gayrimüslimlerin üye olabildiğini düşünmek (Ahilik sadece Müslüman esnafa açıktır; Osmanlı lonca sisteminde gayrimüslimler de yer almıştır)."
+      "Malazgirt Savaşı ile Miryokefalon Savaşı'nın sonuçlarını karıştırmak (Malazgirt kapıyı açar, Miryokefalon tapuyu alır).",
+      "Kösedağ Savaşı sonrasında Anadolu'nun tamamen Hristiyanlaştığını veya Türk nüfusunun yok olduğunu sanmak (Aksine, Moğol baskısıyla Anadolu'ya yoğun Türkmen göçü olmuş ve Türk nüfusu artmıştır).",
+      "Selçuklularda ilk parayı Alaeddin Keykubad'ın bastırdığını düşünmek (İlk bakır para I. Mesud, ilk altın para ise II. Kılıç Arslan döneminde bastırılmıştır)."
     ]
   },
   {
@@ -158,45 +198,60 @@ export const topics: Topic[] = [
     slug: "osmanli-kurulus-ve-yukselis",
     title: "Osmanlı Kuruluş ve Yükseliş",
     era: "osmanli",
-    shortDescription: "Beylikten devlete geçiş, Balkan fetihleri, iskan siyaseti, İstanbul'un fethi, Mısır seferi ve zirve dönemleri.",
-    keywords: ["iskan", "devşirme", "tımar", "İstanbul'un fethi", "merkeziyetçilik", "Çimpe Kalesi", "Ankara Savaşı", "Fetret Devri", "Yavuz Sultan Selim", "halifelik", "Kanuni", "Preveze", "Sokollu"],
+    shortDescription: "Söğüt'ten Cihan İmparatorluğuna: İskân siyaseti, Yeniçeri Ocağı, İstanbul'un fethi, Yavuz'un doğu fetihleri, Kanuni dönemi ve Sokollu projeleri.",
+    keywords: ["iskan", "devsirme", "timar", "Istanbulun fethi", "merkeziyetcilik", "Cimpe Kalesi", "Ankara Savasi", "Fetret Devri", "Yavuz Sultan Selim", "halifelik", "Kanuni", "Preveze", "Sokollu", "koyunhisar", "palekanon", "sirpsindigi", "kosova", "nigbolu", "varna", "mohac", "caldiran", "turnadag"],
     examImportance: 88,
     estimatedMinutes: 52,
     quickTimeline: [
-      { date: "1299", event: "Osmanlı Beyliği'nin kuruluşu" },
-      { date: "1402", event: "Ankara Savaşı ve Fetret Devri'nin başlaması" },
-      { date: "1453", event: "İstanbul'un fethi ve İmparatorluğa geçiş" },
-      { date: "1517", event: "Mısır Seferi ile halifeliğin Osmanlı'ya geçmesi" }
+      { date: "1299", event: "Osman Bey tarafından Söğüt merkezli beyliğin kurulması" },
+      { date: "1302", event: "Bizans tekfurlarına karşı ilk zafer olan Koyunhisar (Bafeus) Savaşı" },
+      { date: "1353", event: "Bizans'a yardım karşılığı Rumeli'deki ilk toprak parçası Çimpe Kalesi'nin alınması" },
+      { date: "1402", event: "Yıldırım Bayezid'in Timur'a yenilmesiyle Ankara Savaşı ve 11 yıllık Fetret Devri'nin başlaması" },
+      { date: "1453", event: "II. Mehmed (Fatih) tarafından İstanbul'un fethedilerek imparatorluk sürecinin başlaması" },
+      { date: "1517", event: "Yavuz Sultan Selim'in Ridaniye Savaşı ile Memlükleri yıkarak Halifelik makamını Osmanlı'ya getirmesi" },
+      { date: "1526", event: "Kanuni Sultan Süleyman komutasında Macar ordusunun Mohaç Savaşı'nda 2 saatte yenilerek Macaristan'ın alınması" },
+      { date: "1538", event: "Barbaros Hayreddin Paşa komutasında Preveze Deniz Zaferi ile Akdeniz'in Türk gölü haline gelmesi" }
     ],
     summary: [
       {
-        heading: "Beylikten İmparatorluğa Geçiş ve Balkanlar",
-        body: "Osman Bey 1299'da beyliği kurmuş, Bizans'la ilk savaş olan Koyunhisar'ı kazanmıştır. Orhan Bey Bursa'yı alıp başkent yapmış, Çimpe Kalesi'ni alarak Rumeli'ye ilk adımı atmıştır. Balkanlarda kalıcılığı sağlamak için İskan Politikası (Türkmenleri yerleştirme) ve İstimalet Politikası (hoşgörü) uygulanmıştır. I. Murad döneminde Sırpsındığı ve Kosova savaşlarıyla Haçlılar yenilmiş, Yeniçeri Ocağı kurulmuştur. Yıldırım Bayezid'in 1402 Ankara Savaşı'nda Timur'a yenilmesiyle 11 yıllık taht kavgaları dönemi (Fetret Devri) yaşanmıştır.",
+        heading: "1. Kuruluş Dönemi, Balkan Politikası ve Fetret Krizleri",
+        body: "Osmanlı Devleti Bizans sınırında bir uç beyliği olarak kurulmuştur. Jeopolitik konumu, gaza ve cihat anlayışı, beylikler arasındaki taht kavgalarına karışmaması ve adil yönetimi sayesinde hızla büyümüştür. Orhan Bey döneminde Bursa alınarak başkent yapılmış, Bizans'la Palekanon Savaşı kazanılmış ve Çimpe Kalesi alınarak Rumeli'ye geçilmiştir. Balkanlarda kalıcı olmak için İskân Politikası (Anadolu'dan getirilen göçebe Türkmenleri Balkanlara yerleştirme) ve İstimalet Politikası (gayrimüslim halka dini serbestlik ve hoşgörü sunma) uygulanmıştır. I. Murad döneminde Edirne alınmış, Sırpsındığı (ilk Haçlı savaşı) ve I. Kosova savaşlarıyla Haçlılar mağlup edilmiştir. Yıldırım Bayezid'in Anadolu Türk birliğini genişletmesi ve Timur ile girdiği Ankara Savaşı (1402) yenilgiyle sonuçlanmış, padişah esir düşmüş ve 11 yıllık Fetret Devri başlamıştır. I. Mehmed (Çelebi) taht kavgalarını bitirerek devleti kurtarmıştır.",
         bullets: [
-          "I. Mehmed (Çelebi) Fetret Devri'ni bitirdiği için devletin ikinci kurucusu kabul edilir.",
-          "II. Kosova Savaşı (1448) ile Balkanların kesin Türk yurdu olduğu kanıtlanmıştır.",
-          "Fatih Sultan Mehmed 1453'te İstanbul'u fethederek imparatorluk sürecini ve mutlak merkeziyetçiliği başlatmıştır."
+          "İskân politikası ile fethedilen toprakların Türkleşmesi sağlanmış, göçebelerin yerleşik hayata geçmesiyle üretim artırılmıştır.",
+          "II. Kosova Savaşı (1448) ile Balkanlar kesin Türk yurdu olmuş, Haçlılar savunmaya çekilmiştir.",
+          "Kuruluş döneminde ilk düzenli ordu (Yaya ve Müsellem) Orhan Bey döneminde kurulmuştur."
         ]
       },
       {
-        heading: "Yükseliş Dönemi ve Dünya Gücü Osmanlı",
-        body: "Yavuz Sultan Selim döneminde yapılan Mısır Seferi (Mercidabık ve Ridaniye savaşları) ile Memlük Devleti yıkılmış, kutsal emanetler ve Halifelik makamı Osmanlı padişahlarına geçmiştir. Kanuni Sultan Süleyman döneminde Mohaç zaferiyle Macaristan alınmış, Viyana ilk kez kuşatılmış ve batıda en geniş sınırlara ulaşılmıştır. Barbaros Hayreddin Paşa'nın kazandığı Preveze Deniz Zaferi (1538) ile Akdeniz bir Türk gölü haline gelmiştir. Sokollu Mehmed Paşa'nın ölümüyle yükselme dönemi sona ermiştir.",
+        heading: "2. İstanbul'un Fethi ve Klasik İmparatorluk Düzeni",
+        body: "II. Mehmed (Fatih) 29 Mayıs 1453'te İstanbul'u fethederek Bizans İmparatorluğu'na son vermiştir. Fethin sonucunda Karadeniz ticareti güvenceye alınmış, toprak bütünlüğü sağlanmış ve Osmanlı yükselme dönemine girmiştir. Fatih, merkezi otoriteyi mutlaklaştırmak için devşirme kökenli devlet adamlarını sadrazamlığa getirmeyi gelenekleştirmiş, kardeş katli yasasını (Kanunname-i Ali Osman) çıkarmış ve müsadere sistemini (zenginleşen devlet memurlarının mallarına el koyma) uygulayarak feodal odakların doğmasını engellemiştir. Ege adaları, Kırım, Bosna ve Arnavutluk fethedilerek sınırlar genişletilmiştir.",
         bullets: [
-          "Turnadağ Savaşı (1515) ile Anadolu Türk siyasi birliği kesin olarak sağlanmıştır.",
-          "İstanbul Antlaşması (1533) ile Avusturya kralı protokolde Osmanlı sadrazamına eşit sayılmıştır.",
-          "Sokollu Mehmed Paşa Don-Volga ve Süveyş kanalı projeleriyle jeopolitik stratejiler geliştirmiştir."
+          "Kırım'ın fethiyle Karadeniz bir Türk gölü haline gelmiş ve İpek Yolu kontrolü sağlanmıştır.",
+          "Otlukbeli Savaşı (1473) ile Akkoyunlu Devleti mağlup edilerek Doğu Anadolu sınırı güvenceye alınmıştır.",
+          "Fatih döneminde ilk altın para bastırılmış ve Topkapı Sarayı inşa edilmiştir."
+        ]
+      },
+      {
+        heading: "3. Yükseliş Dönemi, Cihan Hakimiyeti ve Denizler",
+        body: "Yavuz Sultan Selim 8 yıllık kısa saltanatında tamamen doğu politikasına odaklanmıştır. Şah İsmail'i Çaldıran Savaşı'nda (1514) yenerek Safevi tehdidini durdurmuş, Turnadağ Savaşı (1515) ile Dulkadiroğulları beyliğini yıkarak Anadolu Türk siyasi birliğini kesin olarak sağlamıştır. Mısır Seferi (1516 Mercidabık ve 1517 Ridaniye savaşları) ile Memlük Devleti yıkılmış; kutsal emanetler, Hicaz bölgesi ve Halifelik Osmanlı padişahlarına geçmiştir. Kanuni Sultan Süleyman 46 yıl tahtta kalarak en uzun süre hüküm süren padişah olmuştur. Belgrad ve Rodos'u fethetmiş, Mohaç Meydan Muharebesi (1526) ile Macaristan'ı topraklarına katmıştır. Barbaros Hayreddin Paşa'nın kazandığı Preveze Deniz Zaferi (1538) ile Akdeniz'de üstünlük tamamen Osmanlı'ya geçmiştir. Sokollu Mehmed Paşa'nın sadrazamlık dönemiyle (Kanuni, II. Selim, III. Murad) birlikte yükselme dönemi zirve yapmış ve ölümüyle duraklama dönemi başlamıştır.",
+        bullets: [
+          "Mısır Seferi sonucunda Baharat Yolu Osmanlı kontrolüne girmiş ve hazine en yüksek doluluk oranına ulaşmıştır.",
+          "İstanbul Antlaşması (1533) ile Avusturya kralı protokolde sadrazama eşit sayılarak üstünlük tescil edilmiştir.",
+          "Sokollu Mehmed Paşa'nın Don-Volga Kanal Projesi (Rusya'yı engellemek, Orta Asya Türkleriyle birleşmek) ve Süveyş Kanal Projesi (Baharat yolunu canlandırmak) o dönem gerçekleştirilemeyen dahi projelerdir."
         ]
       }
     ],
     mustKnow: [
-      "İskan ve istimalet politikalarının Balkan fetihlerindeki kalıcılaştırıcı rolü",
-      "Ankara Savaşı'nın Anadolu beyliklerinin canlanmasına ve Fetret Devri'ne yol açan etkileri",
-      "İstanbul'un fethinin dünya tarihi ve Osmanlı merkezi otoritesi üzerindeki sonuçları",
-      "Mısır Seferi'nin halifelik, ticaret yolları ve hazine gelirleri açısından önemi"
+      "İskân ve istimalet politikalarının Balkanlardaki fetihlerin kalıcılığını sağlayan temel idari roller olduğu",
+      "Ankara Savaşı'nın Anadolu Türk birliğini parçalaması ve Fetret Devri'ne yol açan siyasi etkileri",
+      "İstanbul'un fethinin dünya tarihi (derebeyliğin yıkılması, coğrafi keşifler) ve Osmanlı merkeziyetçiliği üzerindeki sonuçları",
+      "Yavuz Sultan Selim'in doğu seferleri, Turnadağ Savaşı ile Anadolu siyasi birliğinin kesinleşmesi ve Halifeliğin alınması",
+      "Preveze Deniz Zaferi'nin Akdeniz egemenliğini sağlayan önemi ve Barbaros Hayreddin Paşa'nın rolü"
     ],
     commonMistakes: [
-      "Fetret Devri'nde Rumeli'de büyük toprak kayıpları yaşandığını sanmak (Adaletli istimalet politikası sayesinde Rumeli halkı Osmanlı'ya bağlı kalmıştır).",
-      "Preveze Deniz Zaferi ile İnebahtı bozgununu karıştırmak (Preveze zaferdir, İnebahtı ise donanmamızın yakıldığı ilk yenilgidir)."
+      "Fetret Devri'nde en çok toprak kaybının Balkanlar'da yaşandığını sanmak (Balkanlarda adil istimalet politikası sayesinde neredeyse hiç toprak kaybedilmemiştir; toprak kayıpları Anadolu'da beyliklerin yeniden kurulmasıyla olmuştur).",
+      "Halifeliğin I. Murad döneminde alındığını düşünmek (Halifelik 1517'de Yavuz Sultan Selim döneminde alınmıştır).",
+      "Sokollu kanallarının başarıyla açıldığını sanmak (Projeler çizilmiş fakat dönemin yetersiz teknik imkanları ve ilgisizliği nedeniyle tamamlanamamıştır)."
     ]
   },
   {
@@ -204,43 +259,55 @@ export const topics: Topic[] = [
     slug: "osmanli-kultur-ve-medeniyet",
     title: "Osmanlı Kültür ve Medeniyet",
     era: "osmanli",
-    shortDescription: "Merkez-taşra teşkilatı, saray hayatı, hukuk, maliye, toprak sistemi, ordu ve Millet Sistemi.",
-    keywords: ["divan", "tımar", "vakıf", "enderun", "millet sistemi", "seyfiye", "ilmiye", "kalemiye", "miri arazi", "defterdar", "nişancı", "kazasker", "cizye", "iltizam", "kadı"],
+    shortDescription: "Merkez teşkilatı, padişah yetkileri, Divan-ı Hümayun, eyalet yönetimi, toprak (tımar) sistemi, ordu yapısı, hukuk, vergi ve medrese eğitimi.",
+    keywords: ["divan", "timar", "vakif", "enderun", "millet sistemi", "seyfiye", "ilmiye", "kalemiye", "miri arazi", "defterdar", "nisanci", "kazasker", "cizye", "iltizam", "kadi", "sehzade", "enderun", "harem", "yeniceri", "narh", "lonca"],
     examImportance: 92,
     estimatedMinutes: 58,
     quickTimeline: [
-      { date: "Klasik dönem", event: "Merkez, eyalet ve taşra yönetim sisteminin olgunlaşması" },
-      { date: "XVII. yüzyıl", event: "İltizam ve malikane sisteminin yaygınlaşmasıyla klasik yapının değişmesi" }
+      { date: "Klasik Yapı", event: "Padişah mutlak otoritesi, Divan ve Tımar entegrasyonu" },
+      { date: "XVII. yüzyıl", event: "Ekber ve Erşed sistemiyle veraset kuralının değişmesi" },
+      { date: "XVIII. yüzyıl", event: "İltizamın malikaneye dönüşmesi ve Ayan sınıfının güç kazanması" }
     ],
     summary: [
       {
-        heading: "Merkez Teşkilatı, Saray ve Divan",
-        body: "Osmanlı'da devlet işleri Divan-ı Hümayun'da görüşülürdü. Yönetici sınıf üç gruba ayrılırdı: Seyfiye (askeri/idari yöneticiler: sadrazam, vezirler, komutanlar), İlmiye (din, hukuk, eğitim: şeyhülislam, kadılar, müderrisler, kazasker) ve Kalemiye (maliye ve bürokrasi: defterdar, nişancı, reisülküttab). Saray, padişahın özel hayatının geçtiği Harem, devlet işlerinin yürütüldüğü Birun ve devşirmelerin eğitildiği Enderun mektebinden oluşurdu.",
+        heading: "1. Devlet Yönetimi, Saray ve Divan-ı Hümayun",
+        body: "Osmanlı Devleti mutlak monarşi ve teokrasiyle yönetilirdi. Egemenlik hanedan erkeklerine aitti; ancak XVII. yüzyılda I. Ahmet döneminde taht kavgalarını önlemek için en yaşlı ve en olgun hanedan üyesinin tahta geçmesini öngören Ekber ve Erşed sistemi getirilmiş, böylece sancağa çıkma usulü (Kafes usulüne dönüşmüştür) sonlandırılmıştır. Saray; padişahın özel hayatının geçtiği Harem, resmi törenlerin yapıldığı dış saray Birun ve devşirme çocukların devlet adamı olmak üzere eğitildiği Enderun Mektebi'nden oluşurdu. Devlet işleri Divan-ı Hümayun'da görüşülürdü. Divan üyeleri üç yönetici sınıfa mensuptu: Seyfiye (Askeri ve idari sınıf: Sadrazam, vezirler, kaptan-ı derya, yeniçeri ağası), İlmiye (Din, hukuk, eğitim sınıfı: Şeyhülislam, kazaskerler) ve Kalemiye (Bürokrasi ve maliye sınıfı: Defterdar, nişancı, reisülküttab).",
         bullets: [
-          "Kazasker adalet ve eğitim işlerinden sorumlu olup divandaki davalara bakardı.",
-          "Nişancı fermanlara tuğra çeker, fethedilen toprakların kayıtlarını Tahrir Defteri'ne işlerdi.",
-          "Reisülküttab, klasik dönemde Nişancı'ya bağlı bir katip iken, dış ilişkilerin önem kazanmasıyla dışişleri bakanı olmuştur."
+          "Sadrazam padişahın mutlak vekili olup mührünü taşırdı; padişah sefere gitmediğinde Serdar-ı Ekrem unvanıyla orduyu komuta ederdi.",
+          "Kazasker, adalet ve eğitim işlerinden sorumlu olup kadı ve müderris atamalarını yapar, divandaki büyük davaları karara bağlardı.",
+          "Nişancı, fermanlara padişahın imzası olan tuğrayı çeker ve fethedilen toprakların kayıtlarını Tahrir Defterlerine işlerdi."
         ]
       },
       {
-        heading: "Toprak Sistemi, Ordu, Maliye ve Toplum",
-        body: "Toprakların mülkiyeti devlete ait olup bunlara Miri Arazi denirdi. Bu arazilerin vergi gelirleri hizmet karşılığı dirlik (has, zeamet, tımar) olarak dağıtılırdı. Tımar sistemiyle devlet hazinesinden para çıkmadan taşra güvenliğini sağlayan Tımarlı Sipahiler yetiştirilirdi. Ordu, profesyonel merkez askerleri olan Kapıkulu (yeniçeriler) ve taşra askerlerinden oluşurdu. Toplum yapısı, din esasına göre yönetilen Millet Sistemi (Müslümanlar ve gayrimüslimler) üzerine kurulmuştu.",
+        heading: "2. Toprak Yönetimi (Miri Arazi) ve Eyalet Sistemi",
+        body: "Osmanlı'da toprakların mülkiyeti devlete aitti ve bunlara Miri Arazi denirdi. Miri arazilerin en önemlisi dirliktir. Dirlik gelirine göre Has (yüksek bürokratlara), Zeamet (orta düzey memurlara) ve Tımar (taşra askerlerine) olarak ayrılırdı. Tımar sahibi topladığı vergilerle Cebelü adı verilen atlı askerler yetiştirmek ve tarımda üretimin sürekliliğini sağlamakla yükümlüydü. Eyaletler salyanesiz (tımar uygulanan, merkeze yakın eyaletler) ve salyaneli (tımar uygulanmayan, vergilerin iltizam sistemiyle peşin toplandığı uzak eyaletler: Mısır, Yemen, Tunus) olarak ikiye ayrılırdı. Taşrada adalet ve idari koordinasyon padişahın doğrudan atadığı Kadı tarafından sağlanır, güvenlikten ise askeri komutan olan Subaşı sorumlu olurdu.",
         bullets: [
-          "Vergiler şer'i (öşür, haraç, cizye) ve örfi (avarız - olağanüstü hal vergisi) olarak toplanırdı.",
-          "Nakit ihtiyacını karşılamak için vergilerin peşin satılmasına İltizam, ömür boyu kiralanmasına Malikane denirdi.",
-          "Taşra idaresinde kazaları yöneten Kadı, hem hakim, hem belediye başkanı hem de mülki amir konumundaydı."
+          "Mukataa, geliri doğrudan devlet hazinesine giden miri arazi türü olup vergileri iltizam yoluyla toplanırdı.",
+          "İltizam ihalesini kazanan vergi müteahhidine Mültezim, bu ihalenin ömür boyu verilmesine ise Malikane denirdi.",
+          "Paşmaklık saray kadınlarına, Yurtluk sınır koruyucularına, Ocaklık ise kale muhafızları ve tersane giderlerine ayrılan arazilerdi."
+        ]
+      },
+      {
+        heading: "3. Ordu, Maliye, Hukuk ve Toplum Yapısı",
+        body: "Osmanlı ordusu Kapıkulu Askerleri (merkezde bulunan, 3 ayda bir ulufe maaşı alan devşirme yeniçeriler ve süvariler) ve Eyalet Askerleri (taşradaki tımarlı sipahiler) olmak üzere ikiye ayrılırdı. Hukuk sistemi Şer'i (dini, başında kazasker/şeyhülislam) ve Örfi (töre/fermanlar) esasa dayanırdı. Vergiler şer'i (öşür, haraç, cizye) ve örfi (avarız - olağanüstü hal vergisi) olarak toplanırdı. Toplum, ırk esasına göre değil, inanç esasına göre yönetilen Millet Sistemi (Müslümanlar ve gayrimüslimler) çerçevesinde yapılandırılmıştı. Esnaflar, gayrimüslimlerin de katılabildiği Lonca Teşkilatı çatısı altında birleşmişti. Fiyatların devlet tarafından belirlenmesine Narh Sistemi, dükkan açma ruhsatına Gedik denirdi.",
+        bullets: [
+          "Cizye vergisi gayrimüslimlerin sağlıklı erkeklerinden askere gitmemeleri karşılığında alınan şer'i bir vergidir.",
+          "Vakıf sistemi sayesinde okul, hastane, aşevi, cami ve çeşme gibi tüm sosyal hizmetler hazineden para harcanmadan karşılanmıştır.",
+          "Eğitim kurumlarının başında gelen Medreselerde dini ilimlerin yanı sıra matematik, astronomi ve tıp gibi akli ilimler de müfredatta yer alırdı."
         ]
       }
     ],
     mustKnow: [
-      "Seyfiye, ilmiye ve kalemiye sınıflarının divan üyeleri ve görev yetkileri",
-      "Tımar sisteminin askeri, ekonomik ve idari faydaları",
-      "Millet sisteminin ırk esasına değil, dini inanç esasına dayandığı",
-      "İltizam ve malikane sistemlerinin taşradaki merkezi otoriteyi zayıflatıcı etkileri"
+      "Veraset sistemindeki değişim sırası (ülke hanedanın ortak malıdır -> padişah ve oğullarının malıdır -> padişahın malıdır -> ekber ve erşed)",
+      "Seyfiye, ilmiye ve kalemiye sınıflarının görevleri ve divandaki temsilcileri",
+      "Tımar sisteminin askeri (hazır ordu), mali (sıfır maliyetli vergi) ve idari (asayiş ve üretim) faydaları",
+      "Millet sisteminin din esasına dayandığı ve asimilasyonu değil, inanç özgürlüğünü hedeflediği",
+      "Salyaneli ve salyanesiz eyaletlerin farkları ile iltizam/mültezim kavramları"
     ],
     commonMistakes: [
-      "Şeyhülislamın divan kararlarını veto etme veya fetva verme yetkisinin onu padişahtan üstün kıldığını sanmak (Son söz her zaman padişahındır).",
-      "Cizye vergisini tüm gayrimüslimlerden alındığını düşünmek (Sadece sağlıklı, askere gidebilecek yetişkin erkeklerden alınır; kadın, çocuk ve din adamları muaftır)."
+      "Kapıkulu askerleri ile Tımarlı Sipahileri karıştırmak (Kapıkulu devşirmedir, maaş alır; Tımarlı Sipahi Türk kökenlidir, dirlik toprak geliriyle yaşar).",
+      "Müsadere sisteminin halkın özel mülkiyetini yok ettiğini düşünmek (Sadece haksız kazanç sağlayan veya gücünü padişaha karşı kullanabilecek devlet memurlarına uygulanmıştır).",
+      "Şeyhülislamın divanın asli ve daimi üyesi olduğunu sanmak (Klasik dönemde divanın asli üyesi değildi; sadece gerek görüldüğünde çağrılıp fetva istenirdi)."
     ]
   },
   {
@@ -248,183 +315,249 @@ export const topics: Topic[] = [
     slug: "osmanli-yenilesme",
     title: "Osmanlı Yenileşme ve Demokratikleşme",
     era: "yenilesme",
-    shortDescription: "Lale Devri ıslahatları, III. Selim ve II. Mahmut reformları, Tanzimat ve Islahat fermanları ile Meşrutiyet süreci.",
-    keywords: ["Lale Devri", "Tanzimat", "Islahat", "Kanunuesasi", "Meşrutiyet", "Sened-i İttifak", "II. Mahmut", "vaka-i hayriye", "nizam-ı cedid", "31 Mart Vakası", "Hünkar İskelesi", "Baltalimanı", "Duyun-u Umumiye"],
+    shortDescription: "18. ve 19. yüzyıl ıslahatları, batılılaşma, II. Mahmut reformları, Tanzimat ve Islahat fermanları, anayasal gelişmeler ve Meşrutiyet.",
+    keywords: ["Lale Devri", "Tanzimat", "Islahat", "Kanunuesasi", "Mesrutiyet", "Sened-i Ittifak", "II. Mahmut", "vaka-i hayriye", "nizam-i cedid", "31 Mart Vakasi", "Hunkar Iskelesi", "Baltalimani", "Duyun-u Umumiye", "III. Selim", "genc osmanlilar", "ittihat ve terakki"],
     examImportance: 90,
     estimatedMinutes: 56,
     quickTimeline: [
-      { date: "1718", event: "Lale Devri ile ilk kez batı tarzı sivil yeniliklerin başlaması" },
-      { date: "1808", event: "Sened-i İttifak ile padişah yetkilerinin ilk kez sınırlandırılması" },
-      { date: "1839", event: "Tanzimat Fermanı ile kanun üstünlüğünün kabul edilmesi" },
-      { date: "1876", event: "I. Meşrutiyet ve ilk anayasa Kanun-i Esasi'nin ilanı" }
+      { date: "1718", event: "Pasarofça Antlaşması ile Lale Devri'nin ve batılılaşmanın başlaması" },
+      { date: "1789", event: "III. Selim'in Nizam-ı Cedid reformlarını başlatması" },
+      { date: "1808", event: "II. Mahmut ile Ayanlar arasında Sened-i İttifak'ın imzalanması" },
+      { date: "1826", event: "Yeniçeri Ocağı'nın kaldırılarak (Vaka-i Hayriye) Asakir-i Mansure ordusunun kurulması" },
+      { date: "1833", event: "Boğazlar sorununu başlatan Osmanlı-Rusya Hünkar İskelesi Antlaşması" },
+      { date: "1838", event: "Osmanlı ekonomisini batıya teslim eden Baltalimanı Ticaret Antlaşması" },
+      { date: "1839", event: "Sultan Abdülmecit döneminde kanun üstünlüğünü getiren Tanzimat Fermanı'nın ilanı" },
+      { date: "1856", event: "Gayrimüslimlere geniş haklar tanıyan Islahat Fermanı'nın ilanı" },
+      { date: "1876", event: "II. Abdülhamid döneminde ilk anayasa Kanun-i Esasi'nin ve I. Meşrutiyet'in ilanı" },
+      { date: "1909", event: "Rejime karşı çıkan 31 Mart Vakası'nın bastırılması ve II. Abdülhamid'in tahttan indirilmesi" }
     ],
     summary: [
       {
-        heading: "Yüzyıllara Göre Islahatlar ve Dönemler",
-        body: "18. yüzyılda Lale Devri ile ilk kez batının üstünlüğü kabul edilmiş, geçici elçilikler açılmış ve matbaa getirilmiştir. III. Selim, batı tarzı ilk düzenli ordu olan Nizam-ı Cedid'i kurmuş ve kalıcı elçilikleri açmıştır. 19. yüzyılda II. Mahmut, Yeniçeri Ocağı'nı kaldırarak (Vaka-i Hayriye) ıslahatların önünü açmış, muhtarlıkları kurmuş ve bakanlık sistemine geçmiştir. 1808'de imzalanan Sened-i İttifak ile padişahın yetkileri ilk kez yerel güçler (ayanlar) karşısında sınırlandırılmıştır.",
+        heading: "1. 18. Yüzyıl Islahatları ve Batılılaşmanın İlk Adımları",
+        body: "18. yüzyılda Osmanlı Devleti askeri üstünlüğün batıya geçtiğini kabul etmiştir. Lale Devri (1718-1730) ile başlayan bu süreçte askeri ıslahat yapılmamış; ilk geçici elçilikler (Paris - Yirmisekiz Mehmet Çelebi), ilk özel Türk matbaası (İbrahim Müteferrika), çiçek aşısı ve itfaiye teşkilatı kurulmuştur. Dönem Patrona Halil İsyanı ile kapanmıştır. I. Mahmud ve III. Mustafa dönemlerinde askeri alanda batılı uzmanlar (Humbaracı Ahmet Paşa/Baron de Tott) getirilmiştir. III. Selim dönemi ise radikal ıslahatların yapıldığı Nizam-ı Cedid dönemidir. İlk kalıcı elçilikler (Londra - Yusuf Agah Efendi) açılmış, batı tarzı Nizam-ı Cedid ordusu kurulmuş ve giderleri için İrad-ı Cedid hazinesi oluşturulmuştur. Bu dönem Kabakçı Mustafa İsyanı ile sona ermiştir.",
         bullets: [
-          "Hünkar İskelesi Antlaşması (1833), Mısır krizinde Rusya'nın desteğini almak için imzalanan ve Boğazlar sorununu başlatan antlaşmadır.",
-          "Baltalimanı Ticaret Antlaşması (1838) ile Osmanlı ekonomisi açık pazar haline gelmiş ve yerli sanayi çökmüştür.",
-          "Muharrem Kararnamesi ile devletin iflas etmesi üzerine borçların tahsili için Duyun-u Umumiye (1881) kurulmuştur."
+          "Lale Devri'ndeki geçici elçilikler batı dünyasının idari ve kültürel yapısını yakından takip etmeyi amaçlamıştır.",
+          "Nizam-ı Cedid ordusu, Napolyon'un Mısır işgali sırasında Akka Kalesi'nde (Cezzar Ahmet Paşa) ilk askeri zaferini kazanmıştır.",
+          "Matbaada basılan ilk eser vankulu lügatidir."
         ]
       },
       {
-        heading: "Fermanlar, Anayasa ve Meşrutiyet Dönemi",
-        body: "1839 Tanzimat Fermanı ile tüm vatandaşların can, mal ve namus güvenliği kanun güvencesine alınmış; kanun üstünlüğü tescillenmiştir. 1856 Islahat Fermanı ise tamamen gayrimüslimlere yönelik haklar vererek Avrupalı devletlerin iç işlerimize karışmasını önlemeyi amaçlamıştır. 1876'da Genç Osmanlıların baskısıyla ilk anayasa Kanun-i Esasi ilan edilmiş ve meşrutiyet rejimine geçilmiştir. Rejime karşı çıkan ilk irticai isyan olan 31 Mart Vakası (1909), Hareket Ordusu tarafından bastırılmıştır.",
+        heading: "2. 19. Yüzyıl Islahatları ve II. Mahmut Dönemi Modernleşmesi",
+        body: "19. yüzyılda devlet tamamen merkeziyetçi ve modern idari yapıya geçmiştir. II. Mahmut döneminde 1808'de Ayanlar ile Sened-i İttifak imzalanarak padişahın yetkileri ilk kez sınırlandırılmıştır. 1826 yılında Yeniçeri Ocağı kaldırılarak (Vaka-i Hayriye) ıslahatların önündeki en büyük askeri engel temizlenmiş ve Asakir-i Mansure-i Muhammediye ordusu kurulmuştur. Divan-ı Hümayun kaldırılarak yerine bakanlıklar (Nazırlıklar) kurulmuş, ilk nüfus sayımı (sadece erkekler ve hayvanlar) yapılmış, ilk resmi gazete Takvim-i Vekayi çıkarılmış, pasaport ve karantina uygulamaları başlatılmıştır.",
         bullets: [
-          "Tanzimat ve Islahat fermanlarında yabancı devletlerin baskısı veya iç işlerine müdahale çabaları etkili olmuştur.",
-          "II. Meşrutiyet (1908) sonrasında Türk tarihinde ilk kez çok partili siyasi hayata geçilmiştir.",
-          "Kanun-i Esasi padişahın meclisi kapatma ve sürgün yetkisi gibi maddelerle demokratik açıdan sınırlı bir anayasadır."
+          "Hünkar İskelesi Antlaşması (1833), Mısır valisi Kavalalı Mehmet Ali Paşa isyanına karşı Rusya ile imzalanmış ve Boğazlar sorununu doğurmuştur.",
+          "Baltalimanı Antlaşması (1838) İngiltere ile imzalanmış, iç gümrük vergilerini kaldırarak yerli tüccarı çökertmiş ve devleti açık pazar yapmıştır.",
+          "II. Mahmut döneminde ilköğretim zorunlu hale getirilmiş ve Rüştiyeler (ortaokullar) açılmıştır."
+        ]
+      },
+      {
+        heading: "3. Fermanlar Dönemi, Anayasacılık ve Meşrutiyet",
+        body: "1839 Tanzimat Fermanı (Mustafa Reşit Paşa okumuştur) ile kanun gücünün üstünlüğü padişah tarafından kabul edilmiş, tüm vatandaşların can, mal, namus güvenliği ve adil yargılanma hakkı garanti edilmiştir. 1856 Islahat Fermanı ise Paris Antlaşması kararlarını etkilemek amacıyla yayınlanmış ve gayrimüslim tebaaya memur olma, il meclislerine girme ve bedelli askerlik gibi çok geniş haklar tanımıştır. 1876'da Genç Osmanlılar'ın (Jön Türkler) baskısıyla padişah II. Abdülhamid tarafından ilk anayasa Kanun-i Esasi ilan edilmiş ve I. Meşrutiyet (meclis sistemi) başlamıştır. 93 Harbi bahane edilerek kapatılan meclis, 1908'de İttihat ve Terakki Cemiyeti'nin baskısıyla (II. Meşrutiyet) yeniden açılmıştır. Rejimi yıkmaya yönelik 31 Mart Vakası (1909) isyanı Hareket Ordusu tarafından bastırılmış ve padişah tahttan indirilmiştir.",
+        bullets: [
+          "Tanzimat ve Islahat fermanlarında anayasal düzene geçişin temelleri atılmış ancak halk yönetime doğrudan katılmamıştır.",
+          "Meşrutiyet ile birlikte Osmanlı tebaası ilk kez seçme-seçilme hakkını kullanarak meclise (Mebusan Meclisi) girmiştir.",
+          "1909 anayasa değişiklikleri ile padişahın yetkileri daraltılmış, meclisin yetkileri artırılarak demokratikleşme pekiştirilmiştir."
         ]
       }
     ],
     mustKnow: [
-      "Batılılaşma hareketlerinin Lale Devri ile askeri olmayan alanda başlaması",
-      "II. Mahmut reformlarının devlet idari mekanizmasındaki köklü modernleştirici etkileri",
-      "Tanzimat ve Islahat fermanları arasındaki kapsam farkı (Tanzimat herkes, Islahat gayrimüslim odaklıdır)",
-      "Kanun-i Esasi'nin ilk anayasa, meclisin açılmasının ise ilk kez halkın yönetime katılması olduğu"
+      "Batılılaşmanın Lale Devri ile kültürel/sivil alanda başlayıp, III. Selim ve II. Mahmut ile askeri/idari alana kayması",
+      "Sened-i İttifak'ın padişah yetkilerini kısıtlayan ilk belge olma özelliği ve Magna Carta ile benzerliği",
+      "Vaka-i Hayriye'nin (Yeniçeri Ocağı'nın kaldırılması) ıslahatlar önündeki engelleri kaldıran askeri devrim olması",
+      "Tanzimat Fermanı'nın kanun üstünlüğü ve eşitlik getirmesi; Islahat Fermanı'nın ise azınlıklara imtiyaz vermesi farkı",
+      "Kanun-i Esasi'nin ilk anayasa, Meşrutiyet'in ise halkın yönetime katıldığı ilk rejim olması"
     ],
     commonMistakes: [
-      "Sened-i İttifak'ın Avrupalı devletlerin baskısıyla imzalandığını sanmak (Tamamen iç dinamiklerle, ayanlar ve II. Mahmut arasında imzalanmıştır).",
-      "Tanzimat Fermanı'nda gayrimüslimlere siyasi veya yönetimsel haklar verildiğini düşünmek (Siyasi haklar ilk kez Islahat fermanı ile belediye ve il genel meclislerine girme hakkıyla tanınmıştır)."
+      "Tanzimat Fermanı'nın Avrupalı devletlerin zorlamasıyla imzalandığını sanmak (Tamamen Osmanlı iç dinamikleriyle, Hariciye Nazırı Mustafa Reşit Paşa tarafından hazırlanıp ilan edilmiştir).",
+      "Sened-i İttifak'ta anayasal bir halk hareketi olduğunu düşünmek (Sadece padişah ile taşra derebeyleri olan Ayanlar arasında yapılmış elitist bir sözleşmedir; halkın hakları veya meclis yoktur).",
+      "Matbaada basılan ilk eserin Kur'an olduğunu sanmak (Hattatların işsiz kalmasını önlemek için dini kitapların basımı yasaklanmış, sözlük basılmıştır)."
     ]
   },
   {
     id: "t7",
     slug: "milli-mucadele-hazirlik-donemi",
-    title: "Milli Mücadele Hazırlık Dönemi",
+    title: "Milli Mücadele Hazirlik Dönemi",
     era: "milli-mucadele",
-    shortDescription: "Mondros Ateşkesi, işgaller, genelgeler, Erzurum ve Sivas kongreleri ile Misakımilli kararları.",
-    keywords: ["Mondros", "Amasya Genelgesi", "Sivas Kongresi", "Misakımilli", "Erzurum Kongresi", "Havza Genelgesi", "Temsil Heyeti", "Amasya Görüşmeleri", "Kuvayımilliye", "Amiral Bristol", "cemiyetler"],
+    shortDescription: "Mondros Ateşkesi, işgaller ve ilk tepkiler, yararlı-zararlı cemiyetler, Havza ve Amasya genelgeleri, Erzurum ve Sivas kongreleri, Misakımilli andı ve TBMM'nin açılışı.",
+    keywords: ["Mondros", "Amasya Genelgesi", "Sivas Kongresi", "Misakimilli", "Erzurum Kongresi", "Havza Genelgesi", "Temsil Heyeti", "Amasya Gorusmeleri", "Kuvayimilliye", "Amiral Bristol", "cemiyetler", "mustafa kemal", "general harbord", "sevr", "damat ferit", "mebusan meclisi", "tbmm"],
     examImportance: 88,
     estimatedMinutes: 50,
     quickTimeline: [
-      { date: "30 Ekim 1918", event: "Mondros Ateşkes Antlaşması'nın imzalanması" },
-      { date: "19 Mayıs 1919", event: "Mustafa Kemal'in Samsun'a çıkışı" },
-      { date: "22 Haziran 1919", event: "Amasya Genelgesi ile milli mücadelenin ilan edilmesi" },
-      { date: "28 Ocak 1920", event: "Misakımilli kararlarının Mebusan Meclisi'nde kabulü" }
+      { date: "30 Ekim 1918", event: "Osmanlı'yı fiilen bitiren Mondros Ateşkes Antlaşması'nın imzalanması" },
+      { date: "15 Mayıs 1919", event: "İzmir'in işgali ve Gazeteci Hasan Tahsin'in ilk kurşunu atması" },
+      { date: "19 Mayıs 1919", event: "Mustafa Kemal'in 9. Ordu Müfettişi olarak Samsun'a ayak basması" },
+      { date: "28 Mayıs 1919", event: "Havza Genelgesi ile halkın işgalleri protesto etmeye çağrılması" },
+      { date: "22 Haziran 1919", event: "Amasya Genelgesi ile milli mücadelenin amacı, gerekçesi ve yönteminin ilan edilmesi" },
+      { date: "23 Temmuz 1919", event: "Erzurum Kongresi ile ilk kez ulusal sınırlardan (Misakımilli) bahsedilmesi" },
+      { date: "4 Eylül 1919", event: "Sivas Kongresi ile cemiyetlerin birleştirilmesi ve manda/himayenin kesin olarak reddedilmesi" },
+      { date: "22 Ekim 1919", event: "Amasya Görüşmeleri ile İstanbul Hükümeti'nin Temsil Heyeti'ni hukuken tanıması" },
+      { date: "28 Ocak 1920", event: "Son Osmanlı Mebusan Meclisi'nde Misakımilli kararlarının kabul edilmesi" },
+      { date: "23 Nisan 1920", event: "Ankara'da Büyük Millet Meclisi'nin (TBMM) açılması ve milli iradenin tecellisi" }
     ],
     summary: [
       {
-        heading: "Ateşkes, İşgaller ve Milli Bilincin Uyanışı",
-        body: "I. Dünya Savaşı'nı bitiren 30 Ekim 1918 Mondros Ateşkes Antlaşması ile Anadolu işgale açık hale gelmiştir. Özellikle 7. madde (stratejik noktaların işgali) ve 24. madde (doğu illerinde Ermeni devleti tasarısı) işgallerin hukuki kılıfı olmuştur. İşgallere karşı halk Kuvayımilliye birliklerini ve Müdafaa-i Hukuk cemiyetlerini kurmuştur. Mustafa Kemal 19 Mayıs 1919'da Samsun'a çıkarak süreci başlatmış, yayınladığı Havza Genelgesi ile halkı mitingler düzenlemeye ve milli bilinci uyandırmaya çağırmıştır.",
+        heading: "1. Mondros Ateşkesi, İşgaller, Raporlar ve Cemiyetler",
+        body: "I. Dünya Savaşı'ndan yenik ayrılan Osmanlı Devleti ile imzalanan Mondros Ateşkesi fiili bir işgal belgesidir. 7. madde (güvenliği tehdit eden stratejik noktaların işgali) ve 24. madde (doğu illerinde -Vilayat-ı Sitte: Erzurum, Van, Harput, Diyarbakır, Sivas, Bitlis- karışıklık çıkarsa işgal edilmesi) vatanı parçalama planlarıdır. İzmir'in işgali (15 Mayıs 1919) halkın sabrını taşırmış ve Kuvayımilliye (silahlı halk direnişi) ruhunu doğurmuştur. İşgallerin haksızlığını belirten ilk uluslararası rapor İzmir için Amiral Bristol Raporu, Doğu Anadolu için ise Ermeni iddialarını çürüten General Harbord Raporu'dur. Halk, haklarını savunmak için Müdafaa-i Hukuk cemiyetlerini (yararlı cemiyetler) kurmuştur. Azınlıklar ise devlet kurmak amacıyla zararlı cemiyetleri (Mavri Mira, Pontus Rum, Taşnak) faaliyete geçirmiştir.",
         bullets: [
-          "Amiral Bristol Raporu, İzmir'in işgalinin haksız olduğunu belirten ilk uluslararası belgedir.",
-          "Amasya Genelgesi, milli mücadelenin gerekçesini, amacını ve yöntemini belirten ilk ihtilal beyannamesidir.",
-          "Amasya Genelgesi'nde ilk kez milli egemenlik vurgusu yapılmış ve Temsil Heyeti'nin kurulması fikri doğmuştur."
+          "Mondros'un 7. maddesi tüm ülkenin işgaline zemin hazırlayan en tehlikeli hükümdür.",
+          "Milli cemiyetler bölgesel kurtuluş amaçlı kurulmuş, Sivas Kongresi'nde Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti olarak birleşmişlerdir.",
+          "Türklerin kurduğu zararlı cemiyetler (İngiliz Muhipleri, Wilson Prensipleri) manda yönetimini savunmuşlardır."
         ]
       },
       {
-        heading: "Kongreler Dönemi ve Ulusal And",
-        body: "Erzurum Kongresi, toplanış yönüyle bölgesel, aldığı kararlar yönüyle ulusal bir kongredir. İlk kez manda ve himaye fikri reddedilmiş ve milli sınırlardan bahsedilmiştir. Sivas Kongresi ise her yönüyle ulusal tek kongredir. Manda ve himaye kesin olarak reddedilmiş, tüm yararlı cemiyetler Anadolu ve Rumeli Müdafaa-i Hukuk Cemiyeti adı altında birleştirilmiştir. İstanbul hükümeti ile yapılan Amasya Görüşmeleri ile Temsil Heyeti hukuken tanınmış ve son Mebusan Meclisi'nde vatan sınırlarını çizen Misakımilli kararları kabul edilmiştir.",
+        heading: "2. Genelgeler ve Kongreler Dönemi (Milli Harekâtın Örgütlenmesi)",
+        body: "Mustafa Kemal Samsun'a çıktıktan sonra Havza Genelgesi ile milli bilinci mitinglerle uyandırmayı hedeflemiştir. Amasya Genelgesi (22 Haziran 1919) milli mücadelenin yol haritasıdır: 'Vatanın bütünlüğü milletin bağımsızlığı tehlikededir' (Gerekçe), 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' (Amaç ve Yöntem - ilk kez milli egemenlik vurgusu). Erzurum Kongresi bölgesel toplanıp ulusal kararlar almıştır; ilk kez ulusal sınırlardan (Misakımilli) bahsedilmiş ve ilk kez manda-himaye reddedilmiştir. Sivas Kongresi ise her yönüyle ulusal olup manda ve himaye kesin olarak reddedilmiş, Temsil Heyeti tüm yurdu temsil eder hale gelmiş ve Ali Fuat Paşa batı cephesi komutanlığına atanarak yürütme yetkisi kullanılmıştır.",
         bullets: [
-          "Misakımilli sınırları Mondros imzalandığı sırada Türk ordusunun koruduğu sınırlardır.",
-          "Misakımilli'nin kabulü üzerine İtilaf Devletleri İstanbul'u resmen işgal etmiş ve Mebusan Meclisi'ni kapatmıştır.",
-          "Temsil Heyeti Ankara'ya gelerek meclisin açılış hazırlıklarını yürütmüştür."
+          "Mustafa Kemal, Amasya Genelgesi sonrasında İstanbul Hükümeti tarafından görevden alınacağını anlayınca askerlik mesleğinden istifa etmiştir (Sine-i Millete dönüş).",
+          "Erzurum Kongresi'ne Mustafa Kemal ve Rauf Orbay sivil delege olarak katılmışlardır.",
+          "Sivas Kongresi'nde milli mücadelenin sesini duyurmak amacıyla İrade-i Milliye gazetesi çıkarılmıştır."
+        ]
+      },
+      {
+        heading: "3. Misakımilli Kararları ve Meclisin Açılışı",
+        body: "Sivas Kongresi sonrasında Damat Ferit hükümeti istifa etmiş, yerine kurulan Ali Rıza Paşa hükümetiyle Amasya Görüşmeleri yapılmıştır. Bu görüşmelerle İstanbul hükümeti Temsil Heyeti'ni hukuken tanımıştır. Görüşmeler sonucu Mebusan Meclisi'nin açılmasına karar verilmiştir. İstanbul'da toplanan son Osmanlı Mebusan Meclisi 28 Ocak 1920'de Misakımilli kararlarını (Milli And) kabul etmiştir. Kararlar; sınırlar, boğazlar, azınlıklar, kapitülasyonların kaldırılması ve borçlar konularını içerir. Misakımilli'nin kabulü üzerine İtilaf Devletleri 16 Mart 1920'de İstanbul'u resmen işgal etmiş ve meclisi dağıtmıştır. Bu gelişme Ankara'da 23 Nisan 1920'de TBMM'nin açılmasına doğrudan zemin hazırlamıştır.",
+        bullets: [
+          "Misakımilli sınırları Mondros imzalandığı gün Türk ordusunun koruduğu (işgal edilmemiş) sınırlardır.",
+          "TBMM'nin açılmasıyla Temsil Heyeti'nin görevi sona ermiş, meclis hükümeti sistemiyle milli egemenlik kurumsallaşmıştır.",
+          "Meclis başkanlığına seçilen Mustafa Kemal'in sunduğu 1 Nolu Önerge (Meclisin üstünde güç yoktur) kurucu meclis yapısını gösterir."
         ]
       }
     ],
     mustKnow: [
-      "Mondros 7. ve 24. maddelerinin gizli işgal hedefleri",
-      "Amasya Genelgesi'nin milli mücadelenin yol haritası olma özelliği",
-      "Erzurum ve Sivas kongrelerinin toplanış ve karar niteliği farkları",
-      "Misakımilli belgesinin vatan sınırları, kapitülasyonlar ve referandum maddeleri"
+      "Mondros'un 7. ve 24. maddelerinin işgallerin yayılması ve Ermeni devleti tasarısındaki stratejik rolleri",
+      "Amasya Genelgesi'nin milli mücadelenin amacı, gerekçesi ve yöntemini belirten ihtilal beyannamesi olması",
+      "Erzurum Kongresi'nin toplanış yönüyle bölgesel, kararlarıyla ulusal niteliği ile sivil delege katılımları",
+      "Sivas Kongresi'nde tüm cemiyetlerin birleştirilmesinin 'birlik ve beraberlik' ilkesiyle ilişkisi",
+      "Misakımilli'nin tam bağımsızlık andı olması ve kapitülasyonların kaldırılmasını kesin şart koşması"
     ],
     commonMistakes: [
-      "Milli cemiyetlerin ilk kuruldukları anda tek merkezden yönetildiğini sanmak (Bölgesel kurulmuşlar, Sivas Kongresi'nde tek çatı altında birleşmişlerdir).",
-      "Misakımilli kararlarının TBMM tarafından kabul edildiğini düşünmek (Henüz TBMM açılmamıştır; kararları kabul eden son Osmanlı Mebusan Meclisi'dir)."
+      "Mustafa Kemal'in Samsun'a sivil veya isyancı olarak çıktığını sanmak (Resmi olarak 9. Ordu Müfettişi sıfatıyla, geniş askeri ve mülki yetkilerle gönderilmiştir).",
+      "Misakımilli kararlarını ilk TBMM'nin kabul ettiğini düşünmek (Kararlar İstanbul'daki son Osmanlı Mebusan Meclisi tarafından kabul edilmiştir; bu yüzden meclis basılmış ve Ankara'da yeni meclis açılmıştır).",
+      "Erzurum Kongresi kararlarında milli egemenlikten ilk kez bahsedildiğini sanmak (İlk kez Amasya Genelgesi'nde bahsedilmiştir)."
     ]
   },
   {
     id: "t8",
     slug: "kurtulus-savasi-ve-antlasmalar",
-    title: "Kurtuluş Savaşı ve Antlaşmalar",
+    title: "Kurtulus Savasi ve Antlasmalar",
     era: "milli-mucadele",
-    shortDescription: "Doğu, Güney ve Batı cepheleri, düzenli ordunun savaşları, Mudanya Ateşkesi ve Lozan Barış Antlaşması.",
-    keywords: ["Mudanya", "Lozan", "Sakarya Savaşı", "Gümrü", "I. İnönü", "II. İnönü", "Kütahya-Eskişehir", "Büyük Taarruz", "Kars Antlaşması", "Ankara Antlaşması", "Tekalif-i Milliye", "Başkomutanlık"],
+    shortDescription: "Doğu, Güney ve Batı cephelerindeki muharebeler, Gümrü, Kars ve Ankara antlaşmaları, Sakarya ve Büyük Taarruz zaferleri, Mudanya Ateşkesi ve Lozan Barış Antlaşması.",
+    keywords: ["Mudanya", "Lozan", "Sakarya Savasi", "Gumru", "I. Inonu", "II. Inonu", "Kutahya-Eskisehir", "Buyuk Taarruz", "Kars Antlasmasi", "Ankara Antlasmasi", "Tekalif-i Milliye", "Baskomutanlik", "ismet inonu", "moskova antlasmasi", "londra konferansi", "sevr", "mudanya"],
     examImportance: 92,
     estimatedMinutes: 55,
     quickTimeline: [
-      { date: "1920", event: "Doğu cephesinin kapanması ve Gümrü Antlaşması" },
-      { date: "1921", event: "Sakarya Meydan Muharebesi ve savunmanın sonu" },
-      { date: "1922", event: "Büyük Taarruz ve Mudanya Ateşkes Antlaşması" },
-      { date: "24 Temmuz 1923", event: "Lozan Barış Antlaşması'nın imzalanması" }
+      { date: "3 Aralık 1920", event: "Doğu cephesini kapatan ve TBMM'nin ilk diplomatik zaferi olan Gümrü Antlaşması'nın imzalanması" },
+      { date: "6-10 Ocak 1921", event: "Batı cephesinde düzenli ordunun ilk zaferi olan I. İnönü Savaşı" },
+      { date: "Mart 1921", event: "I. İnönü sonrası Teşkilat-ı Esasiye, İstiklal Marşı, Afgan Paktı ve Moskova Antlaşması'nın yapılması" },
+      { date: "Temmuz 1921", event: "Düzenli ordunun tek yenilgisi olan Kütahya-Eskişehir Savaşları ve Sakarya doğusuna çekilme" },
+      { date: "5 Ağustos 1921", event: "Mustafa Kemal'e Başkomutanlık yetkisinin verilmesi ve Tekalif-i Milliye Emirleri'nin yayınlanması" },
+      { date: "23 Ağustos 1921", event: "Sakarya Meydan Muharebesi ile Türk ordusunun 238 yıllık savunma safhasının sona ermesi" },
+      { date: "13 Ekim 1921", event: "Doğu sınırını kesinleştiren Kars Antlaşması ve güneyi kapatan Ankara Antlaşması'nın imzalanması" },
+      { date: "30 Ağustos 1922", event: "Büyük Taarruz (Dumlupınar) zaferiyle Yunan ordusunun Anadolu'dan temizlenmesi" },
+      { date: "11 Ekim 1922", event: "Doğu Trakya, İstanbul ve Boğazları savaşsız kurtaran Mudanya Ateşkes Antlaşması" },
+      { date: "24 Temmuz 1923", event: "Yeni Türk devletinin bağımsızlık belgesi olan Lozan Barış Antlaşması'nın imzalanması" }
     ],
     summary: [
       {
-        heading: "Cepheler Dönemi ve Doğu-Güney Başarıları",
-        body: "Kurtuluş Savaşı üç cephede yürütülmüştür. Doğu cephesinde Ermenilere karşı savaşılmış ve kazanılan zafer sonucu Gümrü Antlaşması imzalanmıştır. Bu antlaşma TBMM'nin ilk uluslararası askeri ve siyasi başarısıdır. Güney cephesinde düzenli ordu bulunmamış, tamamen Kuvayımilliye ve halk direnişiyle (Maraş, Antep, Urfa) Fransız ve Ermeni işgali durdurulmuştur. Güney cephesi, batıdaki Sakarya zaferinden sonra imzalanan 1921 Ankara Antlaşması ile resmen kapanmış ve Hatay Fransa mandasındaki Suriye'ye bırakılmıştır (Misakımilli'den ikinci taviz).",
+        heading: "1. Cepheler Dönemi: Doğu ve Güney Cepheleri",
+        body: "Kurtuluş Savaşı askeri safhası üç ana cephede şekillenmiştir. Doğu cephesinde Ermenilere karşı 15. Kolordu komutanı Kazım Karabekir savaşmış ve kazanılan zafer sonucunda Gümrü Antlaşması (3 Aralık 1920) imzalanmıştır. Gümrü, TBMM'nin askeri ve siyasi alandaki ilk uluslararası başarısıdır ve Ermeniler Doğu Anadolu toprak taleplerinden vazgeçmişlerdir. Güney cephesinde düzenli ordu bulunmamış, halk Kuvayımilliye direnişiyle (Sütçü İmam - Maraş, Şahin Bey - Antep, Ali Saip - Urfa) Fransız ve Ermeni işgallerini durdurmuştur. Batı cephesindeki Sakarya Meydan Muharebesi zaferinden sonra imzalanan 1921 Ankara Antlaşması ile güney cephesi kapanmış, Hatay hariç güney toprakları kurtarılmıştır (Hatay'ın Suriye'ye bırakılması Misakımilli'den verilen ikinci tavizdir).",
         bullets: [
-          "Gümrü antlaşması ile Ermeniler Doğu Anadolu'daki toprak iddialarından resmen vazgeçmiştir.",
+          "Doğu cephesinin kapanmasıyla buradaki askeri birlikler batı cephesine kaydırılmıştır.",
           "Fransa, TBMM'yi ve Misakımilli'yi tanıyan ilk İtilaf Devleti olmuştur.",
-          "Güney cephesindeki direnişler nedeniyle şehirlere Kahraman, Gazi ve Şanlı unvanları verilmiştir."
+          "Güney cephesinde halkın destansı kahramanlıkları sonucu şehirlere Gazi, Kahraman ve Şanlı unvanları verilmiştir."
         ]
       },
       {
-        heading: "Batı Cephesi, Büyük Taarruz ve Lozan Barış Antlaşması",
-        body: "Batı cephesinde Yunanistan'a karşı düzenli ordu savaşmıştır. I. İnönü zaferi sonrası Teşkilat-ı Esasiye anayasası ve İstiklal Marşı kabul edilmiş, Moskova Antlaşması ile Batum Sovyet Rusya'ya bırakılmıştır (ilk taviz). Kütahya-Eskişehir yenilgisi sonrası ordu Sakarya'nın doğusuna çekilmiş ve Mustafa Kemal Başkomutan olmuştur. Sakarya Meydan Muharebesi ile 1683'ten beri süren Türk geri çekilişi durdurulmuş, kazanılan Büyük Taarruz ile Anadolu düşmandan temizlenmiştir. Mudanya Ateşkesi askeri safhayı bitirmiş, 1923 Lozan Barış Antlaşması ile yeni devletin bağımsızlığı tescillenmiştir.",
+        heading: "2. Batı Cephesi Savaşları ve Topyekün Seferberlik",
+        body: "Batı cephesinde Yunanistan'a karşı düzenli ordu savaşmıştır. I. İnönü zaferi sonrasında İtilaf Devletleri TBMM'yi Londra Konferansı'na davet ederek varlığını hukuken tanımış, Sovyet Rusya ile Moskova Antlaşması imzalanmış (Batum'un Gürcistan'a bırakılması Misakımilli'den ilk tavizdir), İstiklal Marşı ve Teşkilat-ı Esasiye anayasası kabul edilmiştir. II. İnönü Savaşı da zaferle sonuçlanmış; ancak Kütahya-Eskişehir muharebelerinde düzenli ordu yenilerek Sakarya Nehri'nin doğusuna çekilmiştir. Bu kriz üzerine meclis Mustafa Kemal'e tüm yetkilerini devrederek Başkomutan yapmış, Mustafa Kemal de ordunun giyim, gıda ve silah ihtiyaçlarını halktan toplamak amacıyla Tekalif-i Milliye Emirleri'ni yayınlamıştır.",
         bullets: [
-          "Tekalif-i Milliye Emirleri ordunun ihtiyaçlarını halktan karşılamak için Başkomutan Mustafa Kemal tarafından yayınlanmıştır.",
-          "Kars Antlaşması ile doğu sınırımız, Ankara Antlaşması ile güney sınırımız kesinleşmiştir.",
-          "Lozan'da kapitülasyonlar, Duyun-u Umumiye, Ermeni yurdu ve azınlık sorunları kesin çözülmüş; Irak sınırı (Musul) çözülemeyip sonraya bırakılmıştır."
+          "Sakarya Meydan Muharebesi (1921), Mustafa Kemal'in 'Hattı müdafaa yoktur, sathı müdafaa vardır, o satıh bütün vatandır' emriyle topyekün savaş stratejisiyle kazanılmıştır.",
+          "Sakarya savaşı sonrasında Kafkas Cumhuriyetleriyle Kars Antlaşması imzalanarak doğu sınırımız kesin halini almıştır.",
+          "Kütahya-Eskişehir yenilgisi sürerken Ankara'da I. Maarif Kongresi (Eğitim Kongresi) toplanmış, eğitime verilen önem gösterilmiştir."
+        ]
+      },
+      {
+        heading: "3. Büyük Taarruz, Mudanya ve Lozan Barış Antlaşması",
+        body: "Bir yıllık hazırlık döneminden sonra 26 Ağustos 1922'de başlayan Büyük Taarruz (Başkomutanlık Meydan Muharebesi) zaferle sonuçlanmış ve Yunan ordusu Anadolu'dan temizlenmiştir. 11 Ekim 1922'de imzalanan Mudanya Ateşkes Antlaşması ile Doğu Trakya, İstanbul ve Boğazlar savaş yapılmadan diplomatik yolla kurtarılmıştır. Mudanya, Osmanlı Devleti'nin hukuken sona erdiğinin kanıtıdır. 24 Temmuz 1923'te imzalanan Lozan Barış Antlaşması ile kapitülasyonlar kaldırılmış, Duyun-u Umumiye borçları taksitlendirilmiş, Ermeni yurdu iddiası bitirilmiş ve azınlıklar Türk vatandaşı sayılarak iç işlerimize karışılması engellenmiştir. Irak sınırı (Musul) çözülemeyip sonraya bırakılmıştır.",
+        bullets: [
+          "Lozan görüşmelerine giderken TBMM, ikili temsilciliği önlemek amacıyla 1 Kasım 1922'de Saltanatı kaldırmıştır.",
+          "Lozan'da taviz verilmemesi istenen iki konu: Ermeni yurdu ve kapitülasyonların kesinlikle kaldırılmasıdır.",
+          "Lozan sonrasında çözülemeyip ikili görüşmelere bırakılan tek sınır konusu Irak sınırıdır."
         ]
       }
     ],
     mustKnow: [
-      "Gümrü Antlaşması'nın TBMM'ye kazandırdığı ilk diplomatik meşruiyet önemi",
-      "I. İnönü savaşı sonrasında yaşanan iç ve dış gelişmeler (Londra, Moskova, İstiklal Marşı)",
-      "Tekalif-i Milliye emirlerinin milli dayanışma ve topyekün seferberlikteki yeri",
-      "Lozan Antlaşması'nda çözülemeyen veya aleyhimize çözülen konular (Musul, Boğazlar komisyonu, Hatay)"
+      "Gümrü Antlaşması'nın doğu cephesini kapatarak TBMM'nin ilk diplomatik meşruiyetini tescillemesi",
+      "I. İnönü Savaşı sonrasında yaşanan anayasal ve diplomatik gelişmelerin sıralaması ve önemi",
+      "Tekalif-i Milliye Emirleri'nin meclis yetkisiyle değil, Başkomutanlık şahsi yetkisiyle yayınlandığı",
+      "Sakarya Meydan Muharebesi'nin Türk savunma tarihinin son geri çekiliş savaşı olduğu gerçeği",
+      "Mudanya ile Osmanlı'nın hukuken bittiği; Lozan ile tam bağımsızlığın tescillendiği"
     ],
     commonMistakes: [
-      "Sakarya Savaşı ile Büyük Taarruz'un rollerini karıştırmak (Sakarya son savunma savaşıdır; Büyük Taarruz ise ilk ve son genel taarruz meydan muharebesidir).",
-      "Lozan'da Boğazlar sorununun tamamen lehimize çözüldüğünü sanmak (Boğazlar yönetimi başkanı Türk olan uluslararası bir komisyona bırakılmıştır; bu komisyon daha sonra Montrö ile kaldırılacaktır)."
+      "Tekalif-i Milliye emirlerinin Sakarya Savaşı'ndan sonra uygulandığını sanmak (Savaştan hemen önce ordunun hazırlanması amacıyla yayınlanmıştır, Sakarya ve Büyük Taarruz'da kullanılmıştır).",
+      "Lozan'da tüm sınır sorunlarının çözüldüğünü düşünmek (Irak Musul sınırı çözülememiş, 1926 Ankara Antlaşması ile aleyhimize çözülmüştür; Hatay ise 1939'da anavatana katılmıştır).",
+      "Güney cephesinde düzenli ordu birliklerinin savaştığını sanmak (Tamamen yerel sivil Kuvayımilliye direnmiştir)."
     ]
   },
   {
     id: "t9",
     slug: "atatork-ilke-ve-inkilaplari",
-    title: "Atatürk İlkeleri ve İnkılaplar",
+    title: "Atatürk İlke ve İnkılapları",
     era: "milli-mucadele",
-    shortDescription: "Altı temel ilke, saltanat ve halifeliğin kaldırılması, eğitim birliği, hukuk devrimi ve toplumsal yenilikler.",
-    keywords: ["Cumhuriyetçilik", "Halkçılık", "Devletçilik", "Laiklik", "Milliyetçilik", "İnkılapçılık", "saltanat", "halifelik", "tevhid-i tedrisat", "medeni kanun", "kabotaj", "harf inkılabı", "soyadı kanunu", "aşar"],
+    shortDescription: "Altı temel ilke (Cumhuriyetçilik, Milliyetçilik, Halkçılık, Devletçilik, Laiklik, İnkılapçılık), siyasi, sosyal, eğitim ve hukuk alanındaki devrimler.",
+    keywords: ["Cumhuriyetcilik", "Halkcilik", "Devletcilik", "Laiklik", "Milliyetcilik", "Inkilapcilik", "saltanat", "halifelik", "tevhid-i tedrisat", "medeni kanun", "kabotaj", "harf inkilabi", "soyadi kanunu", "asar", "millet mektepleri", "turk tarih kurumu", "turk dil kurumu", "resmi nikah", "kadin haklari", "sapka kanunu"],
     examImportance: 92,
     estimatedMinutes: 58,
     quickTimeline: [
-      { date: "1 Kasım 1922", event: "Saltanatın kaldırılması" },
-      { date: "29 Ekim 1923", event: "Cumhuriyetin ilanı" },
-      { date: "3 Mart 1924", event: "Halifeliğin kaldırılması ve eğitim birliği" },
-      { date: "17 Şubat 1926", event: "Türk Medeni Kanunu'nın kabulü" }
+      { date: "1 Kasım 1922", event: "Lozan öncesi ikiliği önlemek amacıyla Saltanatın kaldırılması" },
+      { date: "29 Ekim 1923", event: "Cumhuriyetin ilanı ve kabine hükümeti sistemine geçiş" },
+      { date: "3 Mart 1924", event: "Halifeliğin kaldırılması, Tevhid-i Tedrisat ve Şer'iye-Evkaf Vekaleti'nin lağvedilmesi" },
+      { date: "17 Şubat 1926", event: "İsviçre'den uyarlanan Türk Medeni Kanunu'nun kabul edilmesi" },
+      { date: "1 Temmuz 1926", event: "Denizlerde tam bağımsızlığı sağlayan Kabotaj Kanunu'nun yürürlüğe girmesi" },
+      { date: "1 Kasım 1928", event: "Harf İnkılabı ile yeni Türk alfabesinin kabulü ve Millet Mektepleri'nin açılışı" },
+      { date: "1930-1934", event: "Türk kadınına sırasıyla Belediye, Muhtarlık ve Milletvekilliği seçme-seçilme haklarının verilmesi" },
+      { date: "21 Haziran 1934", event: "Soyadı Kanunu'nun kabulü ve ayrıcalıklı unvanların yasaklanması" }
     ],
     summary: [
       {
-        heading: "Atatürk'ün Altı Temel İlkesi",
-        body: "Atatürk ilkeleri altı temel esastan oluşur: Cumhuriyetçilik (milli irade, meclis, seçim), Milliyetçilik (bağımsızlık, milli benlik, ortak dil ve tarih), Halkçılık (kanun önünde eşitlik, sosyal adalet, imtiyazsız toplum), Devletçilik (özel sektörün yetersiz kaldığı yerde devlet yatırımları), Laiklik (din-devlet işlerinin ayrılması, akılcılık, inanç özgürlüğü) ve İnkılapçılık (çağdaşlaşma, sürekli yenilenme, batılılaşma).",
+        heading: "1. Atatürk'ün Altı Temel İlkesi ve Anahtar Kelimeleri",
+        body: "Atatürk ilkeleri devrimlerin fikri temelini oluşturur. Cumhuriyetçilik: Milli egemenlik, milli irade, seçim, parlamento, seçme-seçilme hakkı ve çok partili yaşamı hedefler. Milliyetçilik: Milli bağımsızlık, milli kimlik, vatan sevgisi, ortak dil ve tarih şuurudur; ırkçılığı reddeder. Halkçılık: Kanun önünde eşitlik, sınıfsız toplum, sosyal adalet, sosyal devlet ve halk yararıdır (Aşar vergisinin kaldırılması, Soyadı kanunu). Devletçilik: Özel sektörün sermaye yetersizliği nedeniyle yatırımların doğrudan devlet eliyle yapılmasıdır (Sümerbank, Etibank, I. Beş Yıllık Sanayi Planı). Laiklik: Din ve devlet işlerinin ayrılması, din ve vicdan özgürlüğü, akılcılık ve bilimselliktir (Halifeliğin kaldırılması, Medreselerin kapatılması). İnkılapçılık: Çağdaşlaşma, batılılaşma, sürekli yenilenme ve dinamizmdir; durağanlığı reddeder.",
         bullets: [
-          "Kabotaj Kanunu denizlerimizde bağımsızlığı sağladığı için doğrudan Milliyetçilik ilkesiyle ilgilidir.",
-          "Aşar vergisinin kaldırılması köylüyü rahatlattığı için doğrudan Halkçılık ilkesinin gereğidir.",
-          "Yeni Türk Harflerinin kabulü ve Türk Tarih Kurumu'nun kurulması Milliyetçilik ilkesine bağlıdır."
+          "Kabotaj Kanunu, denizlerimizde Türk gemilerine tekel hakkı tanıdığı için doğrudan Milliyetçilik ilkesinin sonucudur.",
+          "Kadınlara seçme ve seçilme hakkının verilmesi hem Cumhuriyetçilik (milli irade) hem de Halkçılık (kadın-erkek eşitliği) ilkeleriyle ilgilidir.",
+          "Atatürk ilkeleri 1937 yılında yapılan anayasa değişikliği ile Türkiye Cumhuriyeti Anayasası'na resmen eklenmiştir."
         ]
       },
       {
-        heading: "Siyasi, Eğitim ve Hukuk Alanındaki İnkılaplar",
-        body: "Saltanatın kaldırılması (1922) ve Halifeliğin kaldırılması (1924) cumhuriyetçiliğin ve laikliğin en büyük adımlarıdır. 3 Mart 1924 Tevhid-i Tedrisat Kanunu ile eğitimde birlik sağlanmış ve laik eğitim sistemine geçilmiştir. 1926 Türk Medeni Kanunu ile kadın ve erkek hakları aile, miras, boşanma ve şahitlikte eşitlenmiş; dini nikah yerine resmi nikah getirilmiştir. Harf İnkılabı (1928) sonrasında okuma yazma oranını artırmak için Millet Mektepleri açılmıştır. Soyadı Kanunu (1934) ile lakaplar yasaklanmış ve eşitlik sağlanmıştır.",
+        heading: "2. Siyasi, Hukuk ve Sosyal Alandaki İnkılaplar",
+        body: "Siyasi alanda; Saltanat kaldırılmış (1922), Ankara başkent yapılmış (1923), Cumhuriyet ilan edilmiş (1923 - hükümet bunalımı çözülmüş, devlet başkanı sorunu halledilmiştir) ve Halifelik kaldırılmıştır (1924 - laikleşmenin en önemli adımıdır). Hukuk alanında; 1926 yılında İsviçre'den uyarlanan Türk Medeni Kanunu kabul edilmiştir. Medeni Kanun ile; resmi nikah zorunlu olmuş, tek eşle evlilik getirilmiş, kadınlara miras, boşanma, velayet ve mahkemede şahitlik konularında erkeklerle tam eşitlik tanınmıştır. Sosyal alanda; Şapka Kanunu çıkarılmış, tekke, zaviye ve türbeler kapatılmış, takvim, saat, ölçü birimleri ve hafta tatili batı dünyasına uyum için değiştirilmiştir. Soyadı Kanunu (1934) ile ayrıcalık bildiren unvanlar yasaklanmıştır.",
         bullets: [
-          "Medeni Kanun kadına sosyal ve ekonomik eşitlik vermiş, ancak seçme-seçilme hakları (siyasi haklar) içermemiştir.",
-          "Türk kadını siyasi haklarını sırasıyla 1930'da belediye, 1933'te muhtar ve 1934'te milletvekili seçimleriyle kazanmıştır.",
-          "Şapka Kanunu ve tekke-zaviyelerin kapatılması toplumsal yapıyı çağdaşlaştırmak için yapılmıştır."
+          "Medeni Kanun kadına sosyal ve ekonomik eşitlik sağlamış ancak seçme ve seçilme (siyasi) haklarını vermemiştir.",
+          "Kadınlara siyasi haklar 1930'da Belediye, 1933'te Muhtar, 1934'te Milletvekili seçimleriyle verilmiştir (Şifre: 034 BMM).",
+          "Şapka kanunu ve kılık kıyafet düzenlemesi toplumsal alanda laikleşmeyi ve eşitliği sağlamayı amaçlamıştır."
+        ]
+      },
+      {
+        heading: "3. Eğitim, Kültür ve Ekonomi Alanındaki İnkılaplar",
+        body: "Eğitim ve kültür alanında; 3 Mart 1924 Tevhid-i Tedrisat Kanunu ile ülkedeki tüm okullar MEB'e bağlanarak eğitim birliği sağlanmış, medreseler kapatılmıştır. 1928'de Harf İnkılabı yapılarak yeni Türk alfabesi kabul edilmiş, yeni harfleri yetişkin halka öğretmek amacıyla Millet Mektepleri açılmıştır. Atatürk bu mekteplerin Başöğretmeni unvanını almıştır. Türk Tarih Kurumu (1931) ve Türk Dil Kurumu (1932) milli tarih ve dil şuurunu geliştirmek için kurulmuştur. Ekonomi alanında; İzmir İktisat Kongresi toplanmış, tarımı rahatlatmak için Aşar Vergisi kaldırılmış, Teşvik-i Sanayi Kanunu çıkarılmış (başarısız olunca Devletçilik ilkesine geçilmiştir) ve I. Beş Yıllık Sanayi Planı başarıyla uygulanmıştır.",
+        bullets: [
+          "Tevhid-i Tedrisat Kanunu ile azınlık ve yabancı okulların dini propaganda yapması yasaklanmış ve denetime alınmıştır.",
+          "Tarım sektörünü desteklemek amacıyla köylüye ucuz kredi sağlayan Ziraat Bankası imkanları artırılmıştır (Ziraat Bankası Osmanlı döneminde -Mithat Paşa/Memleket Sandıkları- kurulmuştur, yeni kurulan bir banka değildir).",
+          "Kabotaj Kanunu millileşmenin en büyük adımı olup yabancı devletlerin deniz ticareti ayrıcalıklarına son vermiştir."
         ]
       }
     ],
     mustKnow: [
-      "Altı ilkenin anahtar kavramları (milli irade, eşitlik, akılcılık, devlet yatırımı)",
-      "Medeni Kanun'un kadın haklarındaki sosyal devrimi ve siyasi hak içermediği gerçeği",
-      "Halifeliğin kaldırılmasının laikleşme ve rejim güvenliğindeki kritik rolü",
-      "Kabotaj Kanunu'nun milli ekonomi ve milliyetçilik ilkesiyle doğrudan bağı"
+      "Altı ilkenin kavramsal eşleştirmeleri ve devrimlerle olan doğrudan bağlantıları",
+      "Medeni Kanun'un içeriğinde siyasi hakların (seçme-seçilme) yer almadığı gerçeği",
+      "Halifeliğin kaldırılmasının rejim güvenliği, laiklik ve ulus devlet inşasındaki yeri",
+      "Eğitim birliğinin (Tevhid-i Tedrisat) medreselerin kapatılmasına ve laik eğitime zemin hazırlaması",
+      "Kadınların siyasi hakları elde ediş sırasının kronolojisi (Belediye -> Muhtar -> Milletvekili)"
     ],
     commonMistakes: [
-      "Seçme ve seçilme hakkının verilmesini Halkçılık veya Cumhuriyetçilik dışı bir ilke sanmak (Hem halkçılık-eşitlik hem de cumhuriyetçilik-milli irade ile ilgilidir).",
-      "Kadınlara siyasi hakların Medeni Kanun ile verildiğini düşünmek (Kadınlara siyasi haklar anayasa değişiklikleriyle 1930-1934 arasında verilmiştir; Medeni Kanun'da siyasi hak yoktur)."
+      "Kadın haklarının tamamının tek bir günde veya Medeni Kanun ile verildiğini sanmak (Medeni Kanun sosyal hakları vermiştir; siyasi haklar anayasa değişiklikleriyle daha sonra verilmiştir).",
+      "Harf inkılabıyla okuma yazma oranının düştüğünü veya geçmişin unutturulduğunu sanmak (Aksine, okuma yazma kolaylaşmış ve Millet Mektepleriyle okuma yazma oranı hızla tırmanmıştır).",
+      "Ziraat Bankası'nın Atatürk döneminde kurulduğunu düşünmek (Osmanlı döneminde, II. Abdülhamid devrinde Memleket Sandıklarının birleştirilmesiyle kurulmuştur)."
     ]
   },
   {
@@ -432,45 +565,61 @@ export const topics: Topic[] = [
     slug: "cumhuriyet-donemi-dis-politika",
     title: "Cumhuriyet Dönemi Dış Politika",
     era: "milli-mucadele",
-    shortDescription: "Lozan sonrası yabancı okullar, nüfus mübadelesi, Musul meselesi, Montrö ve Hatay sorunu.",
-    keywords: ["Montrö", "Hatay", "Balkan Antantı", "Sadabat Paktı", "nüfus mübadelesi", "yabancı okullar", "Musul", "Bozkurt-Lotus", "Milletler Cemiyeti", "Hoover Moratoryumu"],
+    shortDescription: "Lozan sonrası ikili sorunlar (yabancı okullar, Musul sınırı, nüfus mübadelesi, borçlar), barış ittifakları (Milletler Cemiyeti, Balkan Antantı, Sadabat Paktı), Boğazlar egemenliği (Montrö) ve Hatay'ın katılması.",
+    keywords: ["Montro", "Hatay", "Balkan Antanti", "Sadabat Pakti", "nufus mubadelesi", "yabanci okullar", "Musul", "Bozkurt-Lotus", "Milletler Cemiyeti", "Hoover Moratoryumu", "adana gorusmesi", "kahire konferansi", "balkan antanti", "briand-kellogg", "nyon konferansi"],
     examImportance: 90,
     estimatedMinutes: 56,
     quickTimeline: [
-      { date: "1926", event: "Ankara Antlaşması ile Musul'un Irak'a bırakılması" },
-      { date: "1932", event: "Türkiye'nin Milletler Cemiyeti'ne üye olması" },
-      { date: "1936", event: "Montrö Boğazlar Sözleşmesi ile tam egemenlik sağlanması" },
-      { date: "1939", event: "Hatay'ın anavatana katılması" }
+      { date: "1924-1925", event: "Fransa ile Yabancı Okullar sorununun egemenlik esasına göre çözülmesi" },
+      { date: "1926", event: "Bozkurt-Lotus davasında Türkiye'nin Lahey'de haklı bulunması" },
+      { date: "5 Haziran 1926", event: "Ankara Antlaşması ile Musul'un Irak'a bırakılması (Misakımilli'den büyük taviz)" },
+      { date: "1930", event: "Yunanistan ile Ahali (Nüfus Mübadelesi) sorununun çözülmesi ve dostluk dönemi" },
+      { date: "18 Temmuz 1932", event: "Türkiye'nin Milletler Cemiyeti'ne (Cemiyet-i Akvam) resmen üye olması" },
+      { date: "9 Şubat 1934", event: "Batı sınırını korumak için Balkan Antantı'nın kurulması" },
+      { date: "20 Temmuz 1936", event: "Montrö Boğazlar Sözleşmesi ile Boğazlar Komisyonu'nun kaldırılarak tam egemenlik kurulması" },
+      { date: "8 Temmuz 1937", event: "Doğu sınırını korumak için Sadabat Paktı'nın kurulması" },
+      { date: "23 Haziran 1939", event: "Hatay Meclisi'nin anavatana katılma kararını onaylaması" }
     ],
     summary: [
       {
-        heading: "1923-1930 Dönemi (Lozan Sonrası Sorunlar)",
-        body: "Bu dönem dış politikası Lozan'dan kalan sorunların çözümüne odaklanmıştır. Yabancı Okullar sorunu (özellikle Fransa ile yaşanan) egemenlik hakkı kabul edilerek dış devletlerle müzakere edilmeden Türk kanunlarına bağlanmıştır. Nüfus Mübadelesi (etapli sorunu) Yunanistan ile yaşanmış, 1930 yılında dostluk antlaşmasıyla çözülmüştür. Musul sorunu, Şeyh Sait İsyanı'nın yarattığı iç kriz nedeniyle İngiltere lehine çözülmüş ve 1926 Ankara Antlaşması ile Musul Irak'a bırakılmıştır (Misakımilli'den taviz).",
+        heading: "1. 1923-1930 Dönemi (Lozan'dan Kalan Sorunların Çözümü)",
+        body: "Cumhuriyetin ilk yıllarında dış politika, Lozan'da tam çözülemeyen pürüzlerin giderilmesine adanmıştır. Yabancı Okullar Sorunu: Fransa ile yaşanmış, Türkiye bunu egemenlik hakkı ve iç mesele kabul ederek dış devletlerle masaya oturmamış ve okulları Tevhid-i Tedrisat kurallarına bağlamıştır. Musul Sorunu (Irak Sınırı): Lozan'da çözülememiş, ikili görüşmelerde de anlaşma sağlanamayınca Milletler Cemiyeti'ne gitmiştir. Tam bu sırada çıkan Şeyh Sait İsyanı (1925) Türkiye'nin askeri müdahale gücünü zayıflatmış ve 1926 Ankara Antlaşması ile Musul Irak'a bırakılmıştır. Nüfus Mübadelesi Sorunu: Yunanistan ile yaşanan yerleşikler (etablis) krizi 1930 antlaşmasıyla çözülmüş, İstanbul Rumları ile Batı Trakya Türkleri hariç herkes karşılıklı göç etmiştir. Borçlar Sorunu: 1929 dünya buhranında ödemeler zorlaşınca Fransa ile Hoover Moratoryumu kapsamında borçlar taksitlendirilmiştir.",
         bullets: [
-          "Bozkurt-Lotus Davası, Laher Adalet Divanı'nda Türkiye'nin egemenlik haklarını başarıyla savunduğu uluslararası davadır.",
-          "Osmanlı borçları sorunu 1929 buhranında taksitlendirilerek Fransa ile çözülmüştür.",
-          "Dış politikada 'Yurtta sulh, cihanda sulh' ilkesi temel rehber kabul edilmiştir."
+          "Bozkurt-Lotus Davası (1926): Ege denizinde çarpışan Türk ve Fransız gemileri sonrası Adliye Nazırı Mahmut Esat Bey'in Lahey Adalet Divanı'nda Türkiye'yi başarıyla temsil edip kazandığı davadır (kendisine Bozkurt soyadı verilmiştir).",
+          "Dış borçlar sorunu çözülürken, borcun kağıt para veya frang cinsinden ödenmesi sağlanarak bütçe korunmuştur.",
+          "Türkiye bu dönemde dış politikada tamamen barışçıl ve savunmacı bir tutum izlemiştir."
         ]
       },
       {
-        heading: "1930-1939 Dönemi (Yaklaşan Savaş Tehdidi)",
-        body: "İtalya ve Almanya'nın yayılmacı politikalarına karşı Türkiye bölgesel güvenlik ittifakları kurmuştur. Batı sınırını korumak için Balkan Antantı (Türkiye, Yunanistan, Yugoslavya, Romanya), doğu sınırını korumak için Sadabat Paktı (Türkiye, İran, Irak, Afganistan) imzalanmıştır. 1936 Montrö Boğazlar Sözleşmesi ile Boğazlar Komisyonu kaldırılmış, Boğazların tam yönetimi ve askeri kontrolü Türkiye'ye geçmiştir. 1939'da Hatay Meclisi'nin kararıyla Hatay anavatana katılmıştır.",
+        heading: "2. 1930-1939 Dönemi (Yaklaşan Dünya Savaşı ve Güvenlik Paktları)",
+        body: "İtalya ve Almanya'nın silahlanarak yayılmacı politikalar izlemesi üzerine Türkiye çok yönlü güvenlik paktları kurmuştur. Batı sınırının güvenliği için Balkan Antantı (Türkiye, Yunanistan, Yugoslavya, Romanya) kurulmuştur. Doğu sınırının güvenliği için ise Sadabat Paktı (Türkiye, İran, Irak, Afganistan) kurulmuştur. Türkiye, uluslararası barışa katkı vermek için 1932'de davet üzerine Milletler Cemiyeti'ne üye olmuş; Briand-Kellogg Paktı (savaşın politika aracı olmaktan çıkarılması) ve Litvinov Protokolü'ne de imza atmıştır.",
         bullets: [
-          "Boğazlar komisyonunun kalkması Türkiye'nin Boğazlardaki egemenlik sınırlamasını tamamen kaldırmıştır.",
-          "Hatay'ın anavatana katılması Mustafa Kemal'in ölümünden sonra (1939'da) gerçekleşmiştir.",
-          "Sadabat Paktı'na sınır sorunları nedeniyle Suriye, Basra körfezi kaygısıyla da Irak harici Arap devletleri katılmamıştır."
+          "Balkan Antantı'na Bulgaristan (yayılmacı hedefleri) ve Arnavutluk (İtalya baskısı) katılmamıştır.",
+          "Sadabat Paktı'na sınır sorunları nedeniyle Suriye, Basra körfezi endişesiyle de Irak dışındaki diğer Arap devletleri dahil olmamıştır.",
+          "Güvenlik paktları sayesinde Türkiye iki cephede de sınır güvenliğini II. Dünya Savaşı öncesinde güvenceye almıştır."
+        ]
+      },
+      {
+        heading: "3. Boğazlar Egemenliği (Montrö) ve Hatay'ın Anavatana Katılması",
+        body: "Lozan'da Boğazlar yönetimi, başkanı Türk olan uluslararası bir komisyona bırakılmış ve kıyıları askersizleştirilmişti. Bu durum Türkiye'nin güvenliğini tehdit ediyordu. İtalya'nın Habeşistan'ı işgali ve Avrupa'daki silahlanma yarışı üzerine Türkiye diplomatik atağa geçmiştir. 1936 Montrö Boğazlar Sözleşmesi ile Boğazlar Komisyonu kaldırılmış, Boğazlardaki askersiz alanlar sonlandırılmış ve Boğazların yönetimi ile askeri savunması tamamen Türkiye'ye verilmiştir. Hatay Sorunu: Lozan'da dışarıda kalan Hatay için Atatürk 'Şahsi meselem' diyerek büyük çaba harcamıştır. 1938'de Hatay Bağımsız Cumhuriyeti kurulmuş, Cumhurbaşkanı Tayfur Sökmen olmuştur. Hatay Meclisi, II. Dünya Savaşı'nın çıkış arifesinde (23 Haziran 1939) anavatana katılma kararını onaylamış ve Hatay Türkiye sınırlarına katılmıştır.",
+        bullets: [
+          "Montrö Boğazlar Sözleşmesi ile Lozan'dan kalan en büyük egemenlik kısıtlaması başarıyla kaldırılmıştır.",
+          "Atatürk Hatay konusundaki kararlılığını göstermek amacıyla Asım Us takma adıyla Kurun gazetesinde İsmet İnönü hükümetini eleştiren yazılar yazmıştır.",
+          "Hatay'ın anavatana katılması Atatürk'ün vefatından (1938) sonra, 1939'da gerçekleşmiştir."
         ]
       }
     ],
     mustKnow: [
-      "Yabancı okullar sorununun egemenlik hakkı çerçevesinde iç sorun kabul edilmesi",
-      "Musul sorununun Şeyh Sait isyanı yüzünden aleyhimize sonuçlanması",
-      "Montrö ile Boğazlar üzerinde sağlanan tam ve mutlak egemenlik kazanımları",
-      "Balkan Antantı ve Sadabat Paktı'na katılan devletler ve katılmama nedenleri"
+      "Yabancı okullar sorununun egemenlik hakları çerçevesinde bir iç sorun kabul edilerek dış müzakerelere kapatılması",
+      "Musul sorununun Şeyh Sait isyanı ve iç krizler nedeniyle aleyhimize sonuçlanması",
+      "Montrö Sözleşmesi ile Boğazlar Komisyonu'nun kalkarak tam askeri ve idari egemenliğin kurulması",
+      "Balkan Antantı ve Sadabat Paktı'na katılan-katılmayan devletler ve katılmama gerekçeleri",
+      "Hatay Cumhuriyeti'nin ilk Cumhurbaşkanı (Tayfur Sökmen) ve Başbakanı (Abdurrahman Melek)"
     ],
     commonMistakes: [
-      "Balkan Antantı'na tüm Balkan ülkelerinin katıldığını sanmak (Bulgaristan yayılmacı emelleri, Arnavutluk ise İtalya korkusu nedeniyle katılmamıştır).",
-      "Hatay'ın Atatürk hayattayken anavatana katıldığını düşünmek (Atatürk döneminde Hatay bağımsız cumhuriyet olmuş, ancak anavatana katılması ölümünden sonra 1939'da meclis kararıyla olmuştur)."
+      "Balkan Antantı'na Bulgaristan'ın da katıldığını sanmak (Bulgaristan Ege denizine inmek istediği için Yunanistan sınırlarını tanımamış ve katılmamıştır).",
+      "Sadabat Paktı'na Suriye'nin de katıldığını düşünmek (Suriye, Türkiye ile yaşadığı Hatay sınırı ve su sorunları nedeniyle katılmamıştır).",
+      "Montrö'nün sadece barış zamanı yetki verdiğini sanmak (Savaş zamanında ve savaş tehdidi hissettiğinde Boğazları tamamen kapatma yetkisi Türkiye'ye verilmiştir)."
     ]
   },
   {
@@ -478,45 +627,61 @@ export const topics: Topic[] = [
     slug: "cagdas-turk-ve-dunya-tarihi",
     title: "Çağdaş Türk ve Dünya Tarihi",
     era: "yenilesme",
-    shortDescription: "II. Dünya Savaşı yılları, Soğuk Savaş dönemi, Kore Savaşı, NATO üyeliği ve Kıbrıs Meselesi.",
-    keywords: ["NATO", "Kıbrıs", "Birleşmiş Milletler", "Soğuk Savaş", "Truman Doktrini", "Marshall Planı", "Kore Savaşı", "Bağdat Paktı", "CENTO", "EOKA", "Enosis", "Johnson Mektubu", "Asala"],
+    shortDescription: "II. Dünya Savaşı yılları ve Türkiye'nin tarafsızlığı, Soğuk Savaş dönemi, Kore Savaşı, NATO'ya giriş, Kıbrıs sorunu ve diplomatik krizler.",
+    keywords: ["NATO", "Kibris", "Birlesmis Milletler", "Soguk Savas", "Truman Doktrini", "Marshall Plani", "Kore Savasi", "Bagdat Pakti", "CENTO", "EOKA", "Enosis", "Johnson Mektubu", "Asala", "varlik vergisi", "ekmek karnesi", "koy enstituleri", "cok partili hayat", "demokrat parti", "yunanistan", "eoka"],
     examImportance: 82,
     estimatedMinutes: 42,
     quickTimeline: [
-      { date: "1939-1945", event: "II. Dünya Savaşı yılları ve Türkiye'de seferberlik" },
-      { date: "1950", event: "Kore Savaşı'na asker gönderilmesi" },
-      { date: "1952", event: "Türkiye'nin NATO'ya resmen üye olması" },
-      { date: "1974", event: "Kıbrıs Barış Harekatı" }
+      { date: "1939-1945", event: "II. Dünya Savaşı yılları ve Türkiye'nin aktif tarafsızlık politikası" },
+      { date: "1940", event: "Köy öğretmenleri ve tarımsal kalkınma için Köy Enstitüleri'nin kurulması" },
+      { date: "1942", event: "II. Dünya Savaşı mali krizinde Varlık Vergisi'nin çıkarılması" },
+      { date: "1945", event: "San Francisco Konferansı ile Birleşmiş Milletler'e kurucu üye olarak katılma" },
+      { date: "1946", event: "Demokrat Parti'nin kurulması ve çok partili seçimlerin başlaması" },
+      { date: "1950", event: "Kore Savaşı'na asker gönderilmesi ve Demokrat Parti'nin iktidara gelmesi (Beyaz İhtilal)" },
+      { date: "1952", event: "Kore'deki askeri başarılar sonucu Türkiye'nin NATO'ya kabul edilmesi" },
+      { date: "1955", event: "Bağdat Paktı'nın (daha sonra CENTO) kurulması" },
+      { date: "1974", event: "Kıbrıs Türklerinin güvenliği için Kıbrıs Barış Harekatı'nın gerçekleştirilmesi" }
     ],
     summary: [
       {
-        heading: "II. Dünya Savaşı ve Türkiye",
-        body: "Türkiye II. Dünya Savaşı'na fiilen katılmamış, ancak savaş tehdidi nedeniyle genel seferberlik ilan etmiştir. Bu durum tarımsal üretimi düşürmüş ve ekonomiyi sarsmıştır. Enflasyon ve karaborsayı engellemek için Varlık Vergisi çıkarılmış ve Ekmek Karnesi uygulamasına geçilmiştir. Savaştan sonra kurulan Birleşmiş Milletler'e kurucu üye olmak amacıyla sembolik olarak Almanya ve Japonya'ya savaş ilan edilmiştir. Savaş sonrasında San Francisco Konferansı'na katılarak BM kurucusu olunmuştur.",
+        heading: "1. II. Dünya Savaşı ve Türkiye'nin İdari-Ekonomik Tedbirleri",
+        body: "Türkiye, II. Dünya Savaşı boyunca mihver ve müttefik blokların baskılarına rağmen fiilen savaşa girmemiş, aktif tarafsızlık ve denge politikası izlemiştir. Ancak her ihtimale karşı genel seferberlik ilan edilmiş, erkek nüfus silah altına alınmıştır. Bu durum tarımsal ve sanayi üretimini düşürmüş, bütçe açıklarına ve enflasyona yol açmıştır. Ekonomik krizle mücadele için Milli Korunma Kanunu çıkarılmış, enflasyonu önlemek ve karaborsayı engellemek amacıyla Varlık Vergisi yürürlüğe konmuş ve temel gıdalar için Ekmek Karnesi uygulaması başlatılmıştır. Savaşın son aylarında, Birleşmiş Milletler'e kurucu üye olabilmek için sembolik olarak Almanya ve Japonya'ya savaş ilan edilmiştir.",
         bullets: [
-          "Köy Enstitüleri (1940) köylüyü eğitmek ve tarımı kalkındırmak amacıyla bu dönemde açılmıştır.",
-          "Savaş sonrasında Nuri Demirağ öncülüğünde çok partili hayata geçişin ilk adımları atılmıştır.",
-          "İsmet İnönü döneminde Adana ve Kahire konferanslarında müttefiklerin savaşa girme baskıları başarıyla savuşturulmuştur."
+          "Köy Enstitüleri (1940), köylere öğretmen yetiştirmek ve modern tarımı yaygınlaştırmak amacıyla Hasan Âli Yücel öncülüğünde bu dönemde açılmıştır.",
+          "Adana Görüşmesi (1943): Cumhurbaşkanı İsmet İnönü ile İngiltere Başbakanı Churchill arasında yapılmış, Türkiye askeri malzeme eksikliğini öne sürerek savaşa girmeyi ertelemiştir.",
+          "Savaş sonrasında tek parti yönetimine karşı muhalefet başlamış ve çok partili hayata geçilmiştir."
         ]
       },
       {
-        heading: "Soğuk Savaş, NATO ve Kıbrıs Meselesi",
-        body: "Savaş sonrası SSCB'nin toprak ve Boğazlarda üs talebi tehdidine karşı Türkiye batı bloğuna yanaşmıştır. ABD'nin Truman Doktrini ve Marshall Planı yardımları alınmıştır. Kore Savaşı'na BM bünyesinde asker gönderilmiş, bu askeri başarı sayesinde 1952'de NATO'ya üye olunmuştur. 1950'lerden itibaren Kıbrıs'ta Rumların Enosis (ilhak) ve EOKA terörüne karşı Türk Mukavemet Teşkilatı kurulmuş, 1974 yılında garantörlük hakkı kullanılarak Kıbrıs Barış Harekatı düzenlenmiştir.",
+        heading: "2. Soğuk Savaş Dönemi, NATO Üyeliği ve Çok Partili Hayat",
+        body: "Savaş bittiğinde SSCB'nin Türkiye'den Kars ve Ardahan'ı istemesi ve Boğazlarda üs talep etmesi üzerine Türkiye, ABD önderliğindeki batı blokuna katılmıştır. ABD'nin komünizm karşıtı askeri yardımı olan Truman Doktrini ve mali kalkınma planı olan Marshall Planı yardımları alınmıştır. 1950 yılında Demokrat Parti (Adnan Menderes) iktidara gelmiş ve çok partili hayat tam yerleşmiştir. 1950'de patlak veren Kore Savaşı'na BM gücü kapsamında Şimal Yıldızı (Kutup Yıldızı) tugayıyla asker gönderilmiştir. Kore'deki Türk askerinin destansı başarıları sayesinde Türkiye, 1952 yılında NATO'ya (Kuzey Atlantik Paktı) üye olarak kabul edilmiştir.",
         bullets: [
-          "Johnson Mektubu (1964) ABD'nin Kıbrıs müdahalesine karşı yazdığı ve Türk dış politikasında çok yönlü arayışları başlatan belgedir.",
-          "Bağdat Paktı, Irak'ın çekilmesiyle CENTO adını almış ve merkezi Ankara olmuştur.",
-          "ASALA terör örgütü 70'li ve 80'li yıllarda Türk diplomatlarını hedef alan suikastlar düzenlemiştir."
+          "1950 seçimleri, CHP iktidarının kansız ve barışçıl bir şekilde Demokrat Parti'ye devredilmesi nedeniyle milli tarihte 'Beyaz İhtilal' olarak anılır.",
+          "Orta Doğu'da Sovyet yayılmacılığını engellemek amacıyla Türkiye, Irak, İran, Pakistan ve İngiltere arasında Bağdat Paktı kurulmuş, Irak'ın çekilmesiyle CENTO adını almıştır.",
+          "Balkan Paktı (1953) Türkiye, Yunanistan ve Yugoslavya arasında soğuk savaş döneminde kurulan diğer bir savunma ittifakıdır."
+        ]
+      },
+      {
+        heading: "3. Kıbrıs Meselesi, Johnson Mektubu ve Dış Krizler",
+        body: "1950'lerden itibaren Kıbrıs adasını Yunanistan'a bağlamayı hedefleyen Rumlar (Enosis ülküsü), EOKA terör örgütünü kurarak Türklere karşı katliamlar başlatmıştır. Türkiye buna karşı adadaki Türklerin direnişini örgütleyen Türk Mukavemet Teşkilatı'nı (TMT) kurmuştur. 1959 Zürih ve Londra antlaşmalarıyla garantör devletler (Türkiye, Yunanistan, İngiltere) denetiminde Kıbrıs Cumhuriyeti kurulmuştur. Ancak Rumların saldırılarının sürmesi üzerine Türkiye müdahale kararı almış, 1964'te ABD Başkanı Johnson yazdığı sert mektup (Johnson Mektubu) ile Türkiye'nin müdahalesini engellemiştir. Saldırıların durmaması üzerine 20 Temmuz 1974'te Bülent Ecevit başbakanlığında Kıbrıs Barış Harekatı (Ayşe Tatile Çıksın şifresiyle) düzenlenmiş ve adanın kuzeyinde Türklerin güvenliği sağlanmıştır.",
+        bullets: [
+          "Kıbrıs Barış Harekâtı sonrasında ABD, Türkiye'ye 3 yıl boyunca ağır silah ambargosu uygulamıştır.",
+          "1970 ve 80'lerde ASALA terör örgütü dış temsilciliklerimize saldırarak onlarca diplomatımızı şehit etmiştir.",
+          "Yunanistan ile Ege denizinde Kıta Sahanlığı sorunu, Kara Suları (6 mil - 12 mil tartışması) ve Fır Hattı (hava sahası kontrolü) sorunları yaşanmıştır."
         ]
       }
     ],
     mustKnow: [
-      "II. Dünya Savaşı'nın Türkiye üzerindeki ağır ekonomik etkileri (Varlık vergisi, ekmek karnesi)",
-      "Kore Savaşı'na asker gönderilmesinin NATO üyeliği ile doğrudan ilişkisi",
-      "Kıbrıs Barış Harekatı'nın nedenleri, garantörlük hukuku ve sonuçları",
-      "Truman Doktrini ve Marshall Planı'nın soğuk savaş askeri ve ekonomik yardımları olduğu"
+      "II. Dünya Savaşı'nın Türkiye'deki ekonomik tedbirleri (Varlık Vergisi, Milli Korunma Kanunu, Ekmek Karnesi)",
+      "Türkiye'nin NATO'ya girebilmek amacıyla Kore Savaşı'na asker göndermesi gerçeği",
+      "Kıbrıs Barış Harekâtı'nın (1974) garantörlük hakkına dayalı hukuki zemini ve sonuçları",
+      "Johnson Mektubu'nun (1964) Türk-ABD ilişkilerinde yarattığı ilk büyük diplomatik kriz önemi",
+      "Truman Doktrini ve Marshall Planı'nın Soğuk Savaş dönemindeki askeri ve ekonomik rolleri"
     ],
     commonMistakes: [
-      "Çok partili hayata ilk kez Demokrat Parti ile geçildiğini sanmak (İlk kurulan parti Nuri Demirağ'ın Milli Kalkınma Partisi'dir; ancak en güçlü muhalefet DP olmuştur).",
-      "Kıbrıs Barış Harekatı sonrasında hemen KKTC'nin kurulduğunu düşünmek (Harekattan sonra önce Kıbrıs Türk Federe Devleti kurulmuş, KKTC ise 1983 yılında ilan edilmiştir)."
+      "Çok partili hayata ilk kez Demokrat Parti ile geçildiğini sanmak (İlk kurulan parti Nuri Demirağ'ın kurduğu Milli Kalkınma Partisi'dir, DP daha sonra kurulmuştur).",
+      "Kıbrıs Barış Harekâtı'nın hemen ardından KKTC'nin kurulduğunu düşünmek (Harekât sonrasında önce Kıbrıs Türk Federe Devleti kurulmuş, KKTC ise 1983 yılında bağımsız ilan edilmiştir).",
+      "Varlık Vergisi'nin sadece Müslümanlardan alındığını düşünmek (Aksine, en ağır vergiler gayrimüslim tüccarlardan tahsil edilmiştir)."
     ]
   },
   {
@@ -524,39 +689,39 @@ export const topics: Topic[] = [
     slug: "genel-tarih-kronolojisi",
     title: "Genel Tarih Kronolojisi",
     era: "yenilesme",
-    shortDescription: "Savaşlar, antlaşmalar, padişahlar ve demokratikleşme adımlarının kronolojik karşılaştırmalı akışı.",
-    keywords: ["kronoloji", "savaşlar", "antlaşmalar", "demokratikleşme", "anayasalar", "padişahlar", "kuşatmalar", "başkentler", "balkan savaşları", "trablusgarp", "sevr", "uşi"],
-    examImportance: 82,
+    shortDescription: "Selçuklu ve Osmanlı askeri zaferleri, diplomatik antlaşmalar, padişah taht sıralamaları, demokratikleşme belgeleri ve anayasal süreçlerin kronolojik akışı.",
+    keywords: ["kronoloji", "savaslar", "antlasmalar", "demokratiklesme", "anayasalar", "padisahlar", "kusatmalar", "baskentler", "balkan savaslari", "trablusgarp", "sevr", "usi", "pasinler", "malazgirt", "miryokefalon", "kosedag", "lozan", "mudanya"],
     estimatedMinutes: 42,
+    examImportance: 82,
     quickTimeline: [
-      { date: "1048-1243", event: "Selçuklu Kuruluş ve Moğol İstilası Savaşları sıralaması" },
-      { date: "1299-1453", event: "Osmanlı Beylikten İmparatorluğa geçiş kronolojisi" },
-      { date: "1808-1876", event: "Demokratikleşme ve anayasacılık adımları sıralaması" },
-      { date: "1918-1923", event: "Milli Mücadele ve diplomatik antlaşmalar sıralaması" }
+      { date: "1048-1243", event: "Selçuklu Kuruluş, Yükseliş ve Moğol İstilası Savaşları kronolojik sırası" },
+      { date: "1299-1453", event: "Osmanlı kuruluş dönemi başkent ve savaş kronolojisi" },
+      { date: "1808-1876", event: "Osmanlı demokratikleşme belgelerinin yayınlanma sırası" },
+      { date: "1918-1923", event: "Milli Mücadele muharebeleri ve diplomatik antlaşmaların kronolojik akışı" }
     ],
     summary: [
       {
-        heading: "Savaşlar, Kuşatmalar ve Dönüm Noktaları",
-        body: "Tarih boyunca Türk devletlerinin kaderini belirleyen savaşlar belirli bir kronolojik akışa sahiptir. Selçuklu döneminde Pasinler (1048 - Bizans'la ilk), Malazgirt (1071 - Anadolu kapısı) ve Miryokefalon (1176 - Anadolu tapusu) sırasıyla kazanılmıştır. Osmanlı'da ise Sırpsındığı (1364 - ilk Haçlı), Kosova (1389 - ilk top kullanımı), Niğbolu (1396), Varna (1444) ve II. Kosova (1448 - savunma sonu) Balkan hakimiyetini perçinlemiştir. Trablusgarp (1911 - ilk uçak kullanımı, Uşi antlaşmasıyla kayıp) ve Balkan Savaşları (1912-1913) imparatorluğun son büyük yıkımlarıdır.",
+        heading: "1. Savaşlar, Kuşatmalar ve Askeri Kronoloji",
+        body: "Türk tarihinde askeri gelişmeler neden-sonuç ilişkisi kurmak için kronolojik sırayla bilinmelidir. Selçuklu Dönemi: Pasinler Savaşı (1048 - Bizans'la ilk savaş), Malazgirt Savaşı (1071 - Anadolu kapısının açılması), Miryokefalon Savaşı (1176 - Anadolu tapusunun alınması) ve Kösedağ Savaşı (1243 - Moğol istilası ve Selçuklu yıkılış süreci). Osmanlı Balkan Fetihleri: Sırpsındığı (1364 - ilk Haçlı savaşı), I. Kosova (1389 - ilk kez top kullanımı), Niğbolu (1396), Varna (1444) ve II. Kosova (1448 - Balkanlar kesin Türk yurdu, savunmanın sonu). Osmanlı Yıkılış Dönemi: Trablusgarp Savaşı (1911 - ilk uçak kullanımı, Uşi antlaşmasıyla Kuzey Afrika'nın kaybı) ve Balkan Savaşları (1912-1913 - Türkçülük fikrinin güçlenmesi).",
         bullets: [
-          "Bursa Orhan Bey döneminde, Edirne I. Murad döneminde başkent yapılmıştır.",
+          "Osmanlı başkentlerinin sıralaması: Söğüt, Karacahisar, Bilecik, İznik, Bursa, Edirne ve İstanbul'dur.",
           "İstanbul ilk kez Avarlar tarafından kuşatılmış, Fatih Sultan Mehmed tarafından fethedilmiştir.",
           "Sevr Antlaşması (1920) Mebusan Meclisi onaylamadığı için hukuken geçersiz, ölü doğmuş bir antlaşmadır."
         ]
       },
       {
-        heading: "Anayasacılık ve Diploması Kronolojisi",
-        body: "Demokratikleşme adımları Sened-i İttifak (1808 - ayanlarla sözleşme), Tanzimat Fermanı (1839 - kanun üstünlüğü), Islahat Fermanı (1856 - gayrimüslim hakları), I. Meşrutiyet (1876 - anayasa Kanun-i Esasi ve meclis) sırasıyla gerçekleşmiştir. Cumhuriyet döneminde ise 1921 Anayasası (savaş dönemi yumuşak anayasası), 1924 Anayasası (güçler birliği, kabine), 1961 Anayasası (en demokratik/çoğulcu) ve 1982 Anayasası (kazuistik/sert) uygulanmıştır.",
+        heading: "2. Demokratikleşme Belgeleri, Anayasalar ve Rütbe Sıralamaları",
+        body: "Osmanlı demokratikleşme adımları sırası: Sened-i İttifak (1808 - ayanlarla sözleşme), Tanzimat Fermanı (1839 - kanun üstünlüğü), Islahat Fermanı (1856 - gayrimüslim hakları), I. Meşrutiyet (1876 - anayasa Kanun-i Esasi ve meclis). Türk Anayasaları: 1921 Anayasası (Teşkilat-ı Esasiye - tek yumuşak savaş anayasası), 1924 Anayasası (kabine sistemi, güçler birliği), 1961 Anayasası (en demokratik/çoğulcu anayasa) ve 1982 Anayasası (kazuistik ve sert anayasa).",
         bullets: [
-          "Milli Mücadele antlaşmaları sırası: Gümrü (1920 - ilk zafer), Moskova (1921), Kars (1921 - doğu sınırı nihai), Ankara (1921 - güney sınırı), Mudanya (1922) ve Lozan (1923).",
-          "Mustafa Kemal'in rütbe sırası: Şam 5. Ordu (ilk görev), Trablusgarp, Çanakkale Cephesi, Kafkas Cephesi, Suriye Cephesi ve Başkomutanlık.",
+          "Milli Mücadele antlaşmaları sırası: Gümrü (1920 - ilk diplomatik zafer), Moskova (1921), Kars (1921 - doğu sınırı nihai), Ankara (1921 - güney cephesi kapanış), Mudanya (1922 - savaşsız toprak kazanımları) ve Lozan (1923 - nihai bağımsızlık).",
+          "Mustafa Kemal'in rütbe sırası: Şam 5. Ordu (Kurmay Yüzbaşı - ilk görev), Trablusgarp (Binbaşı), Çanakkale (Yarbay - Albaylığa yükseliş), Kafkas Cephesi (Tümgeneral), Suriye-Filistin (Yıldırım Orduları Komutanı) ve Başkomutanlık (Sakarya ve Büyük Taarruz).",
           "Bilecik Görüşmesi (1920) ile İstanbul Hükümeti, TBMM'nin varlığını resmen tanımıştır."
         ]
       }
     ],
     mustKnow: [
-      "Selçuklu ve Osmanlı dönemi savaşlarının kronolojik sebep-sonuç bağları",
-      "Demokratikleşme adımlarının padişah yetkilerini kısıtlama sırası",
+      "Selçuklu ve Osmanlı savaşlarının kronolojik sebep-sonuç bağları (hangisi kapı açtı, hangisi korudu)",
+      "Demokratikleşme belgelerinin padişah yetkilerini kısıtlama sırası ve getirdiği yeni kurumlar",
       "Milli Mücadele dönemi antlaşmalarının kronolojik sırası ve Misakımilli tavizleri",
       "Türk anayasalarının tarihsel gelişim özellikleri ve sertlik dereceleri"
     ],
@@ -592,7 +757,7 @@ export const exams: Exam[] = Array.from({ length: 50 }).map((_, index) => {
     title: \`KPSS Tarih Genel Deneme \${examIndex}\`,
     durationMinutes: 45,
     description: \`\${examIndex}. sınav denemesi. Tüm ana dönemlerden dengeli seçilmiş açıklamalı genel tekrar denemesi.\`,
-    questionIds: [] // Bu kısım SQL trigger tarafından dinamik doldurulur
+    questionIds: []
   };
 });
 
@@ -654,10 +819,33 @@ export function getTimelineEventsByTopic(topicId: string) {
   });
 }
 
+export interface GlossaryTerm {
+  id: string;
+  topicId: string;
+  term: string;
+  definition: string;
+  whyImportant: string;
+}
+
+export const glossary: GlossaryTerm[] = flashcards.map((card) => ({
+  id: card.id,
+  topicId: card.topicId,
+  term: card.front,
+  definition: card.back,
+  whyImportant: card.hint
+}));
+
+export function getGlossaryByTopic(topicId: string): GlossaryTerm[] {
+  const target = normalizeCompatKey(topicId);
+  return glossary.filter((item) => {
+    return item.id.toLowerCase().startsWith(target);
+  });
+}
+
 export const recommendations = typeof studyRecommendations !== "undefined" ? studyRecommendations : [];
 `;
 
 const outputPath = path.join(process.cwd(), "src/data/kpss-history.ts");
 fs.writeFileSync(outputPath, newHistoryContent, "utf8");
 
-console.log(`[Local Data Hydrator] "${outputPath}" başarıyla zenginleştirildi!`);
+console.log(`[Local Data Hydrator] "${outputPath}" zengin konu anlatımlarıyla güncellendi!`);
