@@ -77,6 +77,60 @@ export const recommendations = studyRecommendations;
   }
 }
 
+function normalizeStudyTypeImports(source) {
+  const lineEnding = source.includes("\r\n") ? "\r\n" : "\n";
+
+  // Önce tekil Question importlarını kaldır. Dosyada Exam, Question birlikte varsa duplicate patlamasın.
+  source = source.replace(/^import type \{ Question \} from ["']@\/types\/study["'];\r?\n/gm, "");
+
+  const studyImportRegex = /^import type \{([^}]+)\} from ["']@\/types\/study["'];$/m;
+  const match = source.match(studyImportRegex);
+
+  if (match) {
+    const names = match[1]
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const required = ["Exam", "Question"];
+    const merged = Array.from(new Set([...names, ...required])).sort((a, b) => {
+      const order = { Exam: 0, Question: 1 };
+      return (order[a] ?? 99) - (order[b] ?? 99) || a.localeCompare(b);
+    });
+
+    source = source.replace(studyImportRegex, `import type { ${merged.join(", ")} } from "@/types/study";`);
+    return source;
+  }
+
+  const generatedImportRegex = /(import\s+\{\s*expandedQuestions\s*\}\s+from\s+["']@\/data\/generated-30-question-tests["'];)/;
+  if (generatedImportRegex.test(source)) {
+    return source.replace(
+      generatedImportRegex,
+      `$1${lineEnding}import type { Exam, Question } from "@/types/study";`
+    );
+  }
+
+  return `import type { Exam, Question } from "@/types/study";${lineEnding}${source}`;
+}
+
+function ensureSingleExamQuestionPool(source) {
+  // Önce eski/çoğalmış pool tanımlarını temizle.
+  source = source.replace(/^const examQuestionPool = expandedQuestions as Question\[\];\r?\n\r?\n/gm, "");
+  source = source.replace(/^const examQuestionPool = expandedQuestions as Question\[\];\r?\n/gm, "");
+
+  const marker = "function getQuestionPool(topicId: string) {";
+  if (source.includes(marker)) {
+    source = source.replace(marker, `const examQuestionPool = expandedQuestions as Question[];\n\n${marker}`);
+  }
+
+  source = source.replace(
+    /return expandedQuestions\.filter\(\(question\) => question\.topicId === topicId\);/g,
+    "return examQuestionPool.filter((question) => question.topicId === topicId);"
+  );
+
+  return source;
+}
+
 function ensureExamBlueprintTypes() {
   const file = "src/data/kpss-exam-blueprints.ts";
   let source = read(file);
@@ -86,25 +140,11 @@ function ensureExamBlueprintTypes() {
     return;
   }
 
-  if (!source.includes('import type { Question } from "@/types/study";')) {
-    source = source.replace(
-      /(import[\s\S]*?from\s+["']@\/data\/generated-30-question-tests["'];)/,
-      `$1\nimport type { Question } from "@/types/study";`
-    );
-  }
-
-  if (!source.includes("const examQuestionPool = expandedQuestions as Question[];")) {
-    const marker = "function getQuestionPool(topicId: string) {";
-    source = source.replace(marker, `const examQuestionPool = expandedQuestions as Question[];\n\n${marker}`);
-  }
-
-  source = source.replace(
-    /return expandedQuestions\.filter\(\(question\) => question\.topicId === topicId\);/g,
-    "return examQuestionPool.filter((question) => question.topicId === topicId);"
-  );
+  source = normalizeStudyTypeImports(source);
+  source = ensureSingleExamQuestionPool(source);
 
   write(file, source);
-  console.log("[vercel-prebuild-fixes] kpss-exam-blueprints type fix hazır.");
+  console.log("[vercel-prebuild-fixes] kpss-exam-blueprints import/type fix hazır.");
 }
 
 function ensureExamsPageRoute() {
