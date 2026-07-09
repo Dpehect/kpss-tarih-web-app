@@ -253,17 +253,17 @@ input, textarea, select { background: var(--sb-surface-strong); color: var(--sb-
 [data-tone="light"],
 [data-readable="light"],
 :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-gray-50"], [class*="bg-zinc-50"], [class*="from-white"], [class*="via-white"], [class*="to-white"], [class*="from-slate-50"], [class*="to-slate-50"], [class*="from-blue-50"], [class*="to-blue-50"], [class*="from-sky-50"], [class*="to-sky-50"], [class*="from-indigo-50"], [class*="to-indigo-50"]) {
-  color: var(--sb-text) !important;
+  color: var(--sb-text);
 }
 .surface-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div),
 .premium-light :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div),
 [data-tone="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div),
 [data-readable="light"] :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div),
 :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-gray-50"], [class*="bg-zinc-50"], [class*="from-white"], [class*="via-white"], [class*="to-white"], [class*="from-slate-50"], [class*="to-slate-50"], [class*="from-blue-50"], [class*="to-blue-50"], [class*="from-sky-50"], [class*="to-sky-50"], [class*="from-indigo-50"], [class*="to-indigo-50"]) :where(h1,h2,h3,h4,h5,h6,strong,b,p,li,small,label,span,div) {
-  color: var(--sb-text) !important;
+  /* color: var(--sb-text) !important; Removed to allow Tailwind text-white to work */
 }
 :is([class*="bg-white"], [class*="bg-slate-50"], [class*="bg-gray-50"], [class*="bg-zinc-50"], [class*="from-white"], [class*="via-white"], [class*="to-white"], [class*="from-slate-50"], [class*="to-slate-50"], [class*="from-blue-50"], [class*="to-blue-50"], [class*="from-sky-50"], [class*="to-sky-50"], [class*="from-indigo-50"], [class*="to-indigo-50"]) :where(.text-slate-500, .text-slate-600, .text-gray-500, .text-gray-600, .text-muted-foreground) {
-  color: var(--sb-text-soft) !important;
+  /* color: var(--sb-text-soft) !important; Removed */
 }
 
 /* Buttons: light buttons use dark text, dark/accent buttons use readable text. */

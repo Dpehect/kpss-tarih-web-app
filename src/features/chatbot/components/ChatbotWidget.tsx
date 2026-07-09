@@ -43,7 +43,7 @@ function renderInlineMarkdown(text: string) {
   return parts.map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={`${part}-${index}`} className="font-extrabold text-slate-950">
+        <strong key={`${part}-${index}`} className="font-extrabold">
           {part.slice(2, -2)}
         </strong>
       );
@@ -65,15 +65,15 @@ function renderMessage(text: string): ReactNode {
 
     if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
       return (
-        <div key={`${line}-${index}`} className="flex gap-2 text-[13px] leading-6 text-slate-700">
-          <span className="mt-2 size-1.5 shrink-0 rounded-full bg-blue-600" />
+        <div key={`${line}-${index}`} className="flex gap-2 text-[13px] leading-6">
+          <span className="mt-2 size-1.5 shrink-0 rounded-full bg-current opacity-60" />
           <span>{renderInlineMarkdown(trimmed.replace(/^[-•]\s*/, ""))}</span>
         </div>
       );
     }
 
     return (
-      <p key={`${line}-${index}`} className="text-[13px] leading-6 text-slate-700">
+      <p key={`${line}-${index}`} className="text-[13px] leading-6">
         {renderInlineMarkdown(line)}
       </p>
     );

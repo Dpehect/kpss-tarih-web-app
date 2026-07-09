@@ -65,19 +65,32 @@ function directAnswer(fact: DirectFact): KpssTutorAnswer {
 
 function buildLocalTeacherAnswer(message: string, knowledge: string): KpssTutorAnswer {
   const tokens = normalize(message).split(" ").filter((token) => token.length > 3);
-  const paragraphs = knowledge.split(/\n{2,}|\.\s+/).map((p) => p.trim()).filter(Boolean);
-  const matched = paragraphs
-    .map((paragraph) => ({ paragraph, score: tokens.reduce((sum, token) => sum + (normalize(paragraph).includes(token) ? 1 : 0), 0) }))
+  
+  // Metni cümlelere bölelim ki paragraf yığılması olmasın
+  const sentences = knowledge.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+  
+  const matched = sentences
+    .map((sentence) => ({ sentence, score: tokens.reduce((sum, token) => sum + (normalize(sentence).includes(token) ? 1 : 0), 0) }))
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 3)
-    .map((item) => item.paragraph);
+    .slice(0, 4)
+    .map((item) => item.sentence);
 
   const body = matched.length
-    ? matched.join("\n\n")
-    : "Bu soruyu genel tarih mantığıyla cevaplamak için önce kişi, olay, dönem ve sonuç ilişkisini kurmak gerekir. KPSS'de doğru cevap çoğu zaman olayın ayırt edici sonucu veya kavramın hangi dönemle ilişkili olduğudur.";
-  const reply = [`**Net cevap**`, "", body, "", "**KPSS ipucu:** Soruda tarih, kişi, belge veya savaş adı geçiyorsa önce dönemini bul; sonra doğrudan sonucu ile eşleştir."].join("\n");
-  return { reply, answer: reply, source: matched.length ? "site-knowledge" : "local-teacher", sourceMode: matched.length ? "site-knowledge" : "local-teacher", confidence: matched.length ? 0.72 : 0.45, matchedTitle: matched[0]?.slice(0, 90), sources: [{ type: matched.length ? "Supabase" : "Öğretmen", title: matched.length ? "Supabase KPSS bilgi havuzu" : "Yerel öğretmen modu" }] };
+    ? "Şu an **Yapay Zeka (LLM) API anahtarım** sisteme eklenmediği için sorularını analiz edip doğrudan cevaplayamıyorum. Ancak senin için ders havuzumda şu cümleleri buldum:\n\n" + matched.map(m => "• " + m).join("\n\n")
+    : "Şu an Yapay Zeka (LLM) bağlantım yok (API anahtarı eksik) ve sistemde bu soruyla ilgili direkt bir not bulamadım.";
+    
+  const reply = [`**Otomatik Arama Sonucu**`, "", body].join("\n");
+  
+  return { 
+    reply, 
+    answer: reply, 
+    source: "local-teacher", 
+    sourceMode: "local-teacher", 
+    confidence: matched.length ? 0.6 : 0.3, 
+    matchedTitle: matched[0]?.slice(0, 90), 
+    sources: [{ type: "Öğretmen", title: "Sistem Uyarı Mesajı" }] 
+  };
 }
 
 async function askGemini(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
