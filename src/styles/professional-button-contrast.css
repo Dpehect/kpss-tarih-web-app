@@ -147,4 +147,20 @@ aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-curren
   stroke: currentColor !important;
 }
 
+/* Chatbot Widget Header Contrast Force */
+.kpss-chatbot-header,
+.kpss-chatbot-header * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+.kpss-chatbot-header button {
+  opacity: 0.80 !important;
+  transition: opacity 150ms ease !important;
+}
+.kpss-chatbot-header button:hover {
+  opacity: 1 !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+
 

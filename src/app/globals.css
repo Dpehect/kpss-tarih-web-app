@@ -364,3 +364,169 @@ html[data-theme="dark"] :is(button, a, [role="button"]):where([data-active="true
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* KPSS_TARIH_PROFESSIONAL_BUTTON_CONTRAST_GUARD */
+:root {
+  --kpss-button-text-on-light: #0e1117;
+  --kpss-button-text-on-light-muted: #354052;
+  --kpss-button-text-on-dark: #fffaf2;
+  --kpss-button-border-light: rgba(14, 17, 23, 0.14);
+  --kpss-button-border-dark: rgba(255, 250, 242, 0.18);
+}
+
+html[data-theme="dark"] {
+  --kpss-button-text-on-light: #f8fafc;
+  --kpss-button-text-on-light-muted: #94a3b8;
+  --kpss-button-border-light: rgba(248, 250, 252, 0.16);
+}
+
+:where(button, a, [role="button"]) {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Explicit light buttons (ghost, outline and light variables) */
+:where(.btn-light, .btn-ghost, .btn-outline, [data-light-button="true"], [data-button-surface="light"]) {
+  color: var(--kpss-button-text-on-light) !important;
+  border-color: var(--kpss-button-border-light);
+}
+
+/* Hardcoded solid light background buttons must always use dark text for contrast */
+:is(button, a, [role="button"]):where(
+  [class*="bg-white"],
+  [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"],
+  [class*="bg-gray-50"], [class*="bg-gray-100"], [class*="bg-gray-200"],
+  [class*="bg-zinc-50"], [class*="bg-zinc-100"], [class*="bg-zinc-200"],
+  [class*="bg-neutral-50"], [class*="bg-neutral-100"], [class*="bg-neutral-200"],
+  [class*="bg-stone-50"], [class*="bg-stone-100"], [class*="bg-stone-200"],
+  [class*="bg-[#fff"], [class*="bg-[#f8"], [class*="bg-[#f9"], [class*="bg-[#faf"], [class*="bg-[#fb"], [class*="bg-[#fc"], [class*="bg-[#fd"], [class*="bg-[#fe"],
+  [class*="bg-[var(--paper"], [class*="bg-[var(--warm-white"], [class*="bg-[var(--cream"]
+) {
+  color: #0e1117 !important;
+  border-color: rgba(14, 17, 23, 0.14);
+}
+
+:where(.btn-light, .btn-ghost, .btn-outline, [data-light-button="true"], [data-button-surface="light"]) :where(span, strong, small, svg, path, i),
+:is(button, a, [role="button"]):where(
+  [class*="bg-white"],
+  [class*="bg-slate-50"], [class*="bg-slate-100"], [class*="bg-slate-200"],
+  [class*="bg-gray-50"], [class*="bg-gray-100"], [class*="bg-gray-200"],
+  [class*="bg-zinc-50"], [class*="bg-zinc-100"], [class*="bg-zinc-200"],
+  [class*="bg-neutral-50"], [class*="bg-neutral-100"], [class*="bg-neutral-200"],
+  [class*="bg-stone-50"], [class*="bg-stone-100"], [class*="bg-stone-200"],
+  [class*="bg-[#fff"], [class*="bg-[#f8"], [class*="bg-[#f9"], [class*="bg-[#faf"], [class*="bg-[#fb"], [class*="bg-[#fc"], [class*="bg-[#fd"], [class*="bg-[#fe"],
+  [class*="bg-[var(--paper"], [class*="bg-[var(--warm-white"], [class*="bg-[var(--cream"], [class*="bg-[var(--bureau-bone"],
+  [class*="bg-[rgba(255"], [class*="bg-[rgba(246"]
+) :where(span, strong, small, svg, path, i) {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Explicit dark/accent buttons */
+:where(.btn-primary, .btn-dark, .btn-accent, .btn-gold, [data-dark-button="true"], [data-button-surface="dark"]),
+:is(button, a, [role="button"]):where(
+  [data-active="true"], [data-state="active"], [aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-selected="true"],
+  [class*="bg-black"],
+  [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"],
+  [class*="bg-gray-800"], [class*="bg-gray-900"], [class*="bg-gray-950"],
+  [class*="bg-zinc-800"], [class*="bg-zinc-900"], [class*="bg-zinc-950"],
+  [class*="bg-neutral-800"], [class*="bg-neutral-900"], [class*="bg-neutral-950"],
+  [class*="bg-stone-800"], [class*="bg-stone-900"], [class*="bg-stone-950"],
+  [class*="bg-[#0"], [class*="bg-[#1"], [class*="bg-[#2"],
+  [class*="bg-[var(--ink"], [class*="bg-[var(--navy"], [class*="bg-[var(--bureau-ink"], [class*="bg-[var(--bureau-blue"], [class*="bg-[var(--bureau-teal"]
+) {
+  color: var(--kpss-button-text-on-dark) !important;
+  border-color: var(--kpss-button-border-dark);
+}
+
+:where(.btn-primary, .btn-dark, .btn-accent, .btn-gold, [data-dark-button="true"], [data-button-surface="dark"]) :where(span, strong, small, svg, path, i),
+:is(button, a, [role="button"]):where(
+  [data-active="true"], [data-state="active"], [aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-selected="true"],
+  [class*="bg-black"],
+  [class*="bg-slate-800"], [class*="bg-slate-900"], [class*="bg-slate-950"],
+  [class*="bg-gray-800"], [class*="bg-gray-900"], [class*="bg-gray-950"],
+  [class*="bg-zinc-800"], [class*="bg-zinc-900"], [class*="bg-zinc-950"],
+  [class*="bg-neutral-800"], [class*="bg-neutral-900"], [class*="bg-neutral-950"],
+  [class*="bg-stone-800"], [class*="bg-stone-900"], [class*="bg-stone-950"],
+  [class*="bg-[#0"], [class*="bg-[#1"], [class*="bg-[#2"],
+  [class*="bg-[var(--ink"], [class*="bg-[var(--navy"], [class*="bg-[var(--bureau-ink"], [class*="bg-[var(--bureau-blue"], [class*="bg-[var(--bureau-teal"]
+) :where(span, strong, small, svg, path, i) {
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Professional polish: avoid washed-out white pills like the screenshot. */
+:where(.card-surface, .bureau-card, .lab-card, .atlas-card, .archive-card, .surface-glass, .bg-card) :is(button, a, [role="button"]):not(.btn-primary):not(.btn-dark):not(.btn-accent):not(.btn-gold):not([data-dark-button="true"]):not([data-active="true"]):not([aria-current="page"]) {
+  color: var(--kpss-button-text-on-light) !important;
+}
+
+/* Prevent pale active tabs from becoming invisible. */
+:is(button, a, [role="button"]):where([data-state="active"], [aria-selected="true"], [aria-current="page"]) {
+  font-weight: 820;
+}
+
+/* Sidebar links and icons bypass global button contrast overrides */
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) {
+  color: var(--sb-text-soft) !important;
+}
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) :where(span, strong, small, svg, path, i),
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg {
+  color: var(--sb-text-soft) !important;
+  fill: none !important;
+  stroke: var(--sb-text-soft) !important;
+}
+
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
+  color: var(--sb-primary) !important;
+  background-color: rgba(30, 58, 138, 0.09) !important;
+}
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i),
+aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) svg {
+  color: var(--sb-primary) !important;
+  fill: none !important;
+  stroke: var(--sb-primary) !important;
+}
+
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) {
+  color: var(--sb-primary-2) !important;
+  background-color: rgba(37, 99, 235, 0.15) !important;
+}
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) :where(span, strong, small, svg, path, i),
+html[data-theme="dark"] aside :is(a, button, [role="button"]):is([data-active="true"], [aria-current="page"]) svg {
+  color: var(--sb-primary-2) !important;
+  fill: none !important;
+  stroke: var(--sb-primary-2) !important;
+}
+
+/* KPSS Tarih - Force dark text on explicitly light containers, in both themes */
+.kpss-light-container,
+.kpss-light-container *,
+.kpss-light-container :where(span, p, h1, h2, h3, h4, strong, small, svg, path, i) {
+  color: #0e1117 !important;
+  stroke: #0e1117 !important;
+}
+
+/* Ensure custom colored passive sidebar icons maintain their colors */
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg.kpss-custom-icon,
+aside :is(a, button, [role="button"]):not([data-active="true"]):not([aria-current="page"]) svg.kpss-custom-icon * {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+/* Chatbot Widget Header Contrast Force */
+.kpss-chatbot-header,
+.kpss-chatbot-header * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+.kpss-chatbot-header button {
+  opacity: 0.80 !important;
+  transition: opacity 150ms ease !important;
+}
+.kpss-chatbot-header button:hover {
+  opacity: 1 !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+

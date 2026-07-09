@@ -210,7 +210,7 @@ export function ChatbotWidget() {
             role="dialog"
             aria-label="KPSS Tarih Rehberi sohbet paneli"
           >
-            <header className="relative overflow-hidden bg-gradient-to-br from-blue-800 via-indigo-800 to-slate-950 px-5 py-4 text-white">
+            <header className="kpss-chatbot-header relative overflow-hidden bg-gradient-to-br from-blue-800 via-indigo-800 to-slate-950 px-5 py-4 text-white">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,.22),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(217,119,6,.22),transparent_26%)]" />
               <div className="relative flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
