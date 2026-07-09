@@ -67,8 +67,8 @@ function directAnswer(fact: DirectFact): KpssTutorAnswer {
 async function askLlm(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
   const apiKey = getGroqApiKey();
   if (!apiKey) {
-    console.error("[Groq API Error]: GROQ_API_KEY is missing in process.env");
-    return null;
+    const errReply = "Sistem Debug Logu: `process.env.GROQ_API_KEY` Vercel'de bulunamadı. Lütfen Vercel Environment Variables kısmına GROQ_API_KEY eklediğinizden emin olun.";
+    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
   }
   
   try {
@@ -95,12 +95,15 @@ ${buildHistoryText(options.history)}`;
     });
 
     const reply = chatCompletion.choices[0]?.message?.content?.trim();
-    if (!reply) return null;
+    if (!reply) {
+      const errReply = "Sistem Debug Logu: Groq'tan boş yanıt geldi.";
+      return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
+    }
     
     return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Llama 3 + Supabase bilgi havuzu" }] };
   } catch (error: any) {
-    console.error("[Groq API Error in askLlm]:", error);
-    return null;
+    const errReply = `Sistem Debug Logu: Groq API Hatası! Detay: ${error?.message || String(error)}`;
+    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
   }
 }
 
