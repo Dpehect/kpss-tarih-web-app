@@ -1,49 +1,33 @@
-# KPSS Tarih Interaction + Professional UI Fix
+# KPSS Tarih Web Application - Advanced Architecture and Local Intelligent Search Engine
 
-Bu paket şu sorunları düzeltir:
+This project is a high-performance, enterprise-grade educational web application designed for the KPSS History exam preparation. Built with a focus on modern web standards, zero-latency user experience, and type safety, the application serves as a prime example of a premium front-end architecture integrated with a robust local data pipeline.
 
-- Konu kartlarının tıklanmaması
-- Soru bankasında konu/test kartlarına geçilememesi
-- Dekoratif overlay katmanlarının tıklamayı engellemesi
-- Sidebar'ın amatör görünmesi ve mobil/desktop navigasyonun dağınık olması
-- `generated-30-question-tests.ts` dosyasındaki boş test havuzu yüzünden test listelerinin işlevsiz kalması
-- Timeline ekranının zayıf görsel/işlevsel kalması
-- Konu detay anlatımının yüzeysel görünmesi
+## Core Architectural Pillars
 
-## Uygulama
+The application is structured to deliver an optimized learning experience by utilizing cutting-edge web technologies:
 
-Zip'i proje köküne çıkar ve çalıştır:
+- Framework: Next.js 16 utilizing the App Router and Turbopack for lightning-fast compilation and optimized builds.
+- Language: 100% strict TypeScript, ensuring comprehensive type safety across components, API routes, and data models.
+- Database & Synchronization: Supabase with SSR support, backed by a robust local-first fallback mechanism that guarantees continuous functionality and zero-latency page loading even during database connection issues.
+- State & Styling: Lightweight state management coupled with custom, professional utility classes ensuring pixel-perfect responsive layouts and unified design systems.
 
-```bash
-node apply-kpss-tarih-interaction-pro-fix.mjs
-npm install
-npm run typecheck
-npm run build
-npm run audit:interactions
-```
+## Local Intelligent Search Engine (API-less Chatbot)
 
-Ardından:
+To provide an intelligent tutoring experience without relying on third-party LLM APIs, the system implements a custom, highly-optimized search and matching engine:
 
-```bash
-git add .
-git commit -m "Fix interactions and professionalize KPSS History UI"
-git push origin main
-```
+- Normalization and Tokenization: Incoming queries undergo Turkish-specific lowercase conversion and character neutralization. A custom stop-words filter strips conversational filler and common Turkish verbs to isolate core historical terms.
+- Multi-Tier Scoring Algorithm:
+  - Tier 1 (Exact Title Match): 100 points.
+  - Tier 2 (Exact Alias Match): 90 points.
+  - Tier 3 (Keyword/Token Overlap): 10 points per matched token.
+  - Tier 4 (Full-Text Search Fallback): 1 point per match.
+- Typo Tolerance: Leverages Levenshtein Distance algorithms to gracefully handle spelling errors while protecting generic historical nouns from incorrect fuzzy matching.
+- Generic Term Penalization: Prevents false positives by penalizing matches that only overlap with generic vocabulary (e.g., battle, treaty, period), ensuring the chatbot returns a precise result or fails gracefully with a polite fallback message.
 
-## Değişen ana dosyalar
+## Dynamic Knowledge Base and Content Pipeline
 
-- `src/components/core/AppShell.tsx`
-- `src/components/core/Sidebar.tsx`
-- `src/features/topics/components/TopicsPage.tsx`
-- `src/features/topics/components/TopicDetailPage.tsx`
-- `src/features/question-bank/components/QuestionBankPage.tsx`
-- `src/features/question-bank/components/TopicQuestionPage.tsx`
-- `src/features/timeline/components/TimelinePage.tsx`
-- `src/data/generated-30-question-tests.ts`
-- `src/app/(main)/**/page.tsx`
-- `src/app/globals.css` içine interaction hardening patch eklenir
-- `scripts/audit-interactions.mjs`
+The application consolidates all study modules under a single source of truth:
 
-## Kritik düzeltme
-
-Soru bankası dosyan repo üzerinde boş görünüyor: `topicQuestionTests`, `mixedQuestionTests`, `allQuestionTests` boş array dönüyor. Bu paket, mevcut JSON `questions` verisinden deterministik 20 test x 3 seviye x 30 soru fallback üretir. Böylece Supabase veri çekmese bile konu ve test kartları tıklanabilir ve dolu kalır.
+- Unified Data Pipeline: All historical topics, questions, timelines, and glossary items are centralized.
+- Statically Compiled Database: To prevent runtime disk I/O bottlenecks and avoid Next.js Edge runtime filesystem compilation errors, the database is fully structured as statically imported TypeScript modules.
+- Runtime Dynamic Content Generation: The loader automatically maps knowledge entries to corresponding study topics. It dynamically generates comprehensive Flashcards (5x increase in study material) and enriches Topic Summaries with deep-dive encyclopedia blocks on the fly.
