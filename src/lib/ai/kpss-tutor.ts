@@ -64,41 +64,11 @@ function directAnswer(fact: DirectFact): KpssTutorAnswer {
   return { reply, answer: reply, source: "direct-fact", sourceMode: "direct-fact", confidence: 0.98, matchedTitle: fact.title, sources: [{ type: "Doğrudan Bilgi", title: fact.title }] };
 }
 
-function buildLocalTeacherAnswer(message: string, knowledge: string): KpssTutorAnswer {
-  const tokens = normalize(message).split(" ").filter((token) => token.length > 3);
-  
-  // Metni cümlelere bölelim ki paragraf yığılması olmasın
-  const sentences = knowledge.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
-  
-  const matched = sentences
-    .map((sentence) => ({ sentence, score: tokens.reduce((sum, token) => sum + (normalize(sentence).includes(token) ? 1 : 0), 0) }))
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 4)
-    .map((item) => item.sentence);
-
-  const body = matched.length
-    ? "Şu an **Yapay Zeka (LLM) API anahtarıma** erişemediğim veya güvenlik duvarına takıldığım için sorularını doğrudan LLM ile cevaplayamıyorum. Ancak senin için ders havuzumda şu cümleleri buldum:\n\n" + matched.map(m => "• " + m).join("\n\n")
-    : "Şu an Yapay Zeka (LLM) bağlantım yok ve sistemde bu soruyla ilgili direkt bir not bulamadım.";
-    
-  const reply = [`**Otomatik Arama Sonucu**`, "", body].join("\n");
-  
-  return { 
-    reply, 
-    answer: reply, 
-    source: "local-teacher", 
-    sourceMode: "local-teacher", 
-    confidence: matched.length ? 0.6 : 0.3, 
-    matchedTitle: matched[0]?.slice(0, 90), 
-    sources: [{ type: "Öğretmen", title: "Sistem Uyarı Mesajı" }] 
-  };
-}
-
 async function askGemini(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
   const apiKey = getGeminiApiKey();
   if (!apiKey) {
-    const reply = "Sistem Debug Logu: `process.env.GEMINI_API_KEY` değeri sunucuda boş (tanımsız) okundu. Vercel Environment Variables içinde anahtar yok veya deploy sonrasında Next.js'e yansımamış.";
-    return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
+    console.error("[Gemini API Error]: GEMINI_API_KEY is missing in process.env");
+    return null;
   }
   
   try {
@@ -127,15 +97,12 @@ Kullanıcı sorusu:
 ${message}`;
     const result = await model.generateContent(prompt);
     const reply = result.response.text().trim();
-    if (!reply) {
-      const errReply = "Sistem Debug Logu: Gemini'den boş yanıt geldi. (API anahtarı var, istek atıldı ama boş döndü)";
-      return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
-    }
+    if (!reply) return null;
+    
     return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Gemini + Supabase bilgi havuzu" }] };
   } catch (error: any) {
     console.error("[Gemini API Error in askGemini]:", error);
-    const errReply = `Sistem Debug Logu: Gemini API bağlantısı kurulamadı veya hata fırlattı.\nHata mesajı: ${error?.message || String(error)}\nAPI Key length: ${apiKey.length}`;
-    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
+    return null;
   }
 }
 
@@ -157,7 +124,10 @@ export async function answerKpssQuestion(message: string, options: TutorOptions 
   const knowledge = await getTutorKnowledgeText();
   const llm = await askGemini(clean, options, knowledge);
   if (llm) return llm;
-  return buildLocalTeacherAnswer(clean, knowledge);
+  
+  // LLM failed or API key missing
+  const reply = "Şu an sunucuya erişimde kısa bir yoğunluk yaşıyorum. Lütfen sorunu tekrar gönder, sana KPSS Tarih açısından en net cevabı hazırlayayım.";
+  return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Bağlantı Gecikmesi" }] };
 }
 
 export async function answerKpssTutor(message: string, options: TutorOptions = {}) {
