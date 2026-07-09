@@ -17,7 +17,6 @@
     "audit:chatbot": "node scripts/audit-chatbot-llm.mjs"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "@gsap/react": "latest",
     "@radix-ui/react-slot": "^1.3.0",
     "@react-three/drei": "latest",
@@ -27,7 +26,6 @@
     "class-variance-authority": "latest",
     "clsx": "latest",
     "framer-motion": "latest",
-    "groq-sdk": "^1.3.0",
     "gsap": "latest",
     "lenis": "latest",
     "lucide-react": "latest",

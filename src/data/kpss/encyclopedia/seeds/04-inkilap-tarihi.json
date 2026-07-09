@@ -1,0 +1,32 @@
+[
+  {
+    "id": "amasya-genelgesi",
+    "category": "İnkılap Tarihi",
+    "title": "Amasya Genelgesi",
+    "aliases": ["amasya", "amasya tamimi", "kurtulus savasi amaci"],
+    "keywords": ["mustafa kemal", "amac", "yontem", "gerekce", "milli mucadele", "ihtilal"],
+    "shortDefinition": "Milli Mücadelenin amacının, gerekçesinin ve yönteminin ilk kez belirtildiği belgedir.",
+    "detailedExplanation": "Havza'dan sonra Amasya'ya geçen Mustafa Kemal Paşa ve silah arkadaşları tarafından yayımlanmıştır. 'Vatanın bütünlüğü, milletin bağımsızlığı tehlikededir' maddesi ile gerekçe; 'Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır' maddesi ile yöntem ve amaç belirlenmiştir. Aynı zamanda bu bir ihtilal (başkaldırı) bildirgesidir.",
+    "keyFacts": [
+      "Milli Mücadelenin yol haritası (programı) çizilmiştir.",
+      "İlk defa milli egemenliğe (milletin kararı) üstü kapalı vurgu yapılmıştır.",
+      "İstanbul Hükümetinin görevini yapmadığı ilk defa açıkça belirtilmiştir."
+    ],
+    "examImportance": "Amasya Genelgesi = Milli mücadelenin Amacı, Yöntemi ve Gerekçesidir. Bu üçlü kelime banko çıkar."
+  },
+  {
+    "id": "erzurum-kongresi",
+    "category": "İnkılap Tarihi",
+    "title": "Erzurum Kongresi",
+    "aliases": ["erzurum", "dogu illeri", "milli sinirlar"],
+    "keywords": ["toplanis amaci", "bolgesel", "ulusal", "milli sinirlar", "manda ve himaye"],
+    "shortDefinition": "Toplanış amacı bakımından bölgesel, aldığı kararlar bakımından ulusal olan kongredir.",
+    "detailedExplanation": "Doğu Anadolu'da bir Ermeni devleti kurulmasını engellemek için toplanan bu kongrede, Mustafa Kemal'in başkan seçilmesiyle ulusal kararlar alınmıştır. İlk defa milli sınırlardan bahsedilmiş, manda ve himaye ilk kez reddedilmiş ve ilk kez Temsil Heyeti (9 kişilik bölgesel) kurulmuştur.",
+    "keyFacts": [
+      "Toplanış şekli bölgesel, kararları ulusaldır.",
+      "İlk kez milli sınırlardan bahsedilmiştir (Misak-ı Milli'nin temeli).",
+      "Manda ve himaye İLK KEZ reddedilmiştir."
+    ],
+    "examImportance": "Manda ve himayenin ilk reddi Erzurum, kesin reddi Sivas'tır. Bu ayrım KPSS'nin klasik çeldiricisidir."
+  }
+]

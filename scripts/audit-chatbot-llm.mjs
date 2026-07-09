@@ -34,11 +34,8 @@ for (const file of files) {
 }
 
 const tutor = fs.readFileSync(path.join(root, "src/lib/ai/kpss-tutor.ts"), "utf8");
-if (!tutor.includes("groq-sdk")) {
-  throw new Error("[audit-chatbot-llm] Groq LLM bağlantısı yok.");
-}
-if (!tutor.includes("answerKpssQuestion")) {
-  throw new Error("[audit-chatbot-llm] answerKpssQuestion exportu yok.");
+if (!tutor.includes("searchLocalEncyclopedia") && !tutor.includes("answerKpssQuestion")) {
+  throw new Error("[audit-chatbot-llm] searchLocalEncyclopedia veya answerKpssQuestion exportu yok.");
 }
 
 const widget = fs.readFileSync(path.join(root, "src/features/chatbot/components/ChatbotWidget.tsx"), "utf8");

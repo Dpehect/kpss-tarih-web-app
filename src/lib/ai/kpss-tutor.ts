@@ -1,5 +1,4 @@
-import { getTutorKnowledgeText } from "@/lib/kpss/supabase-content-repository";
-import Groq from "groq-sdk";
+import { searchLocalEncyclopedia } from "@/lib/search";
 
 type ChatRole = "user" | "bot" | "assistant" | "model";
 export type KpssTutorHistoryItem = { role?: ChatRole; text?: string; content?: string };
@@ -42,18 +41,6 @@ function normalize(value: string) {
     .trim();
 }
 
-function getGroqApiKey() {
-  return (process.env.GROQ_API_KEY || "").trim();
-}
-
-function buildHistoryText(history: KpssTutorHistoryItem[] = []) {
-  return history
-    .slice(-6)
-    .map((item) => `${item.role === "user" ? "Öğrenci" : "Asistan"}: ${(item.text ?? item.content ?? "").trim()}`)
-    .filter((line) => !line.endsWith(":"))
-    .join("\n");
-}
-
 function findDirectFact(message: string) {
   const normalized = normalize(message);
   return DIRECT_FACTS.find((fact) => fact.aliases.some((alias) => normalized.includes(normalize(alias))));
@@ -64,55 +51,13 @@ function directAnswer(fact: DirectFact): KpssTutorAnswer {
   return { reply, answer: reply, source: "direct-fact", sourceMode: "direct-fact", confidence: 0.98, matchedTitle: fact.title, sources: [{ type: "Doğrudan Bilgi", title: fact.title }] };
 }
 
-async function askLlm(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
-  const apiKey = getGroqApiKey();
-  if (!apiKey) {
-    const errReply = "Sistem Debug Logu: `process.env.GROQ_API_KEY` Vercel'de bulunamadı. Lütfen Vercel Environment Variables kısmına GROQ_API_KEY eklediğinizden emin olun.";
-    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
-  }
-  
-  try {
-    const groq = new Groq({ apiKey });
-    
-    const systemPrompt = `Sen Softbridge Akademi içinde çalışan profesyonel bir KPSS Tarih öğretmeni ve genel amaçlı yardımcı asistansın.
-Türkçe cevap ver. Teknik sorun, servis bağlantısı, sistem ayarları, veri havuzu veya sistem içeriği gibi ifadeleri kullanıcıya söyleme.
-KPSS Tarih sorularında önce aşağıdaki uygulama bilgisini kullan. Alakasız/genel sorularda normal asistan gibi doğru ve net cevap ver.
-Cevap formatı kısa, net ve öğretici olsun: Net cevap, açıklama, gerekirse KPSS ipucu.
-
-Uygulama bilgi havuzu:
-${knowledge.slice(0, 20000)}
-
-Önceki konuşma:
-${buildHistoryText(options.history)}`;
-
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: message }
-      ],
-      model: "llama-3.1-8b-instant",
-      temperature: 0.5,
-    });
-
-    const reply = chatCompletion.choices[0]?.message?.content?.trim();
-    if (!reply) {
-      const errReply = "Sistem Debug Logu: Groq'tan boş yanıt geldi.";
-      return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
-    }
-    
-    return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Llama 3 + Supabase bilgi havuzu" }] };
-  } catch (error: any) {
-    const errReply = `Sistem Debug Logu: Groq API Hatası! Detay: ${error?.message || String(error)}`;
-    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
-  }
-}
-
 export async function answerKpssQuestion(message: string, options: TutorOptions = {}): Promise<KpssTutorAnswer> {
   const clean = message.trim();
   if (!clean) {
     const reply = "Bir soru, kavram, olay veya konu başlığı yaz; net cevap ve kısa açıklama ile yardımcı olayım.";
     return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.5, sources: [{ type: "Öğretmen", title: "Karşılama" }] };
   }
+  
   const greeting = ["selam", "merhaba", "slm", "mrb", "günaydın", "iyi akşamlar", "iyi aksamlar"].includes(normalize(clean));
   if (greeting) {
     const reply = "Merhaba. KPSS Tarih’ten bir soru, kavram, antlaşma, kişi veya konu başlığı yazabilirsin; net cevap, kısa açıklama ve sınav ipucuyla yanıtlayayım.";
@@ -122,13 +67,11 @@ export async function answerKpssQuestion(message: string, options: TutorOptions 
   const direct = findDirectFact(clean);
   if (direct) return directAnswer(direct);
 
-  const knowledge = await getTutorKnowledgeText();
-  const llm = await askLlm(clean, options, knowledge);
-  if (llm) return llm;
+  const localSearch = searchLocalEncyclopedia(clean);
+  if (localSearch) return localSearch as KpssTutorAnswer;
   
-  // LLM failed or API key missing
-  const reply = "Şu an sunucuya erişimde kısa bir yoğunluk yaşıyorum. Lütfen sorunu tekrar gönder, sana KPSS Tarih açısından en net cevabı hazırlayayım.";
-  return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Bağlantı Gecikmesi" }] };
+  const reply = "Sorunuzla ilgili veritabanımızda net bir eşleşme bulamadım. Lütfen farklı kelimelerle veya doğrudan kavram ismi yazarak tekrar deneyin.";
+  return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Sonuç Bulunamadı" }] };
 }
 
 export async function answerKpssTutor(message: string, options: TutorOptions = {}) {

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "kurulus-donemi",
+    "category": "Osmanlı Siyasi Tarihi",
+    "title": "Osmanlı Kuruluş Dönemi",
+    "aliases": ["kurulus", "osman bey", "orhan bey"],
+    "keywords": ["soğüt", "domaniç", "koyunhisar", "palekanon", "bursa"],
+    "shortDefinition": "1299-1453 yılları arasında Osmanlı'nın bir beylikten imparatorluğa dönüştüğü dönemdir.",
+    "detailedExplanation": "Osman Gazi ile başlayan bu süreç, Bizans sınırlarındaki uç beyliği olmanın getirdiği gaza ve cihat anlayışıyla hızla genişlemiştir. Ahilerin desteği alınmış ve Balkanlar'da iskan (yerleştirme) ile istimalet (hoşgörü) politikaları uygulanmıştır.",
+    "keyFacts": [
+      "İlk Osmanlı-Bizans savaşı: Koyunhisar (Bapheus) Savaşı'dır.",
+      "İlk düzenli ordu (Yaya ve Müsellem) Orhan Bey döneminde kurulmuştur.",
+      "Balkanlara ilk geçiş Çimpe Kalesi'nin alınmasıyla (Orhan Bey) olmuştur."
+    ],
+    "examImportance": "Kuruluş döneminin büyüme nedenleri (İskan ve İstimalet) en çok çıkan yorum sorularıdır."
+  },
+  {
+    "id": "yukselme-donemi",
+    "category": "Osmanlı Siyasi Tarihi",
+    "title": "Osmanlı Yükselme Dönemi",
+    "aliases": ["yukselme", "fatih", "kanuni", "yavuz"],
+    "keywords": ["istanbulun fethi", "merkezi otorite", "halifelik", "mohaç"],
+    "shortDefinition": "1453 İstanbul'un Fethi ile başlayıp 1579 Sokullu Mehmet Paşa'nın ölümüne kadar süren zirve dönemidir.",
+    "detailedExplanation": "Fatih Sultan Mehmet ile imparatorluk vizyonu oturmuş, Yavuz Sultan Selim ile İslam dünyası ve Halifelik Osmanlı'ya geçmiş, Kanuni Sultan Süleyman ile Avrupa'da en geniş sınırlara ulaşılmıştır.",
+    "keyFacts": [
+      "Fatih döneminde Karadeniz Türk gölü haline gelmiştir (Kırım'ın fethi).",
+      "Yavuz döneminde Mısır Seferi ile Baharat Yolu Osmanlı'ya geçmiştir.",
+      "Kanuni döneminde Preveze Deniz Savaşı ile Akdeniz Türk gölü olmuştur."
+    ],
+    "examImportance": "Yavuz Sultan Selim'in doğu siyaseti ve Halifeliğin alınması (Ridaniye) KPSS'nin favori konularındandır."
+  }
+]

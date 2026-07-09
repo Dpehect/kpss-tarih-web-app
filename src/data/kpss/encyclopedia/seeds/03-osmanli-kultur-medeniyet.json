@@ -1,0 +1,32 @@
+[
+  {
+    "id": "divan-i-humayun",
+    "category": "Osmanlı Kültür ve Medeniyeti",
+    "title": "Divan-ı Hümayun",
+    "aliases": ["divan", "divani humayun", "hukumet"],
+    "keywords": ["orhan bey", "fatih", "sadrazam", "kubbealti", "seyfiye", "ilmiye", "kalemiye"],
+    "shortDefinition": "Osmanlı Devleti'nde siyasi, idari, askeri, hukuki ve mali işlerin görüşülüp karara bağlandığı en yüksek devlet meclisidir.",
+    "detailedExplanation": "Orhan Bey döneminde kurulan Divan, devletin en üst düzey yürütme ve yargı organıydı. Fatih Sultan Mehmet dönemine kadar padişahlar divana başkanlık ederken, Fatih'ten itibaren Sadrazamlar (Vezir-i Azam) divana başkanlık etmeye başlamıştır. Bu durum sadrazamın otoritesini artırmıştır.",
+    "keyFacts": [
+      "Orhan Bey kurdu, II. Mahmut kaldırdı (yerine Nazırlıklar/Bakanlıklar kuruldu).",
+      "Üyeleri 3 sınıfa ayrılır: Seyfiye (Askeri/İdari), İlmiye (Eğitim/Hukuk/Din), Kalemiye (Bürokrasi/Mali).",
+      "Alınan kararlara 'Hüküm', kararların yazıldığı defterlere 'Mühimme Defteri' denir."
+    ],
+    "examImportance": "Divan üyelerinin hangi sınıfa (Seyfiye, İlmiye, Kalemiye) ait olduğu çok sık eşleştirme sorusu olarak gelir. Örn: Nişancı -> Kalemiye."
+  },
+  {
+    "id": "t었다mar-sistemi",
+    "category": "Osmanlı Kültür ve Medeniyeti",
+    "title": "Tımar Sistemi (Dirlik)",
+    "aliases": ["timar", "dirlik", "has", "zeamet", "timar sistemi"],
+    "keywords": ["toprak", "asker", "cebelu", "uretim", "vergi", "tasra"],
+    "shortDefinition": "Devlete ait arazilerin vergi gelirlerinin, hizmet karşılığında asker ve memurlara maaş olarak bırakılması sistemidir.",
+    "detailedExplanation": "Tımar sisteminde devlet memura maaş vermez, bunun yerine o bölgedeki halktan vergi toplama hakkını verir. Memur (Tımarlı Sipahi) bu parayla kendi geçimini sağlar ve devlete 'Cebelü' denilen atlı asker yetiştirir.",
+    "keyFacts": [
+      "Üretimde süreklilik sağlanmıştır.",
+      "Devlet hazinesinden para çıkmadan devasa bir ordu (Eyalet Ordusu) kurulmuştur.",
+      "Taşrada devlet otoritesi ve güvenlik sağlanmıştır."
+    ],
+    "examImportance": "Tımar sisteminin faydaları her yıl potansiyel KPSS sorusudur. En önemli faydası: Hazineden para çıkmadan ordu beslenmesidir."
+  }
+]
