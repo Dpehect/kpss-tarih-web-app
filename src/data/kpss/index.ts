@@ -10,8 +10,10 @@ export const flashcards = modularFlashcards;
 export const timelineEvents = modularTimelineEvents;
 export const glossary = modularGlossary;
 
-export const exams = [];
-export const recommendations = [
+import type { Exam, StudyRecommendation } from "@/types/study";
+
+export const exams: Exam[] = [];
+export const recommendations: StudyRecommendation[] = [
   {
     id: "daily-kpss-history-book-flow",
     title: "Bugünün KPSS Tarih çalışma akışı",
@@ -80,7 +82,7 @@ export function getGlossaryByTopic(topicId: string) {
   const slug = topic?.slug ?? topicId;
   return glossary.filter((item) => {
     const topicSlug = (item as { topicSlug?: string }).topicSlug;
-    return item.topicId === id || item.topicId === slug || topicSlug === slug || topicSlug === id || item.period === topic?.title;
+    return item.topicId === id || item.topicId === slug || topicSlug === slug || topicSlug === id || (item as any).period === topic?.title;
   });
 }
 

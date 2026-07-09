@@ -43,7 +43,7 @@ export const islamiyetOncesiTurkTarihiTimeline: TimelineEvent[] = [
     "title": "Hunlarda iç ayrılıklar",
     "description": "Doğu-batı ve kuzey-güney ayrılıkları merkezi otoritenin zayıflamasıyla ilişkilendirilir.",
     "topicId": "islamiyet-oncesi",
-    "tone": "slate"
+    "tone": "gold"
   },
   {
     "id": "tl-islamiyet-oncesi-06",
@@ -83,7 +83,7 @@ export const islamiyetOncesiTurkTarihiTimeline: TimelineEvent[] = [
     "title": "Katalon Savaşı",
     "description": "Attila’nın Batı Avrupa seferleri bağlamında bilinir.",
     "topicId": "islamiyet-oncesi",
-    "tone": "slate"
+    "tone": "gold"
   },
   {
     "id": "tl-islamiyet-oncesi-11",
@@ -123,7 +123,7 @@ export const islamiyetOncesiTurkTarihiTimeline: TimelineEvent[] = [
     "title": "Doğu Göktürklerin Çin hâkimiyetine girmesi",
     "description": "Bağımsızlık kaybı, Orhun Yazıtlarında uyarı diliyle hatırlatılır.",
     "topicId": "islamiyet-oncesi",
-    "tone": "slate"
+    "tone": "gold"
   },
   {
     "id": "tl-islamiyet-oncesi-16",
@@ -163,7 +163,7 @@ export const islamiyetOncesiTurkTarihiTimeline: TimelineEvent[] = [
     "title": "Bilge Kağan Yazıtı",
     "description": "Türk siyasi düşüncesi ve hitabetinin temel kaynaklarından biri oldu.",
     "topicId": "islamiyet-oncesi",
-    "tone": "slate"
+    "tone": "gold"
   },
   {
     "id": "tl-islamiyet-oncesi-21",
@@ -203,7 +203,7 @@ export const islamiyetOncesiTurkTarihiTimeline: TimelineEvent[] = [
     "title": "Türgişlerin Batı Türkistan rolü",
     "description": "Emevilerle mücadele ve kendi adına para bastırma bilgisiyle KPSS’de yer alır.",
     "topicId": "islamiyet-oncesi",
-    "tone": "slate"
+    "tone": "gold"
   },
   {
     "id": "tl-islamiyet-oncesi-26",

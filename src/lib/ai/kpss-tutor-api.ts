@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
-import { answerKpssTutor, type TutorAnswer } from "@/lib/ai/kpss-tutor";
+import { answerKpssTutor, type KpssTutorAnswer } from "@/lib/ai/kpss-tutor";
 
 const MODEL_SYSTEM_PROMPT = `Sen KPSS Tarih alanında uzman, güvenilir ve net cevap veren bir öğretmensin.
 Kurallar:
@@ -14,7 +14,7 @@ function buildModelPrompt(message: string) {
   return `Kullanıcı sorusu: ${message}\n\nBu soruyu KPSS Tarih öğrencisine uygun şekilde doğru, anlaşılır ve sınav odaklı cevapla.`;
 }
 
-async function modelFallback(message: string): Promise<TutorAnswer | null> {
+async function modelFallback(message: string): Promise<KpssTutorAnswer | null> {
   const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
   if (!apiKey) return null;
 
@@ -28,8 +28,10 @@ async function modelFallback(message: string): Promise<TutorAnswer | null> {
     return {
       reply: text,
       answer: text,
-      sourceMode: "model-fallback",
-      sources: [{ type: "Model", title: "KPSS Tarih açıklaması" }],
+      source: "llm",
+      sourceMode: "llm",
+      confidence: 0.86,
+      sources: [{ type: "LLM", title: "KPSS Tarih açıklaması" }],
     };
   } catch {
     return null;
@@ -41,8 +43,8 @@ export async function handleKpssTutorPost(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const message = typeof body?.message === "string" ? body.message : "";
 
-    const localAnswer = answerKpssTutor(message);
-    if (localAnswer.sourceMode !== "safe-fallback" || message.trim().length < 3) {
+    const localAnswer = await answerKpssTutor(message);
+    if (localAnswer.sourceMode !== "local-teacher" || message.trim().length < 3) {
       return NextResponse.json(localAnswer);
     }
 
@@ -50,7 +52,7 @@ export async function handleKpssTutorPost(req: NextRequest) {
     return NextResponse.json(modelAnswer ?? localAnswer);
   } catch {
     const reply = "Şu an cevabı hazırlarken kısa bir aksaklık yaşadım. Sorunu aynı şekilde tekrar gönder; doğrudan KPSS odaklı yanıtlayacağım.";
-    return NextResponse.json({ reply, answer: reply, sourceMode: "safe-fallback", sources: [] }, { status: 200 });
+    return NextResponse.json({ reply, answer: reply, sourceMode: "local-teacher", sources: [] }, { status: 200 });
   }
 }
 

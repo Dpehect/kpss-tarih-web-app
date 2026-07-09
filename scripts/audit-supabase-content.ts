@@ -43,7 +43,7 @@ async function main() {
   console.log(`[audit-supabase-content] OK: ${topics} konu, ${questions} soru, ${tests} hazır test, ${exams} deneme Supabase'de hazır.`);
 }
 
-async function countKind(supabase: ReturnType<typeof createClient>, kind: string) {
+async function countKind(supabase: any, kind: string) {
   const { count, error } = await supabase
     .from("kpss_content_bundles")
     .select("id", { count: "exact", head: true })
@@ -53,7 +53,7 @@ async function countKind(supabase: ReturnType<typeof createClient>, kind: string
   return count ?? 0;
 }
 
-async function findBadTests(supabase: ReturnType<typeof createClient>) {
+async function findBadTests(supabase: any) {
   const { data, error } = await supabase
     .from("kpss_content_bundles")
     .select("key,payload")
@@ -62,11 +62,11 @@ async function findBadTests(supabase: ReturnType<typeof createClient>) {
   if (error) throw new Error(`question_test okunamadı: ${error.message}`);
 
   return (data ?? [])
-    .filter((row) => {
+    .filter((row: any) => {
       const ids = ((row.payload as { questionIds?: string[] })?.questionIds ?? []).filter(Boolean);
       return ids.length !== new Set(ids).size;
     })
-    .map((row) => row.key as string);
+    .map((row: any) => row.key as string);
 }
 
 main().catch((error) => {
