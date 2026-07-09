@@ -1,10 +1,20 @@
-import { searchLocalEncyclopedia } from "../src/lib/search";
+import { loadEncyclopedia } from "../src/data/kpss/encyclopedia/loader";
+import { scoreEntries } from "../src/lib/search/scorer";
 
-const res1 = searchLocalEncyclopedia("Tlas savasi");
-console.log("Tlas savasi:", res1?.matchedTitle);
+const runTest = (query: string) => {
+  const entries = loadEncyclopedia();
+  const scored = scoreEntries(query, entries);
+  console.log(`\nQuery: "${query}"`);
+  scored.slice(0, 3).forEach((item, idx) => {
+    console.log(`  ${idx + 1}. Title: "${item.entry.title}" (Score: ${item.score})`);
+  });
+  if (scored.length === 0) console.log("  No matches.");
+};
 
-const res2 = searchLocalEncyclopedia("talas savasi ne zaman oldu");
-console.log("talas savasi ne zaman oldu:", res2?.matchedTitle);
+runTest("Tlas savasi");
+runTest("talas savasi ne zaman oldu");
+runTest("maniheizm yerlesik hayata gecen ilk devlet hangisi");
+runTest("xyz savasi");
+runTest("bunun hakkinda bilgi verir misin");
 
-const res3 = searchLocalEncyclopedia("maniheizm yerlesik hayata gecen ilk devlet hangisi");
-console.log("maniheizm:", res3?.matchedTitle);
+

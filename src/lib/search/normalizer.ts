@@ -15,8 +15,12 @@ export function normalizeText(text: string): string {
 }
 
 const STOP_WORDS = new Set([
-  "nedir", "kimdir", "ne", "zaman", "kim", "nasil", "neden", "nicin",
-  "kac", "hangi", "hangisi", "ile", "ve", "veya", "da", "de", "mi", "mu", "soru", "cevap", "hakkinda"
+  "nedir", "kimdir", "ne", "zaman", "kim", "nasil", "nasıl", "neden", "nicin", "niçin",
+  "kac", "kaç", "hangi", "hangisi", "hangileri", "ile", "ve", "veya", "da", "de", "mi", "mu", "mı", "mü",
+  "soru", "cevap", "hakkinda", "hakkında", "bilgi", "bilgisi", "ver", "verir", "verebilir", "verebilirsin",
+  "anlat", "anlatır", "anlatabilir", "anlatabilirsin", "acikla", "açıkla", "yaz", "yazabilirsin",
+  "bunun", "sunun", "onun", "neler", "nelerdir", "oldu", "olmustur", "olmuştur", "misin", "misiniz",
+  "eder", "edebilir", "yap", "yapar", "yapabilir"
 ]);
 
 export function extractTokens(text: string): string[] {
