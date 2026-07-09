@@ -1,4 +1,6 @@
-[
+import { EncyclopediaEntry } from "../types";
+
+export const osmanliSiyasiData: EncyclopediaEntry[] = [
   {
     "id": "kurulus-donemi",
     "category": "Osmanlı Siyasi Tarihi",
@@ -148,4 +150,4 @@
     ],
     "examImportance": "Rejime karşı olması (Şeyh Sait isyanına benzerliği) ve Mustafa Kemal'in tarih sahnesine çıkışı en kritik bilgileridir."
   }
-]
+];

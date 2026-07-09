@@ -1,28 +1,25 @@
-import fs from "fs";
-import path from "path";
 import type { EncyclopediaEntry } from "./types";
+import { islamiyetOncesiData } from "./data/01-islamiyet-oncesi";
+import { osmanliSiyasiData } from "./data/02-osmanli-siyasi";
+import { osmanliKulturMedeniyetData } from "./data/03-osmanli-kultur-medeniyet";
+import { inkilapTarihiData } from "./data/04-inkilap-tarihi";
+import { cagdasTarihData } from "./data/05-cagdas-turk-dunya-tarihi";
+import { anlasmalarSavaslarData } from "./data/06-onemli-anlasmalar-ve-savaslar";
 
 let encyclopediaCache: EncyclopediaEntry[] | null = null;
 
 export function loadEncyclopedia(): EncyclopediaEntry[] {
   if (encyclopediaCache) return encyclopediaCache;
 
-  try {
-    const seedsDir = path.join(process.cwd(), "src", "data", "kpss", "encyclopedia", "seeds");
-    const files = fs.readdirSync(seedsDir).filter(f => f.endsWith(".json"));
-    
-    const entries: EncyclopediaEntry[] = [];
-    
-    for (const file of files) {
-      const content = fs.readFileSync(path.join(seedsDir, file), "utf8");
-      const parsed = JSON.parse(content) as EncyclopediaEntry[];
-      entries.push(...parsed);
-    }
-    
-    encyclopediaCache = entries;
-    return entries;
-  } catch (error) {
-    console.error("[Encyclopedia Loader] Failed to load local JSON files:", error);
-    return [];
-  }
+  const entries: EncyclopediaEntry[] = [
+    ...islamiyetOncesiData,
+    ...osmanliSiyasiData,
+    ...osmanliKulturMedeniyetData,
+    ...inkilapTarihiData,
+    ...cagdasTarihData,
+    ...anlasmalarSavaslarData,
+  ];
+
+  encyclopediaCache = entries;
+  return entries;
 }

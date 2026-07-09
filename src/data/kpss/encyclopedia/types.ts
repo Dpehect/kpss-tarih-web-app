@@ -9,5 +9,5 @@ export interface EncyclopediaEntry {
   keyFacts: string[];
   examImportance: string;
   timeline?: Array<{ year: string; event: string }>;
-  relatedEntryIds: string[];
+  relatedEntryIds?: string[];
 }
