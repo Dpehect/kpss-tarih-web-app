@@ -80,7 +80,7 @@ KPSS Tarih sorularında önce aşağıdaki uygulama bilgisini kullan. Alakasız/
 Cevap formatı kısa, net ve öğretici olsun: Net cevap, açıklama, gerekirse KPSS ipucu.
 
 Uygulama bilgi havuzu:
-${knowledge.slice(0, 50000)}
+${knowledge.slice(0, 20000)}
 
 Önceki konuşma:
 ${buildHistoryText(options.history)}`;
@@ -90,7 +90,7 @@ ${buildHistoryText(options.history)}`;
         { role: "system", content: systemPrompt },
         { role: "user", content: message }
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       temperature: 0.5,
     });
 
