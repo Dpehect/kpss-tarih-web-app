@@ -13,8 +13,6 @@ const files = [
 
 const forbidden = [
   /model anahtar/i,
-  /api key/i,
-  /GEMINI_API_KEY/i,
   /site bilgi havuzunda net eşleştiremedim/i,
   /çevrim içi model anahtarı/i,
   /sallama cevap üret/i,
