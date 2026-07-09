@@ -3,9 +3,14 @@ import { modularQuestions } from "./questions";
 import { modularFlashcards } from "./flashcards";
 import { modularTimelineEvents } from "./timeline";
 import { modularGlossary } from "./glossary";
-import { loadEncyclopedia } from "./encyclopedia/loader";
 
-import type { Exam, StudyRecommendation, Topic, Flashcard, TopicSummaryBlock } from "@/types/study";
+export const topics = modularTopics;
+export const questions = modularQuestions;
+export const flashcards = modularFlashcards;
+export const timelineEvents = modularTimelineEvents;
+export const glossary = modularGlossary;
+
+import type { Exam, StudyRecommendation } from "@/types/study";
 
 export const exams: Exam[] = [];
 export const recommendations: StudyRecommendation[] = [
@@ -26,43 +31,6 @@ export const recommendations: StudyRecommendation[] = [
     priority: "orta",
   },
 ];
-
-// 1. Load the encyclopedia data statically
-const encyclopediaData = loadEncyclopedia();
-
-// 2. Clone modular arrays to avoid mutating the base exports if they are reused
-export const topics: Topic[] = JSON.parse(JSON.stringify(modularTopics));
-export const flashcards: Flashcard[] = [...modularFlashcards];
-export const questions = modularQuestions;
-export const timelineEvents = modularTimelineEvents;
-export const glossary = modularGlossary;
-
-// 3. Dynamically inject encyclopedia data into topics and flashcards
-encyclopediaData.forEach((entry) => {
-  // Find the matching topic by category name
-  const matchedTopic = topics.find((t) => t.title.toLowerCase() === entry.category.toLowerCase());
-  
-  if (matchedTopic) {
-    // Inject into Topic Summaries
-    const newSummaryBlock: TopicSummaryBlock = {
-      heading: `📚 Ansiklopedi: ${entry.title}`,
-      body: entry.detailedExplanation,
-      bullets: [...entry.keyFacts, `Sınav İpucu: ${entry.examImportance}`]
-    };
-    matchedTopic.summary.push(newSummaryBlock);
-
-    // Inject into Flashcards
-    const newFlashcard: Flashcard = {
-      id: `dyn-flash-${entry.id}`,
-      topicId: matchedTopic.id,
-      front: `[Ansiklopedi] ${entry.title} nedir?`,
-      back: entry.shortDefinition + "\n\n" + entry.detailedExplanation,
-      hint: `İpucu: ${entry.examImportance}`,
-      tags: ["ansiklopedi", "derin_bilgi", ...entry.keywords.slice(0, 2)]
-    };
-    flashcards.push(newFlashcard);
-  }
-});
 
 function normalize(value: string) {
   return value.trim().toLocaleLowerCase("tr-TR");
