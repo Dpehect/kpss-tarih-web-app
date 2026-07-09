@@ -82,7 +82,8 @@ export function getGlossaryByTopic(topicId: string) {
   const slug = topic?.slug ?? topicId;
   return glossary.filter((item) => {
     const topicSlug = (item as { topicSlug?: string }).topicSlug;
-    return item.topicId === id || item.topicId === slug || topicSlug === slug || topicSlug === id || (item as any).period === topic?.title;
+    const period = (item as { period?: string }).period;
+    return item.topicId === id || item.topicId === slug || topicSlug === slug || topicSlug === id || period === topic?.title;
   });
 }
 
