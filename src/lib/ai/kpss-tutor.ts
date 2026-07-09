@@ -1,5 +1,5 @@
 import { getTutorKnowledgeText } from "@/lib/kpss/supabase-content-repository";
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
 type ChatRole = "user" | "bot" | "assistant" | "model";
 export type KpssTutorHistoryItem = { role?: ChatRole; text?: string; content?: string };
@@ -42,8 +42,8 @@ function normalize(value: string) {
     .trim();
 }
 
-function getGeminiApiKey() {
-  return (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY || "").trim();
+function getGroqApiKey() {
+  return (process.env.GROQ_API_KEY || "").trim();
 }
 
 function buildHistoryText(history: KpssTutorHistoryItem[] = []) {
@@ -64,44 +64,42 @@ function directAnswer(fact: DirectFact): KpssTutorAnswer {
   return { reply, answer: reply, source: "direct-fact", sourceMode: "direct-fact", confidence: 0.98, matchedTitle: fact.title, sources: [{ type: "Doğrudan Bilgi", title: fact.title }] };
 }
 
-async function askGemini(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
-  const apiKey = getGeminiApiKey();
+async function askLlm(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
+  const apiKey = getGroqApiKey();
   if (!apiKey) {
-    console.error("[Gemini API Error]: GEMINI_API_KEY is missing in process.env");
+    console.error("[Groq API Error]: GROQ_API_KEY is missing in process.env");
     return null;
   }
   
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ 
-      model: process.env.GEMINI_MODEL || "gemini-1.5-flash",
-      safetySettings: [
-        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-      ]
-    });
-    const prompt = `Sen Softbridge Akademi içinde çalışan profesyonel bir KPSS Tarih öğretmeni ve genel amaçlı yardımcı asistansın.
+    const groq = new Groq({ apiKey });
+    
+    const systemPrompt = `Sen Softbridge Akademi içinde çalışan profesyonel bir KPSS Tarih öğretmeni ve genel amaçlı yardımcı asistansın.
 Türkçe cevap ver. Teknik sorun, servis bağlantısı, sistem ayarları, veri havuzu veya sistem içeriği gibi ifadeleri kullanıcıya söyleme.
 KPSS Tarih sorularında önce aşağıdaki uygulama bilgisini kullan. Alakasız/genel sorularda normal asistan gibi doğru ve net cevap ver.
 Cevap formatı kısa, net ve öğretici olsun: Net cevap, açıklama, gerekirse KPSS ipucu.
 
-Önceki konuşma:
-${buildHistoryText(options.history)}
-
 Uygulama bilgi havuzu:
-${knowledge.slice(0, 60000)}
+${knowledge.slice(0, 50000)}
 
-Kullanıcı sorusu:
-${message}`;
-    const result = await model.generateContent(prompt);
-    const reply = result.response.text().trim();
+Önceki konuşma:
+${buildHistoryText(options.history)}`;
+
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+      ],
+      model: "llama-3.1-70b-versatile",
+      temperature: 0.5,
+    });
+
+    const reply = chatCompletion.choices[0]?.message?.content?.trim();
     if (!reply) return null;
     
-    return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Gemini + Supabase bilgi havuzu" }] };
+    return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Llama 3 + Supabase bilgi havuzu" }] };
   } catch (error: any) {
-    console.error("[Gemini API Error in askGemini]:", error);
+    console.error("[Groq API Error in askLlm]:", error);
     return null;
   }
 }
@@ -122,7 +120,7 @@ export async function answerKpssQuestion(message: string, options: TutorOptions 
   if (direct) return directAnswer(direct);
 
   const knowledge = await getTutorKnowledgeText();
-  const llm = await askGemini(clean, options, knowledge);
+  const llm = await askLlm(clean, options, knowledge);
   if (llm) return llm;
   
   // LLM failed or API key missing
