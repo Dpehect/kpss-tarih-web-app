@@ -1,5 +1,8 @@
 # KPSS Tarih Web Application - Advanced Architecture and Local Intelligent Search Engine
 
+- GitHub Repository: https://github.com/Dpehect/kpss-tarih-web-app
+- Live Demo: https://kpss-tarih-web-app.vercel.app
+
 This project is a high-performance, enterprise-grade educational web application designed for the KPSS History exam preparation. Built with a focus on modern web standards, zero-latency user experience, and type safety, the application serves as a prime example of a premium front-end architecture integrated with a robust local data pipeline.
 
 ## Core Architectural Pillars
