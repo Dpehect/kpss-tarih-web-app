@@ -87,14 +87,5 @@ export function getGlossaryByTopic(topicId: string) {
   });
 }
 
-export const modularData = {
-  topics,
-  questions,
-  flashcards,
-  timelineEvents,
-  glossary,
-  exams,
-  recommendations,
-};
-
+export const modularData = { topics, questions, flashcards, timelineEvents, glossary, exams, recommendations };
 export { modularTopics, modularQuestions, modularFlashcards, modularTimelineEvents, modularGlossary };
