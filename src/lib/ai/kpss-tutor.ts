@@ -1,4 +1,5 @@
 import { getTutorKnowledgeText } from "@/lib/kpss/supabase-content-repository";
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
 type ChatRole = "user" | "bot" | "assistant" | "model";
 export type KpssTutorHistoryItem = { role?: ChatRole; text?: string; content?: string };
@@ -77,8 +78,8 @@ function buildLocalTeacherAnswer(message: string, knowledge: string): KpssTutorA
     .map((item) => item.sentence);
 
   const body = matched.length
-    ? "Şu an **Yapay Zeka (LLM) API anahtarım** sisteme eklenmediği için sorularını analiz edip doğrudan cevaplayamıyorum. Ancak senin için ders havuzumda şu cümleleri buldum:\n\n" + matched.map(m => "• " + m).join("\n\n")
-    : "Şu an Yapay Zeka (LLM) bağlantım yok (API anahtarı eksik) ve sistemde bu soruyla ilgili direkt bir not bulamadım.";
+    ? "Şu an **Yapay Zeka (LLM) API anahtarıma** erişemediğim veya güvenlik duvarına takıldığım için sorularını doğrudan LLM ile cevaplayamıyorum. Ancak senin için ders havuzumda şu cümleleri buldum:\n\n" + matched.map(m => "• " + m).join("\n\n")
+    : "Şu an Yapay Zeka (LLM) bağlantım yok ve sistemde bu soruyla ilgili direkt bir not bulamadım.";
     
   const reply = [`**Otomatik Arama Sonucu**`, "", body].join("\n");
   
@@ -97,9 +98,28 @@ async function askGemini(message: string, options: TutorOptions, knowledge: stri
   const apiKey = getGeminiApiKey();
   if (!apiKey) return null;
   try {
-    const { GoogleGenerativeAI } = await import("@google/generative-ai");
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: process.env.GEMINI_MODEL || "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ 
+      model: process.env.GEMINI_MODEL || "gemini-1.5-flash",
+      safetySettings: [
+        {
+          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+        {
+          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+          threshold: HarmBlockThreshold.BLOCK_NONE,
+        },
+      ]
+    });
     const prompt = `Sen Softbridge Akademi içinde çalışan profesyonel bir KPSS Tarih öğretmeni ve genel amaçlı yardımcı asistansın.
 Türkçe cevap ver. Teknik sorun, servis bağlantısı, sistem ayarları, veri havuzu veya sistem içeriği gibi ifadeleri kullanıcıya söyleme.
 KPSS Tarih sorularında önce aşağıdaki uygulama bilgisini kullan. Alakasız/genel sorularda normal asistan gibi doğru ve net cevap ver.
@@ -117,7 +137,8 @@ ${message}`;
     const reply = result.response.text().trim();
     if (!reply) return null;
     return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Gemini + Supabase bilgi havuzu" }] };
-  } catch {
+  } catch (error) {
+    console.error("[Gemini API Error in askGemini]:", error);
     return null;
   }
 }
