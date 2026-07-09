@@ -90,7 +90,7 @@ ${buildHistoryText(options.history)}`;
         { role: "system", content: systemPrompt },
         { role: "user", content: message }
       ],
-      model: "llama-3.1-70b-versatile",
+      model: "llama-3.3-70b-versatile",
       temperature: 0.5,
     });
 
