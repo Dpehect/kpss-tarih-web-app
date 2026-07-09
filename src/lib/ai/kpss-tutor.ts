@@ -96,28 +96,20 @@ function buildLocalTeacherAnswer(message: string, knowledge: string): KpssTutorA
 
 async function askGemini(message: string, options: TutorOptions, knowledge: string): Promise<KpssTutorAnswer | null> {
   const apiKey = getGeminiApiKey();
-  if (!apiKey) return null;
+  if (!apiKey) {
+    const reply = "Sistem Debug Logu: `process.env.GEMINI_API_KEY` değeri sunucuda boş (tanımsız) okundu. Vercel Environment Variables içinde anahtar yok veya deploy sonrasında Next.js'e yansımamış.";
+    return { reply, answer: reply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
+  }
+  
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
       model: process.env.GEMINI_MODEL || "gemini-1.5-flash",
       safetySettings: [
-        {
-          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-          threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-          threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-          threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-          threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
+        { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
       ]
     });
     const prompt = `Sen Softbridge Akademi içinde çalışan profesyonel bir KPSS Tarih öğretmeni ve genel amaçlı yardımcı asistansın.
@@ -135,11 +127,15 @@ Kullanıcı sorusu:
 ${message}`;
     const result = await model.generateContent(prompt);
     const reply = result.response.text().trim();
-    if (!reply) return null;
+    if (!reply) {
+      const errReply = "Sistem Debug Logu: Gemini'den boş yanıt geldi. (API anahtarı var, istek atıldı ama boş döndü)";
+      return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
+    }
     return { reply, answer: reply, source: "llm", sourceMode: "llm", confidence: 0.86, sources: [{ type: "LLM", title: "Gemini + Supabase bilgi havuzu" }] };
-  } catch (error) {
+  } catch (error: any) {
     console.error("[Gemini API Error in askGemini]:", error);
-    return null;
+    const errReply = `Sistem Debug Logu: Gemini API bağlantısı kurulamadı veya hata fırlattı.\nHata mesajı: ${error?.message || String(error)}\nAPI Key length: ${apiKey.length}`;
+    return { reply: errReply, answer: errReply, source: "local-teacher", sourceMode: "local-teacher", confidence: 0.1, sources: [{ type: "Öğretmen", title: "Hata" }] };
   }
 }
 
