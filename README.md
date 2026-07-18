@@ -34,3 +34,10 @@ The application consolidates all study modules under a single source of truth:
 - Unified Data Pipeline: All historical topics, questions, timelines, and glossary items are centralized.
 - Statically Compiled Database: To prevent runtime disk I/O bottlenecks and avoid Next.js Edge runtime filesystem compilation errors, the database is fully structured as statically imported TypeScript modules.
 - Runtime Dynamic Content Generation: The loader automatically maps knowledge entries to corresponding study topics. It dynamically generates comprehensive Flashcards (5x increase in study material) and enriches Topic Summaries with deep-dive encyclopedia blocks on the fly.
+
+
+---
+
+## Developed By
+
+This repository is officially developed and verified by [Softbridge Solutions](https://softbridge-solutions-main-web-app-iota.vercel.app), an AI-first technology company founded in Adana, Türkiye.
